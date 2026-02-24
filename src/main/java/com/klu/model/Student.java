@@ -1,6 +1,10 @@
 package com.klu.model;
 
-import jakarta.*;
+import java.util.List;
+
+import com.fasterxml.jackson.annotation.JsonBackReference;
+import com.fasterxml.jackson.annotation.JsonManagedReference;
+
 import jakarta.persistence.*;
 import jakarta.validation.constraints.*;
 import jakarta.validation.constraints.Size;
@@ -24,15 +28,24 @@ public class Student {
 	private String student_email;
 	
 	@OneToOne(mappedBy="student", cascade = CascadeType.ALL)
+	@JsonBackReference
 	private Project project;
 	
 	@ManyToOne
-	@JoinColumn(name="group_project")
+	@JoinColumn(name="group_project_id")
+	@JsonManagedReference
 	private GroupProject groupProject;
 	
+	@OneToMany(mappedBy="student",cascade=CascadeType.ALL)
+	List<Collaboration> collaborationList;
+	
+	@OneToMany(mappedBy="student",cascade=CascadeType.ALL)
+	List<CollabApplication> collabApplicationList;
+	
+	@OneToMany(mappedBy = "student", cascade = CascadeType.ALL)
+	private List<ProjectLikes> likedProjects;
 	
 	private Integer year;
 	private String student_name;
-	
 	
 }
