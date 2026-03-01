@@ -2,6 +2,7 @@ package com.klu.model;
 
 import java.util.List;
 
+import jakarta.persistence.CascadeType;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
@@ -29,7 +30,7 @@ public class Collaboration {
 	@JoinColumn(name="student_id", nullable = false)
 	private Student student;
 	
-	@OneToMany(mappedBy="collaboration")
+	@OneToMany(mappedBy="collaboration",cascade = CascadeType.ALL)
 	List<CollabApplication> collabApplications;
 	
 	private String name;

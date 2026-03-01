@@ -1,4 +1,5 @@
 package com.klu.model;
+import java.time.LocalDateTime;
 import java.util.List;
 import java.util.Set;
 
@@ -28,9 +29,18 @@ public class Project {
 	
 	@Id		
 	@GeneratedValue(strategy= GenerationType.IDENTITY)
-	private int project_id;
+	private int projectId;
 	
-	private String project_name;
+	@OneToOne
+	@JoinColumn(name="student_id", nullable = false, unique = true)
+	@JsonManagedReference
+	private Student student;
+	
+	@OneToMany(mappedBy = "project", cascade = CascadeType.ALL)
+	private List<ProjectLikes> likes;
+	
+	private String projectName;
+	private LocalDateTime submittedAt;
 	
 	@Pattern(
 		    regexp = "^(https://)?(www\\.)?github\\.com/.*$",
@@ -46,14 +56,4 @@ public class Project {
 	private String tech3;
 	
 	private int upvotes;
-	
-	@OneToOne
-	@JoinColumn(name="student_id", nullable = false, unique = true)
-	@JsonManagedReference
-	private Student student;
-	
-	@OneToMany(mappedBy = "project", cascade = CascadeType.ALL)
-	private List<ProjectLikes> likes;
-	
-	
 }

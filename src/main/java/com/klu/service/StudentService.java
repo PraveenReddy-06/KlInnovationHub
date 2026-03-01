@@ -4,9 +4,9 @@ import com.klu.model.Student;
 
 public interface StudentService {
 
-	String CreateStudentByEmail(String email);
+	String CreateStudentByEmail(String email,String name);
 	
-	Student getStudentById();
-	Student getStudentByEmail();
+	Student getStudentById(long id);
+	Student getStudentByEmail(String email);
 	
 }

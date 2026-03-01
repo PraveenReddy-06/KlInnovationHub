@@ -10,9 +10,9 @@ public interface ProjectService {
 	List<Project> getLatestSubmissions();
 	
 	List<Project> getAllProjects();
-	List<Project> getProjectsByYear();
-	List<Project> getProjectsByBranch();
-	List<Project> getProjectsByid(int id);
+	List<Project> getProjectsByYear(int year);
+	List<Project> getProjectsByBranch(String bname);
+	List<Project> getProjectsByid(long id);
 	
 	
 }

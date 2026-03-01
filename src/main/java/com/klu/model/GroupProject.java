@@ -1,5 +1,6 @@
 package com.klu.model;
 
+import java.time.LocalDateTime;
 import java.util.List;
 
 import com.fasterxml.jackson.annotation.JsonManagedReference;
@@ -29,6 +30,7 @@ public class GroupProject {
 	private int group_project_id;
 	
 	private String project_name;
+	private LocalDateTime submittedAt;
 	
 	@Pattern(
 		    regexp = "^(https://)?(www\\.)?github\\.com/.*$",
