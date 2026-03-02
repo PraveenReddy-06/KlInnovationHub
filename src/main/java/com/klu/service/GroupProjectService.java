@@ -10,7 +10,8 @@ public interface GroupProjectService {
 	List<GroupProject> getLatestGroupSubmissions();
 	
 	List<GroupProject> getAllProjects();
-	List<GroupProject> getProjectsByYear();
-	List<GroupProject> getProjectsByBranch();
-	List<GroupProject> getProjectsByid(int id);
+	List<GroupProject> getProjectsByYear(int year);
+	List<GroupProject> getProjectsByBranch(String branch);
+	List<GroupProject> getProjectsByBranchAndYear(String branch,int year);
+	List<GroupProject> getProjectsByid(long id);
 }

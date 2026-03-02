@@ -3,6 +3,7 @@ package com.klu.model;
 import java.time.LocalDateTime;
 import java.util.List;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
 import com.fasterxml.jackson.annotation.JsonManagedReference;
 
 import jakarta.persistence.CascadeType;
@@ -27,7 +28,7 @@ public class GroupProject {
 	
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
-	private int group_project_id;
+	private int groupProjectId;
 	
 	private String project_name;
 	private LocalDateTime submittedAt;

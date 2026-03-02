@@ -33,7 +33,7 @@ public class Student {
 
 	@ManyToOne
 	@JoinColumn(name = "group_project_id")
-	@JsonManagedReference
+	@JsonBackReference
 	private GroupProject groupProject;
 
 	@OneToMany(mappedBy = "student", cascade = CascadeType.ALL)
