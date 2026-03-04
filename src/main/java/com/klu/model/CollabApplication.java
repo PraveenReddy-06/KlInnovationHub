@@ -1,4 +1,4 @@
-package com.klu.model;
+ package com.klu.model;
 
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;

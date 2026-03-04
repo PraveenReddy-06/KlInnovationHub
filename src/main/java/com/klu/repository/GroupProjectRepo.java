@@ -7,7 +7,6 @@ import org.springframework.data.jpa.repository.Query;
 import org.springframework.stereotype.Repository;
 
 import com.klu.model.GroupProject;
-import com.klu.service.GroupProjectService;
 
 @Repository
 public interface GroupProjectRepo extends JpaRepository<GroupProject,Integer>{
