@@ -15,7 +15,7 @@ import lombok.NoArgsConstructor;
 @Entity
 @Table(
     name = "project_likes",
-    uniqueConstraints = @UniqueConstraint(columnNames = {"student_id", "project_id"})
+    uniqueConstraints = @UniqueConstraint(columnNames = {"studentId", "project_id"})
 )
 @Data
 @AllArgsConstructor
@@ -29,7 +29,7 @@ public class ProjectLikes {
     private int likes;
 
     @ManyToOne
-    @JoinColumn(name = "student_id", nullable = false)
+    @JoinColumn(name = "studentId", nullable = false)
     private Student student;
 
     @ManyToOne

@@ -27,7 +27,7 @@ public class Collaboration {
 	private int collaboration_id;
 	
 	@ManyToOne
-	@JoinColumn(name="student_id", nullable = false)
+	@JoinColumn(name="studentId", nullable = false)
 	private Student student;
 	
 	@OneToMany(mappedBy="collaboration",cascade = CascadeType.ALL)

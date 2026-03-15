@@ -31,7 +31,7 @@ public class Project {
 	private int projectId;
 	
 	@OneToOne
-	@JoinColumn(name="student_id", nullable = false, unique = true)
+	@JoinColumn(name="studentId", nullable = false, unique = true)
 	@JsonManagedReference
 	private Student student;
 	

@@ -19,7 +19,7 @@ import lombok.NoArgsConstructor;
 public class Student {
 
 	@Id
-	private Long student_id;
+	private Long studentId;
 
 	@Column(unique = true)
 	@Email(message = "Invalid Email Format")

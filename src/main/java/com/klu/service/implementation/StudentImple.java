@@ -18,7 +18,7 @@ public class StudentImple implements StudentService{
 	public String CreateStudentByEmail(String email,String name) {
 		Student s = new Student();
 		
-		s.setStudent_id(Long.parseLong("email.substring(0,10)"));
+		s.setStudentId(Long.parseLong("email.substring(0,10)"));
 		s.setYear(2000+Integer.parseInt("email.substring(0,1)"));
 		s.setStudent_name(name);
 		s.setStudentEmail(email);

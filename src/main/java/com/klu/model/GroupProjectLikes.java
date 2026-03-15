@@ -12,7 +12,7 @@ import lombok.Data;
 @Entity
 @Table(
     name = "GroupProject_likes",
-    uniqueConstraints = @UniqueConstraint(columnNames = {"student_id", "project_id"})
+    uniqueConstraints = @UniqueConstraint(columnNames = {"studentId", "project_id"})
 )
 @Data
 public class GroupProjectLikes {
@@ -23,7 +23,7 @@ public class GroupProjectLikes {
 
     private int Likes;
     @ManyToOne
-    @JoinColumn(name = "student_id", nullable = false)
+    @JoinColumn(name = "studentId", nullable = false)
     private Student student;
     
     @ManyToOne

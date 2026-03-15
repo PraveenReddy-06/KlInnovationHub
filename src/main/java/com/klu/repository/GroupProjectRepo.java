@@ -22,7 +22,7 @@ public interface GroupProjectRepo extends JpaRepository<GroupProject,Integer>{
 	@Query("SELECT DISTINCT g FROM GroupProject g JOIN g.studentList s WHERE s.branch = ?1 and s.year=?2")
 	List<GroupProject> getProjectsByBranchAndYear(String branch, int year);
 
-	@Query("SELECT s.groupProject FROM Student s WHERE s.student_id = ?1")
+	@Query("SELECT s.groupProject FROM Student s WHERE s.studentId = ?1")
 	List<GroupProject> getProjectsByid(long id);
 
 }

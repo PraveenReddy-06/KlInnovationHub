@@ -44,7 +44,7 @@ public class ProjectImple implements ProjectService{
 	@Override
 	public List<Project> getProjectsByid(long id) {
 		
-		return projectRepo.findByStudentStudent_id(id);
+		return projectRepo.findByStudentStudentId(id);
 	}
 
 }

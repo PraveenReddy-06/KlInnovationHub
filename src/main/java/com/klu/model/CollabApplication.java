@@ -27,7 +27,7 @@ public class CollabApplication {
 	private Collaboration collaboration;
 	
 	@ManyToOne
-	@JoinColumn(name="student_id")
+	@JoinColumn(name="studentId")
 	private Student student;
 
 }
