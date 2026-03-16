@@ -29,10 +29,9 @@ public class Student {
 	@OneToMany(mappedBy = "student", cascade = CascadeType.ALL)
 	List<Project> projectList;
 
-	@ManyToOne
-	@JoinColumn(name = "group_project_id")
+	@ManyToMany(mappedBy = "studentList")
 	@JsonBackReference
-	private GroupProject groupProject;
+	List<GroupProject> groupProjects;
 
 	@OneToMany(mappedBy = "student", cascade = CascadeType.ALL)
 	List<Collaboration> collaborationList;

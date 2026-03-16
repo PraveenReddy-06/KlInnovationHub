@@ -18,14 +18,14 @@ public class StudentImple implements StudentService{
 		Student s = new Student();
 		
 		s.setStudentId(Long.parseLong(email.substring(0,10)));
-		s.setYear(2000+Integer.parseInt(email.substring(0,1)));
+		s.setYear(2000+Integer.parseInt(email.substring(0,2)));
 		s.setStudent_name(name);
 		s.setStudentEmail(email);
-		if((email.substring(2,5))=="0003") { /*2400032662@kluniversity.in*/
+		if((email.substring(2,6)).equals("0003")) { /*2400032662@kluniversity.in*/
 			s.setBranch("CSE");
-		}else if((email.substring(2,5))=="0009") {
+		}else if((email.substring(2,6)).equals("0009")) {
 			s.setBranch("CSIT");
-		}else if((email.substring(2,5))=="0004") {
+		}else if((email.substring(2,6)).equals("0004")) {
 			s.setBranch("ECE");
 		}
 		studentRepo.save(s);

@@ -1,7 +1,10 @@
 package com.klu.model;
 
 import java.time.LocalDateTime;
+import jakarta.persistence.JoinColumn;
 import java.util.List;
+
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fasterxml.jackson.annotation.JsonManagedReference;
 import jakarta.persistence.CascadeType;
 import jakarta.persistence.Column;
@@ -9,6 +12,8 @@ import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
+import jakarta.persistence.JoinTable;
+import jakarta.persistence.ManyToMany;
 import jakarta.persistence.OneToMany;
 import jakarta.persistence.Table;
 import jakarta.validation.constraints.Pattern;
@@ -16,6 +21,7 @@ import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
+@JsonIgnoreProperties(ignoreUnknown = true)
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
@@ -25,7 +31,7 @@ public class GroupProject {
 	
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
-	private int groupProjectId;
+	private Integer groupProjectId;
 	
 	private String project_name;
 	private LocalDateTime submittedAt;
@@ -44,11 +50,17 @@ public class GroupProject {
 	private String tech2;
 	private String tech3;
 	
-	private int likes;
-	private int upvotes;
+	@Column(nullable = false)
+	private Integer likes=0;
+	@Column(nullable = false)
+	private Integer upvotes=0;
 	
-	@JsonManagedReference
-	@OneToMany(mappedBy="groupProject",cascade = CascadeType.ALL)
+	@ManyToMany
+	@JoinTable(
+	    name = "group_project_students",
+	    joinColumns = @JoinColumn(name = "group_project_id"),
+	    inverseJoinColumns = @JoinColumn(name = "student_id")
+	)
 	List<Student> studentList;
 	
 	

@@ -1,5 +1,6 @@
 package com.klu.service.implementation;
 
+import java.time.LocalDateTime;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -18,6 +19,7 @@ public class GroupProjectImple implements GroupProjectService{
 	
 	@Override
 	public String SubmitGroupProject(GroupProject p) {
+		 p.setSubmittedAt(LocalDateTime.now());
 		groupProjectRepo.save(p);
 		return "Group Project Submitted Sucessfully";
 	}

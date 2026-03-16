@@ -3,6 +3,7 @@ import java.time.LocalDateTime;
 import java.util.List;
 
 import com.fasterxml.jackson.annotation.JsonBackReference;
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 
 import jakarta.persistence.CascadeType;
 import jakarta.persistence.Column;
@@ -19,6 +20,7 @@ import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
+@JsonIgnoreProperties(ignoreUnknown = true)
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
@@ -28,7 +30,7 @@ public class Project {
 	
 	@Id		
 	@GeneratedValue(strategy= GenerationType.IDENTITY)
-	private int projectId;
+	private Integer projectId;
 	
 	@ManyToOne
 	@JoinColumn(name="studentId", nullable = false)
@@ -46,7 +48,7 @@ public class Project {
 		    message = "Must be a valid GitHub URL"
 	)
 	@Column(length=100, nullable = false)
-	private String github_url;
+	private String githubUrl;
 	
 	 @Column(columnDefinition = "TEXT")
 	private String description;
@@ -55,5 +57,6 @@ public class Project {
 	private String tech2;
 	private String tech3;
 	
-	private int upvotes;
+	@Column(nullable = false)
+	private  Integer upvotes=0;
 }

@@ -1,4 +1,5 @@
 package com.klu.model;
+import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
@@ -21,7 +22,9 @@ public class GroupProjectLikes {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int id;
 
-    private int Likes;
+    @Column(nullable = false)
+    private Integer likes=0;
+    
     @ManyToOne
     @JoinColumn(name = "studentId", nullable = false)
     private Student student;
@@ -29,6 +32,5 @@ public class GroupProjectLikes {
     @ManyToOne
     @JoinColumn(name = "project_id", nullable = false)
     private GroupProject groupProject;
-    
-    
+       
 }
