@@ -26,9 +26,8 @@ public class Student {
 	@Size(max = 26)
 	private String studentEmail;
 
-	@OneToOne(mappedBy = "student", cascade = CascadeType.ALL)
-	@JsonBackReference
-	private Project project;
+	@OneToMany(mappedBy = "student", cascade = CascadeType.ALL)
+	List<Project> projectList;
 
 	@ManyToOne
 	@JoinColumn(name = "group_project_id")

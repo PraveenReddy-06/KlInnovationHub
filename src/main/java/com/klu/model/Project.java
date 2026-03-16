@@ -2,7 +2,7 @@ package com.klu.model;
 import java.time.LocalDateTime;
 import java.util.List;
 
-import com.fasterxml.jackson.annotation.JsonManagedReference;
+import com.fasterxml.jackson.annotation.JsonBackReference;
 
 import jakarta.persistence.CascadeType;
 import jakarta.persistence.Column;
@@ -11,8 +11,8 @@ import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.JoinColumn;
+import jakarta.persistence.ManyToOne;
 import jakarta.persistence.OneToMany;
-import jakarta.persistence.OneToOne;
 import jakarta.persistence.Table;
 import jakarta.validation.constraints.Pattern;
 import lombok.AllArgsConstructor;
@@ -30,9 +30,9 @@ public class Project {
 	@GeneratedValue(strategy= GenerationType.IDENTITY)
 	private int projectId;
 	
-	@OneToOne
-	@JoinColumn(name="studentId", nullable = false, unique = true)
-	@JsonManagedReference
+	@ManyToOne
+	@JoinColumn(name="studentId", nullable = false)
+	@JsonBackReference
 	private Student student;
 	
 	@OneToMany(mappedBy = "project", cascade = CascadeType.ALL)
@@ -48,6 +48,7 @@ public class Project {
 	@Column(length=100, nullable = false)
 	private String github_url;
 	
+	 @Column(columnDefinition = "TEXT")
 	private String description;
 	
 	private String tech1;

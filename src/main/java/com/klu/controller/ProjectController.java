@@ -13,6 +13,8 @@ import org.springframework.web.bind.annotation.RestController;
 import com.klu.model.Project;
 import com.klu.service.implementation.ProjectImple;
 
+import jakarta.validation.Valid;
+
 @RestController
 @RequestMapping("/project")
 public class ProjectController {
@@ -21,7 +23,7 @@ public class ProjectController {
 	ProjectImple projectService;
 	
 	@PostMapping("/submit")
-    public String submitProject(@RequestBody Project p) {
+    public String submitProject(@Valid @RequestBody Project p) {
         return projectService.SubmitProject(p);
     }
     @GetMapping("/latest")

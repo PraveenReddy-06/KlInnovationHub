@@ -37,6 +37,7 @@ public class GroupProject {
 	@Column(length=100, nullable = false)
 	private String github_url;
 	
+	 @Column(columnDefinition = "TEXT")
 	private String description;
 	
 	private String tech1;
@@ -46,8 +47,8 @@ public class GroupProject {
 	private int likes;
 	private int upvotes;
 	
-	@OneToMany(mappedBy="groupProject",cascade = CascadeType.ALL)
 	@JsonManagedReference
+	@OneToMany(mappedBy="groupProject",cascade = CascadeType.ALL)
 	List<Student> studentList;
 	
 	

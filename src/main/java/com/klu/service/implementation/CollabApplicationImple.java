@@ -18,7 +18,7 @@ public class CollabApplicationImple implements CollabApplicationService {
 	@Override
 	public String createCollabApplication(CollabApplication app) {
 		collabApplicationRepo.save(app);
-		return null;
+		return "Created Collabortion Application";
 	}
 
 	@Override

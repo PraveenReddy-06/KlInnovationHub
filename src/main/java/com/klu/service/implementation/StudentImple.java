@@ -12,17 +12,22 @@ public class StudentImple implements StudentService{
 
 	@Autowired
 	StudentRepo studentRepo; 
-	
-	
+		
 	@Override
 	public String CreateStudentByEmail(String email,String name) {
 		Student s = new Student();
 		
-		s.setStudentId(Long.parseLong("email.substring(0,10)"));
-		s.setYear(2000+Integer.parseInt("email.substring(0,1)"));
+		s.setStudentId(Long.parseLong(email.substring(0,10)));
+		s.setYear(2000+Integer.parseInt(email.substring(0,1)));
 		s.setStudent_name(name);
 		s.setStudentEmail(email);
-		s.setBranch("cse");
+		if((email.substring(2,5))=="0003") { /*2400032662@kluniversity.in*/
+			s.setBranch("CSE");
+		}else if((email.substring(2,5))=="0009") {
+			s.setBranch("CSIT");
+		}else if((email.substring(2,5))=="0004") {
+			s.setBranch("ECE");
+		}
 		studentRepo.save(s);
 		
 		return "Student Created Sucessfully";
