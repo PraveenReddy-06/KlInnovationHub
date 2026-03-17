@@ -12,15 +12,12 @@ import com.klu.service.GroupProjectLikesService;
 @Service
 public class GroupProjectLikesImple implements GroupProjectLikesService{
  
-	@Autowired
- GroupProjectLikesRepo GroupprojectLikesRepo;
+ @Autowired
+ GroupProjectLikesRepo GroupProjectLikesRepo;
  
  @Override
  public List<GroupProject> getTopGroupProjects() {
   
-  return GroupprojectLikesRepo.findTop5ByOrderByLikesDesc();
+  return GroupProjectLikesRepo.findTop5ByOrderByLikesDesc();
  }
-
-
- 
 }

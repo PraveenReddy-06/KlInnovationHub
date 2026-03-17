@@ -33,7 +33,7 @@ public class GroupProjectController {
         return groupProjectService.getAllProjects();
     }
     @GetMapping("/year/{year}")
-    public List<GroupProject> getProjectsByYear(@PathVariable int year) {
+    public List<GroupProject> getProjectsByYear(@PathVariable Integer year) {
         return groupProjectService.getProjectsByYear(year);
     }
     @GetMapping("/branch/{branch}")
@@ -42,7 +42,7 @@ public class GroupProjectController {
     }
     @GetMapping("/branch/{branch}/year/{year}")
     public List<GroupProject> getProjectsByBranchAndYear(@PathVariable String branch,
-                                                         @PathVariable int year) {
+                                                         @PathVariable Integer year) {
         return groupProjectService.getProjectsByBranchAndYear(branch, year);
     }
     @GetMapping("/student/{id}")

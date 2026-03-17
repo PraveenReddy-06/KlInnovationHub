@@ -3,6 +3,7 @@ import java.time.LocalDateTime;
 import java.util.List;
 
 import com.fasterxml.jackson.annotation.JsonBackReference;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 
 import jakarta.persistence.CascadeType;
@@ -32,11 +33,13 @@ public class Project {
 	@GeneratedValue(strategy= GenerationType.IDENTITY)
 	private Integer projectId;
 	
+	@JsonIgnore
 	@ManyToOne
 	@JoinColumn(name="studentId", nullable = false)
 	@JsonBackReference
 	private Student student;
 	
+	@JsonIgnore
 	@OneToMany(mappedBy = "project", cascade = CascadeType.ALL)
 	private List<ProjectLikes> likes;
 	
@@ -57,6 +60,4 @@ public class Project {
 	private String tech2;
 	private String tech3;
 	
-	@Column(nullable = false)
-	private  Integer upvotes=0;
 }

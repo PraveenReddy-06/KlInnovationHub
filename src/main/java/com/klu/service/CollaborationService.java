@@ -6,6 +6,6 @@ import com.klu.model.Collaboration;
 
 public interface CollaborationService {
 
-	String CreateTeam(Collaboration collab);
+	String CreateTeam(Collaboration collab,Long id);
 	List<Collaboration> getAllCollaboration();
 }

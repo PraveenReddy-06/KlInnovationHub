@@ -36,7 +36,7 @@ public class GroupProjectImple implements GroupProjectService{
 	}
 
 	@Override
-	public List<GroupProject> getProjectsByYear(int year) {
+	public List<GroupProject> getProjectsByYear(Integer year) {
 		return groupProjectRepo.getProjectsByYear(year);
 	}
 
@@ -46,7 +46,7 @@ public class GroupProjectImple implements GroupProjectService{
 	}
 
 	@Override
-	public List<GroupProject> getProjectsByBranchAndYear(String branch, int year) {
+	public List<GroupProject> getProjectsByBranchAndYear(String branch, Integer year) {
 		return groupProjectRepo.getProjectsByBranchAndYear(branch,year);
 	}
 	

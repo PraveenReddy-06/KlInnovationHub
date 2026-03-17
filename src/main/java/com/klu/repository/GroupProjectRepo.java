@@ -14,13 +14,13 @@ public interface GroupProjectRepo extends JpaRepository<GroupProject,Integer>{
 	List<GroupProject> findTop5ByOrderByGroupProjectIdDesc();
 
 	@Query("SELECT DISTINCT g FROM GroupProject g JOIN g.studentList s WHERE s.year = ?1")
-	List<GroupProject> getProjectsByYear(int year);
+	List<GroupProject> getProjectsByYear(Integer year);
 
 	@Query("SELECT DISTINCT g FROM GroupProject g JOIN g.studentList s WHERE s.branch = ?1")
 	List<GroupProject> getProjectsByBranch(String branch);
 
 	@Query("SELECT DISTINCT g FROM GroupProject g JOIN g.studentList s WHERE s.branch = ?1 and s.year=?2")
-	List<GroupProject> getProjectsByBranchAndYear(String branch, int year);
+	List<GroupProject> getProjectsByBranchAndYear(String branch, Integer year);
 
 	@Query("SELECT g FROM GroupProject g JOIN g.studentList s WHERE s.studentId = ?1")
 	List<GroupProject> getProjectsByid(long id);

@@ -1,5 +1,7 @@
 package com.klu.model;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
@@ -14,10 +16,7 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 
 @Entity
-@Table(
-    name = "project_likes",
-    uniqueConstraints = @UniqueConstraint(columnNames = {"studentId", "project_id"})
-)
+@Table( name = "project_likes",uniqueConstraints = @UniqueConstraint(columnNames = {"studentId", "project_id"}))
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
@@ -30,10 +29,12 @@ public class ProjectLikes {
     @Column(nullable = false)
     private Integer likes=0;
 
+    @JsonIgnore
     @ManyToOne
     @JoinColumn(name = "studentId", nullable = false)
     private Student student;
 
+    @JsonIgnore
     @ManyToOne
     @JoinColumn(name = "project_id", nullable = false)
     private Project project;

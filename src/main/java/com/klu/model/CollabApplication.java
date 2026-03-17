@@ -1,5 +1,7 @@
  package com.klu.model;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
@@ -22,10 +24,12 @@ public class CollabApplication {
 	@GeneratedValue(strategy=GenerationType.IDENTITY)
 	private Integer collabApplication_id;
 	
+	@JsonIgnore
 	@ManyToOne
 	@JoinColumn(name="collaboration_id")
 	private Collaboration collaboration;
 	
+	@JsonIgnore
 	@ManyToOne
 	@JoinColumn(name="studentId")
 	private Student student;

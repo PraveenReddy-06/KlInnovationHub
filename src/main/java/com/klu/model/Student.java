@@ -2,7 +2,7 @@ package com.klu.model;
 
 import java.util.List;
 
-import com.fasterxml.jackson.annotation.JsonBackReference;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 
 import jakarta.persistence.*;
 import jakarta.validation.constraints.*;
@@ -26,19 +26,23 @@ public class Student {
 	@Size(max = 26)
 	private String studentEmail;
 
+	@JsonIgnore
 	@OneToMany(mappedBy = "student", cascade = CascadeType.ALL)
 	List<Project> projectList;
 
+	@JsonIgnore
 	@ManyToMany(mappedBy = "studentList")
-	@JsonBackReference
 	List<GroupProject> groupProjects;
 
+	@JsonIgnore
 	@OneToMany(mappedBy = "student", cascade = CascadeType.ALL)
 	List<Collaboration> collaborationList;
 
+	@JsonIgnore
 	@OneToMany(mappedBy = "student", cascade = CascadeType.ALL)
 	List<CollabApplication> collabApplicationList;
 
+	@JsonIgnore
 	@OneToMany(mappedBy = "student", cascade = CascadeType.ALL)
 	private List<ProjectLikes> likedProjects;
 
