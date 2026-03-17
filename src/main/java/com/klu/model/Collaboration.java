@@ -24,7 +24,7 @@ public class Collaboration {
 
 	@Id
 	@GeneratedValue(strategy=GenerationType.IDENTITY)
-	private int collaboration_id;
+	private Integer collaboration_id;
 	
 	@ManyToOne
 	@JoinColumn(name="studentId", nullable = false)

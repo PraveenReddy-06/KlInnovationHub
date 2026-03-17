@@ -20,7 +20,7 @@ public class CollabApplication {
 	
 	@Id
 	@GeneratedValue(strategy=GenerationType.IDENTITY)
-	private int collabApplication_id;
+	private Integer collabApplication_id;
 	
 	@ManyToOne
 	@JoinColumn(name="collaboration_id")
