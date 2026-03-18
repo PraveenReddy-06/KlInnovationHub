@@ -31,6 +31,11 @@ public class Student {
 	List<Project> projectList;
 
 	@JsonIgnore
+	@OneToMany(mappedBy="teamLead", cascade=CascadeType.ALL)
+	List<GroupProject> groupProjectLead;
+	
+	
+	@JsonIgnore
 	@ManyToMany(mappedBy = "studentList")
 	List<GroupProject> groupProjects;
 

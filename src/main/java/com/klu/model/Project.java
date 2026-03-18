@@ -2,7 +2,6 @@ package com.klu.model;
 import java.time.LocalDateTime;
 import java.util.List;
 
-import com.fasterxml.jackson.annotation.JsonBackReference;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 
@@ -36,7 +35,6 @@ public class Project {
 	@JsonIgnore
 	@ManyToOne
 	@JoinColumn(name="studentId", nullable = false)
-	@JsonBackReference
 	private Student student;
 	
 	@JsonIgnore

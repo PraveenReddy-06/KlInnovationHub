@@ -22,9 +22,9 @@ public class ProjectController {
 	@Autowired
 	ProjectImple projectService;
 	
-	@PostMapping("/submit")
-    public String submitProject(@Valid @RequestBody Project p) {
-        return projectService.SubmitProject(p);
+	@PostMapping("/submit/{id}")
+    public String submitProject(@Valid @RequestBody Project p,@PathVariable Long id) {
+        return projectService.SubmitProject(p,id);
     }
     @GetMapping("/latest")
     public List<Project> getLatestSubmissions() {

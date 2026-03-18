@@ -15,6 +15,7 @@ import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.JoinTable;
 import jakarta.persistence.ManyToMany;
+import jakarta.persistence.ManyToOne;
 import jakarta.persistence.OneToMany;
 import jakarta.persistence.Table;
 import jakarta.validation.constraints.Pattern;
@@ -54,6 +55,13 @@ public class GroupProject {
 	@JsonIgnore
 	@OneToMany(mappedBy = "groupProject", cascade = CascadeType.ALL)
 	private List<GroupProjectLikes> likes;
+	
+	
+	@JsonIgnore
+	@ManyToOne
+	@JoinColumn(name="teamLead",nullable= false)
+	private Student teamLead;
+	
 	
 	@JsonIgnore
 	@ManyToMany

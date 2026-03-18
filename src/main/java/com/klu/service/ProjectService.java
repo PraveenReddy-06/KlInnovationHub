@@ -6,7 +6,7 @@ import com.klu.model.Project;
 
 public interface ProjectService {
 
-	String SubmitProject(Project p);
+	String SubmitProject(Project p,Long id);
 	List<Project> getLatestSubmissions();
 	
 	List<Project> getAllProjects();

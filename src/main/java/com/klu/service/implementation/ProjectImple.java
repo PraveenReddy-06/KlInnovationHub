@@ -6,7 +6,9 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.klu.model.Project;
+import com.klu.model.Student;
 import com.klu.repository.ProjectRepo;
+import com.klu.repository.StudentRepo;
 import com.klu.service.ProjectService;
 
 @Service
@@ -15,8 +17,13 @@ public class ProjectImple implements ProjectService{
 	@Autowired
 	ProjectRepo projectRepo;
 	
+	@Autowired
+	StudentRepo studentRepo;
+	
 	@Override
-	public String SubmitProject(Project p) {		
+	public String SubmitProject(Project p,Long id) {	
+		Student student = studentRepo.findById(id).orElseThrow(() -> new RuntimeException("Student not found"));
+		p.setStudent(student);
 		projectRepo.save(p);
 		return "Project Submitted Sucessfully";
 	}

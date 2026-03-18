@@ -13,6 +13,8 @@ import org.springframework.web.bind.annotation.RestController;
 import com.klu.model.GroupProject;
 import com.klu.service.implementation.GroupProjectImple;
 
+import jakarta.validation.Valid;
+
 @RestController
 @RequestMapping("/groupproject")
 public class GroupProjectController {
@@ -20,9 +22,9 @@ public class GroupProjectController {
     @Autowired
     GroupProjectImple groupProjectService;
 
-    @PostMapping("/submit")
-    public String submitGroupProject(@RequestBody GroupProject p) {
-        return groupProjectService.SubmitGroupProject(p);
+    @PostMapping("/submit/{teamLeadId}")
+    public String submitGroupProject(@Valid @RequestBody GroupProject p,@PathVariable Long teamLeadId) {
+        return groupProjectService.SubmitGroupProject(p,teamLeadId);
     }
     @GetMapping("/latest")
     public List<GroupProject> getLatestGroupSubmissions() {
