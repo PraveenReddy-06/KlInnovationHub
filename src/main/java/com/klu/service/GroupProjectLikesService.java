@@ -6,7 +6,7 @@ import com.klu.model.GroupProject;
 
 public interface GroupProjectLikesService {
 
- 
+ String toggleLike(Long studentId,Integer groupProjectId);
  List<GroupProject> getTopGroupProjects();
  
 }

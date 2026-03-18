@@ -28,7 +28,7 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 @AllArgsConstructor
 @Entity
-@Table(name="GroupProject")
+@Table(name="groupProject")
 public class GroupProject {
 	
 	@Id
@@ -61,6 +61,7 @@ public class GroupProject {
 	@ManyToOne
 	@JoinColumn(name="teamLead",nullable= false)
 	private Student teamLead;
+	
 	
 	
 	@JsonIgnore

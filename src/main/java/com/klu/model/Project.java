@@ -1,4 +1,5 @@
 package com.klu.model;
+import java.beans.Transient;
 import java.time.LocalDateTime;
 import java.util.List;
 
@@ -40,6 +41,11 @@ public class Project {
 	@JsonIgnore
 	@OneToMany(mappedBy = "project", cascade = CascadeType.ALL)
 	private List<ProjectLikes> likes;
+	
+	@Transient
+	public int getLikeCount() {
+	    return likes == null ? 0 : likes.size();
+	}
 	
 	private String projectName;
 	private LocalDateTime submittedAt;
