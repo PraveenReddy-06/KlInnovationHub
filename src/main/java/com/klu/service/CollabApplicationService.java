@@ -8,4 +8,5 @@ public interface CollabApplicationService {
 
 	String createCollabApplication(CollabApplication app);
 	List<CollabApplication> getAllCollabApplications();
+	List<CollabApplication> getMyApplications(Long studentid);
 }

@@ -25,4 +25,9 @@ public class CollabApplicationImple implements CollabApplicationService {
 	public List<CollabApplication> getAllCollabApplications() {
 		return collabApplicationRepo.findAll();
 	}
+
+	@Override
+	public List<CollabApplication> getMyApplications(Long studentId) {
+		return collabApplicationRepo.findByStudent_StudentId(studentId);
+	}
 }
