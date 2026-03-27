@@ -1,0 +1,902 @@
+{
+  "info": {
+    "_postman_id": "bbd1efc4-9bcb-40b7-88cf-f46c08601a00",
+    "name": "InnovationHub - Full Test Suite",
+    "description": "Complete test collection for InnovationHub Spring Boot API",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+    "_exporter_id": "50817307",
+    "_collection_link": "https://go.postman.co/collection/50817307-bbd1efc4-9bcb-40b7-88cf-f46c08601a00?source=collection_link"
+  },
+  "item": [
+    {
+      "name": "Create Student 1 - Praveen CSE 2024",
+      "request": {
+        "method": "POST",
+        "header": [],
+        "body": {
+          "mode": "urlencoded",
+          "urlencoded": [
+            {
+              "key": "email",
+              "value": "2400032662@kluniversity.in"
+            },
+            {
+              "key": "name",
+              "value": "Praveen Reddy"
+            }
+          ]
+        },
+        "url": {
+          "raw": "{{base_url}}/student/create",
+          "host": [
+            "{{base_url}}"
+          ],
+          "path": [
+            "student",
+            "create"
+          ]
+        }
+      },
+      "response": []
+    },
+    {
+      "name": "Create Student 2 - Arjun CSE 2023",
+      "request": {
+        "method": "POST",
+        "header": [],
+        "body": {
+          "mode": "urlencoded",
+          "urlencoded": [
+            {
+              "key": "email",
+              "value": "2300032745@kluniversity.in"
+            },
+            {
+              "key": "name",
+              "value": "Arjun Sharma"
+            }
+          ]
+        },
+        "url": {
+          "raw": "{{base_url}}/student/create",
+          "host": [
+            "{{base_url}}"
+          ],
+          "path": [
+            "student",
+            "create"
+          ]
+        }
+      },
+      "response": []
+    },
+    {
+      "name": "Create Student 3 - Divya ECE 2024",
+      "request": {
+        "method": "POST",
+        "header": [],
+        "body": {
+          "mode": "urlencoded",
+          "urlencoded": [
+            {
+              "key": "email",
+              "value": "2400042310@kluniversity.in"
+            },
+            {
+              "key": "name",
+              "value": "Divya Lakshmi"
+            }
+          ]
+        },
+        "url": {
+          "raw": "{{base_url}}/student/create",
+          "host": [
+            "{{base_url}}"
+          ],
+          "path": [
+            "student",
+            "create"
+          ]
+        }
+      },
+      "response": []
+    },
+    {
+      "name": "Create Student 4 - Karan CSIT 2023",
+      "request": {
+        "method": "POST",
+        "header": [],
+        "body": {
+          "mode": "urlencoded",
+          "urlencoded": [
+            {
+              "key": "email",
+              "value": "2300092501@kluniversity.in"
+            },
+            {
+              "key": "name",
+              "value": "Karan Verma"
+            }
+          ]
+        },
+        "url": {
+          "raw": "{{base_url}}/student/create",
+          "host": [
+            "{{base_url}}"
+          ],
+          "path": [
+            "student",
+            "create"
+          ]
+        }
+      },
+      "response": []
+    },
+    {
+      "name": "Create Student 5 - Sneha CSE 2022",
+      "request": {
+        "method": "POST",
+        "header": [],
+        "body": {
+          "mode": "urlencoded",
+          "urlencoded": [
+            {
+              "key": "email",
+              "value": "2200032891@kluniversity.in"
+            },
+            {
+              "key": "name",
+              "value": "Sneha Patel"
+            }
+          ]
+        },
+        "url": {
+          "raw": "{{base_url}}/student/create",
+          "host": [
+            "{{base_url}}"
+          ],
+          "path": [
+            "student",
+            "create"
+          ]
+        }
+      },
+      "response": []
+    },
+    {
+      "name": "Create Student 6 - Ravi ECE 2022",
+      "request": {
+        "method": "POST",
+        "header": [],
+        "body": {
+          "mode": "urlencoded",
+          "urlencoded": [
+            {
+              "key": "email",
+              "value": "2200042033@kluniversity.in"
+            },
+            {
+              "key": "name",
+              "value": "Ravi Kumar"
+            }
+          ]
+        },
+        "url": {
+          "raw": "{{base_url}}/student/create",
+          "host": [
+            "{{base_url}}"
+          ],
+          "path": [
+            "student",
+            "create"
+          ]
+        }
+      },
+      "response": []
+    },
+    {
+      "name": "Get Student by ID",
+      "request": {
+        "method": "GET",
+        "header": [],
+        "url": {
+          "raw": "{{base_url}}/student/getById/2400032662",
+          "host": [
+            "{{base_url}}"
+          ],
+          "path": [
+            "student",
+            "getById",
+            "2400032662"
+          ]
+        }
+      },
+      "response": []
+    },
+    {
+      "name": "Get Student by Email",
+      "request": {
+        "method": "GET",
+        "header": [],
+        "url": {
+          "raw": "{{base_url}}/student/getByEmail/2300032745@kluniversity.in",
+          "host": [
+            "{{base_url}}"
+          ],
+          "path": [
+            "student",
+            "getByEmail",
+            "2300032745@kluniversity.in"
+          ]
+        }
+      },
+      "response": []
+    },
+    {
+      "name": "Submit Project 1 - AI Chatbot (Praveen CSE)",
+      "request": {
+        "method": "POST",
+        "header": [
+          {
+            "key": "Content-Type",
+            "value": "application/json"
+          }
+        ],
+        "body": {
+          "mode": "raw",
+          "raw": "{\"student\":{\"studentId\":2400032662},\"projectName\":\"AI Chatbot Assistant\",\"githubUrl\":\"https://github.com/praveenreddy/ai-chatbot\",\"description\":\"An intelligent chatbot using NLP and transformer models for student query resolution.\",\"tech1\":\"Python\",\"tech2\":\"TensorFlow\",\"tech3\":\"Flask\"}"
+        },
+        "url": {
+          "raw": "{{base_url}}/project/submit",
+          "host": [
+            "{{base_url}}"
+          ],
+          "path": [
+            "project",
+            "submit"
+          ]
+        }
+      },
+      "response": []
+    },
+    {
+      "name": "Submit Project 2 - Smart Attendance (Arjun CSE)",
+      "request": {
+        "method": "POST",
+        "header": [
+          {
+            "key": "Content-Type",
+            "value": "application/json"
+          }
+        ],
+        "body": {
+          "mode": "raw",
+          "raw": "{\"student\":{\"studentId\":2300032745},\"projectName\":\"Smart Attendance System\",\"githubUrl\":\"https://github.com/arjunsharma/smart-attendance\",\"description\":\"Face recognition attendance using OpenCV and deep learning.\",\"tech1\":\"Python\",\"tech2\":\"OpenCV\",\"tech3\":\"React\"}"
+        },
+        "url": {
+          "raw": "{{base_url}}/project/submit",
+          "host": [
+            "{{base_url}}"
+          ],
+          "path": [
+            "project",
+            "submit"
+          ]
+        }
+      },
+      "response": []
+    },
+    {
+      "name": "Submit Project 3 - IoT Home (Divya ECE)",
+      "request": {
+        "method": "POST",
+        "header": [
+          {
+            "key": "Content-Type",
+            "value": "application/json"
+          }
+        ],
+        "body": {
+          "mode": "raw",
+          "raw": "{\"student\":{\"studentId\":2400042310},\"projectName\":\"IoT Home Automation\",\"githubUrl\":\"https://github.com/divyalakshmi/iot-home\",\"description\":\"Smart home automation using Raspberry Pi and MQTT protocol.\",\"tech1\":\"Arduino\",\"tech2\":\"MQTT\",\"tech3\":\"Flutter\"}"
+        },
+        "url": {
+          "raw": "{{base_url}}/project/submit",
+          "host": [
+            "{{base_url}}"
+          ],
+          "path": [
+            "project",
+            "submit"
+          ]
+        }
+      },
+      "response": []
+    },
+    {
+      "name": "Submit Project 4 - Stock Predictor (Sneha CSE)",
+      "request": {
+        "method": "POST",
+        "header": [
+          {
+            "key": "Content-Type",
+            "value": "application/json"
+          }
+        ],
+        "body": {
+          "mode": "raw",
+          "raw": "{\"student\":{\"studentId\":2200032891},\"projectName\":\"ML Stock Price Predictor\",\"githubUrl\":\"https://github.com/snehapatel/stock-predictor\",\"description\":\"LSTM-based stock price prediction with 85% accuracy.\",\"tech1\":\"Python\",\"tech2\":\"Keras\",\"tech3\":\"Pandas\"}"
+        },
+        "url": {
+          "raw": "{{base_url}}/project/submit",
+          "host": [
+            "{{base_url}}"
+          ],
+          "path": [
+            "project",
+            "submit"
+          ]
+        }
+      },
+      "response": []
+    },
+    {
+      "name": "Get All Projects",
+      "request": {
+        "method": "GET",
+        "header": [],
+        "url": {
+          "raw": "{{base_url}}/project/all",
+          "host": [
+            "{{base_url}}"
+          ],
+          "path": [
+            "project",
+            "all"
+          ]
+        }
+      },
+      "response": []
+    },
+    {
+      "name": "Get Latest Projects",
+      "request": {
+        "method": "GET",
+        "header": [],
+        "url": {
+          "raw": "{{base_url}}/project/latest",
+          "host": [
+            "{{base_url}}"
+          ],
+          "path": [
+            "project",
+            "latest"
+          ]
+        }
+      },
+      "response": []
+    },
+    {
+      "name": "Get Projects by Year 2024",
+      "request": {
+        "method": "GET",
+        "header": [],
+        "url": {
+          "raw": "{{base_url}}/project/year/2024",
+          "host": [
+            "{{base_url}}"
+          ],
+          "path": [
+            "project",
+            "year",
+            "2024"
+          ]
+        }
+      },
+      "response": []
+    },
+    {
+      "name": "Get Projects by Branch CSE",
+      "request": {
+        "method": "GET",
+        "header": [],
+        "url": {
+          "raw": "{{base_url}}/project/branch/CSE",
+          "host": [
+            "{{base_url}}"
+          ],
+          "path": [
+            "project",
+            "branch",
+            "CSE"
+          ]
+        }
+      },
+      "response": []
+    },
+    {
+      "name": "Get Projects by Student 2400032662",
+      "request": {
+        "method": "GET",
+        "header": [],
+        "url": {
+          "raw": "{{base_url}}/project/student/2400032662",
+          "host": [
+            "{{base_url}}"
+          ],
+          "path": [
+            "project",
+            "student",
+            "2400032662"
+          ]
+        }
+      },
+      "response": []
+    },
+    {
+      "name": "Get Top Liked Projects",
+      "request": {
+        "method": "GET",
+        "header": [],
+        "url": {
+          "raw": "{{base_url}}/likes/top",
+          "host": [
+            "{{base_url}}"
+          ],
+          "path": [
+            "likes",
+            "top"
+          ]
+        }
+      },
+      "response": []
+    },
+    {
+      "name": "Submit Group Project 1 - EduTrack Portal",
+      "request": {
+        "method": "POST",
+        "header": [
+          {
+            "key": "Content-Type",
+            "value": "application/json"
+          }
+        ],
+        "body": {
+          "mode": "raw",
+          "raw": "{\"project_name\":\"EduTrack Student Portal\",\"github_url\":\"https://github.com/klu-team/edutrack-portal\",\"description\":\"Full-stack portal for tracking academic progress, attendance, and performance analytics.\",\"tech1\":\"React\",\"tech2\":\"Spring Boot\",\"tech3\":\"MySQL\",\"studentList\":[{\"studentId\":2400032662},{\"studentId\":2300032745}]}"
+        },
+        "url": {
+          "raw": "{{base_url}}/groupproject/submit",
+          "host": [
+            "{{base_url}}"
+          ],
+          "path": [
+            "groupproject",
+            "submit"
+          ]
+        }
+      },
+      "response": []
+    },
+    {
+      "name": "Submit Group Project 2 - AgriSense IoT",
+      "request": {
+        "method": "POST",
+        "header": [
+          {
+            "key": "Content-Type",
+            "value": "application/json"
+          }
+        ],
+        "body": {
+          "mode": "raw",
+          "raw": "{\"project_name\":\"AgriSense IoT Platform\",\"github_url\":\"https://github.com/klu-team/agrisense-iot\",\"description\":\"Smart agriculture IoT platform monitoring soil moisture and crop health with ML predictions.\",\"tech1\":\"Arduino\",\"tech2\":\"Python\",\"tech3\":\"MongoDB\",\"studentList\":[{\"studentId\":2400042310},{\"studentId\":2200042033}]}"
+        },
+        "url": {
+          "raw": "{{base_url}}/groupproject/submit",
+          "host": [
+            "{{base_url}}"
+          ],
+          "path": [
+            "groupproject",
+            "submit"
+          ]
+        }
+      },
+      "response": []
+    },
+    {
+      "name": "Submit Group Project 3 - CampusConnect App",
+      "request": {
+        "method": "POST",
+        "header": [
+          {
+            "key": "Content-Type",
+            "value": "application/json"
+          }
+        ],
+        "body": {
+          "mode": "raw",
+          "raw": "{\"project_name\":\"CampusConnect Mobile App\",\"github_url\":\"https://github.com/klu-team/campusconnect\",\"description\":\"Cross-platform mobile app for campus events, clubs, canteen ordering, and lost-and-found.\",\"tech1\":\"Flutter\",\"tech2\":\"Firebase\",\"tech3\":\"Node.js\",\"studentList\":[{\"studentId\":2300092501},{\"studentId\":2200032891},{\"studentId\":2300032745}]}"
+        },
+        "url": {
+          "raw": "{{base_url}}/groupproject/submit",
+          "host": [
+            "{{base_url}}"
+          ],
+          "path": [
+            "groupproject",
+            "submit"
+          ]
+        }
+      },
+      "response": []
+    },
+    {
+      "name": "Get All Group Projects",
+      "request": {
+        "method": "GET",
+        "header": [],
+        "url": {
+          "raw": "{{base_url}}/groupproject/all",
+          "host": [
+            "{{base_url}}"
+          ],
+          "path": [
+            "groupproject",
+            "all"
+          ]
+        }
+      },
+      "response": []
+    },
+    {
+      "name": "Get Latest Group Projects",
+      "request": {
+        "method": "GET",
+        "header": [],
+        "url": {
+          "raw": "{{base_url}}/groupproject/latest",
+          "host": [
+            "{{base_url}}"
+          ],
+          "path": [
+            "groupproject",
+            "latest"
+          ]
+        }
+      },
+      "response": []
+    },
+    {
+      "name": "Get Group Projects by Year 2024",
+      "request": {
+        "method": "GET",
+        "header": [],
+        "url": {
+          "raw": "{{base_url}}/groupproject/year/2024",
+          "host": [
+            "{{base_url}}"
+          ],
+          "path": [
+            "groupproject",
+            "year",
+            "2024"
+          ]
+        }
+      },
+      "response": []
+    },
+    {
+      "name": "Get Group Projects by Branch CSE",
+      "request": {
+        "method": "GET",
+        "header": [],
+        "url": {
+          "raw": "{{base_url}}/groupproject/branch/CSE",
+          "host": [
+            "{{base_url}}"
+          ],
+          "path": [
+            "groupproject",
+            "branch",
+            "CSE"
+          ]
+        }
+      },
+      "response": []
+    },
+    {
+      "name": "Get Group Projects Branch CSE + Year 2024",
+      "request": {
+        "method": "GET",
+        "header": [],
+        "url": {
+          "raw": "{{base_url}}/groupproject/branch/CSE/year/2024",
+          "host": [
+            "{{base_url}}"
+          ],
+          "path": [
+            "groupproject",
+            "branch",
+            "CSE",
+            "year",
+            "2024"
+          ]
+        }
+      },
+      "response": []
+    },
+    {
+      "name": "Get Group Projects by Student 2400042310",
+      "request": {
+        "method": "GET",
+        "header": [],
+        "url": {
+          "raw": "{{base_url}}/groupproject/student/2400042310",
+          "host": [
+            "{{base_url}}"
+          ],
+          "path": [
+            "groupproject",
+            "student",
+            "2400042310"
+          ]
+        }
+      },
+      "response": []
+    },
+    {
+      "name": "Get Top Liked Group Projects",
+      "request": {
+        "method": "GET",
+        "header": [],
+        "url": {
+          "raw": "{{base_url}}/grouplikes/top",
+          "host": [
+            "{{base_url}}"
+          ],
+          "path": [
+            "grouplikes",
+            "top"
+          ]
+        }
+      },
+      "response": []
+    },
+    {
+      "name": "Create Collaboration 1 - AR Navigation (Praveen)",
+      "request": {
+        "method": "POST",
+        "header": [
+          {
+            "key": "Content-Type",
+            "value": "application/json"
+          }
+        ],
+        "body": {
+          "mode": "raw",
+          "raw": "{\"name\":\"AR Campus Navigation System\",\"problemStatement\":\"Students struggle to find classrooms on a large campus, especially freshers.\",\"description\":\"Building an AR navigation app for KLU campus using Unity and ARCore.\",\"teamSize\":4,\"skill1\":\"Unity\",\"skill2\":\"Android Development\",\"skill3\":\"3D Modeling\",\"status\":true}"
+        },
+        "url": {
+          "raw": "{{base_url}}/collaboration/create/2400032662",
+          "host": [
+            "{{base_url}}"
+          ],
+          "path": [
+            "collaboration",
+            "create",
+            "2400032662"
+          ]
+        }
+      },
+      "response": []
+    },
+    {
+      "name": "Create Collaboration 2 - Blockchain Voting (Karan)",
+      "request": {
+        "method": "POST",
+        "header": [
+          {
+            "key": "Content-Type",
+            "value": "application/json"
+          }
+        ],
+        "body": {
+          "mode": "raw",
+          "raw": "{\"name\":\"Blockchain-Based Voting System\",\"problemStatement\":\"Traditional voting is prone to fraud and lacks transparency for college elections.\",\"description\":\"Decentralized voting app on Ethereum for tamper-proof college elections.\",\"teamSize\":3,\"skill1\":\"Solidity\",\"skill2\":\"React\",\"skill3\":\"Web3.js\",\"status\":true}"
+        },
+        "url": {
+          "raw": "{{base_url}}/collaboration/create/2300092501",
+          "host": [
+            "{{base_url}}"
+          ],
+          "path": [
+            "collaboration",
+            "create",
+            "2300092501"
+          ]
+        }
+      },
+      "response": []
+    },
+    {
+      "name": "Create Collaboration 3 - Health Monitor (Ravi)",
+      "request": {
+        "method": "POST",
+        "header": [
+          {
+            "key": "Content-Type",
+            "value": "application/json"
+          }
+        ],
+        "body": {
+          "mode": "raw",
+          "raw": "{\"name\":\"Wearable Health Monitoring System\",\"problemStatement\":\"Real-time health data from wearables is not used effectively for early diagnosis.\",\"description\":\"Wearable with ECG, SpO2, and temperature sensors plus a companion app with ML anomaly detection.\",\"teamSize\":3,\"skill1\":\"Embedded C\",\"skill2\":\"Flutter\",\"skill3\":\"Machine Learning\",\"status\":true}"
+        },
+        "url": {
+          "raw": "{{base_url}}/collaboration/create/2200042033",
+          "host": [
+            "{{base_url}}"
+          ],
+          "path": [
+            "collaboration",
+            "create",
+            "2200042033"
+          ]
+        }
+      },
+      "response": []
+    },
+    {
+      "name": "Get All Collaborations",
+      "request": {
+        "method": "GET",
+        "header": [],
+        "url": {
+          "raw": "{{base_url}}/collaboration/all",
+          "host": [
+            "{{base_url}}"
+          ],
+          "path": [
+            "collaboration",
+            "all"
+          ]
+        }
+      },
+      "response": []
+    },
+    {
+      "name": "Apply for Collab - Arjun applies to Collab 1",
+      "request": {
+        "method": "POST",
+        "header": [
+          {
+            "key": "Content-Type",
+            "value": "application/json"
+          }
+        ],
+        "body": {
+          "mode": "raw",
+          "raw": "{\"collaboration\":{\"collaboration_id\":1},\"student\":{\"studentId\":2300032745}}"
+        },
+        "url": {
+          "raw": "{{base_url}}/collabapplication/apply",
+          "host": [
+            "{{base_url}}"
+          ],
+          "path": [
+            "collabapplication",
+            "apply"
+          ]
+        }
+      },
+      "response": []
+    },
+    {
+      "name": "Apply for Collab - Sneha applies to Collab 1",
+      "request": {
+        "method": "POST",
+        "header": [
+          {
+            "key": "Content-Type",
+            "value": "application/json"
+          }
+        ],
+        "body": {
+          "mode": "raw",
+          "raw": "{\"collaboration\":{\"collaboration_id\":1},\"student\":{\"studentId\":2200032891}}"
+        },
+        "url": {
+          "raw": "{{base_url}}/collabapplication/apply",
+          "host": [
+            "{{base_url}}"
+          ],
+          "path": [
+            "collabapplication",
+            "apply"
+          ]
+        }
+      },
+      "response": []
+    },
+    {
+      "name": "Apply for Collab - Divya applies to Collab 2",
+      "request": {
+        "method": "POST",
+        "header": [
+          {
+            "key": "Content-Type",
+            "value": "application/json"
+          }
+        ],
+        "body": {
+          "mode": "raw",
+          "raw": "{\"collaboration\":{\"collaboration_id\":2},\"student\":{\"studentId\":2400042310}}"
+        },
+        "url": {
+          "raw": "{{base_url}}/collabapplication/apply",
+          "host": [
+            "{{base_url}}"
+          ],
+          "path": [
+            "collabapplication",
+            "apply"
+          ]
+        }
+      },
+      "response": []
+    },
+    {
+      "name": "Apply for Collab - Arjun applies to Collab 3",
+      "request": {
+        "method": "POST",
+        "header": [
+          {
+            "key": "Content-Type",
+            "value": "application/json"
+          }
+        ],
+        "body": {
+          "mode": "raw",
+          "raw": "{\"collaboration\":{\"collaboration_id\":3},\"student\":{\"studentId\":2300032745}}"
+        },
+        "url": {
+          "raw": "{{base_url}}/collabapplication/apply",
+          "host": [
+            "{{base_url}}"
+          ],
+          "path": [
+            "collabapplication",
+            "apply"
+          ]
+        }
+      },
+      "response": []
+    },
+    {
+      "name": "Get All Collab Applications",
+      "request": {
+        "method": "GET",
+        "header": [],
+        "url": {
+          "raw": "{{base_url}}/collabapplication/all",
+          "host": [
+            "{{base_url}}"
+          ],
+          "path": [
+            "collabapplication",
+            "all"
+          ]
+        }
+      },
+      "response": []
+    }
+  ],
+  "variable": [
+    {
+      "key": "base_url",
+      "value": "http://localhost:8080"
+    }
+  ]
+}
