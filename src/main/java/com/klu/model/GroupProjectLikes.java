@@ -1,0 +1,34 @@
+package com.klu.model;
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
+import jakarta.persistence.Entity;
+import jakarta.persistence.GeneratedValue;
+import jakarta.persistence.GenerationType;
+import jakarta.persistence.Id;
+import jakarta.persistence.JoinColumn;
+import jakarta.persistence.ManyToOne;
+import jakarta.persistence.Table;
+import jakarta.persistence.UniqueConstraint;
+import lombok.Data;
+
+@Entity
+@Table(name = "GroupProject_likes",uniqueConstraints = @UniqueConstraint(columnNames = {"studentId", "project_id"}))
+@Data
+public class GroupProjectLikes {
+
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private Integer id;
+
+    
+    @JsonIgnore
+    @ManyToOne
+    @JoinColumn(name = "studentId", nullable = false)
+    private Student student;
+    
+    @JsonIgnore
+    @ManyToOne
+    @JoinColumn(name = "project_id", nullable = false)
+    private GroupProject groupProject;
+       
+}
