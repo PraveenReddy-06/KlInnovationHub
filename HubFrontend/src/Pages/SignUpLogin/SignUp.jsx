@@ -1,27 +1,48 @@
-import { memo,useState } from 'react';
+import { memo,useState,useEffect } from 'react';
 import axios from 'axios';
 import {useNavigate } from 'react-router-dom';
 import SignUpPage from "../../Images/SignUpPage.png"
 
 const SignUp = () => {
+
+    const [timer,setTimer] = useState(0);
+    useEffect(()=>{
+        let interval;
+        if(timer>0) {interval = setInterval(() => {setTimer(prev => prev-1)},1000);} 
+        return () => clearInterval(interval);
+    }, [timer]);
+
     const [form,setForm] = useState({name:"",mail:"",password:""})
+
     const handleForm = (e) => {
-        setForm({...form,[e.target.name]:e.target.value})
+        const updated = {...form,[e.target.name]: e.target.value};
+        setForm(updated);
+        setVerify(prev => ({...prev,mail: updated.mail}));
     };
+
+    const [otpSent,setOtpSent] = useState(false);
     const handleSendOtp = async (e) => {
         e.preventDefault()
-        const res = await axios.post(`http://localhost:8080/api/mail/generateOtp`,form)
-        alert(res.data)
+        if(confirmPassword===form.password){
+            const res = await axios.post(`http://localhost:8080/mail/generateOtp`,form)
+            alert(res.data)
+            setTimer(180);
+            setOtpSent(true)
+        }else {
+            alert("Enter same passwords");
+        }
+    }
+    
+    const [check,setCheck] = useState("")
+
+    const handleOtp =(e) => {
+      setVerify(prev => ({...prev,otp: e.target.value}));
     }
 
-    const [otp,setOtp] = useState("")
-    const [check,setCheck] = useState("")
-    const handleOtp =(e) => {
-        setOtp(e.target.value)
-    }
+    const [verify, setVerify] = useState({ mail: "", otp: "" });
     const handleVerify = async (e) => {
        e.preventDefault()
-       const res = await axios.post(`http://localhost:8080/api/mail/verify/${form.mail}/${otp}`)
+       const res = await axios.post(`http://localhost:8080/mail/verifyOtp`,verify)
        setCheck(res.data)
        alert(res.data)
     }
@@ -36,8 +57,14 @@ const SignUp = () => {
 
     const handleResend = async (e) => {
         e.preventDefault()
-        const res = await axios.post(`http://localhost:8080/api/mail/resend/${form.mail}`)
+        const res = await axios.post(`http://localhost:8080/mail/resend/${form.mail}`)
         alert(res.data)
+        setTimer(180);
+    }
+
+    const[confirmPassword,setConfirmPassword] = useState("");
+    const handleConfirmPassword = (e) => {
+        setConfirmPassword(e.target.value);
     }
 
   return (
@@ -46,21 +73,30 @@ const SignUp = () => {
             <div className="w-1/2 flex justify-center items-center p-10">
                 <img src={SignUpPage} alt="signup"/>
             </div>
-            <div className=" w-1/2 flex flex-col justify-center items-center bg-amber-100">
+            <div className=" w-1/2 flex flex-col justify-center items-center bg-amber-200">
                 <h1 className="text-5xl mb-9 font-extrabold text-red-500">JOIN US</h1>
                 <form onSubmit={handleLoginIn}>
-                    <div className="flex flex-col gap-5">
-                        <input className="bg-gray-200 p-2 " onChange={handleForm} name="name"      value={form.name}       type="text" placeholder="Enter Your Name"/>
-                        <input className="bg-gray-200 p-2" onChange={handleForm} name="mail"      value={form.mail}       type="email" placeholder="Enter Kl University Mail"/>
-                        <input className="bg-gray-200 p-2" onChange={handleForm} name="password"  value={form.password}   type="password" placeholder="Enter Password"/>
-                        <div className="flex justify-between p-3 text-white">
-                            <button className="bg-red-500 active:scale-95 rounded-2xl p-2"onClick={handleSendOtp}  type="button" disabled={!form.name || !form.mail || !form.password} > Get OTP </button>
-                            <button className="bg-red-500 active:scale-95 rounded-2xl p-2"onClick={handleResend}  type="button" disabled={!form.name || !form.mail || !form.password} >Resend</button>
-                        </div>                       
-                        <input className="bg-gray-200 p-2" onChange={handleOtp} value={otp} placeholder='Enter Otp' />
-                        <button className="bg-red-500 active:scale-95 rounded-2xl p-2 text-white"type="button" onClick={handleVerify} disabled={!otp}>Verify Otp</button>
-
-                        {check==="Verified You Can SignIn Now" && (<button className="bg-red-500 active:scale-95 rounded-2xl p-2 text-white"type="submit">Login</button>)}
+                    <div className="flex gap-5">
+                        <div className="flex flex-col gap-3">
+                            <input className="bg-gray-200 p-2 " onChange={handleForm} name="name"      value={form.name}       type="text" placeholder="Enter Your Name"/>
+                            <input className="bg-gray-200 p-2" onChange={handleForm} name="mail"      value={form.mail}       type="email" placeholder="Enter Kl University Mail"/>
+                            <input className="bg-gray-200 p-2" onChange={handleForm} name="password"  value={form.password}   type="password" placeholder="Enter Password"/>
+                            <input className="bg-gray-200 p-2" onChange={handleConfirmPassword} name="confirmPassword"  value={confirmPassword}   type="password" placeholder="Confirm Password"/>                        
+                        </div>
+                        <div className="flex flex-col gap-3 ">   
+                            {timer === 0 ? (
+                            <button className="bg-red-500 active:scale-95 rounded-2xl p-2" onClick={handleSendOtp}type="button"disabled={!form.name || !form.mail || !form.password}>
+                                {otpSent? "Resend Otp":"Send Otp"}
+                            </button>
+                                ) : (
+                            <button
+                                className="bg-red-500 rounded-2xl p-2" disabled> Resend in {timer}s
+                            </button>
+                            )}
+                            <input className="bg-gray-200 p-2" onChange={handleOtp} value={verify.otp} placeholder='Enter Otp' />
+                            <button className="bg-red-500 active:scale-95 rounded-2xl p-2 text-white" type="button" onClick={handleVerify} disabled={!verify.otp}>Verify Otp</button>
+                        </div>
+                        {check==="Verified You Can SignIn Now" && (<a href="/Login" className="bg-red-500 active:scale-95 rounded-2xl p-2 text-white">Login</a>)}
                     </div>
                 </form>
             </div>

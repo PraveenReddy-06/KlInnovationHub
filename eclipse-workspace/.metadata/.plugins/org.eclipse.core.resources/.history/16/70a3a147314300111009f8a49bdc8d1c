@@ -1,0 +1,33 @@
+package com.klu.controller;
+
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.RestController;
+
+import com.klu.dto.SignUpFormDto;
+import com.klu.mail.MailService;
+
+@RestController
+@RequestMapping("/mail")
+public class MailController {
+
+	@Autowired
+	MailService service;
+	
+	@GetMapping("/generateOtp")
+	public String generateOpt(@RequestBody SignUpFormDto form) {
+		String name = form.getName();
+		String toMail = form.getMail();
+		String password = form.getPassword();
+		return service.generateOpt(name, toMail, password);
+	}
+	
+	@GetMapping("/verifyOtp")
+	public String VerifyOtp(@RequestParam String mail,@RequestParam int recOtp) {
+		return service.VerifyOtp(String mail,int recOtp);
+	}
+	
+}

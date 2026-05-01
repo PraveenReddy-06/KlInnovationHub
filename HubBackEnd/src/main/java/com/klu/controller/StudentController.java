@@ -18,10 +18,10 @@ public class StudentController {
 	@Autowired
 	StudentImple studentService;
 	
-	@PostMapping("/create")
+	/*@PostMapping("/create")
 	public String create(@RequestParam String email,@RequestParam String name) {
 		return studentService.CreateStudentByEmail(email, name);
-	}
+	}*/
 	@GetMapping("/getById/{id}")
 	public Student getStudentById(@PathVariable long id) {
 		return studentService.getStudentById(id);

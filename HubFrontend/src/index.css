@@ -1,3 +1,11 @@
 @import "tailwindcss";
 
+@layer components {
+    .section {
+        @apply py-12 px-10 text-center;
+    }
+    .heading {
+        @apply text-3xl font-semibold text-center;
+    }
+}
 

@@ -13,7 +13,7 @@ import com.klu.dto.SignUpFormDto;
 import com.klu.mail.Login;
 import com.klu.mail.MailService;
 
-@CrossOrigin(origins ="http://localhost:5174")
+@CrossOrigin(origins ="http://localhost:5173")
 @RestController
 @RequestMapping("/api/mail")
 public class UserSignUpController {
@@ -23,13 +23,13 @@ public class UserSignUpController {
 	
 	@PostMapping("/generateOtp")
 	public ResponseEntity<?> generateOtp(@RequestBody SignUpFormDto form){
-		String res = service.generateOpt(form.getName(), form.getMail(), form.getPassword());		
+		String res = service.generateOtp(form.getName(), form.getMail(), form.getPassword());		
 		return ResponseEntity.ok(res);
 	}
 	
 	@PostMapping("/verify/{mail}/{otp}")
 	public String verifyOtp(@PathVariable String mail,@PathVariable int otp) {
-		return service.VerifyOtp(mail, otp);
+		return service.verifyOtp(mail, otp);
 	}
 	
 	@PostMapping("/login")
