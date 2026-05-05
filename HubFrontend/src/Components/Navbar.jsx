@@ -1,7 +1,8 @@
 import { memo } from 'react';
 import Login from '../Pages/SignUpLogin/Login';
 import SignUp from '../Pages/SignUpLogin/SignUp';
-import LandingPage from '../Pages/Main/LandingPage'
+import LandingPage from '../Pages/Main/LandingPage';
+import SubmitProject from '../Pages/NavBarPages/SubmitProject';
 
 const Navbar = () => {
   return (
@@ -12,7 +13,7 @@ const Navbar = () => {
         <li><a href="">Explore Projects</a></li>
         <li><a href="">LeaderBoard</a></li>
         <li><a href="">Form A Team</a></li>
-        <li><a href="">Submit Project</a></li>
+        <li><a href="/SubmitProject">Submit Project</a></li>
         <li><a href="">Guide</a></li>
       </ul>
       <div className="flex px-5 items-center">

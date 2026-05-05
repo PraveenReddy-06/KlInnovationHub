@@ -42,8 +42,8 @@ const Dashboard = () => {
 
       <div className ="flex px-10 py-5 gap-5 items-center bg-blue-100 text-black">
         <div className ="w-1/2 flex flex-col gap-3">
-          <h1 className =" text-3xl font-bold">Give life to Your Projects Here </h1>
-          <p className="font-serif">Showcase your innovative solutions and gain upvote from your peers</p>
+          <h1 className =" text-3xl font-bold">Give Life to Your Projects!</h1>
+          <p className="font-serif">Share your innovative solutions with the hub and inspire the community.</p>
           <div className="w-full max-w-md">
             <div className="flex items-center bg-white border border-gray-300 rounded-xl px-3 py-2 shadow-sm focus-within:ring-2 focus-within:ring-blue-400">
               <input type="text" placeholder="Search projects, tech, student..." value={search} onChange={(e) => setSearch(e.target.value)} className="w-full outline-none text-sm"/>

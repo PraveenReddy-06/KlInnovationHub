@@ -57,6 +57,8 @@ public class Project {
 	@Column(length=100, nullable = false)
 	private String githubUrl;
 	
+	private String LiveUrl;
+	
 	 @Column(columnDefinition = "TEXT")
 	private String description;
 	

@@ -6,6 +6,7 @@ import Navbar from "./Components/Navbar";
 import LandingPage from "./Pages/Main/LandingPage";
 import Card from "./Components/Card";
 import TopProjectCard from "./Components/TopProjectCard";
+import SubmitProject from "./Pages/NavBarPages/SubmitProject";
 
 function App() {
 
@@ -19,6 +20,7 @@ function App() {
         <Route path="/navbar" element={<Navbar/>}/>
         <Route path="/card" element={< Card/>}/>
         <Route path="/topProjectCard" element={< TopProjectCard/>}/>
+        <Route path="/submitProject" element={< SubmitProject/>} />
       </Routes>
     </BrowserRouter>
   )
