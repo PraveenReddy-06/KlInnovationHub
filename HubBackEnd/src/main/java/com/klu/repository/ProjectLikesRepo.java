@@ -10,18 +10,18 @@ import com.klu.model.Project;
 import com.klu.model.ProjectLikes;
 
 @Repository
-public interface ProjectLikesRepo extends JpaRepository<ProjectLikes,Integer>{
+public interface ProjectLikesRepo extends JpaRepository<ProjectLikes, Integer> {
 
+    boolean existsByStudent_StudentIdAndProject_ProjectId(Long studentId, Integer projectId);
 
-	boolean existsByStudent_StudentIdAndProject_ProjectId(Long studentId, Integer projectId);
+    void deleteByStudent_StudentIdAndProject_ProjectId(Long studentId, Integer projectId);
 
-	void deleteByStudent_StudentIdAndProject_ProjectId(Long studentId, Integer projectId);
+    long countByProject_ProjectId(Integer projectId);
 
-	@Query(value = "SELECT p.* FROM project_likes pl " +
-            "JOIN project p ON pl.project_id = p.project_id " +
-            "GROUP BY pl.project_id " +
+    @Query(value = "SELECT p.* FROM project p " +
+            "LEFT JOIN project_likes pl ON p.project_id = pl.project_id " +
+            "GROUP BY p.project_id " +
             "ORDER BY COUNT(pl.student_id) DESC " +
             "LIMIT 5", nativeQuery = true)
-	List<Project> getTopProjects();
-
+    List<Project> getTopProjects();
 }

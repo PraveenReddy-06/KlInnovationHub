@@ -6,7 +6,6 @@
     <fullyQualifiedTypeName name="com.klu.mail.UserSignUpRepository"/>
     <fullyQualifiedTypeName name="org.springframework.mail.SimpleMailMessage"/>
     <fullyQualifiedTypeName name="org.springframework.http.ResponseEntity"/>
-    <fullyQualifiedTypeName name="org.springframework.web.bind.annotation.CrossOrigin"/>
     <fullyQualifiedTypeName name="com.klu.repository.StudentRepo"/>
     <fullyQualifiedTypeName name="com.klu.service.implementation.StudentImple"/>
     <fullyQualifiedTypeName name="org.springframework.stereotype.Controller"/>
@@ -22,4 +21,6 @@
     <fullyQualifiedTypeName name="org.springframework.web.bind.annotation.PathVariable"/>
     <fullyQualifiedTypeName name="lombok.Data"/>
     <fullyQualifiedTypeName name="com.klu.dto.VerifyOtpDto"/>
+    <fullyQualifiedTypeName name="org.springframework.web.bind.annotation.CrossOrigin"/>
+    <fullyQualifiedTypeName name="com.klu.dto.ProjectLikeDto"/>
 </qualifiedTypeNameHistroy>

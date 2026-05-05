@@ -38,10 +38,7 @@ public class GroupProject {
 	private String project_name;
 	private LocalDateTime submittedAt;
 	
-	@Pattern(
-		    regexp = "^(https://)?(www\\.)?github\\.com/.*$",
-		    message = "Must be a valid GitHub URL"
-	)
+	@Pattern(regexp = "^(https://)?(www\\.)?github\\.com/.*$", message = "Must be a valid GitHub URL")
 	@Column(length=100, nullable = false)
 	private String github_url;
 	
@@ -66,11 +63,7 @@ public class GroupProject {
 	
 	@JsonIgnore
 	@ManyToMany
-	@JoinTable(
-	    name = "group_project_students",
-	    joinColumns = @JoinColumn(name = "group_project_id"),
-	    inverseJoinColumns = @JoinColumn(name = "student_id")
-	)
+	@JoinTable(name = "group_project_students",joinColumns = @JoinColumn(name = "group_project_id"),inverseJoinColumns = @JoinColumn(name = "student_id"))
 	List<Student> studentList;
 	
 	

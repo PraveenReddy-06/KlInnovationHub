@@ -3,16 +3,19 @@ package com.klu.controller;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.klu.dto.ProjectLikeDto;
 import com.klu.model.Project;
 import com.klu.service.implementation.ProjectLikesImple;
 
 @RestController
+@CrossOrigin(origins = "http://localhost:5173")
 @RequestMapping("/likes")
 public class ProjectLikesController {
 
@@ -25,8 +28,9 @@ public class ProjectLikesController {
     }
     
     @PostMapping("/toggleLike/{studentId}/{projectId}")
-    public	String toggleLike(@PathVariable Long studentId,@PathVariable Integer projectId)	{
-    	return projectLikesService.toggleLike(studentId, projectId);    	
-    }
+    public ProjectLikeDto toggleLike(@PathVariable Long studentId,
+            @PathVariable Integer projectId) {
+	return projectLikesService.toggleLike(studentId, projectId);
+	}
     
 }

@@ -5,6 +5,7 @@ import Dashboard from "./Pages/Main/Dashboard";
 import Navbar from "./Components/Navbar";
 import LandingPage from "./Pages/Main/LandingPage";
 import Card from "./Components/Card";
+import TopProjectCard from "./Components/TopProjectCard";
 
 function App() {
 
@@ -17,6 +18,7 @@ function App() {
         <Route path="/dashboard" element={<Dashboard/>} />
         <Route path="/navbar" element={<Navbar/>}/>
         <Route path="/card" element={< Card/>}/>
+        <Route path="/topProjectCard" element={< TopProjectCard/>}/>
       </Routes>
     </BrowserRouter>
   )

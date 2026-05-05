@@ -73,7 +73,7 @@ const SignUp = () => {
             <div className="w-1/2 flex justify-center items-center p-10">
                 <img src={SignUpPage} alt="signup"/>
             </div>
-            <div className=" w-1/2 flex flex-col justify-center items-center bg-amber-200">
+            <div className=" w-1/2 flex flex-col justify-center items-center bg-blue-600">
                 <h1 className="text-5xl mb-9 font-extrabold text-red-500">JOIN US</h1>
                 <form onSubmit={handleLoginIn}>
                     <div className="flex gap-5">

@@ -1,7 +1,9 @@
 package com.klu.model;
-import java.beans.Transient;
+import jakarta.persistence.Transient;
 import java.time.LocalDateTime;
 import java.util.List;
+
+import org.springframework.web.bind.annotation.CrossOrigin;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
@@ -21,6 +23,7 @@ import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
+
 @JsonIgnoreProperties(ignoreUnknown = true)
 @Data
 @NoArgsConstructor
@@ -33,7 +36,7 @@ public class Project {
 	@GeneratedValue(strategy= GenerationType.IDENTITY)
 	private Integer projectId;
 	
-	@JsonIgnore
+	@JsonIgnoreProperties({"projects"})
 	@ManyToOne
 	@JoinColumn(name="studentId", nullable = false)
 	private Student student;
@@ -50,10 +53,7 @@ public class Project {
 	private String projectName;
 	private LocalDateTime submittedAt;
 	
-	@Pattern(
-		    regexp = "^(https://)?(www\\.)?github\\.com/.*$",
-		    message = "Must be a valid GitHub URL"
-	)
+	@Pattern(regexp = "^(https://)?(www\\.)?github\\.com/.*$",message = "Must be a valid GitHub URL")
 	@Column(length=100, nullable = false)
 	private String githubUrl;
 	

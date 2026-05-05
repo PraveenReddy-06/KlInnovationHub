@@ -29,7 +29,7 @@ const Login = () => {
 
   return (    
     <div className="h-screen w-screen flex ">
-      <div className=" w-1/2 flex flex-col justify-center items-center gap-5 bg-amber-200">
+      <div className=" w-1/2 flex flex-col justify-center items-center gap-5 bg-blue-600">
         <h1 className="text-5xl mb-9 font-extrabold text-red-500 px-20">Hey Pal! Great To See You Again</h1>     
           <input className="bg-gray-200 p-2 w-75" onChange={handleChange} name="mail" value={login.mail} type="email" placeholder=" Kl University Mail Here"/>
           <input className="bg-gray-200 p-2 w-75"  onChange={handleChange}name="password" value={login.password} type="password" placeholder="Password Here"/>

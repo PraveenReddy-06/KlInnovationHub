@@ -8,4 +8,10 @@
         @apply text-3xl font-semibold text-center;
     }
 }
-
+.no-scrollbar::-webkit-scrollbar {
+  display: none;
+}
+.no-scrollbar {
+  -ms-overflow-style: none;
+  scrollbar-width: none;
+}
