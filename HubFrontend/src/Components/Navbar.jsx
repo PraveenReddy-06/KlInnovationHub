@@ -3,6 +3,7 @@ import Login from '../Pages/SignUpLogin/Login';
 import SignUp from '../Pages/SignUpLogin/SignUp';
 import LandingPage from '../Pages/Main/LandingPage';
 import SubmitProject from '../Pages/NavBarPages/SubmitProject';
+import Leaderboard from '../Pages/NavBarPages/Leaderboard';
 
 const Navbar = () => {
   return (
@@ -11,7 +12,7 @@ const Navbar = () => {
       <a href="/LandingPage">Logo</a>
       <ul className="flex items-center gap-8">
         <li><a href="">Explore Projects</a></li>
-        <li><a href="">LeaderBoard</a></li>
+        <li><a href="/LeaderBoard">LeaderBoard</a></li>
         <li><a href="">Form A Team</a></li>
         <li><a href="/SubmitProject">Submit Project</a></li>
         <li><a href="">Guide</a></li>

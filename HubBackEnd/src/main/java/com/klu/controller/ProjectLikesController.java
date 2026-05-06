@@ -27,6 +27,11 @@ public class ProjectLikesController {
         return projectLikesService.getTopProjects();
     }
     
+    @GetMapping("/top3")
+    public List<Project> getTop3Projects() {
+        return projectLikesService.getTop3Projects();
+    }
+    
     @PostMapping("/toggleLike/{studentId}/{projectId}")
     public ProjectLikeDto toggleLike(@PathVariable Long studentId,
             @PathVariable Integer projectId) {

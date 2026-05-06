@@ -60,5 +60,9 @@ public class ProjectLikesImple implements ProjectLikesServic{
 
 	    return new ProjectLikeDto(liked, likeCount);
 	}
+
+	public List<Project> getTop3Projects() {
+		return likesRepo.getTop3Projects();
+	}
 	
 }

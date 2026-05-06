@@ -30,7 +30,7 @@ public class ProjectImple implements ProjectService{
 
 	@Override
 	public List<Project> getLatestSubmissions() {	
-		return projectRepo.findTop5ByOrderByProjectIdDesc();
+		return projectRepo.findTop10ByOrderByProjectIdDesc();
 	}
 
 	@Override

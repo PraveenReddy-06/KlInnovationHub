@@ -3,8 +3,6 @@ import jakarta.persistence.Transient;
 import java.time.LocalDateTime;
 import java.util.List;
 
-import org.springframework.web.bind.annotation.CrossOrigin;
-
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 
@@ -51,19 +49,23 @@ public class Project {
 	}
 	
 	private String projectName;
-	private LocalDateTime submittedAt;
+	/*private LocalDateTime submittedAt;*/
 	
 	@Pattern(regexp = "^(https://)?(www\\.)?github\\.com/.*$",message = "Must be a valid GitHub URL")
 	@Column(length=100, nullable = false)
 	private String githubUrl;
 	
-	private String LiveUrl;
+	private String liveUrl;
 	
 	 @Column(columnDefinition = "TEXT")
 	private String description;
 	
+	private String choice;
 	private String tech1;
 	private String tech2;
 	private String tech3;
+	
+	
+	
 	
 }

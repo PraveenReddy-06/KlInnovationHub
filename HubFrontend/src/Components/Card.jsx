@@ -7,7 +7,6 @@ import CSITCard from "../Images/CSITCard.png";
 
 
 
-
 const Card = ({ project }) => {
 
   const studentId = 2400032662;

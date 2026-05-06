@@ -10,6 +10,6 @@ public interface ProjectLikesServic {
 	
 	List<Project> getTopProjects();
 	
-	
+	List<Project> getTop3Projects();
 	
 }
