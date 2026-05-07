@@ -14,8 +14,8 @@ import com.klu.dto.ProjectLikeDto;
 import com.klu.model.Project;
 import com.klu.service.implementation.ProjectLikesImple;
 
-@RestController
 @CrossOrigin(origins = "http://localhost:5173")
+@RestController
 @RequestMapping("/likes")
 public class ProjectLikesController {
 
