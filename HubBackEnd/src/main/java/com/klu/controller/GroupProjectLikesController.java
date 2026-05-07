@@ -10,6 +10,7 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.klu.dto.GroupProjectLikeDto;
 import com.klu.model.GroupProject;
 import com.klu.service.implementation.GroupProjectLikesImple;
 
@@ -27,7 +28,7 @@ public class GroupProjectLikesController {
     }
     
     @PostMapping("/toggleLike/{studentId}/{projectId}")
-    public	String toggleLike(@PathVariable Long studentId,@PathVariable Integer projectId)	{
+    public	GroupProjectLikeDto toggleLike(@PathVariable Long studentId,@PathVariable Integer projectId)	{
     	return groupProjectLikesService.toggleLike(studentId, projectId);
     	
     }

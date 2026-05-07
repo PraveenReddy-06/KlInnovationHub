@@ -45,8 +45,7 @@ public class GroupProjectController {
         return groupProjectService.getProjectsByBranch(branch);
     }
     @GetMapping("/branch/{branch}/year/{year}")
-    public List<GroupProject> getProjectsByBranchAndYear(@PathVariable String branch,
-                                                         @PathVariable Integer year) {
+    public List<GroupProject> getProjectsByBranchAndYear(@PathVariable String branch,@PathVariable Integer year) {
         return groupProjectService.getProjectsByBranchAndYear(branch, year);
     }
     @GetMapping("/student/{id}")

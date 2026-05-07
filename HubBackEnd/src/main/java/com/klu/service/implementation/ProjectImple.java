@@ -54,4 +54,8 @@ public class ProjectImple implements ProjectService{
 		return projectRepo.findByStudentStudentId(id);
 	}
 
+	public List<Project> getProjectsByBranchAndYear(String branch, Integer year) {
+		return projectRepo.findByStudentBranchAndStudentYear(branch,year);
+	}
+
 }

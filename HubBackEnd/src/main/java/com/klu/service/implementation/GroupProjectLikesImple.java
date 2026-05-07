@@ -5,6 +5,7 @@ import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import com.klu.dto.GroupProjectLikeDto;
 import com.klu.model.GroupProject;
 import com.klu.model.GroupProjectLikes;
 import com.klu.model.Student;
@@ -34,22 +35,25 @@ public class GroupProjectLikesImple implements GroupProjectLikesService{
 
 	 @Transactional
 	 @Override
-	 public String toggleLike(Long studentId, Integer groupProjectId) {
-		
+	 public GroupProjectLikeDto toggleLike(Long studentId, Integer groupProjectId) {
+		boolean liked;
 		 if(groupProjectLikesRepo.existsByStudent_StudentIdAndGroupProject_GroupProjectId(studentId,groupProjectId)) {
 			 groupProjectLikesRepo.deleteByStudent_StudentIdAndGroupProject_GroupProjectId(studentId,groupProjectId);
-			 return "GroupProject UnLiked";
+			 liked = false;
+		 } else {
+			 Student s= studentRepo.findById(studentId).orElseThrow(() -> new RuntimeException("Student Not Found"));
+			 GroupProject p= groupPRepo.findById(groupProjectId).orElseThrow(() -> new RuntimeException("Project Not Found"));
+			 
+			 GroupProjectLikes like = new GroupProjectLikes();
+			 like.setStudent(s);
+			 like.setGroupProject(p);
+			 groupProjectLikesRepo.save(like);
+			 
+			 liked=true;
 		 }
+		 int likeCount = (int)groupProjectLikesRepo.countByGroupProject_GroupProjectId(groupProjectId);	 
 		 
-		 GroupProjectLikes gp = new GroupProjectLikes();
-		 Student s= studentRepo.findById(studentId).orElseThrow(() -> new RuntimeException("Student Not Found"));
-		 GroupProject p= groupPRepo.findById(groupProjectId).orElseThrow(() -> new RuntimeException("Project Not Found"));
-		 
-		 gp.setStudent(s);
-		 gp.setGroupProject(p);
-		 groupProjectLikesRepo.save(gp);
-		 
-		 return "GroupProject Liked";
+		 return new GroupProjectLikeDto(liked,likeCount);
 		
 	 }
 }

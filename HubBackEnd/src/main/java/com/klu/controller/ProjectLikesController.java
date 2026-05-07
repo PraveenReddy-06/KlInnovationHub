@@ -33,9 +33,8 @@ public class ProjectLikesController {
     }
     
     @PostMapping("/toggleLike/{studentId}/{projectId}")
-    public ProjectLikeDto toggleLike(@PathVariable Long studentId,
-            @PathVariable Integer projectId) {
-	return projectLikesService.toggleLike(studentId, projectId);
+    public ProjectLikeDto toggleLike(@PathVariable Long studentId,@PathVariable Integer projectId) {
+    	return projectLikesService.toggleLike(studentId, projectId);
 	}
     
 }

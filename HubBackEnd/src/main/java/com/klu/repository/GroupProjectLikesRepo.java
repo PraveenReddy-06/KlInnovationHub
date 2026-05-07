@@ -22,4 +22,6 @@ public interface GroupProjectLikesRepo extends JpaRepository<GroupProjectLikes,I
              "ORDER BY COUNT(gpl.student_id) DESC " +
              "LIMIT 5", nativeQuery = true)
 	 List<GroupProject> getTopGroupProjects();
+
+	 int countByGroupProject_GroupProjectId(Integer groupProjectId);
 }

@@ -31,7 +31,6 @@ public class GroupProjectImple implements GroupProjectService{
 		}
 		Student s = studentRepo.findById(teamLeadId).orElseThrow(() -> new RuntimeException("Team Lead Id do not found")) ;
 		p.setTeamLead(s);
-		p.setSubmittedAt(LocalDateTime.now());
 		groupProjectRepo.save(p);
 		return "Group Project Submitted Sucessfully";
 	}
@@ -42,8 +41,7 @@ public class GroupProjectImple implements GroupProjectService{
 	}
 
 	@Override
-	public List<GroupProject> getAllProjects() {
-		
+	public List<GroupProject> getAllProjects() {	
 		return groupProjectRepo.findAll();
 	}
 

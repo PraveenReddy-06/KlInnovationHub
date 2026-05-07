@@ -13,6 +13,6 @@ public interface ProjectService {
 	List<Project> getProjectsByYear(int year);
 	List<Project> getProjectsByBranch(String bname);
 	List<Project> getProjectsByid(long id);
-	
+	List<Project> getProjectsByBranchAndYear(String branch, Integer year);
 	
 }

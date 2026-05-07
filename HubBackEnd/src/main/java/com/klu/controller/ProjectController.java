@@ -40,10 +40,14 @@ public class ProjectController {
     public List<Project> getProjectsByYear(@PathVariable Integer year) {
         return projectService.getProjectsByYear(year);
     }
-    @GetMapping("/branch/{bname}")
+    @GetMapping("/branch/{branch}")
     public List<Project> getProjectsByBranch(@PathVariable String bname) {
         return projectService.getProjectsByBranch(bname);
     }
+    public List<Project> getProjectsByBranchAndYear(@PathVariable String branch,@PathVariable Integer year) {
+    	return projectService.getProjectsByBranchAndYear(branch, year);
+	}
+    
     @GetMapping("/student/{id}")
     public List<Project> getProjectsByStudentId(@PathVariable long id) {
         return projectService.getProjectsByid(id);

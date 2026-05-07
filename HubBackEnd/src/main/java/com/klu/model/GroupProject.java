@@ -18,6 +18,7 @@ import jakarta.persistence.ManyToMany;
 import jakarta.persistence.ManyToOne;
 import jakarta.persistence.OneToMany;
 import jakarta.persistence.Table;
+import jakarta.persistence.Transient;
 import jakarta.validation.constraints.Pattern;
 import lombok.AllArgsConstructor;
 import lombok.Data;
@@ -36,36 +37,38 @@ public class GroupProject {
 	private Integer groupProjectId;
 	
 	private String project_name;
-	private LocalDateTime submittedAt;
+	/*private LocalDateTime submittedAt;*/
 	
-	@Pattern(regexp = "^(https://)?(www\\.)?github\\.com/.*$", message = "Must be a valid GitHub URL")
-	@Column(length=100, nullable = false)
-	private String github_url;
-	
-	 @Column(columnDefinition = "TEXT")
-	private String description;
-	
-	private String tech1;
-	private String tech2;
-	private String tech3;
-
-	@JsonIgnore
-	@OneToMany(mappedBy = "groupProject", cascade = CascadeType.ALL)
-	private List<GroupProjectLikes> likes;
-	
-	
-	@JsonIgnore
-	@ManyToOne
-	@JoinColumn(name="teamLead",nullable= false)
-	private Student teamLead;
-	
-	
-	
-	@JsonIgnore
 	@ManyToMany
 	@JoinTable(name = "group_project_students",joinColumns = @JoinColumn(name = "group_project_id"),inverseJoinColumns = @JoinColumn(name = "student_id"))
 	List<Student> studentList;
 	
+	 @Column(columnDefinition = "TEXT")
+	private String description;
 	
+	@Pattern(regexp = "^(https://)?(www\\.)?github\\.com/.*$", message = "Must be a valid GitHub URL")
+	@Column(length=100, nullable = false)
+	private String githubUrl;
+	
+	private String liveUrl;
+	
+
+	@OneToMany(mappedBy = "groupProject", cascade = CascadeType.ALL)
+	private List<GroupProjectLikes> likes;
+	
+	@Transient
+	public int getLikeCount() {
+	    return likes == null ? 0 : likes.size();
+	}
+	
+
+	@ManyToOne
+	@JoinColumn(name="teamLead",nullable= false)
+	private Student teamLead;
+	
+	private String choice;
+	private String tech1;
+	private String tech2;
+	private String tech3;
 
 }
