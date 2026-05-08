@@ -82,7 +82,7 @@ const SubmitProject = () => {
                 </div>
                 {projectStatus && (
                     <div>
-                        <div className="rounded bg-green-400">Project Submitted Successfully Redirecting...</div>
+                        <div className="rounded bg-green-400 px-4 py-2">Project Submitted Successfully Redirecting...</div>
                     </div>
                 )}
             </div>

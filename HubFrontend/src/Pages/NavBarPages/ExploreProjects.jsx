@@ -1,7 +1,7 @@
 import {memo,useEffect,useMemo,useState} from "react";
 import axios from "axios";
 import Navbar from "../../Components/Navbar";
-import {Search,Heart,Users,User,ChevronLeft,ChevronRight,ExternalLink} from "lucide-react";
+import {Search,Heart,Users,User,ExternalLink} from "lucide-react";
 
 const ExploreProjects = () => {
 
@@ -14,9 +14,6 @@ const ExploreProjects = () => {
   const [selectedYear,setSelectedYear] = useState("");
   const [selectedType,setSelectedType] = useState("ALL");
 
-  const [currentPage,setCurrentPage] = useState(1);
-
-  const PROJECTS_PER_PAGE = 8;
   const HARD_CODED_STUDENT_ID = 2400032662;
 
   useEffect(() => {
@@ -31,8 +28,15 @@ const ExploreProjects = () => {
         axios.get("http://localhost:8080/groupProject/all"),
       ]);
 
-      const formattedProjects = projectRes.data.map((item) => ({...item,type:"INDIVIDUAL"}));
-      const formattedGroupProjects = groupProjectRes.data.map((item) => ({...item,type:"GROUP"}));
+      const formattedProjects = projectRes.data.map((item) => {  const isLiked = item.likes?.some(
+          (like) =>  Number(like.likedStudentId) === Number(HARD_CODED_STUDENT_ID));
+        return {...item,  type: "INDIVIDUAL", isLiked: isLiked || false,};
+      });
+
+      const formattedGroupProjects = groupProjectRes.data.map((item) => {
+        const isLiked = item.likes?.some(  (like) =>  Number(like.likedStudentId) === Number(HARD_CODED_STUDENT_ID));
+        return { ...item,type: "GROUP",isLiked: isLiked || false,};
+      });
 
       setProjects(formattedProjects);
       setGroupProjects(formattedGroupProjects);
@@ -59,19 +63,22 @@ const ExploreProjects = () => {
     });
   }, [allProjects,search,selectedBranch,selectedYear,selectedType]);
 
-  const totalPages = Math.ceil(filteredProjects.length / PROJECTS_PER_PAGE);
-  const startIndex = (currentPage - 1) * PROJECTS_PER_PAGE;
-  const paginatedProjects = filteredProjects.slice(startIndex,startIndex + PROJECTS_PER_PAGE);
-
   const handleLike = async (project) => {
     try {
-      if (project.type === "INDIVIDUAL") {
-        await axios.post(`http://localhost:8080/projectLikes/toggle/${HARD_CODED_STUDENT_ID}/${project.projectId}`);
+      if(project.type === "INDIVIDUAL") {
+        const res = await axios.post(`http://localhost:8080/likes/toggleLike/${HARD_CODED_STUDENT_ID}/${project.projectId}`);
+        const {liked,likeCount} = res.data;
+        setProjects((prev) =>  prev.map((p) =>
+            p.projectId === project.projectId? {...p, isLiked: liked, likeCount: likeCount,} : p)
+        );
       } else {
-        await axios.post(`http://localhost:8080/groupProjectLikes/toggle/${HARD_CODED_STUDENT_ID}/${project.groupProjectId}`);
+        const res = await axios.post(`http://localhost:8080/grouplikes/toggleLike/${HARD_CODED_STUDENT_ID}/${project.groupProjectId}`);
+        const {liked,likeCount} = res.data;
+        setGroupProjects((prev) => prev.map((p) =>
+            p.groupProjectId === project.groupProjectId ? {...p,isLiked : liked,  likeCount: likeCount,}: p)
+        );
       }
-      fetchProjects();
-    } catch (err) {
+    } catch(err) {
       console.log(err);
     }
   };
@@ -88,13 +95,13 @@ const ExploreProjects = () => {
           <label className="text-sm font-medium">Search Projects</label>
           <div className="flex items-center border rounded mt-2 px-2">
             <Search size={18} className="text-gray-500"/>
-            <input type="text" placeholder="Search by title..." value={search} onChange={(e) => {setSearch(e.target.value);setCurrentPage(1);}} className="w-full p-2 outline-none" />
+            <input type="text" placeholder="Search by title..." value={search} onChange={(e) => setSearch(e.target.value)} className="w-full p-2 outline-none" />
           </div>
         </div>
 
         <div className="mb-5">
           <label className="text-sm font-medium">Project Type</label>
-          <select value={selectedType} onChange={(e) => {setSelectedType(e.target.value);setCurrentPage(1);}} className="w-full border rounded p-2 mt-2">
+          <select value={selectedType} onChange={(e) => setSelectedType(e.target.value)} className="w-full border rounded p-2 mt-2">
             <option value="ALL">All Projects</option>
             <option value="INDIVIDUAL">Individual Projects</option>
             <option value="GROUP">Group Projects</option>
@@ -103,28 +110,26 @@ const ExploreProjects = () => {
 
         <div className="mb-5">
           <label className="text-sm font-medium">Department</label>
-          <select value={selectedBranch} onChange={(e) => {setSelectedBranch(e.target.value);setCurrentPage(1);}} className="w-full border rounded p-2 mt-2">
+          <select value={selectedBranch} onChange={(e) => setSelectedBranch(e.target.value)} className="w-full border rounded p-2 mt-2">
             <option value="">All Departments</option>
             <option value="CSE">CSE</option>
             <option value="CSIT">CSIT</option>
             <option value="ECE">ECE</option>
-            <option value="EEE">EEE</option>
-            <option value="MECH">MECH</option>
           </select>
 
         </div>
 
         <div>
           <label className="text-sm font-medium">Year</label>
-          <select value={selectedYear} onChange={(e) => {setSelectedYear(e.target.value);setCurrentPage(1);}} className="w-full border rounded p-2 mt-2">
+          <select value={selectedYear} onChange={(e) => setSelectedYear(e.target.value)} className="w-full border rounded p-2 mt-2">
             <option value="">All Years</option>
-            <option value="2022">2021</option>              
+            <option value="2021">2021</option>              
             <option value="2022">2022</option>
             <option value="2023">2023</option>
             <option value="2024">2024</option>
             <option value="2025">2025</option>
             <option value="2026">2026</option>
-            <option value="2022">2027</option>              
+            <option value="2027">2027</option>              
           </select>
         </div>
       </div>
@@ -141,7 +146,7 @@ const ExploreProjects = () => {
         ) : (
         <>
           <div className="grid grid-cols-4 gap-5">
-            {paginatedProjects.map((project) => {
+            {filteredProjects.map((project) => {
               const isGroup = project.type === "GROUP";
 
               const title = isGroup ? project.project_name : project.projectName;
@@ -149,7 +154,7 @@ const ExploreProjects = () => {
               const ownerId = isGroup ? project.teamLead?.studentId : project.student?.studentId;
               const branch = isGroup ? project.teamLead?.branch : project.student?.branch;
               const year = isGroup ? project.teamLead?.year : project.student?.year;
-              const likes = project.likeCount || project.likes?.length || 0;
+              const likes = project.likeCount || 0;
               return (
                 <div key={`${project.type}-${project.projectId || project.groupProjectId}`} className="bg-white rounded-xl shadow hover:shadow-lg transition overflow-hidden">
                   <div className="p-4">
@@ -179,8 +184,7 @@ const ExploreProjects = () => {
                     <p className="text-sm text-gray-600 mt-3 line-clamp-3">{project.description}</p>
                     <div className="flex justify-between items-center mt-5">
                       <button onClick={() => handleLike(project)} className="flex items-center gap-1 text-sm">
-                        <Heart size={18} className="text-red-500"/>
-                        {likes} Likes
+                      <Heart size={18}  fill={project.isLiked ? "red" : "transparent"}  className={`transition ${project.isLiked? "text-red-500" : "text-gray-400"  }`}/>                        {likes} Likes
                       </button>
                       {isGroup ? (
                         <div className="flex items-center gap-1 text-sm text-gray-600"><Users size={16}/>Team</div>
@@ -202,18 +206,6 @@ const ExploreProjects = () => {
 
           {filteredProjects.length === 0 && (
             <div className="bg-white rounded-lg p-10 text-center mt-10">No Projects Found</div>
-          )}
-
-          {filteredProjects.length > 0 && (
-            <div className="flex justify-center items-center gap-3 mt-8">
-              <button disabled={currentPage === 1} onClick={() => setCurrentPage((prev) => prev - 1)} className="border p-2 rounded disabled:opacity-40" >
-                <ChevronLeft size={18}/>
-              </button>
-              <span className="font-medium">Page {currentPage} of {totalPages}</span>
-              <button  disabled={currentPage === totalPages}   onClick={() => setCurrentPage((prev) => prev + 1)}  className="border p-2 rounded disabled:opacity-40">
-                <ChevronRight size={18}/>
-              </button>
-            </div>
           )}
         </>
         )}

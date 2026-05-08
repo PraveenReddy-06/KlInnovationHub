@@ -50,7 +50,7 @@ const SignUp = () => {
     const navigate = useNavigate()
     const handleLoginIn = (e) => {
         e.preventDefault()
-        if(check==="Verified You Can LoginIn Now"){
+        if(check==="Verified You Can SignIn Now"){
         navigate("/login")
         }
     }
@@ -96,7 +96,7 @@ const SignUp = () => {
                             <input className="bg-gray-200 p-2" onChange={handleOtp} value={verify.otp} placeholder='Enter Otp' />
                             <button className="bg-red-500 active:scale-95 rounded-2xl p-2 text-white" type="button" onClick={handleVerify} disabled={!verify.otp}>Verify Otp</button>
                         </div>
-                        {check==="Verified You Can SignIn Now" && (<a href="/Login" className="bg-red-500 active:scale-95 rounded-2xl p-2 text-white">Login</a>)}
+                        {check==="Verified You Can SignIn Now" && (<a href="/login" className="bg-red-500 active:scale-95 rounded-2xl p-2 text-white">Login</a>)}
                     </div>
                 </form>
             </div>

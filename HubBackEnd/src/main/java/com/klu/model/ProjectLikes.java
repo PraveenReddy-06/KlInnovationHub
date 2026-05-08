@@ -9,6 +9,7 @@ import jakarta.persistence.Id;
 import jakarta.persistence.JoinColumn;
 import jakarta.persistence.ManyToOne;
 import jakarta.persistence.Table;
+import jakarta.persistence.Transient;
 import jakarta.persistence.UniqueConstraint;
 import lombok.AllArgsConstructor;
 import lombok.Data;
@@ -34,5 +35,10 @@ public class ProjectLikes {
     @ManyToOne
     @JoinColumn(name = "project_id", nullable = false)
     private Project project;
+    
+    @Transient
+    public Long getLikedStudentId() {
+        return student.getStudentId();
+    }
 
 }

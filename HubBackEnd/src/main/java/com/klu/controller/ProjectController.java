@@ -44,6 +44,8 @@ public class ProjectController {
     public List<Project> getProjectsByBranch(@PathVariable String bname) {
         return projectService.getProjectsByBranch(bname);
     }
+    
+    @GetMapping("/branch/{branch}/year/{year}")
     public List<Project> getProjectsByBranchAndYear(@PathVariable String branch,@PathVariable Integer year) {
     	return projectService.getProjectsByBranchAndYear(branch, year);
 	}

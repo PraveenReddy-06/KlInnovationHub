@@ -27,6 +27,8 @@ public class StudentImple implements StudentService{
 			s.setBranch("CSIT");
 		}else if((email.substring(2,6)).equals("0004")) {
 			s.setBranch("ECE");
+		}else {
+			return "OOPS! this is for CSE,ECE and CSIT students ";
 		}
 		studentRepo.save(s);
 		

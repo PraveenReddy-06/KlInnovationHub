@@ -1,10 +1,4 @@
 import { memo } from 'react';
-import Login from '../Pages/SignUpLogin/Login';
-import SignUp from '../Pages/SignUpLogin/SignUp';
-import LandingPage from '../Pages/Main/LandingPage';
-import SubmitProject from '../Pages/NavBarPages/SubmitProject';
-import Leaderboard from '../Pages/NavBarPages/Leaderboard';
-import ExploreProjects from '../Pages/NavBarPages/ExploreProjects';
 
 const Navbar = () => {
   return (
@@ -12,15 +6,16 @@ const Navbar = () => {
 
       <a href="/LandingPage">Logo</a>
       <ul className="flex items-center gap-8">
-        <li><a href="/ExploreProjects">Explore Projects</a></li>
-        <li><a href="/LeaderBoard">LeaderBoard</a></li>
+        <li><a href="/dashboard">Dashboard</a></li>
+        <li><a href="/exploreProjects">Explore Projects</a></li>
+        <li><a href="/leaderBoard">LeaderBoard</a></li>
         <li><a href="">Form A Team</a></li>
-        <li><a href="/SubmitProject">Submit Project</a></li>
+        <li><a href="/submitProject">Submit Project</a></li>
         <li><a href="">Guide</a></li>
       </ul>
       <div className="flex px-5 items-center">
-          <a href="/Login">Login/</a>
-          <a href="/Signup">SignIn</a>
+          <a href="/login">Login/</a>
+          <a href="/signup">SignIn</a>
         </div>
     </div>
   );

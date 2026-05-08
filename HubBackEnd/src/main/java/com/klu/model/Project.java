@@ -39,7 +39,6 @@ public class Project {
 	@JoinColumn(name="studentId", nullable = false)
 	private Student student;
 	
-	@JsonIgnore
 	@OneToMany(mappedBy = "project", cascade = CascadeType.ALL)
 	private List<ProjectLikes> likes;
 	
