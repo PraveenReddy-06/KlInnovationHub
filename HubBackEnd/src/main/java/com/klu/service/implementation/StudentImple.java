@@ -15,6 +15,7 @@ public class StudentImple implements StudentService{
 		
 	@Override
 	public String CreateStudentByEmail(String email,String name) {
+		
 		Student s = new Student();
 		
 		s.setStudentId(Long.parseLong(email.substring(0,10)));
@@ -28,7 +29,7 @@ public class StudentImple implements StudentService{
 		}else if((email.substring(2,6)).equals("0004")) {
 			s.setBranch("ECE");
 		}else {
-			return "OOPS! this is for CSE,ECE and CSIT students ";
+			throw new RuntimeException("Only CSE, CSIT and ECE students are allowed");
 		}
 		studentRepo.save(s);
 		

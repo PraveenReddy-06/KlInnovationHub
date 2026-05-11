@@ -2,12 +2,11 @@ import { memo,useState } from 'react';
 import Navbar from "../../Components/Navbar";
 import axios from "axios";
 import background from "../../Images/dashboardBg.png";
-import Dashboard from '../Main/Dashboard';
 import { useNavigate } from "react-router-dom";
-
 
 const SubmitProject = () => {
     const studentId = JSON.parse(localStorage.getItem("studentId"))
+    const student =JSON.parse(localStorage.getItem("student"))
     const[project,SetProject] = useState({projectName:"",choice:"",tech1:"",tech2:"",tech3:"",description:"",githubUrl:"",liveUrl:""})
 
     const handleChange = (e) => {
@@ -49,10 +48,10 @@ const SubmitProject = () => {
                 <h2 className="font-semibold text-lg">Student Info</h2>
                 <div>Profile Pic</div>
                 <div className="flex flex-col gap-2 p-2">
-                    <div className="rounded p-2  bg-blue-300">Student Name </div>
-                    <div className="rounded p-2  bg-blue-300">Student Id </div>
-                    <div className="rounded p-2  bg-blue-300">Student year</div>
-                    <div className="rounded p-2  bg-blue-300">Student branch</div>
+                    <div className="rounded p-2  bg-blue-300">{student.student_name}</div>
+                    <div className="rounded p-2  bg-blue-300">{studentId}</div>
+                    <div className="rounded p-2  bg-blue-300">{student.year}</div>
+                    <div className="rounded p-2  bg-blue-300">{student.branch}</div>
                 </div>
             </div>
 

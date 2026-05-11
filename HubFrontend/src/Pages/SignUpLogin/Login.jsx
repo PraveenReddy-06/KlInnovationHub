@@ -17,7 +17,7 @@ const Login = () => {
       const res = await axios.post(`http://localhost:8080/mail/login`,login)
       if(res.data.message==="Welcome To DashBoard"){
         localStorage.setItem("studentId",res.data.studentId)
-        localStorage.setItem("student",res.data.student)
+        localStorage.setItem("student", JSON.stringify(res.data.student))
         navigate("/dashboard")
       }else {
         setError(res.data.message);

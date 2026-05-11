@@ -9,6 +9,7 @@ import TopProjectCard from "./Components/TopProjectCard";
 import SubmitProject from "./Pages/NavBarPages/SubmitProject";
 import Leaderboard from "./Pages/NavBarPages/Leaderboard";
 import ExploreProjects from "./Pages/NavBarPages/ExploreProjects";
+import Profile from "./Pages/Main/Profile";
 
 function App() {
 
@@ -25,6 +26,7 @@ function App() {
         <Route path="/submitProject" element={< SubmitProject/>} />
         <Route path="/leaderBoard" element={< Leaderboard/>}/>
         <Route path="/exploreProjects" element={<ExploreProjects/>}/>
+        <Route path="/profile" element={<Profile/>}/>
       </Routes>
     </BrowserRouter>
   )

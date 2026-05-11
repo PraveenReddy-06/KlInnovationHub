@@ -47,7 +47,6 @@ const ExploreProjects = () => {
   };
 
   const allProjects = [...projects,...groupProjects];
-
   const filteredProjects = useMemo(() => {
     return allProjects.filter((project) => {
       const isGroup = project.type === "GROUP";

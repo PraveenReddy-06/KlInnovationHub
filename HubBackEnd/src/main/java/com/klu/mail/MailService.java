@@ -66,23 +66,22 @@ public class MailService {
 	}
 
 	public String verifyOtp(String mail,int recOtp) {
-		
-		UserSignUp recMail = repo.findByMail(mail).orElseThrow(() -> new RuntimeException("Mail Not Found"));
-		LocalDateTime time = recMail.getOtpTimeOut();
-		LocalDateTime verifyTime = LocalDateTime.now();
-		
-		if(time.plusMinutes(3).isBefore(verifyTime)) {
-			return "Otp Request TimeOut";
-		}
-		
-		if(recMail.getOtp()==recOtp) {
-			recMail.setVerified(true);
-			repo.save(recMail);
-			studentService.CreateStudentByEmail(recMail.getMail(),recMail.getName());
-			return "Verified You Can SignIn Now";
-		}
-		
-		return "Invalid Otp";
+	    UserSignUp recMail = repo.findByMail(mail).orElseThrow(() -> new RuntimeException("Mail Not Found")); 
+	    LocalDateTime time = recMail.getOtpTimeOut();
+	    if(time.plusMinutes(3).isBefore(LocalDateTime.now())) {
+	        return "Otp Request TimeOut";
+	    }
+	    if(recMail.getOtp() != recOtp) {
+	        return "Invalid Otp";
+	    }
+	    try {
+	        studentService.CreateStudentByEmail(recMail.getMail(),recMail.getName());
+	        recMail.setVerified(true);
+	        repo.save(recMail);
+	        return "Verified You Can SignIn Now";
+	    }catch(RuntimeException e) {
+	        return e.getMessage();
+	    }
 	}
 	
 	public LoginRequestDto login(Login req) {
