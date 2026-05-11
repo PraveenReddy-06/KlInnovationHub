@@ -25,11 +25,11 @@ const SignUp = () => {
         e.preventDefault()
         if(confirmPassword===form.password){
             const res = await axios.post(`http://localhost:8080/mail/generateOtp`,form)
-            alert(res.data)
+            setResponse(res.data)
             setTimer(180);
             setOtpSent(true)
         }else {
-            alert("Enter same passwords");
+            setError("Enter same passwords");
         }
     }
     
@@ -44,7 +44,7 @@ const SignUp = () => {
        e.preventDefault()
        const res = await axios.post(`http://localhost:8080/mail/verifyOtp`,verify)
        setCheck(res.data)
-       alert(res.data)
+       setResponse(res.data)
     }
 
     const navigate = useNavigate()
@@ -54,17 +54,23 @@ const SignUp = () => {
         navigate("/login")
         }
     }
-
+    const [error,setError] = useState("");
+    const [response,setResponse] = useState("");
     const handleResend = async (e) => {
         e.preventDefault()
-        const res = await axios.post(`http://localhost:8080/mail/resend/${form.mail}`)
-        alert(res.data)
-        setTimer(180);
+        try {
+            const res = await axios.post(`http://localhost:8080/mail/resend/${form.mail}`)
+            setResponse(res.data)
+            setTimer(180);
+        }catch(e){
+            setError(e);
+        }
     }
 
     const[confirmPassword,setConfirmPassword] = useState("");
     const handleConfirmPassword = (e) => {
         setConfirmPassword(e.target.value);
+        setError("")
     }
 
   return (
@@ -89,11 +95,11 @@ const SignUp = () => {
                                 {otpSent? "Resend Otp":"Send Otp"}
                             </button>
                                 ) : (
-                            <button
-                                className="bg-red-500 rounded-2xl p-2" disabled> Resend in {timer}s
-                            </button>
+                            <button className="bg-red-500 rounded-2xl p-2" disabled> Resend in {timer}s </button>
                             )}
+                            {response && (<p className="text-red-200 text-sm font-medium w-75">{response}</p>) }
                             <input className="bg-gray-200 p-2" onChange={handleOtp} value={verify.otp} placeholder='Enter Otp' />
+                                {error && (<p className="text-red-200 text-sm font-medium w-75">{error}</p>)}
                             <button className="bg-red-500 active:scale-95 rounded-2xl p-2 text-white" type="button" onClick={handleVerify} disabled={!verify.otp}>Verify Otp</button>
                         </div>
                         {check==="Verified You Can SignIn Now" && (<a href="/login" className="bg-red-500 active:scale-95 rounded-2xl p-2 text-white">Login</a>)}

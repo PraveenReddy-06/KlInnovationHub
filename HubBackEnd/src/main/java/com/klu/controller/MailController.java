@@ -8,6 +8,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.klu.dto.LoginRequestDto;
 import com.klu.dto.SignUpFormDto;
 import com.klu.dto.VerifyOtpDto;
 import com.klu.mail.Login;
@@ -37,7 +38,7 @@ public class MailController {
 	}
 	
 	@PostMapping("/login")
-	public String login(@RequestBody Login req) {
+	public LoginRequestDto login(@RequestBody Login req) {
 		return service.login(req);
 	}
 	

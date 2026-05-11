@@ -7,6 +7,9 @@ import org.springframework.mail.SimpleMailMessage;
 import org.springframework.mail.javamail.JavaMailSender;
 import org.springframework.stereotype.Service;
 
+import com.klu.dto.LoginRequestDto;
+import com.klu.model.Student;
+import com.klu.repository.StudentRepo;
 import com.klu.service.implementation.StudentImple;
 
 @Service
@@ -20,6 +23,9 @@ public class MailService {
 	
 	@Autowired
 	private StudentImple studentService;
+	
+	@Autowired
+	private StudentRepo studentRepo;
 	
 	public String generateOtp(String name,String toMail,String password) {
 		
@@ -79,24 +85,35 @@ public class MailService {
 		return "Invalid Otp";
 	}
 	
-	public String login(Login req) {
-		UserSignUp recMail = repo.findByMail(req.getMail()).orElseThrow(() -> new RuntimeException("Mail Not Found"));
+	public LoginRequestDto login(Login req) {
+		UserSignUp recMail = repo.findByMail(req.getMail()).orElse(null);
+		
+		if(recMail==null) {
+			return new LoginRequestDto("Mail Not Found",null,null,null);
+		}
 		
 		if (!recMail.getMail().endsWith("@kluniversity.in")) {
-		    return "Use valid university email";
+			
+		    return new LoginRequestDto("Use valid university email",null,null,null);
 		}
 		if (!recMail.isVerified()) {
-	        return "Please verify email first";
+	        return new LoginRequestDto("Please verify email first",null,null,null);
 	    }
 		if(!recMail.getPassword().equals(req.getPassword())) {
-			return "Incorrect PassWord";
+			return new LoginRequestDto("Incorrect PassWord",null,null,null);
 		}
-		return "Welcome To DashBoard";
+		
+		Student s = studentRepo.findByStudentEmail(recMail.getMail());
+		return new LoginRequestDto("Welcome To DashBoard",s,s.getStudentId(),s.getStudentEmail());
 	}
 
 	public String reSend(String mail) {
 		
-		UserSignUp recMail = repo.findByMail(mail).orElseThrow(() -> new RuntimeException("Mail Not Found"));
+		UserSignUp recMail = repo.findByMail(mail).orElse(null);
+		
+		if(recMail==null) {
+			return "Mail Not Found";
+		}
 		
 		if (!recMail.getMail().endsWith("@kluniversity.in")) {
 		    return "Use valid university email";

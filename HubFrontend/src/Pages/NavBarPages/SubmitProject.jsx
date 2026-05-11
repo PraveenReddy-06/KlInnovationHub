@@ -7,7 +7,7 @@ import { useNavigate } from "react-router-dom";
 
 
 const SubmitProject = () => {
-    const id = 2400032662;
+    const studentId = JSON.parse(localStorage.getItem("studentId"))
     const[project,SetProject] = useState({projectName:"",choice:"",tech1:"",tech2:"",tech3:"",description:"",githubUrl:"",liveUrl:""})
 
     const handleChange = (e) => {
@@ -18,7 +18,7 @@ const SubmitProject = () => {
     const navigate = useNavigate();
     const handleSubmit = async () => {
         try {
-            const res = await axios.post(`http://localhost:8080/project/submit/${id}`,project);
+            const res = await axios.post(`http://localhost:8080/project/submit/${studentId}`,project);
             console.log(res.data);
             if (res.data === "Project Submitted Sucessfully") {
                 setProjectStatus(true);

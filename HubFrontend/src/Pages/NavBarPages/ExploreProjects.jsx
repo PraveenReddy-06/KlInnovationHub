@@ -14,7 +14,7 @@ const ExploreProjects = () => {
   const [selectedYear,setSelectedYear] = useState("");
   const [selectedType,setSelectedType] = useState("ALL");
 
-  const HARD_CODED_STUDENT_ID = 2400032662;
+  const studentId = JSON.parse(localStorage.getItem("studentId"));
 
   useEffect(() => {
     fetchProjects();
@@ -29,12 +29,12 @@ const ExploreProjects = () => {
       ]);
 
       const formattedProjects = projectRes.data.map((item) => {  const isLiked = item.likes?.some(
-          (like) =>  Number(like.likedStudentId) === Number(HARD_CODED_STUDENT_ID));
+          (like) =>  Number(like.likedStudentId) === Number(studentId));
         return {...item,  type: "INDIVIDUAL", isLiked: isLiked || false,};
       });
 
       const formattedGroupProjects = groupProjectRes.data.map((item) => {
-        const isLiked = item.likes?.some(  (like) =>  Number(like.likedStudentId) === Number(HARD_CODED_STUDENT_ID));
+        const isLiked = item.likes?.some(  (like) =>  Number(like.likedStudentId) === Number(studentId));
         return { ...item,type: "GROUP",isLiked: isLiked || false,};
       });
 
@@ -66,13 +66,13 @@ const ExploreProjects = () => {
   const handleLike = async (project) => {
     try {
       if(project.type === "INDIVIDUAL") {
-        const res = await axios.post(`http://localhost:8080/likes/toggleLike/${HARD_CODED_STUDENT_ID}/${project.projectId}`);
+        const res = await axios.post(`http://localhost:8080/likes/toggleLike/${studentId}/${project.projectId}`);
         const {liked,likeCount} = res.data;
         setProjects((prev) =>  prev.map((p) =>
             p.projectId === project.projectId? {...p, isLiked: liked, likeCount: likeCount,} : p)
         );
       } else {
-        const res = await axios.post(`http://localhost:8080/grouplikes/toggleLike/${HARD_CODED_STUDENT_ID}/${project.groupProjectId}`);
+        const res = await axios.post(`http://localhost:8080/grouplikes/toggleLike/${studentId}/${project.groupProjectId}`);
         const {liked,likeCount} = res.data;
         setGroupProjects((prev) => prev.map((p) =>
             p.groupProjectId === project.groupProjectId ? {...p,isLiked : liked,  likeCount: likeCount,}: p)
@@ -184,7 +184,7 @@ const ExploreProjects = () => {
                     <p className="text-sm text-gray-600 mt-3 line-clamp-3">{project.description}</p>
                     <div className="flex justify-between items-center mt-5">
                       <button onClick={() => handleLike(project)} className="flex items-center gap-1 text-sm">
-                      <Heart size={18}  fill={project.isLiked ? "red" : "transparent"}  className={`transition ${project.isLiked? "text-red-500" : "text-gray-400"  }`}/>                        {likes} Likes
+                      <Heart size={18}  fill={project.isLiked ? "red" : "transparent"}  className={`transition ${project.isLiked? "text-red-500" : "text-gray-400"  }`}/>{likes} Likes
                       </button>
                       {isGroup ? (
                         <div className="flex items-center gap-1 text-sm text-gray-600"><Users size={16}/>Team</div>

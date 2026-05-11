@@ -9,7 +9,7 @@ import CSITCard from "../Images/CSITCard.png";
 
 const Card = ({ project }) => {
 
-  const studentId = 2400032662;
+  const studentId = JSON.parse(localStorage.getItem("studentId"))
 
   const [liked, setLiked] = useState(false);
   const [like, setLike] = useState(project.likeCount);
