@@ -9,41 +9,45 @@ import CSITCard from "../Images/CSITCard.png";
 
 const Card = ({ project }) => {
 
-  const studentId = JSON.parse(localStorage.getItem("studentId"))
-
-  const [liked, setLiked] = useState(
-    project.likes?.some((like) => like.likedStudentId === studentId)
-  );
-
-  const [like, setLike] = useState(project.likeCount);
-
+  const studentId = Number(localStorage.getItem("studentId"))
+  const [liked, setLiked] = useState(project.likes?.some((like) =>Number(like.likedStudentId) === Number(studentId)) || false);
+  const [like, setLike] = useState(project.likeCount || 0);
   const handleLike = async () => {
     try {
-      const res = await axios.post(`http://localhost:8080/likes/toggleLike/${studentId}/${project.projectId}`);
+      const isGroup = project.type === "GROUP";
+      const url = isGroup
+        ? `http://localhost:8080/grouplikes/toggleLike/${studentId}/${project.groupProjectId}`
+        : `http://localhost:8080/likes/toggleLike/${studentId}/${project.projectId}`;
+      const res = await axios.post(url);
       setLiked(res.data.liked);
       setLike(res.data.likeCount);
-
-    } catch (err) {
-      console.error(err);
-    }
+    } catch (err) { console.error(err);}
   };
 
   const bgMap = { cse: CSECard, ece: ECECard, csit: CSITCard};
-
-  const bg = bgMap[project.student?.branch?.toLowerCase()] || CSITCard;
+  const bg = bgMap[project.branch?.toLowerCase()] || CSITCard;
 
   return (
     <div className="relative flex flex-col w-full p-3 rounded-xl bg-cover bg-center text-white" style={{ backgroundImage: `url(${bg})` }}>
       <div className="absolute inset-0 bg-black/40 rounded-xl"></div>
 
       <div className="relative z-10">
-        <h2 className="font-bold pb-1">{project.projectName}</h2>
+        <h2 className="font-bold pb-1">{project.title}</h2>
 
         <div className="flex gap-3">
           <p>Profile</p>
           <div>
-            <p>{project.student?.student_name} . {project.student?.studentId}</p>
-            <p>{project.tech1} {project.tech2}</p>
+            <p>{project.ownerName} . {project.ownerId}</p>
+            {project.type === "GROUP" && project.studentList?.length > 0 && (
+              <div className="flex flex-wrap gap-1 mt-2">{
+                project.studentList?.filter((student) =>student.studentId !== project.ownerId).map((student) => 
+                (<span key={student.studentId}className="text-xs bg-white/20 px-2 py-1 rounded">
+                    {student.student_name}
+                  </span>
+                ))}
+              </div>
+            )}
+            <p>{project.tech1} {project.tech2}{project.tech3}</p>
           </div>
         </div>
 

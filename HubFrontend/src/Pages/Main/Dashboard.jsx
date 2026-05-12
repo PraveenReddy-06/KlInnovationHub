@@ -7,34 +7,77 @@ import TopProjectCard from '../../Components/TopProjectCard';
 
 const Dashboard = () => {
   const[projects,setProjects] = useState([])
+  const[groupProjects,setGroupProjects] = useState([])
   const[topProjects,setTopProjects] = useState([])
   const [search, setSearch] = useState("");
 
   useEffect(() => {
     const projectCard = async () => {
-      const res = await axios.get("http://localhost:8080/project/latest");
-      setProjects(res.data);
-      console.log(res.data);
-    }
-    const TopProject = async () => {
-      const res = await axios.get("http://localhost:8080/likes/top");
-      setTopProjects(res.data);
-      console.log(res.data)
+      const[projectsRes,groupProjectsRes] = await Promise.all([axios.get("http://localhost:8080/project/latest")
+      ,axios.get("http://localhost:8080/groupProject/latest"),]);
+      
+      const formattedProjects = projectsRes.data.map((item) => {
+        return {...item,type: "INDIVIDUAL",title: item.projectName,
+          ownerName: item.student?.student_name,
+          ownerId: item.student?.studentId,
+          branch: item.student?.branch,
+          year: item.student?.year,
+          projectKey: item.projectId};
+        });
+      const formattedGroupProjects = groupProjectsRes.data.map((item) => {
+        return {...item,type: "GROUP",
+          title: item.project_name,
+          ownerName: item.teamLead?.student_name,
+          ownerId: item.teamLead?.studentId,
+          branch: item.teamLead?.branch,
+          year: item.teamLead?.year,
+          projectKey: item.groupProjectId};
+        });
+      setProjects(formattedProjects);
+      setGroupProjects(formattedGroupProjects);
+      console.log(formattedProjects);
+      console.log(formattedGroupProjects);
     }
 
+    const TopProject = async () => {
+      const[topProjectsRes,topGroupProjectsRes] = await Promise.all([axios.get("http://localhost:8080/likes/top")
+        ,axios.get("http://localhost:8080/grouplikes/top")
+      ])
+      const formattedTopProjects = topProjectsRes.data.map((item) => {
+        return {...item,type: "INDIVIDUAL",title: item.projectName,
+          ownerName: item.student?.student_name,
+          ownerId: item.student?.studentId,
+          branch: item.student?.branch,
+          year: item.student?.year,
+          projectKey: item.projectId};
+        });
+      const formattedTopGroupProjects = topGroupProjectsRes.data.map((item) => {
+        return {...item,type: "GROUP",
+          title: item.project_name,
+          ownerName: item.teamLead?.student_name,
+          ownerId: item.teamLead?.studentId,
+          branch: item.teamLead?.branch,
+          year: item.teamLead?.year,
+          projectKey: item.groupProjectId};
+        });
+      setTopProjects([...formattedTopProjects,...formattedTopGroupProjects]);
+      console.log(topProjects)
+    }
     projectCard();
     TopProject();
   },[])
 
   const filterFn = (p) => {
+    const teamMembers =p.studentList?.map((s) => s.student_name).join(" ") || "";
     return (
-      p.projectName?.toLowerCase().includes(search.toLowerCase()) ||
-      p.student?.student_name?.toLowerCase().includes(search.toLowerCase()) ||
-      p.tech1?.toLowerCase().includes(search.toLowerCase()) ||
-      p.tech2?.toLowerCase().includes(search.toLowerCase())
-    );
+      p.title?.toLowerCase().includes(search.toLowerCase()) 
+    ||p.ownerName?.toLowerCase().includes(search.toLowerCase()) 
+    ||teamMembers?.toLowerCase().includes(search.toLowerCase()) 
+    ||p.tech1?.toLowerCase().includes(search.toLowerCase()) 
+    ||p.tech2?.toLowerCase().includes(search.toLowerCase()) 
+    ||p.tech3?.toLowerCase().includes(search.toLowerCase()));
   };
-  const filteredProjects = projects.filter(filterFn);
+  const filteredProjects = [...projects,...groupProjects].filter(filterFn);
   const filteredTopProjects = topProjects.filter(filterFn);
 
 
@@ -62,7 +105,7 @@ const Dashboard = () => {
         <div className="text-xl pb-2">Latest Projects</div>
         <div className="flex gap-5 overflow-x-auto snap-x snap-proximity px-5 no-scrollbar">
           {filteredProjects.map((project) => (
-            <div key={project.projectId} className="min-w-[33.33%] snap-start">
+            <div key={`${project.type}-${project.projectKey}`} className="min-w-[33.33%] snap-start">
               <Card project={project} />
             </div>
           ))}
@@ -78,7 +121,7 @@ const Dashboard = () => {
 
         <div className="flex flex-col gap-5">
           {filteredTopProjects.map((project) => (
-            <div key={project.projectId}>
+            <div key={`${project.type}-${project.projectKey}`}>
               <TopProjectCard project={project} />
             </div>
           ))}

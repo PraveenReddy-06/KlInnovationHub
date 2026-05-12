@@ -23,13 +23,11 @@ const ExploreProjects = () => {
   const fetchProjects = async () => {
     try {
       setLoading(true);
-      const [projectRes,groupProjectRes] = await Promise.all([
-        axios.get("http://localhost:8080/project/all"),
-        axios.get("http://localhost:8080/groupProject/all"),
-      ]);
+      const [projectRes,groupProjectRes] = await Promise.all([axios.get("http://localhost:8080/project/all"),
+        axios.get("http://localhost:8080/groupProject/all"),]);
 
-      const formattedProjects = projectRes.data.map((item) => {  const isLiked = item.likes?.some(
-          (like) =>  Number(like.likedStudentId) === Number(studentId));
+      const formattedProjects = projectRes.data.map((item) => {  
+        const isLiked = item.likes?.some((like) =>  Number(like.likedStudentId) === Number(studentId));
         return {...item,  type: "INDIVIDUAL", isLiked: isLiked || false,};
       });
 
@@ -50,6 +48,7 @@ const ExploreProjects = () => {
   const filteredProjects = useMemo(() => {
     return allProjects.filter((project) => {
       const isGroup = project.type === "GROUP";
+      
       const title = isGroup ? project.project_name?.toLowerCase() : project.projectName?.toLowerCase();
       const branch = isGroup ? project.teamLead?.branch : project.student?.branch;
       const year = isGroup ? project.teamLead?.year : project.student?.year;
