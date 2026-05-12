@@ -6,7 +6,11 @@ const TopProjectCard = ({project}) => {
 
   const studentId = JSON.parse(localStorage.getItem("studentId"))
 
-  const [liked, setLiked] = useState(false);
+  const [liked, setLiked] = useState(
+  project.likes?.some(
+    (like) => like.likedStudentId === studentId
+  )
+);
   const [like, setLike] = useState(project.likeCount);
 
   const handleLike = async () => {
@@ -34,9 +38,9 @@ const TopProjectCard = ({project}) => {
       </div>
 
 
-    <div className="flex gap-10 justify-end items-end">
+    <div className="flex gap-5 justify-end items-end">
       <button onClick={handleLike} className="flex items-center gap-1 active:scale-95">
-        <FaHeart className={liked ? "text-red-500" : "text-gray-300"} size={25} />
+        <FaHeart className={liked ? "text-red-500" : "text-gray-300"} size={20} />
         <span> {like}</span>
         Likes
       </button>
@@ -44,6 +48,7 @@ const TopProjectCard = ({project}) => {
       <a className="hover:scale-110 transition" href={project.githubUrl} target="_blank" rel="noopener noreferrer">
         <FaGithub size={30} />
       </a>
+      <a href="project.liveUrl">Go.Live</a>
     </div>
     </div>
   );

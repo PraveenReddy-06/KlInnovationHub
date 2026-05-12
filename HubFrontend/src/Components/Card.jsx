@@ -11,7 +11,10 @@ const Card = ({ project }) => {
 
   const studentId = JSON.parse(localStorage.getItem("studentId"))
 
-  const [liked, setLiked] = useState(false);
+  const [liked, setLiked] = useState(
+    project.likes?.some((like) => like.likedStudentId === studentId)
+  );
+
   const [like, setLike] = useState(project.likeCount);
 
   const handleLike = async () => {
@@ -53,6 +56,8 @@ const Card = ({ project }) => {
           <a className="hover:scale-110 transition" href={project.githubUrl} target="_blank" rel="noopener noreferrer">
             <FaGithub size={22} />
           </a>
+
+          <a href={project.liveUrl}>.Live</a>
         </div>
       </div>
     </div>

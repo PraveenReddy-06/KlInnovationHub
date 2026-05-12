@@ -14,10 +14,12 @@ const Dashboard = () => {
     const projectCard = async () => {
       const res = await axios.get("http://localhost:8080/project/latest");
       setProjects(res.data);
+      console.log(res.data);
     }
     const TopProject = async () => {
       const res = await axios.get("http://localhost:8080/likes/top");
       setTopProjects(res.data);
+      console.log(res.data)
     }
 
     projectCard();

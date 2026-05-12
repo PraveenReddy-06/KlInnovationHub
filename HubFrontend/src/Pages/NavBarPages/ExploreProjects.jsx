@@ -34,7 +34,7 @@ const ExploreProjects = () => {
       });
 
       const formattedGroupProjects = groupProjectRes.data.map((item) => {
-        const isLiked = item.likes?.some(  (like) =>  Number(like.likedStudentId) === Number(studentId));
+        const isLiked = item.likes?.some((like) =>  Number(like.likedStudentId) === Number(studentId));
         return { ...item,type: "GROUP",isLiked: isLiked || false,};
       });
 
@@ -159,10 +159,24 @@ const ExploreProjects = () => {
                   <div className="p-4">
                     <div className="flex items-start gap-3">
                       <div className="w-12 h-12 rounded-full bg-blue-500 text-white flex items-center justify-center font-bold text-lg">{ownerName?.charAt(0)}</div>
-                      <div>
-                        <h2 className="font-semibold text-lg line-clamp-1">{ownerName}</h2>
-                        <p className="text-xs text-gray-500">ID {ownerId}</p>
-                      </div>
+                      {isGroup ? (
+                        <div>
+                          <h2 className="font-semibold text-lg line-clamp-1">{ownerName}</h2>
+                          <p className="text-xs ">Lead ID {ownerId}</p>
+                          <div className="mt-2 flex flex-wrap gap-1">
+                            {project.studentList?.map((student) => (
+                              <span key={student.studentId} className="text-xs">
+                                {student.student_name} . {student.studentId}
+                              </span>
+                            ))}
+                          </div>
+                        </div>                       
+                      ):(
+                        <div>
+                          <h2 className="font-semibold text-lg line-clamp-1">{ownerName}</h2>
+                          <p className="text-xs text-gray-500">ID {ownerId}</p>
+                        </div>
+                      )}
                     </div>
                     <h3 className="mt-4 font-semibold text-[15px] line-clamp-2 min-h-[48px]">{title}</h3>
                     <div className="flex flex-wrap gap-2 mt-3">
@@ -194,7 +208,7 @@ const ExploreProjects = () => {
                     </div>
 
                     <div className="flex gap-2 mt-4">
-                      <button className="flex-1 bg-blue-600 hover:bg-blue-700 text-white py-2 rounded text-sm">View Project</button>
+                      <a href={project.liveUrl} className="flex-1 bg-blue-600 hover:bg-blue-700 text-white py-2 rounded text-sm">View Project</a>
                       <a href={project.githubUrl} target="_blank" rel="noreferrer" className="border px-3 rounded flex items-center justify-center hover:bg-gray-100"><ExternalLink size={18}/></a>
                     </div>
                   </div>
