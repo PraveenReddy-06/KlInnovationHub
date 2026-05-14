@@ -17,7 +17,7 @@ public interface ProjectRepo extends JpaRepository<Project,Integer>{
 
 	List<Project> findByStudentStudentId(long id);
 
-	List<Project> findTop10ByOrderByProjectIdDesc();
+	List<Project> findTop5ByOrderByProjectIdDesc();
 
 	List<Project> findByStudentBranchAndStudentYear(String branch, Integer year);
 	

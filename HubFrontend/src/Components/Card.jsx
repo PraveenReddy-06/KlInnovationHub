@@ -5,8 +5,6 @@ import CSECard from "../Images/CSECard.png";
 import ECECard from "../Images/ECECard.png";
 import CSITCard from "../Images/CSITCard.png";
 
-
-
 const Card = ({ project }) => {
 
   const studentId = Number(localStorage.getItem("studentId"))
@@ -28,11 +26,11 @@ const Card = ({ project }) => {
   const bg = bgMap[project.branch?.toLowerCase()] || CSITCard;
 
   return (
-    <div className="relative flex flex-col w-full p-3 rounded-xl bg-cover bg-center text-white" style={{ backgroundImage: `url(${bg})` }}>
+    <div className="relative flex flex-col w-full h-full p-4 rounded-2xl overflow-hidden bg-cover bg-center text-white" style={{ backgroundImage: `url(${bg})` }}>
       <div className="absolute inset-0 bg-black/40 rounded-xl"></div>
 
       <div className="relative z-10">
-        <h2 className="font-bold pb-1">{project.title}</h2>
+        <h2 className="font-bold pb-1 truncate text-xl">{project.title}</h2>
 
         <div className="flex gap-3">
           <p>Profile</p>
@@ -47,7 +45,7 @@ const Card = ({ project }) => {
                 ))}
               </div>
             )}
-            <p>{project.tech1} {project.tech2}{project.tech3}</p>
+            <p className="truncate">{project.tech1} {project.tech2} {project.tech3}</p>
           </div>
         </div>
 
@@ -61,7 +59,7 @@ const Card = ({ project }) => {
             <FaGithub size={22} />
           </a>
 
-          <a href={project.liveUrl}>.Live</a>
+          <a href={project.liveUrl} className="rounded-2xl text-black bg-emerald-200 py-0.5 px-2">.Live</a>
         </div>
       </div>
     </div>

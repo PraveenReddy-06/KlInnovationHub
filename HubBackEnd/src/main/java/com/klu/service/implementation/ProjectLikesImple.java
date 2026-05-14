@@ -28,7 +28,6 @@ public class ProjectLikesImple implements ProjectLikesServic{
 	@Autowired
 	ProjectRepo projectRepo;
 	
-	
 	@Override
 	public List<Project> getTopProjects() {		
 		return likesRepo.getTopProjects();

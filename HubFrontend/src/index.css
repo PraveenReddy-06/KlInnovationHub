@@ -15,3 +15,14 @@
   -ms-overflow-style: none;
   scrollbar-width: none;
 }
+
+@keyframes scrollProjects {
+  from { transform: translateX(0);}
+  to {  transform: translateX(-50%);}
+}
+.animate-scroll {
+  animation: scrollProjects 60s linear infinite;
+}
+.animate-scroll:hover {
+  animation-play-state: paused;
+}

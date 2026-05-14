@@ -48,6 +48,8 @@ public class Collaboration {
 	private String skill2;
 	private String skill3;
 	
+	private String linkedIn;
+	
 	private Boolean status;
 	
 }

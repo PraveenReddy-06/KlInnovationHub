@@ -9,6 +9,7 @@ const Dashboard = () => {
   const[projects,setProjects] = useState([])
   const[groupProjects,setGroupProjects] = useState([])
   const[topProjects,setTopProjects] = useState([])
+  const[topGroupProjects,setTopGroupProjects] = useState([])
   const [search, setSearch] = useState("");
 
   useEffect(() => {
@@ -33,9 +34,12 @@ const Dashboard = () => {
           year: item.teamLead?.year,
           projectKey: item.groupProjectId};
         });
+
       setProjects(formattedProjects);
       setGroupProjects(formattedGroupProjects);
+      console.log("this is latest projects")
       console.log(formattedProjects);
+      console.log("this is latest group projects")
       console.log(formattedGroupProjects);
     }
 
@@ -60,8 +64,10 @@ const Dashboard = () => {
           year: item.teamLead?.year,
           projectKey: item.groupProjectId};
         });
-      setTopProjects([...formattedTopProjects,...formattedTopGroupProjects]);
-      console.log(topProjects)
+      console.log("this is top projects")
+      console.log(formattedTopProjects,formattedTopGroupProjects)        
+      setTopProjects(formattedTopProjects);
+      setTopGroupProjects(formattedTopGroupProjects);
     }
     projectCard();
     TopProject();
@@ -77,6 +83,7 @@ const Dashboard = () => {
     ||p.tech2?.toLowerCase().includes(search.toLowerCase()) 
     ||p.tech3?.toLowerCase().includes(search.toLowerCase()));
   };
+
   const filteredProjects = [...projects,...groupProjects].filter(filterFn);
   const filteredTopProjects = topProjects.filter(filterFn);
 
@@ -101,16 +108,22 @@ const Dashboard = () => {
         </div>
       </div>
 
-      <div className="py-3 px-10">
-        <div className="text-xl pb-2">Latest Projects</div>
-        <div className="flex gap-5 overflow-x-auto snap-x snap-proximity px-5 no-scrollbar">
-          {filteredProjects.map((project) => (
-            <div key={`${project.type}-${project.projectKey}`} className="min-w-[33.33%] snap-start">
-              <Card project={project} />
-            </div>
-          ))}
+      <div className="py-6 px-10 overflow-hidden">
+        <div className="flex items-center gap-3 pb-5">
+          <div className="text-2xl font-bold text-gray-800">
+            Latest Projects
+          </div>
+          <div className="flex-1 h-px bg-gray-300"></div>
         </div>
-        <div className="text-right"> Swipe for MORE </div>
+        <div className="relative overflow-hidden py-2">
+          <div className="flex gap-5 w-max animate-scroll">
+            {[...filteredProjects, ...filteredProjects].map((project, index) => (
+              <div key={`${project.type}-${project.projectKey}-${index}`} className="w-95 h-40 flex-shrink-0">
+                <Card project={project} />
+              </div>
+            ))}
+          </div>
+        </div>
       </div>
       
       <div className="pb-3 px-10">
@@ -118,13 +131,27 @@ const Dashboard = () => {
           <div className="text-xl whitespace-nowrap">Top Projects</div>
           <div className="flex-1 h-px bg-gray-300"></div>
         </div>
-
-        <div className="flex flex-col gap-5">
-          {filteredTopProjects.map((project) => (
-            <div key={`${project.type}-${project.projectKey}`}>
-              <TopProjectCard project={project} />
+        <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
+          <div>
+            <div className="text-lg font-semibold pb-3">Solo Projects</div>
+            <div className="flex flex-col gap-5">
+              {topProjects.filter(filterFn).map((project) => (
+                <div key={`${project.type}-${project.projectKey}`}>
+                  <TopProjectCard project={project} />
+                </div>
+              ))}
             </div>
-          ))}
+          </div>
+          <div>
+            <div className="text-lg font-semibold pb-3">Group Projects</div>
+            <div className="flex flex-col gap-5">
+              {topGroupProjects.filter(filterFn).map((project) => (
+                <div key={`${project.type}-${project.projectKey}`}>
+                  <TopProjectCard project={project} />
+                </div>
+              ))}
+            </div>
+          </div>
         </div>
       </div>
 
