@@ -63,7 +63,7 @@ public class GroupProject {
 	
 
 	@ManyToOne
-	@JoinColumn(name="teamLead",nullable= false)
+	@JoinColumn(name="teamLead")
 	private Student teamLead;
 	
 	private String choice;
