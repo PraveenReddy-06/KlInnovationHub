@@ -24,9 +24,10 @@ const Card = ({ project }) => {
 
   const bgMap = { cse: CSECard, ece: ECECard, csit: CSITCard};
   const bg = bgMap[project.branch?.toLowerCase()] || CSITCard;
+  console.log("CARD", project);
 
   return (
-    <div className="relative flex flex-col w-full h-full p-4 rounded-2xl overflow-hidden bg-cover bg-center text-white" style={{ backgroundImage: `url(${bg})` }}>
+    <div className="relative flex flex-col w-full h-full p-4 rounded-2xl overflow-hidden bg-cover bg-center border border-gray-400 text-white" style={{ backgroundImage: `url(${bg})` }}>
       <div className="absolute inset-0 bg-black/40 rounded-xl"></div>
 
       <div className="relative z-10">
@@ -49,17 +50,20 @@ const Card = ({ project }) => {
           </div>
         </div>
 
-        <div className="flex gap-7 justify-end items-end ">
+        <div className="flex gap-7 justify-end items-end text-xs">
           <button onClick={handleLike} className="flex items-center gap-1 active:scale-95">
-            <FaHeart className={liked ? "text-red-500" : "text-gray-300"} />
+            Likes<FaHeart className={liked ? "text-red-500" : "text-gray-300"} />
             <span>{like}</span>
           </button>
 
           <a className="hover:scale-110 transition" href={project.githubUrl} target="_blank" rel="noopener noreferrer">
-            <FaGithub size={22} />
+            <div className="flex-row items-center justify-center">
+              <FaGithub size={22} />
+              <p>Git</p>
+            </div>
           </a>
 
-          <a href={project.liveUrl} className="rounded-2xl text-black bg-emerald-200 py-0.5 px-2">.Live</a>
+          <a href={project.liveUrl} className="rounded-2xl text-black bg-emerald-200  px-1.5">.Live</a>
         </div>
       </div>
     </div>

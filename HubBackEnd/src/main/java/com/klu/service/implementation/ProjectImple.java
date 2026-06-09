@@ -58,4 +58,10 @@ public class ProjectImple implements ProjectService{
 		return projectRepo.findByStudentBranchAndStudentYear(branch,year);
 	}
 
+	public String deleteProjectsById(int projectId) {
+		Project p = projectRepo.findById(projectId).orElseThrow(() -> new RuntimeException("Project not found"));
+		projectRepo.delete(p);
+		return "Project Deleted Sucessfully";
+	}
+
 }

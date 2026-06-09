@@ -170,9 +170,11 @@ const SubmitProject = () => {
                 <div className="flex gap-3 mt-3 active:scale-95">
                     <button onClick={handleGroupSubmit}  className="bg-blue-600 text-white px-4 py-2 rounded" >Submit Project</button>
                 </div>
-                {projectStatus && (
+                {groupProjectStatus && (
                     <div>
-                        <div className="rounded bg-green-400 px-4 py-2">Project Submitted Successfully Redirecting...</div>
+                        <div className="rounded bg-green-400 px-4 py-2">
+                            Group Project Submitted Successfully Redirecting...
+                        </div>
                     </div>
                 )}
             </div>

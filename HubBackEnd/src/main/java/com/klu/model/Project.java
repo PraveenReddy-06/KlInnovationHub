@@ -39,7 +39,7 @@ public class Project {
 	@JoinColumn(name="studentId", nullable = false)
 	private Student student;
 	
-	@OneToMany(mappedBy = "project", cascade = CascadeType.ALL)
+	@OneToMany(mappedBy = "project", cascade = CascadeType.ALL, orphanRemoval = true)
 	private List<ProjectLikes> likes;
 	
 	@Transient

@@ -2,6 +2,7 @@ import { memo, useEffect, useState } from "react";
 import axios from "axios";
 import Navbar from "../../Components/Navbar";
 import { useNavigate } from "react-router-dom";
+import Card from "../../Components/Card";
 
 const Profile = () => {
 
@@ -12,6 +13,9 @@ const Profile = () => {
   const [groupProjects, setGroupProjects] = useState([]);
   const [collaborations, setCollaborations] = useState([]);
   const [applications, setApplications] = useState([]);
+  const [showDeleteModal, setShowDeleteModal] = useState(false);
+  const [selectedProjectId, setSelectedProjectId] = useState(null);
+  const [deleteType, setDeleteType] = useState("");
 
   const navigate = useNavigate();
 
@@ -31,8 +35,27 @@ const Profile = () => {
     } catch (error) {
       console.log(error);
     }
-};
+  };
+    const openDeleteModal = (id, type) => {
+    setSelectedProjectId(id);
+    setDeleteType(type);
+    setShowDeleteModal(true);
+    };
 
+    const handleDeleteProject = async () => {
+        try {
+            if (deleteType === "PROJECT") {
+                await axios.delete(`http://localhost:8080/project/deleteProject/${selectedProjectId}`);
+                setProjects(prev =>prev.filter(p => p.projectId !== selectedProjectId));
+            } else {
+                await axios.delete(`http://localhost:8080/groupProject/deleteProject/${selectedProjectId}`);
+                setGroupProjects(prev =>prev.filter(p => p.groupProjectId !== selectedProjectId));
+            }
+            setShowDeleteModal(false);
+        } catch (error) {
+            console.error(error);
+        }
+    };
 return (
 <div className="min-h-screen bg-gradient-to-br from-slate-950 via-blue-950 to-slate-950">
 
@@ -111,7 +134,7 @@ return (
                     <h2 className="text-5xl font-black text-white mt-3">    Launch Your Next Project</h2>
                     <p className="text-xl text-white/90 mt-3">    Click here to submit and showcase your project.</p>
                     <div className="mt-8">
-                        <span className="bg-white text-slate-900 px-6 py-3 rounded-xl font-bold">        Submit Project →    </span>
+                        <span className="bg-white text-slate-900 px-6 py-3 rounded-xl font-bold">Submit Project →</span>
                     </div>
                 </div>
             </div>
@@ -132,7 +155,13 @@ return (
             <div className="grid md:grid-cols-2 xl:grid-cols-3 gap-6">
                 {projects.map((project) => (
                     <div key={project.projectId}  className="bg-white/10 backdrop-blur-xl border border-white/10 rounded-[30px] p-6 hover:-translate-y-3 duration-300">
-                        <h3 className="text-white text-xl font-bold">    {project.projectName}  </h3>
+                                <div className="flex justify-between items-start">
+                                    <h3 className="text-white text-xl font-bold">{project.projectName}</h3>
+                                    <button onClick={() => openDeleteModal(project.projectId, "PROJECT")}
+                                        className="bg-red-500/20 text-red-400 hover:bg-red-500 hover:text-white px-4 py-2 rounded-xl transition-all duration-300">
+                                        Delete
+                                    </button>
+                                </div>
                         <p className="text-slate-400 mt-3 line-clamp-4">  {project.description}</p>
                         <div className="flex flex-wrap gap-2 mt-5">
                             {project.tech1 && (
@@ -146,7 +175,44 @@ return (
                 ))}
             </div>
         </div>
+        <div className="mt-14">
+            <h2 className="text-white text-3xl font-bold mb-6">Group Projects</h2>
+            <div className="grid md:grid-cols-2 xl:grid-cols-3 gap-6">              
+                {groupProjects.map((project) => (
+                    <div key={project.groupProjectId} className="relative">
+                        <Card
+                            project={{...project,title: project.project_name,ownerName: project.teamLead?.student_name, ownerId: project.teamLead?.studentId, type: "GROUP"}}
+                        />
+                        <button onClick={() => openDeleteModal(project.groupProjectId, "GROUP") }
+                            className="absolute top-3 right-3 z-20 bg-cyan-950 text-red-500  hover:text-white px-3 py-1 rounded-lg">
+                            Delete
+                        </button>
+                    </div>
+                ))}            
+            </div>
+        </div>
     </div>
+    {showDeleteModal && (
+    <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/70 backdrop-blur-sm">
+        <div className="bg-slate-900 border border-white/10 rounded-3xl p-8 w-[90%] max-w-md shadow-2xl">
+            <h2 className="text-2xl font-bold text-white">Delete Project?</h2>
+            <p className="text-slate-400 mt-3">
+                This action cannot be undone. The project and all associated
+                likes will be permanently removed.
+            </p>
+            <div className="flex justify-end gap-3 mt-8">
+                <button onClick={() => { setShowDeleteModal(false); setSelectedProjectId(null); }}
+                    className="px-5 py-2 rounded-xl bg-white/10 text-white hover:bg-white/20">
+                    Cancel
+                </button>
+                <button onClick={handleDeleteProject}
+                    className="px-5 py-2 rounded-xl bg-red-600 text-white hover:bg-red-700">
+                    Delete
+                </button>
+            </div>
+        </div>
+    </div>
+)}
 </div>
 );
 };

@@ -14,5 +14,6 @@ public interface ProjectService {
 	List<Project> getProjectsByBranch(String bname);
 	List<Project> getProjectsByid(long id);
 	List<Project> getProjectsByBranchAndYear(String branch, Integer year);
+	String deleteProjectsById(int projectId);
 	
 }

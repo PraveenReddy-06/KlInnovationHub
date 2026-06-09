@@ -18,14 +18,14 @@ const Navbar = () => {
   };
 
   return (
-    <div className="flex justify-between items-center py-4 px-10 bg-blue-600 text-amber-50">
+    <div className="flex justify-between items-center py-3 px-10 bg-blue-600 text-amber-50">
 
       <a href="/LandingPage">Logo</a>
-      <ul className="flex items-center gap-8">
+      <ul className="flex items-center text-xs uppercase tracking-[2px] gap-8">
         <li><a href="/dashboard">Dashboard</a></li>
         <li><a href="/exploreProjects">Explore Projects</a></li>
         <li><a href="/leaderBoard">LeaderBoard</a></li>
-        <li><a href="/formATeam">Form A Team</a></li>
+        <li><a href="/formATeam">Form Team</a></li>
         <li><a href="/submitProject">Submit Project</a></li>
         <li><a href="">Guide</a></li>
       </ul>

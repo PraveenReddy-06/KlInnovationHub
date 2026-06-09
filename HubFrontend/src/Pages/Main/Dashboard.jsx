@@ -86,10 +86,10 @@ const Dashboard = () => {
 
   const filteredProjects = [...projects,...groupProjects].filter(filterFn);
   const filteredTopProjects = topProjects.filter(filterFn);
-
+  /*<div className="flex-1 h-px bg-gray-300"></div> for line*/
 
   return (
-    <div className="h-full">
+    <div className="h-full bg-gradient-to-br text-white from-slate-950 via-blue-950 to-slate-950">
       <Navbar/>
 
       <div className ="flex px-10 py-5 gap-5 items-center bg-blue-100 text-black">
@@ -110,15 +110,15 @@ const Dashboard = () => {
 
       <div className="py-6 px-10 overflow-hidden">
         <div className="flex items-center gap-3 pb-5">
-          <div className="text-2xl font-bold text-gray-800">
+          <div className="text-xl font-bold text-white">
             Latest Projects
           </div>
-          <div className="flex-1 h-px bg-gray-300"></div>
+
         </div>
         <div className="relative overflow-hidden py-2">
           <div className="flex gap-5 w-max animate-scroll">
             {[...filteredProjects, ...filteredProjects].map((project, index) => (
-              <div key={`${project.type}-${project.projectKey}-${index}`} className="w-95 h-43 flex-shrink-0">
+              <div key={`${project.type}-${project.projectKey}-${index}`} className="w-95 h-44 flex-shrink-0">
                 <Card project={project} />
               </div>
             ))}
@@ -128,12 +128,12 @@ const Dashboard = () => {
       
       <div className="pb-3 px-10">
         <div className="flex items-center gap-3 pb-2">
-          <div className="text-xl whitespace-nowrap">Top Projects</div>
-          <div className="flex-1 h-px bg-gray-300"></div>
+          <div className="text-xl font-bold whitespace-nowrap">Top Projects</div>
+
         </div>
         <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
           <div>
-            <div className="text-lg font-semibold pb-3">Solo Projects</div>
+            <div className="font-thin pb-3 flex items-center justify-center">Solo Projects</div>
             <div className="flex flex-col gap-5">
               {topProjects.filter(filterFn).map((project) => (
                 <div key={`${project.type}-${project.projectKey}`}>
@@ -143,7 +143,7 @@ const Dashboard = () => {
             </div>
           </div>
           <div>
-            <div className="text-lg font-semibold pb-3">Group Projects</div>
+            <div className="font-thin pb-3 flex items-center justify-center mask-radial-from-neutral-800">Group Projects</div>
             <div className="flex flex-col gap-5">
               {topGroupProjects.filter(filterFn).map((project) => (
                 <div key={`${project.type}-${project.projectKey}`}>
