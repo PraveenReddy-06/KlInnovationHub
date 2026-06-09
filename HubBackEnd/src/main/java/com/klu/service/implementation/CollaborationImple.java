@@ -32,4 +32,8 @@ public class CollaborationImple implements CollaborationService{
 	public List<Collaboration> getAllCollaboration() {
 		return collaborationRepo.findAll();
 	}
+
+	public List<Collaboration> getMyTeams(Long studentId){
+	    return collaborationRepo.findByStudent_StudentId(studentId);
+	}
 }

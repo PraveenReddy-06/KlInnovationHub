@@ -33,5 +33,7 @@ public class CollabApplication {
 	@ManyToOne
 	@JoinColumn(name="studentId")
 	private Student student;
+	
+	private String status = "PENDING";
 
 }

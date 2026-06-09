@@ -31,4 +31,11 @@ public class CollaborationController {
     public List<Collaboration> getAllCollaboration() {
         return collaborationService.getAllCollaboration();
     }
+    
+    @GetMapping("/student/{id}")
+    public List<Collaboration> getMyTeams(
+            @PathVariable Long id){
+
+        return collaborationService.getMyTeams(id);
+    }
 }
