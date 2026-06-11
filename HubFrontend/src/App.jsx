@@ -11,6 +11,7 @@ import Leaderboard from "./Pages/NavBarPages/Leaderboard";
 import ExploreProjects from "./Pages/NavBarPages/ExploreProjects";
 import Profile from "./Pages/Main/Profile";
 import FormATeam from "./Pages/Main/FormATeam";
+import TeamApplications from "./Pages/Main/TeamApplications";
 
 function App() {
 
@@ -29,6 +30,7 @@ function App() {
         <Route path="/exploreProjects" element={<ExploreProjects/>}/>
         <Route path="/profile" element={<Profile/>}/>
         <Route path="/formATeam" element={<FormATeam/>}/>
+        <Route path="/teamApplications" element={<TeamApplications/>}/>
       </Routes>
     </BrowserRouter>
   )

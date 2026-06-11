@@ -25,7 +25,6 @@ const Navbar = () => {
         <li><a href="/dashboard">Dashboard</a></li>
         <li><a href="/exploreProjects">Explore Projects</a></li>
         <li><a href="/leaderBoard">LeaderBoard</a></li>
-        <li><a href="/formATeam">Form Team</a></li>
         <li><a href="/submitProject">Submit Project</a></li>
         <li><a href="">Guide</a></li>
       </ul>

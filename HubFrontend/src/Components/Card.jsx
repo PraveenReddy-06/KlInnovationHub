@@ -50,7 +50,7 @@ const Card = ({ project }) => {
           </div>
         </div>
 
-        <div className="flex gap-7 justify-end items-end text-xs">
+        <div className="flex gap-7 justify-end items-center text-xs">
           <button onClick={handleLike} className="flex items-center gap-1 active:scale-95">
             Likes<FaHeart className={liked ? "text-red-500" : "text-gray-300"} />
             <span>{like}</span>
@@ -59,7 +59,6 @@ const Card = ({ project }) => {
           <a className="hover:scale-110 transition" href={project.githubUrl} target="_blank" rel="noopener noreferrer">
             <div className="flex-row items-center justify-center">
               <FaGithub size={22} />
-              <p>Git</p>
             </div>
           </a>
 

@@ -1,6 +1,6 @@
 import { memo, useEffect, useState } from "react";
 import axios from "axios";
-import Navbar from "../../Components/Navbar";
+import Navbar from "../../Components/Navbar";1
 import { useNavigate } from "react-router-dom";
 import Card from "../../Components/Card";
 
@@ -94,6 +94,11 @@ return (
                             onClick={() => navigate("/formATeam")}
                             className="bg-white text-slate-900 font-semibold px-6 py-3 rounded-2xl hover:scale-105 duration-300">
                             Form Team
+                        </button>
+                        <button
+                            onClick={() => navigate("/teamApplications")}
+                            className="bg-cyan-300 text-gray-800 font-semibold px-6 py-3 rounded-2xl hover:scale-105 duration-300">
+                            Veiw Requests
                         </button>
                         <button
                             onClick={() => navigate("/submitProject")}

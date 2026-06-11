@@ -28,7 +28,6 @@ public class Collaboration {
 	@GeneratedValue(strategy=GenerationType.IDENTITY)
 	private Integer collaboration_id;
 	
-	@JsonIgnore
 	@ManyToOne
 	@JoinColumn(name="studentId", nullable = false)
 	private Student student;

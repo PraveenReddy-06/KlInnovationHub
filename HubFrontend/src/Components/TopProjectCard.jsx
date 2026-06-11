@@ -33,7 +33,7 @@ const TopProjectCard = ({project}) => {
         <div className="flex flex-col">
           <p>{project.ownerName} . {project.ownerId}</p>
           {project.type === "GROUP" && project.studentList?.length > 0 && (
-            <div className="flex flex-wrap gap-1 mt-2">{
+            <div className="flex flex-wrap gap-1 mb-1">{
               project.studentList?.filter((student) =>student.studentId !== project.ownerId).map((student) => 
               (<span key={student.studentId}className="text-xs bg-white/20 px-2 py-1 rounded">
                   {student.student_name}
@@ -48,7 +48,7 @@ const TopProjectCard = ({project}) => {
       </div>
 
 
-    <div className="flex gap-5 justify-end items-end">
+    <div className="flex gap-5 justify-end items-center text-xs">
       <button onClick={handleLike} className="flex items-center gap-1 active:scale-95">
         <FaHeart className={liked ? "text-red-500" : "text-gray-300"} size={20} />
         <span> {like}</span>
