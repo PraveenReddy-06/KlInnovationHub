@@ -60,5 +60,9 @@ public class ProjectLikesImple implements ProjectLikesServic{
 	public List<Project> getTop3Projects() {
 		return likesRepo.getTop3Projects();
 	}
+
+	public List<Project> getTop8Projects() {
+		return likesRepo.getTop8Projects();
+	}
 	
 }

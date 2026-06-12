@@ -8,6 +8,7 @@ import org.springframework.stereotype.Service;
 import com.klu.dto.GroupProjectLikeDto;
 import com.klu.model.GroupProject;
 import com.klu.model.GroupProjectLikes;
+import com.klu.model.Project;
 import com.klu.model.Student;
 import com.klu.repository.GroupProjectLikesRepo;
 import com.klu.repository.GroupProjectRepo;
@@ -55,5 +56,9 @@ public class GroupProjectLikesImple implements GroupProjectLikesService{
 		 
 		 return new GroupProjectLikeDto(liked,likeCount);
 		
+	 }
+
+	 public List<GroupProject> getTop8Projects() {
+		 return groupProjectLikesRepo.getTop8Projects();
 	 }
 }

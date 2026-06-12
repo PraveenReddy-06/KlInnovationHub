@@ -17,7 +17,16 @@ public interface ProjectLikesRepo extends JpaRepository<ProjectLikes, Integer> {
     void deleteByStudent_StudentIdAndProject_ProjectId(Long studentId, Integer projectId);
 
     long countByProject_ProjectId(Integer projectId);
-
+    @Query(value = """
+    		SELECT p.*
+    		FROM project p
+    		LEFT JOIN project_likes pl
+    		ON p.project_id = pl.project_id
+    		GROUP BY p.project_id
+    		ORDER BY COUNT(pl.student_id) DESC
+    		""", nativeQuery = true)
+    List<Project> getAllProjectsByLikes();
+    
     @Query(value = "SELECT p.* FROM project p " +
             "LEFT JOIN project_likes pl ON p.project_id = pl.project_id " +
             "GROUP BY p.project_id " +
@@ -31,4 +40,11 @@ public interface ProjectLikesRepo extends JpaRepository<ProjectLikes, Integer> {
             "ORDER BY COUNT(pl.student_id) DESC " +
             "LIMIT 3", nativeQuery = true)
 	List<Project> getTop3Projects();
+
+	@Query(value = "SELECT p.* FROM project p " +
+            "LEFT JOIN project_likes pl ON p.project_id = pl.project_id " +
+            "GROUP BY p.project_id " +
+            "ORDER BY COUNT(pl.student_id) DESC " +
+            "LIMIT 8", nativeQuery = true)
+	List<Project> getTop8Projects();
 }

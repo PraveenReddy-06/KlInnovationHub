@@ -9,7 +9,6 @@ public interface ProjectLikesServic {
 	ProjectLikeDto toggleLike(Long s,Integer p);
 	
 	List<Project> getTopProjects();
-	
 	List<Project> getTop3Projects();
-	
+	List<Project> getTop8Projects();
 }

@@ -12,6 +12,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.klu.dto.GroupProjectLikeDto;
 import com.klu.model.GroupProject;
+import com.klu.model.Project;
 import com.klu.service.implementation.GroupProjectLikesImple;
 
 @CrossOrigin(origins = "http://localhost:5173")
@@ -25,6 +26,11 @@ public class GroupProjectLikesController {
     @GetMapping("/top")
     public List<GroupProject> getTopGroupProjects() {
         return groupProjectLikesService.getTopGroupProjects();
+    }
+    
+    @GetMapping("/top8")
+    public List<GroupProject> getTop8Projects() {
+        return groupProjectLikesService.getTop8Projects();
     }
     
     @PostMapping("/toggleLike/{studentId}/{projectId}")
