@@ -3,6 +3,7 @@ import axios from "axios";
 import Navbar from "../../Components/Navbar";1
 import { useNavigate } from "react-router-dom";
 import Card from "../../Components/Card";
+import { FaGithub, FaLinkedin } from "react-icons/fa";
 
 const Profile = () => {
 
@@ -20,6 +21,9 @@ const Profile = () => {
   const navigate = useNavigate();
 
   useEffect(() => {fetchData();}, []);
+    const [showLinksModal, setShowLinksModal] = useState(false);
+    const [githubUrl, setGithubUrl] = useState(student.githubUrl || "");
+    const [linkedinUrl, setLinkedinUrl] = useState(student.linkedinUrl || "");
 
   const fetchData = async () => {
     try {
@@ -40,6 +44,17 @@ const Profile = () => {
     setSelectedProjectId(id);
     setDeleteType(type);
     setShowDeleteModal(true);
+    };
+
+    const handleSaveLinks = async () => {
+    try {
+        const res = await axios.put( `http://localhost:8080/student/socialLinks/${studentId}`,{ githubUrl,linkedinUrl});
+
+        localStorage.setItem("student",JSON.stringify(res.data));
+        setShowLinksModal(false);
+        window.location.reload();
+    } catch (error) {
+        console.log(error);}
     };
 
     const handleDeleteProject = async () => {
@@ -82,6 +97,24 @@ return (
                         <div className="text-white">
                             <h2 className="text-4xl font-bold">{student.student_name}</h2>
                             <p className="text-slate-300 mt-2">{student.studentEmail}</p>
+                            <div className="flex items-center gap-4 mt-3">
+                                {student.githubUrl ? (
+                                    <a href={student.githubUrl} target="_blank" rel="noopener noreferrer"className="text-white hover:text-cyan-300">
+                                        <FaGithub size={24} />Github
+                                    </a>
+                                    ) : (
+                                    <span className="text-slate-500 text-sm">GitHub not added </span>)}
+                                {student.linkedinUrl ? (
+                                    <a href={student.linkedinUrl} target="_blank" rel="noopener noreferrer" className="text-white hover:text-cyan-300">
+                                        <FaLinkedin size={24} />LinkedIn
+                                    </a>
+                                    ) : (
+                                        <span className="text-slate-500 text-sm">LinkedIn not added</span>)}
+                                <button onClick={() => setShowLinksModal(true)} 
+                                    className="px-3 py-1 text-sm bg-white/10 rounded-lg hover:bg-white/20">
+                                    Edit Links
+                                </button>
+                            </div>
                             <div className="flex flex-wrap gap-3 mt-4">
                                 <span className="bg-cyan-500/20 text-cyan-300 px-4 py-2 rounded-full">    {student.branch}</span>
                                 <span className="bg-purple-500/20 text-purple-300 px-4 py-2 rounded-full"> Year {student.year}</span>
@@ -188,16 +221,73 @@ return (
         </div>
     </div>
     {showDeleteModal && (
-        <div className="fixed inset-0 z-[9999] flex items-center justify-center bg-black/50">
-            <div className="bg-sky-500 p-6 rounded-lg w-96">
+        <div className="fixed inset-0 z-[9999] flex items-center text-white justify-center bg-black/50">
+            <div className="bg-slate-900 p-6 rounded-xl w-[450px]">
                 <h2 className="text-lg font-bold">Delete Project?</h2>
                 <p className="mt-2">This action cannot be undone.</p>
                 <div className="flex justify-end gap-3 mt-5">
                     <button onClick={() => setShowDeleteModal(false)} className="px-4 py-2 border rounded"> Cancel</button>
-                    <button onClick={handleDeleteProject} className="px-4 py-2 bg-red-500 text-white rounded"> Delete </button>
+                    <button onClick={handleDeleteProject} className="px-4 py-2 bg-red-500 rounded"> Delete </button>
                 </div>
             </div>
         </div>
+    )}
+    {showLinksModal && (
+    <div className="fixed inset-0 z-[9999] flex items-center justify-center bg-black/60">
+
+        <div className="bg-slate-900 p-6 rounded-xl w-[450px]">
+
+            <h2 className="text-lg text-white font-bold">
+                Update Social Links
+            </h2>
+
+            <div className="space-y-4">
+
+                <input
+                    type="text"
+                    placeholder="GitHub URL"
+                    value={githubUrl}
+                    onChange={(e) =>
+                        setGithubUrl(e.target.value)
+                    }
+                    className="w-full p-3 rounded bg-slate-800 text-white border border-slate-700"
+                />
+
+                <input
+                    type="text"
+                    placeholder="LinkedIn URL"
+                    value={linkedinUrl}
+                    onChange={(e) =>
+                        setLinkedinUrl(e.target.value)
+                    }
+                    className="w-full p-3 rounded bg-slate-800 text-white border border-slate-700"
+                />
+
+            </div>
+
+            <div className="flex justify-end gap-3 mt-6">
+
+                <button
+                    onClick={() =>
+                        setShowLinksModal(false)
+                    }
+                    className="px-4 py-2 bg-gray-700 text-white rounded"
+                >
+                    Cancel
+                </button>
+
+                <button
+                    onClick={handleSaveLinks}
+                    className="px-4 py-2 bg-cyan-500 text-white rounded"
+                >
+                    Save
+                </button>
+
+            </div>
+
+        </div>
+
+    </div>
     )}
 </div>
 );

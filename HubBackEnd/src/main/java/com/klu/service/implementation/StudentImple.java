@@ -3,6 +3,7 @@ package com.klu.service.implementation;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import com.klu.dto.SocialLinksRequest;
 import com.klu.model.Student;
 import com.klu.repository.StudentRepo;
 import com.klu.service.StudentService;
@@ -44,8 +45,15 @@ public class StudentImple implements StudentService{
 
 	@Override
 	public Student getStudentByEmail(String email) {
-
 		return studentRepo.findByStudentEmail(email);
 	}
+	
+	@Override
+    public Student updateSocialLinks(Long studentId,SocialLinksRequest request) {
+        Student student = studentRepo.findById(studentId).orElseThrow(() ->new RuntimeException("Student not found"));
+        student.setGithubUrl(request.getGithubUrl());
+        student.setLinkedinUrl(request.getLinkedinUrl());
+        return studentRepo.save(student);
+    }
 
 }

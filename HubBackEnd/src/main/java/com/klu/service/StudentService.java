@@ -1,5 +1,6 @@
 package com.klu.service;
 
+import com.klu.dto.SocialLinksRequest;
 import com.klu.model.Student;
 
 public interface StudentService {
@@ -8,5 +9,6 @@ public interface StudentService {
 	
 	Student getStudentById(long id);
 	Student getStudentByEmail(String email);
+	Student updateSocialLinks(Long studentId,SocialLinksRequest request);
 	
 }
