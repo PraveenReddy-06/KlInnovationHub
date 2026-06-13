@@ -111,21 +111,21 @@ return (
         </div>
 
         <div className="grid lg:grid-cols-4 gap-6 mt-12">
-            <div className="bg-white/10 backdrop-blur-xl border border-white/10 rounded-[30px] p-6 hover:-translate-y-2 duration-300">
+            <div className="bg-white/10 backdrop-blur-xl border border-white/10  p-6 hover:-translate-y-2 duration-300">
                 <p className="text-slate-400">Projects Built</p>
                 <h2 className="text-5xl font-black text-white mt-3">{projects.length}</h2>
             </div>
-            <div className="bg-white/10 backdrop-blur-xl border border-white/10 rounded-[30px] p-6 hover:-translate-y-2 duration-300">
+            <div className="bg-white/10 backdrop-blur-xl border border-white/10 p-6 hover:-translate-y-2 duration-300">
                 <p className="text-slate-400">Group Projects</p>
                 <h2 className="text-5xl font-black text-white mt-3">{groupProjects.length}</h2>
             </div>
-            <div className="bg-white/10 backdrop-blur-xl border border-white/10 rounded-[30px] p-6 hover:-translate-y-2 duration-300">
+            <div className="bg-white/10 backdrop-blur-xl border border-white/10 p-6 hover:-translate-y-2 duration-300">
                 <p className="text-slate-400">Teams Created</p>
                 <h2 className="text-5xl font-black text-white mt-3"> {collaborations.length}</h2>
             </div>
 
-            <div className="bg-white/10 backdrop-blur-xl border border-white/10 rounded-[30px] p-6 hover:-translate-y-2 duration-300">
-                <p className="text-slate-400">Applications</p>
+            <div className="bg-white/10 backdrop-blur-xl border border-white/10 p-6 hover:-translate-y-2 duration-300">
+                <p className="text-slate-400">Team Openings</p>
                 <h2 className="text-5xl font-black text-white mt-3"> {applications.length}</h2>
             </div>
         </div>
@@ -156,30 +156,20 @@ return (
         )}
 
         <div className="mt-14">
-            <h2 className="text-white text-3xl font-bold mb-6">  Project Showcase</h2>
+            <h2 className="text-white text-3xl font-bold mb-6"> Project Showcase</h2>
             <div className="grid md:grid-cols-2 xl:grid-cols-3 gap-6">
                 {projects.map((project) => (
-                    <div key={project.projectId}  className="bg-white/10 backdrop-blur-xl border border-white/10 rounded-[30px] p-6 hover:-translate-y-3 duration-300">
-                                <div className="flex justify-between items-start">
-                                    <h3 className="text-white text-xl font-bold">{project.projectName}</h3>
-                                    <button onClick={() => openDeleteModal(project.projectId, "PROJECT")}
-                                        className="bg-red-500/20 text-red-400 hover:bg-red-500 hover:text-white px-4 py-2 rounded-xl transition-all duration-300">
-                                        Delete
-                                    </button>
-                                </div>
-                        <p className="text-slate-400 mt-3 line-clamp-4">  {project.description}</p>
-                        <div className="flex flex-wrap gap-2 mt-5">
-                            {project.tech1 && (
-                                <span className="bg-cyan-500/20 text-cyan-300 px-3 py-1 rounded-full">  {project.tech1}</span>)}
-                            {project.tech2 && (
-                                <span className="bg-purple-500/20 text-purple-300 px-3 py-1 rounded-full">{project.tech2}</span>)}
-                            {project.tech3 && (
-                                <span className="bg-pink-500/20 text-pink-300 px-3 py-1 rounded-full">  {project.tech3}  </span>)}
-                        </div>
+                    <div key={project.projectId} className="relative">
+                        <Card project={{...project,title: project.projectName,ownerName: project.student?.student_name,ownerId: project.student?.studentId,branch: project.student?.branch,type: "PROJECT"}}/>
+                        <button 
+                            onClick={() => openDeleteModal( project.projectId,"PROJECT")} 
+                            className="absolute top-3 right-3 z-20 bg-cyan-950 text-red-500  hover:text-white px-3 py-1 rounded-lg">Delete
+                        </button>
                     </div>
                 ))}
             </div>
         </div>
+
         <div className="mt-14">
             <h2 className="text-white text-3xl font-bold mb-6">Group Projects</h2>
             <div className="grid md:grid-cols-2 xl:grid-cols-3 gap-6">              
@@ -198,26 +188,17 @@ return (
         </div>
     </div>
     {showDeleteModal && (
-    <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/70 backdrop-blur-sm">
-        <div className="bg-slate-900 border border-white/10 rounded-3xl p-8 w-[90%] max-w-md shadow-2xl">
-            <h2 className="text-2xl font-bold text-white">Delete Project?</h2>
-            <p className="text-slate-400 mt-3">
-                This action cannot be undone. The project and all associated
-                likes will be permanently removed.
-            </p>
-            <div className="flex justify-end gap-3 mt-8">
-                <button onClick={() => { setShowDeleteModal(false); setSelectedProjectId(null); }}
-                    className="px-5 py-2 rounded-xl bg-white/10 text-white hover:bg-white/20">
-                    Cancel
-                </button>
-                <button onClick={handleDeleteProject}
-                    className="px-5 py-2 rounded-xl bg-red-600 text-white hover:bg-red-700">
-                    Delete
-                </button>
+        <div className="fixed inset-0 z-[9999] flex items-center justify-center bg-black/50">
+            <div className="bg-sky-500 p-6 rounded-lg w-96">
+                <h2 className="text-lg font-bold">Delete Project?</h2>
+                <p className="mt-2">This action cannot be undone.</p>
+                <div className="flex justify-end gap-3 mt-5">
+                    <button onClick={() => setShowDeleteModal(false)} className="px-4 py-2 border rounded"> Cancel</button>
+                    <button onClick={handleDeleteProject} className="px-4 py-2 bg-red-500 text-white rounded"> Delete </button>
+                </div>
             </div>
         </div>
-    </div>
-)}
+    )}
 </div>
 );
 };

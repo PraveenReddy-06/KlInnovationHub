@@ -55,4 +55,6 @@ public class Student {
 	private String branch;
 	private String student_name;
 
+    private String githubUrl;
+    private String linkedinUrl;
 }
