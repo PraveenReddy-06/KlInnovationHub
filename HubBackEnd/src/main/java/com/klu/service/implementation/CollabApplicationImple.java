@@ -31,10 +31,12 @@ public class CollabApplicationImple implements CollabApplicationService {
 		return collabApplicationRepo.findByStudent_StudentId(studentId);
 	}	
 	
+	@Override
     public String updateApplicationStatus(Integer applicationId, String status) {
         CollabApplication app = collabApplicationRepo.findById(applicationId).orElseThrow(() -> new RuntimeException("Application not found"));
         app.setStatus(status.toUpperCase());
         collabApplicationRepo.save(app);
         return "Application status updated to " + status.toUpperCase();
     }
+
 }

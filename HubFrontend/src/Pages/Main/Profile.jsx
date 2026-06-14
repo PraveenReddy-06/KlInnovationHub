@@ -17,6 +17,7 @@ const Profile = () => {
   const [showDeleteModal, setShowDeleteModal] = useState(false);
   const [selectedProjectId, setSelectedProjectId] = useState(null);
   const [deleteType, setDeleteType] = useState("");
+  const [studentName, setStudentName] = useState(student.student_name || "");
 
   const navigate = useNavigate();
 
@@ -48,7 +49,7 @@ const Profile = () => {
 
     const handleSaveLinks = async () => {
     try {
-        const res = await axios.put( `http://localhost:8080/student/socialLinks/${studentId}`,{ githubUrl,linkedinUrl});
+        const res = await axios.put( `http://localhost:8080/student/socialLinks/${studentId}`,{ studentName,githubUrl,linkedinUrl});
 
         localStorage.setItem("student",JSON.stringify(res.data));
         setShowLinksModal(false);
@@ -112,7 +113,7 @@ return (
                                         <span className="text-slate-500 text-sm">LinkedIn not added</span>)}
                                 <button onClick={() => setShowLinksModal(true)} 
                                     className="px-3 py-1 text-sm bg-white/10 rounded-lg hover:bg-white/20">
-                                    Edit Links
+                                    Edit Profile
                                 </button>
                             </div>
                             <div className="flex flex-wrap gap-3 mt-4">
@@ -234,59 +235,27 @@ return (
     )}
     {showLinksModal && (
     <div className="fixed inset-0 z-[9999] flex items-center justify-center bg-black/60">
-
         <div className="bg-slate-900 p-6 rounded-xl w-[450px]">
-
-            <h2 className="text-lg text-white font-bold">
-                Update Social Links
-            </h2>
-
+            <h2 className="text-lg text-white font-bold">Update Profile </h2>
             <div className="space-y-4">
-
-                <input
-                    type="text"
-                    placeholder="GitHub URL"
-                    value={githubUrl}
-                    onChange={(e) =>
-                        setGithubUrl(e.target.value)
-                    }
+                <input type="text" placeholder="Student Name" value={studentName} 
+                    onChange={(e) => setStudentName(e.target.value)} 
                     className="w-full p-3 rounded bg-slate-800 text-white border border-slate-700"
                 />
-
-                <input
-                    type="text"
-                    placeholder="LinkedIn URL"
-                    value={linkedinUrl}
-                    onChange={(e) =>
-                        setLinkedinUrl(e.target.value)
-                    }
+                <input type="text" placeholder="GitHub URL" value={githubUrl}
+                    onChange={(e) =>setGithubUrl(e.target.value)}
                     className="w-full p-3 rounded bg-slate-800 text-white border border-slate-700"
                 />
-
+                <input type="text" placeholder="LinkedIn URL" value={linkedinUrl}
+                    onChange={(e) =>setLinkedinUrl(e.target.value)}
+                    className="w-full p-3 rounded bg-slate-800 text-white border border-slate-700"
+                />
             </div>
-
             <div className="flex justify-end gap-3 mt-6">
-
-                <button
-                    onClick={() =>
-                        setShowLinksModal(false)
-                    }
-                    className="px-4 py-2 bg-gray-700 text-white rounded"
-                >
-                    Cancel
-                </button>
-
-                <button
-                    onClick={handleSaveLinks}
-                    className="px-4 py-2 bg-cyan-500 text-white rounded"
-                >
-                    Save
-                </button>
-
+                <button onClick={() => setShowLinksModal(false)} className="px-4 py-2 bg-gray-700 text-white rounded"> Cancel</button>
+                <button onClick={handleSaveLinks} className="px-4 py-2 bg-cyan-500 text-white rounded"> Save</button>
             </div>
-
         </div>
-
     </div>
     )}
 </div>

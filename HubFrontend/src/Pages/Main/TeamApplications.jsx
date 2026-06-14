@@ -17,6 +17,8 @@ const TeamApplications = () => {
   const [applying, setApplying] = useState(null);
 
   const [loading, setLoading] = useState(true);
+  const [showDeleteModal, setShowDeleteModal] = useState(false);
+  const [selectedTeamId, setSelectedTeamId] = useState(null);
 
   useEffect(() => {
     fetchAll();
@@ -31,13 +33,10 @@ const TeamApplications = () => {
         axios.get(`http://localhost:8080/collabapplication/all`),
         axios.get(`http://localhost:8080/collabapplication/student/${studentId}`),
       ]);
-
       setMyTeams(myTeamsRes.data);
       setAllApplications(allAppsRes.data);
-
       const others = allTeamsRes.data.filter((t) => t.student?.studentId !== studentId);
       setAllTeams(others);
-
       const applied = new Set(myAppsRes.data.map((a) => a.collaboration?.collaboration_id));
       setMyApplicationIds(applied);
     } catch (err) {
@@ -82,6 +81,21 @@ const TeamApplications = () => {
     return <Clock size={14} className="text-amber-300" />;
   };
 
+  const openDeleteModal = (teamId) => {
+    setSelectedTeamId(teamId);
+    setShowDeleteModal(true);
+  };
+
+  const handleDeleteTeam = async () => {
+      try {await axios.delete( `http://localhost:8080/collaboration/delete/${selectedTeamId}`);
+          setMyTeams(prev => prev.filter(team => team.collaboration_id !== selectedTeamId) );
+          setShowDeleteModal(false);
+          setSelectedTeamId(null);
+      } catch (error) {
+          console.log(error);
+      }
+  };
+
   if (loading) return <div className="min-h-screen bg-gradient-to-br from-slate-950 via-blue-950 to-slate-950 flex items-center justify-center text-white text-xl">Loading...</div>;
 
   return (
@@ -104,7 +118,7 @@ const TeamApplications = () => {
       <div className="max-w-7xl mx-auto px-6 pb-14">
         <div className="flex items-center gap-3 mb-6">
           <div className="h-8 w-1 rounded-full bg-cyan-400" />
-          <h2 className="text-white text-2xl font-bold">My Teams</h2>
+          <h2 className="text-white text-2xl font-bold">My Collaboration Posts</h2>
           <span className="text-slate-400 text-sm mt-0.5">— review incoming applications</span>
         </div>
 
@@ -135,6 +149,10 @@ const TeamApplications = () => {
                       </div>
                       <div className="flex items-center gap-2 bg-white/10 px-4 py-1.5 rounded-full text-white text-sm"><Users size={14} />{apps.length} applicant{apps.length !== 1 ? "s" : ""}</div>
                       {isOpen ? <ChevronUp size={20} className="text-slate-400" /> : <ChevronDown size={20} className="text-slate-400" />}
+                        <button onClick={(e) => { e.stopPropagation(); openDeleteModal(team.collaboration_id);}}
+                          className="bg-red-500/20 hover:bg-red text-red-400 hover:text-white border border-red-500/40 px-4 py-1.5 text-xs font-semibold transition-all duration-200">
+                            Delete
+                        </button>                    
                     </div>
                   </button>
 
@@ -193,50 +211,67 @@ const TeamApplications = () => {
         {allTeams.length === 0 ? (
           <div className="bg-white/5 border border-white/10 rounded-3xl p-10 text-center text-slate-400">No teams available right now.</div>
         ) : (
-          <div className="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-6">
-            {allTeams.map((team) => {
-              const alreadyApplied = myApplicationIds.has(team.collaboration_id);
-              const isApplying = applying === team.collaboration_id;
-
-              return (
-                <div key={team.collaboration_id} className="bg-white/5 border border-white/10 rounded-[28px] p-6 flex flex-col gap-4 backdrop-blur-xl hover:-translate-y-1 transition-all duration-300">
-                  <div className="flex items-start justify-between">
-                    <div className="flex items-center gap-3">
-                      <div className="h-11 w-11 rounded-full bg-gradient-to-br from-violet-500 to-purple-700 flex items-center justify-center text-white font-black text-lg">{team.name?.charAt(0)}</div>
-                      <div>
-                        <h3 className="text-white font-bold text-base leading-tight">{team.name}</h3>
-                        <p className="text-slate-400 text-xs">by {team.student?.student_name} • {team.student?.branch}</p>
-                      </div>
+        <div className="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-6">
+          {allTeams.map((team) => {
+            const alreadyApplied = myApplicationIds.has(team.collaboration_id);
+            const isApplying = applying === team.collaboration_id;
+            return (
+              <div key={team.collaboration_id} className="bg-white/5 border border-white/10 rounded-[28px] p-6 flex flex-col gap-4 backdrop-blur-xl hover:-translate-y-1 transition-all duration-300">
+                <div className="flex items-start justify-between">
+                  <div className="flex items-center gap-3">
+                    <div className="h-11 w-11 rounded-full bg-gradient-to-br from-violet-500 to-purple-700 flex items-center justify-center text-white font-black text-lg">{team.name?.charAt(0)}</div>
+                    <div>
+                      <h3 className="text-white font-bold text-base leading-tight">{team.name}</h3>
+                      <p className="text-slate-400 text-xs">by {team.student?.student_name} • {team.student?.branch}</p>
                     </div>
-                    <span className="flex items-center gap-1 text-xs bg-white/10 text-white px-3 py-1 rounded-full"><Users size={12} /> {team.teamSize} needed</span>
                   </div>
-
-                  <p className="text-slate-300 text-sm font-medium line-clamp-2">{team.problemStatement}</p>
-                  <p className="text-slate-400 text-sm line-clamp-3">{team.description}</p>
-
-                  <div className="flex flex-wrap gap-2">
-                    {[team.skill1, team.skill2, team.skill3].filter(Boolean).map((sk) => (
-                      <span key={sk} className="text-xs bg-purple-500/20 text-purple-300 border border-purple-500/30 px-3 py-1 rounded-full">{sk}</span>
-                    ))}
-                  </div>
-
-                  <div className="flex items-center justify-between mt-auto pt-2 border-t border-white/10">
-                    {team.linkedIn ? (
-                      <a href={team.linkedIn} target="_blank" rel="noreferrer" className="flex items-center gap-1.5 text-blue-400 hover:text-blue-300 text-xs transition"><FaLinkedin size={14} /> LinkedIn</a>
-                    ) : <span />}
-
-                    {alreadyApplied ? (
-                      <span className="flex items-center gap-1.5 text-xs bg-emerald-500/20 text-emerald-300 border border-emerald-500/30 px-4 py-2 rounded-full font-medium"><CheckCircle size={13} /> Applied</span>
-                    ) : (
-                      <button onClick={() => handleApply(team)} disabled={isApplying} className="flex items-center gap-1.5 bg-cyan-500 hover:bg-cyan-400 disabled:opacity-60 text-white px-5 py-2 rounded-full text-xs font-semibold transition-all duration-200 active:scale-95"><UserPlus size={13} /> {isApplying ? "Applying..." : "Apply"}</button>
-                    )}
-                  </div>
+                  <span className="flex items-center gap-1 text-xs bg-white/10 text-white px-3 py-1 rounded-full"><Users size={12} /> {team.teamSize} needed</span>
                 </div>
-              );
-            })}
-          </div>
+
+                <p className="text-slate-300 text-sm font-medium line-clamp-2">{team.problemStatement}</p>
+                <p className="text-slate-400 text-sm line-clamp-3">{team.description}</p>
+
+                <div className="flex flex-wrap gap-2">
+                  {[team.skill1, team.skill2, team.skill3].filter(Boolean).map((sk) => (
+                    <span key={sk} className="text-xs bg-purple-500/20 text-purple-300 border border-purple-500/30 px-3 py-1 rounded-full">{sk}</span>
+                  ))}
+                </div>
+
+                <div className="flex items-center justify-between mt-auto pt-2 border-t border-white/10">
+                  {team.linkedIn ? (
+                    <a href={team.linkedIn} target="_blank" rel="noreferrer" className="flex items-center gap-1.5 text-blue-400 hover:text-blue-300 text-xs transition"><FaLinkedin size={14} /> LinkedIn</a>
+                  ) : <span />}
+                  {alreadyApplied ? (
+                    <span className="flex items-center gap-1.5 text-xs bg-emerald-500/20 text-emerald-300 border border-emerald-500/30 px-4 py-2 rounded-full font-medium"><CheckCircle size={13} /> Applied</span>
+                  ) : (
+                    <button onClick={() => handleApply(team)} disabled={isApplying} className="flex items-center gap-1.5 bg-cyan-500 hover:bg-cyan-400 disabled:opacity-60 text-white px-5 py-2 rounded-full text-xs font-semibold transition-all duration-200 active:scale-95"><UserPlus size={13} /> {isApplying ? "Applying..." : "Apply"}</button>
+                  )}
+                </div>
+              </div>
+            );
+          })}
+        </div>
         )}
       </div>
+      {showDeleteModal && (
+      <div className="fixed inset-0 z-[9999] flex items-center text-white justify-center bg-black/50">
+          <div className="bg-slate-900 p-6 rounded-xl w-[450px]">
+              <h2 className="text-lg font-bold"> Delete Team Recruitment?</h2>
+              <p className="mt-2"> This will permanently remove the recruitment post and all applications received for it.</p>
+              <div className="flex justify-end gap-3 mt-5">
+                  <button
+                      onClick={() => setShowDeleteModal(false)}
+                      className="px-4 py-2 border rounded">
+                      Cancel
+                  </button>
+                  <button
+                      onClick={handleDeleteTeam}
+                      className="px-4 py-2 bg-red-500 rounded">
+                      Delete
+                  </button>
+              </div>
+          </div>
+        </div>)}
     </div>
   );
 };

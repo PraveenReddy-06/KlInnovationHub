@@ -32,8 +32,15 @@ public class CollaborationImple implements CollaborationService{
 	public List<Collaboration> getAllCollaboration() {
 		return collaborationRepo.findAll();
 	}
-
+	
+	@Override
 	public List<Collaboration> getMyTeams(Long studentId){
 	    return collaborationRepo.findByStudent_StudentId(studentId);
+	}
+	
+	@Override
+	public void deleteTeam(Integer collaborationId) {
+	    Collaboration collaboration = collaborationRepo.findById(collaborationId).orElseThrow(() -> new RuntimeException("Team not found"));
+	    collaborationRepo.delete(collaboration);
 	}
 }

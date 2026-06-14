@@ -51,6 +51,7 @@ public class StudentImple implements StudentService{
 	@Override
     public Student updateSocialLinks(Long studentId,SocialLinksRequest request) {
         Student student = studentRepo.findById(studentId).orElseThrow(() ->new RuntimeException("Student not found"));
+        student.setStudent_name(request.getStudentName());
         student.setGithubUrl(request.getGithubUrl());
         student.setLinkedinUrl(request.getLinkedinUrl());
         return studentRepo.save(student);
