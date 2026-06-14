@@ -31,11 +31,15 @@ const Card = ({ project }) => {
       <div className="absolute inset-0 bg-black/40 rounded-xl"></div>
 
       <div className="relative z-10">
-        <h2 className="font-bold pb-1 truncate text-xl">{project.title}</h2>
-
-        <div className="flex gap-3">
-          <p>Profile</p>
-          <div>
+        <h2 className="font-bold pb-1 truncate text-md">{project.title}</h2>
+        <div className="flex gap-3 items-start ">
+          <img
+            src={project.type === "GROUP"? (project.teamLead?.avatarUrl ||`/Avatars/Avatar${(project.teamLead?.studentId % 40) + 1}.svg`
+            ) : (project.student?.avatarUrl ||`/Avatars/Avatar${(project.student?.studentId % 40) + 1}.svg`)}
+            alt=""
+            className="w-14 h-14 rounded-full object-cover border-2 border-white/30"
+          />
+          <div className="flex-1">
             <p>{project.ownerName} . {project.ownerId}</p>
             {project.type === "GROUP" && project.studentList?.length > 0 && (
               <div className="flex flex-wrap gap-1 mt-2">{
@@ -62,7 +66,7 @@ const Card = ({ project }) => {
             </div>
           </a>
 
-          <a href={project.liveUrl} className="rounded-2xl text-black bg-emerald-200  px-1.5">.Live</a>
+          <a href={project.liveUrl} className="rounded-2xl text-black bg-green-500/60  p-1.5">View</a>
         </div>
       </div>
     </div>

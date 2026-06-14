@@ -2,6 +2,7 @@ import {memo,useEffect,useMemo,useState} from "react";
 import axios from "axios";
 import Navbar from "../../Components/Navbar";
 import {Search,Heart,Users,User,ExternalLink} from "lucide-react";
+import { FaGithub } from "react-icons/fa";
 
 const ExploreProjects = () => {
 
@@ -146,40 +147,66 @@ const ExploreProjects = () => {
         return (
           <div key={`${project.type}-${project.projectId || project.groupProjectId}`} className="bg-white rounded-xl shadow hover:shadow-lg transition overflow-hidden">
             <div className="p-4">
-              <div className="flex items-start gap-3">
-                <div className="w-12 h-12 rounded-full bg-blue-500 text-white flex items-center justify-center font-bold text-lg">{ownerName?.charAt(0)}</div>
-                {isGroup ? (
-                  <div>
-                    <h2 className="font-semibold text-lg line-clamp-1">{ownerName}</h2>
-                    <p className="text-xs ">Lead ID {ownerId}</p>
-                    <div className="mt-2 flex flex-wrap gap-1">
-                      {project.studentList?.map((student) => (
-                        <span key={student.studentId} className="text-xs">
-                          {student.student_name} . {student.studentId}
-                        </span>
-                      ))}
-                    </div>
-                  </div>                       
-                ):(
-                  <div>
-                    <h2 className="font-semibold text-lg line-clamp-1">{ownerName}</h2>
-                    <p className="text-xs text-gray-500">ID {ownerId}</p>
-                  </div>
-                )}
-              </div>
-              <h3 className="mt-4 font-semibold text-[15px] line-clamp-2 min-h-[48px]">{title}</h3>
-              <div className="flex flex-wrap gap-2 mt-3">
+<div className="flex gap-4 items-center mb-3">
+
+    <img
+        src={
+            isGroup
+                ? (
+                    project.teamLead?.avatarUrl ||
+                    `/Avatars/Avatar${(project.teamLead?.studentId % 40) + 1}.svg`
+                )
+                : (
+                    project.student?.avatarUrl ||
+                    `/Avatars/Avatar${(project.student?.studentId % 40) + 1}.svg`
+                )
+        }
+        alt=""
+        className="w-16 h-16 rounded-full object-cover border-2 border-gray-200 shrink-0"
+    />
+
+    <h3 className="font-bold text-xl leading-tight text-gray-900 ">
+        {title}
+    </h3>
+
+</div>
+
+<div className="mb-3">
+
+    <p className="font-medium text-gray-800">
+        {ownerName}
+    </p>
+
+    {isGroup && (
+        <div className="flex flex-wrap gap-2 mt-2">
+
+            {project.studentList
+                ?.filter(student => student.studentId !== ownerId)
+                .map(student => (
+                    <span
+                        key={student.studentId}
+                        className="text-xs bg-gray-100 px-3 py-1 rounded-full text-gray-700"
+                    >
+                        {student.student_name}
+                    </span>
+                ))}
+
+        </div>
+    )}
+
+</div>
+              <div className="flex flex-wrap gap-2 ">
                   <span className="text-xs bg-gray-100 px-2 py-1 rounded">{branch}</span>
                 <span className="text-xs bg-gray-100 px-2 py-1 rounded">{year}</span>
                 <span className={`text-xs px-2 py-1 rounded text-white ${isGroup ? "bg-purple-500" : "bg-blue-500"}`}>
                   {isGroup ? "Group" : "Individual"}
                 </span>
               </div>
-              <div className="flex flex-wrap gap-2 mt-3">
+              <div className="text-xs py-1 rounded-full">
 
-                {project.tech1 && (<span className="text-xs bg-blue-100 text-blue-700 px-2 py-1 rounded">{project.tech1}</span>)}
-                {project.tech2 && (<span className="text-xs bg-blue-100 text-blue-700 px-2 py-1 rounded">{project.tech2}</span>)}
-                {project.tech3 && (<span className="text-xs bg-blue-100 text-blue-700 px-2 py-1 rounded">{project.tech3}</span>)}
+                {project.tech1 && (<span className="text-xs text-blue-700 px-2 py-1 rounded">{project.tech1}</span>)}
+                {project.tech2 && (<span className="text-xs text-blue-700 px-2 py-1 rounded">{project.tech2}</span>)}
+                {project.tech3 && (<span className="text-xs text-blue-700 px-2 py-1 rounded">{project.tech3}</span>)}
 
               </div>
 
@@ -198,7 +225,7 @@ const ExploreProjects = () => {
 
               <div className="flex gap-2 mt-4">
                 <a href={project.liveUrl} className="flex-1 bg-blue-600 hover:bg-blue-700 text-white px-5 py-2 rounded text-sm">View Project</a>
-                <a href={project.githubUrl} target="_blank" rel="noreferrer" className="border px-3 rounded flex items-center justify-center hover:bg-gray-100"><ExternalLink size={18}/></a>
+                <a href={project.githubUrl} target="_blank" rel="noreferrer" className="w-14 border px-3 rounded flex items-center justify-center hover:bg-gray-100"><FaGithub size={20} /></a>
               </div>
             </div>
           </div>

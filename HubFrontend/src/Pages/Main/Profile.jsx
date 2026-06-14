@@ -49,7 +49,7 @@ const Profile = () => {
 
     const handleSaveLinks = async () => {
     try {
-        const res = await axios.put( `http://localhost:8080/student/socialLinks/${studentId}`,{ studentName,githubUrl,linkedinUrl});
+        const res = await axios.put( `http://localhost:8080/student/socialLinks/${studentId}`,{ avatarUrl: selectedAvatar,studentName,githubUrl,linkedinUrl});
 
         localStorage.setItem("student",JSON.stringify(res.data));
         setShowLinksModal(false);
@@ -72,6 +72,20 @@ const Profile = () => {
             console.error(error);
         }
     };
+
+    const [selectedAvatar, setSelectedAvatar] = useState(student.avatarUrl ||`/avatars/Avatar${(student.studentId % 40) + 1}.svg`);
+    const boyAvatars = Array.from({ length: 20 },(_, i) => `/avatars/Avatar${i + 1}.svg`);
+    const girlAvatars = Array.from({ length: 20 },(_, i) => `/avatars/Avatar${i + 21}.svg`);
+
+    const handleSaveAvatar = async () => {
+    try {
+        const res = await axios.put( `http://localhost:8080/student/avatar/${studentId}`,{avatarUrl: selectedAvatar });
+        localStorage.setItem("student",JSON.stringify(res.data));
+        window.location.reload();} 
+    catch (err) {
+        console.error(err);}
+    };
+
 return (
 <div className="min-h-screen bg-gradient-to-br from-slate-950 via-blue-950 to-slate-950">
 
@@ -85,16 +99,19 @@ return (
             <div className="absolute bottom-10 left-10 text-white">
                 <p className="uppercase tracking-[6px] text-sm opacity-80"> Innovation Hub</p>
                 <h1 className="text-6xl font-black mt-2">{student.student_name}</h1>
-                <p className="mt-3 text-lg text-blue-100">Building Projects • Creating Teams • Learning Everyday</p>
             </div>
         </div>
         <div className="relative -mt-24 z-20">
             <div className="backdrop-blur-2xl bg-white/10 border border-white/10 rounded-[35px] p-8 shadow-[0_20px_80px_rgba(0,0,0,.35)]">
                 <div className="flex flex-col lg:flex-row justify-between items-center gap-8">
                     <div className="flex items-center gap-6">
-                        <div className="h-36 w-36 rounded-full bg-gradient-to-br from-cyan-400 to-blue-600 flex items-center justify-center text-white text-6xl font-black shadow-2xl">
-                            {student.student_name?.charAt(0)}
-                        </div>
+                        <img
+                            src={student.avatarUrl ||`/Avatars/Avatar${(student.studentId % 40) + 1}.svg`}
+                            alt={student.student_name}
+                            className="h-36 w-36 rounded-full object-cover shadow-2xl"
+                            onError={(e) => {e.target.src =`/Avatars/Avatar${(student.studentId % 40) + 1}.svg`;
+                            }}
+                        />
                         <div className="text-white">
                             <h2 className="text-4xl font-bold">{student.student_name}</h2>
                             <p className="text-slate-300 mt-2">{student.studentEmail}</p>
@@ -234,26 +251,60 @@ return (
         </div>
     )}
     {showLinksModal && (
-    <div className="fixed inset-0 z-[9999] flex items-center justify-center bg-black/60">
-        <div className="bg-slate-900 p-6 rounded-xl w-[450px]">
+    <div className="fixed inset-0 z-9999 flex items-center justify-center bg-black/60">
+        <div className="bg-slate-900 p-6 rounded-xl w-225">
             <h2 className="text-lg text-white font-bold">Update Profile </h2>
-            <div className="space-y-4">
-                <input type="text" placeholder="Student Name" value={studentName} 
-                    onChange={(e) => setStudentName(e.target.value)} 
-                    className="w-full p-3 rounded bg-slate-800 text-white border border-slate-700"
-                />
-                <input type="text" placeholder="GitHub URL" value={githubUrl}
-                    onChange={(e) =>setGithubUrl(e.target.value)}
-                    className="w-full p-3 rounded bg-slate-800 text-white border border-slate-700"
-                />
-                <input type="text" placeholder="LinkedIn URL" value={linkedinUrl}
-                    onChange={(e) =>setLinkedinUrl(e.target.value)}
-                    className="w-full p-3 rounded bg-slate-800 text-white border border-slate-700"
-                />
-            </div>
-            <div className="flex justify-end gap-3 mt-6">
-                <button onClick={() => setShowLinksModal(false)} className="px-4 py-2 bg-gray-700 text-white rounded"> Cancel</button>
-                <button onClick={handleSaveLinks} className="px-4 py-2 bg-cyan-500 text-white rounded"> Save</button>
+            <div className="flex gap-6">
+                <div className="flex gap-4">
+                    <div>
+                        <h3 className="text-white text-sm font-semibold mb-3">Boys</h3>
+                        <div className="h-96 w-28 no-scrollbar overflow-y-auto border-r border-slate-700 pr-2">
+                            {boyAvatars.map((avatar) => (
+                                <img key={avatar} src={avatar} alt="" onClick={() => setSelectedAvatar(avatar)}
+                                    className={`w-20 h-20 rounded-full cursor-pointer mb-3 border-2 ${
+                                    selectedAvatar === avatar? "border-cyan-400": "border-transparent"}`}
+                                />
+                            ))}
+                        </div>
+                    </div>
+                    <div>
+                        <h3 className="text-white text-sm font-semibold mb-3">Girls </h3>
+                        <div className="h-96 w-28 no-scrollbar overflow-y-auto border-r border-slate-700 pr-2">
+                            {girlAvatars.map((avatar) => (
+                                <img key={avatar} src={avatar} alt="" onClick={() => setSelectedAvatar(avatar)}className={`w-20 h-20 rounded-full cursor-pointer mb-3 border-2 ${
+                                    selectedAvatar === avatar? "border-cyan-400": "border-transparent"}`}
+                                />
+                            ))}
+                        </div>
+                    </div>
+                </div>
+                <div className="flex-1">
+                    <div className="flex justify-center mb-6">
+                        <img
+                            src={selectedAvatar}
+                            alt=""
+                            className="w-48 h-48 rounded-full border-4 border-cyan-400"
+                        />
+                    </div>
+                    <div className="space-y-4">
+                        <input type="text" placeholder="Student Name" value={studentName} 
+                            onChange={(e) => setStudentName(e.target.value)} 
+                            className="w-full p-3 rounded bg-slate-800 text-white border border-slate-700"
+                        />
+                        <input type="text" placeholder="GitHub URL" value={githubUrl}
+                            onChange={(e) =>setGithubUrl(e.target.value)}
+                            className="w-full p-3 rounded bg-slate-800 text-white border border-slate-700"
+                        />
+                        <input type="text" placeholder="LinkedIn URL" value={linkedinUrl}
+                            onChange={(e) =>setLinkedinUrl(e.target.value)}
+                            className="w-full p-3 rounded bg-slate-800 text-white border border-slate-700"
+                        />
+                    </div>
+                    <div className="flex justify-end gap-3 mt-6">
+                        <button onClick={() => setShowLinksModal(false)} className="px-4 py-2 bg-gray-700 text-white rounded"> Cancel</button>
+                        <button onClick={handleSaveLinks} className="px-4 py-2 bg-cyan-500 text-white rounded"> Save</button>
+                    </div>
+                </div>
             </div>
         </div>
     </div>

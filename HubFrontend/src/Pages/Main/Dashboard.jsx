@@ -143,7 +143,7 @@ const Dashboard = () => {
             </div>
           </div>
           <div>
-            <div className="font-thin pb-3 flex items-center justify-center mask-radial-from-neutral-800">Group Projects</div>
+            <div className="font-thin pb-3 flex items-center justify-center">Group Projects</div>
             <div className="flex flex-col gap-5">
               {topGroupProjects.filter(filterFn).map((project) => (
                 <div key={`${project.type}-${project.projectKey}`}>

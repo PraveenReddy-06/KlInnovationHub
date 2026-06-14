@@ -54,6 +54,7 @@ public class StudentImple implements StudentService{
         student.setStudent_name(request.getStudentName());
         student.setGithubUrl(request.getGithubUrl());
         student.setLinkedinUrl(request.getLinkedinUrl());
+        student.setAvatarUrl(request.getAvatarUrl());
         return studentRepo.save(student);
     }
 
