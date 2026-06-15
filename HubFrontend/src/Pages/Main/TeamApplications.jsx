@@ -3,6 +3,8 @@ import axios from "axios";
 import Navbar from "../../Components/Navbar";
 import { Users, CheckCircle, XCircle, Clock, UserPlus, ChevronDown, ChevronUp } from "lucide-react";
 import { FaLinkedin } from "react-icons/fa";
+import { useNavigate } from "react-router-dom";
+import { Plus } from "lucide-react";
 
 const TeamApplications = () => {
   const studentId = Number(localStorage.getItem("studentId"));
@@ -19,6 +21,7 @@ const TeamApplications = () => {
   const [loading, setLoading] = useState(true);
   const [showDeleteModal, setShowDeleteModal] = useState(false);
   const [selectedTeamId, setSelectedTeamId] = useState(null);
+  const navigate = useNavigate();
 
   useEffect(() => {
     fetchAll();
@@ -103,14 +106,21 @@ const TeamApplications = () => {
       <Navbar />
 
       <div className="max-w-7xl mx-auto px-6 py-8">
-        <div className="relative h-[260px] rounded-[40px] overflow-hidden bg-gradient-to-r from-indigo-600 via-blue-500 to-cyan-500 shadow-2xl">
+        <div className="relative h-[260px] rounded-b-[50px] rounded-tr-[50px] overflow-hidden bg-gradient-to-r from-indigo-600 via-blue-500 to-cyan-500 shadow-2xl">
           <div className="absolute -top-24 -right-24 h-80 w-80 rounded-full bg-white/10" />
           <div className="absolute bottom-0 left-0 h-72 w-72 rounded-full bg-white/5" />
           <div className="absolute top-10 left-1/3 h-40 w-40 rounded-full bg-white/5 blur-3xl" />
-          <div className="absolute bottom-10 left-10 text-white">
-            <p className="uppercase tracking-[6px] text-sm opacity-80">Innovation Hub</p>
-            <h1 className="text-5xl font-black mt-2">{student?.student_name}</h1>
-            <p className="mt-3 text-lg text-blue-100">Manage Your Teams • Review Applications • Join New Teams</p>
+          <div className="absolute inset-0 flex items-end justify-between px-10 pb-10">
+            <div className=" text-white">
+              <p className="uppercase tracking-[6px] text-sm opacity-80">KL Innovation Hub</p>
+              <h1 className="text-5xl font-black mt-2">{student?.student_name}</h1>
+              <p className="mt-3 text-lg text-blue-100">Manage Your Teams • Review Applications • Join New Teams</p>
+            </div>
+            <button onClick={() => navigate("/formATeam")}
+                    className="mt-6 flex items-center gap-2 bg-white text-blue-700 px-6 py-3 rounded-full font-semibold shadow-lg hover:bg-blue-50 hover:scale-105 transition-all duration-200">
+                    <Plus size={18} />
+              Create Team
+            </button>
           </div>
         </div>
       </div>
@@ -123,7 +133,7 @@ const TeamApplications = () => {
         </div>
 
         {myTeams.length === 0 ? (
-          <div className="bg-white/5 border border-white/10 rounded-3xl p-10 text-center text-slate-400">
+          <div className="bg-white/5 border border-white/10 p-10 text-center text-slate-400">
             You haven't created any teams yet. <a href="/formATeam" className="text-cyan-400 underline">Create one</a>.
           </div>
         ) : (
@@ -132,7 +142,7 @@ const TeamApplications = () => {
               const apps = getAppsForTeam(team.collaboration_id);
               const isOpen = expandedTeam === team.collaboration_id;
               return (
-                <div key={team.collaboration_id} className="bg-white/5 border border-white/10 rounded-[28px] overflow-hidden backdrop-blur-xl">
+                <div key={team.collaboration_id} className="bg-white/5 border border-white/10 overflow-hidden backdrop-blur-xl">
                   <button onClick={() => setExpandedTeam(isOpen ? null : team.collaboration_id)} className="w-full flex items-center justify-between px-8 py-5 text-left">
                     <div className="flex items-center gap-5">
                       <div className="h-12 w-12 rounded-full bg-gradient-to-br from-cyan-400 to-blue-600 flex items-center justify-center text-white font-black text-xl">{team.name?.charAt(0)}</div>
@@ -163,9 +173,10 @@ const TeamApplications = () => {
                       ) : (
                         <div className="flex flex-col gap-3">
                           {apps.map((app) => (
-                            <div key={app.collabApplication_id} className="flex items-center justify-between bg-white/5 rounded-2xl px-5 py-4">
-                              <div className="flex items-center gap-4">
-                                <div className="h-10 w-10 rounded-full bg-gradient-to-br from-purple-400 to-indigo-600 flex items-center justify-center text-white font-bold">{app.student?.student_name?.charAt(0) || "?"}</div>
+                            <div key={app.collabApplication_id} onClick={() => navigate(`/profile/${app.student?.studentId}`)} className="flex items-center justify-between bg-white/5  px-5 py-4  cursor-pointer hover:bg-white/10 transition">
+                              <div className="flex items-center gap-4 cursor-pointer hover:bg-white/5  p-2 transition"
+                                  onClick={() => navigate(`/profile/${app.student?.studentId}`)}>
+                                <div className="h-10 w-10  bg-gradient-to-br from-purple-400 to-indigo-600 flex items-center justify-center text-white font-bold">{app.student?.student_name?.charAt(0) || "?"}</div>
                                 <div>
                                   <p className="text-white font-semibold text-sm">{app.student?.student_name || `ID: ${app.student?.studentId}`}</p>
                                   <p className="text-slate-400 text-xs">{app.student?.branch} • Year {app.student?.year} • #{app.student?.studentId}</p>
@@ -179,10 +190,10 @@ const TeamApplications = () => {
 
                                 {app.status === "PENDING" && (
                                   <>
-                                    <button onClick={() => handleStatusUpdate(app.collabApplication_id, "ACCEPTED")} className="flex items-center gap-1.5 bg-emerald-500/20 hover:bg-emerald-500 text-emerald-300 hover:text-white border border-emerald-500/40 px-4 py-1.5 rounded-full text-xs font-semibold transition-all duration-200">
+                                    <button onClick={(e) =>{e.stopPropagation(); handleStatusUpdate(app.collabApplication_id, "ACCEPTED")}} className="flex items-center gap-1.5 bg-emerald-500/20 hover:bg-emerald-500 text-emerald-300 hover:text-white border border-emerald-500/40 px-4 py-1.5 rounded-full text-xs font-semibold transition-all duration-200">
                                       <CheckCircle size={13} /> Accept
                                     </button>
-                                    <button onClick={() => handleStatusUpdate(app.collabApplication_id, "REJECTED")} className="flex items-center gap-1.5 bg-red-500/20 hover:bg-red-500 text-red-400 hover:text-white border border-red-500/40 px-4 py-1.5 rounded-full text-xs font-semibold transition-all duration-200">
+                                    <button onClick={(e) => {e.stopPropagation(); handleStatusUpdate(app.collabApplication_id, "REJECTED")}} className="flex items-center gap-1.5 bg-red-500/20 hover:bg-red-500 text-red-400 hover:text-white border border-red-500/40 px-4 py-1.5 rounded-full text-xs font-semibold transition-all duration-200">
                                       <XCircle size={13} /> Reject
                                     </button>
                                   </>
@@ -216,7 +227,7 @@ const TeamApplications = () => {
             const alreadyApplied = myApplicationIds.has(team.collaboration_id);
             const isApplying = applying === team.collaboration_id;
             return (
-              <div key={team.collaboration_id} className="bg-white/5 border border-white/10 rounded-[28px] p-6 flex flex-col gap-4 backdrop-blur-xl hover:-translate-y-1 transition-all duration-300">
+              <div key={team.collaboration_id} className="bg-white/5 border border-white/10 p-6 flex flex-col gap-4 backdrop-blur-xl hover:-translate-y-1 transition-all duration-300">
                 <div className="flex items-start justify-between">
                   <div className="flex items-center gap-3">
                     <div className="h-11 w-11 rounded-full bg-gradient-to-br from-violet-500 to-purple-700 flex items-center justify-center text-white font-black text-lg">{team.name?.charAt(0)}</div>

@@ -85,7 +85,7 @@ const ExploreProjects = () => {
 
     <div className="min-h-screen bg-gray-100">
     <Navbar/>
-    <div className="bg-white shadow-md px-5 py-2 mb-6">
+    <div className="bg-white shadow-md px-5 py-5 mb-6">
       <div className="flex flex-col lg:flex-row lg:items-center lg:justify-between gap-5">
         <div>
           <h1 className="text-2xl font-bold text-gray-800">  Exploring All Innovations</h1>
@@ -146,7 +146,7 @@ const ExploreProjects = () => {
         return (
           <div key={`${project.type}-${project.projectId || project.groupProjectId}`} className="bg-white rounded-xl shadow hover:shadow-lg transition overflow-hidden">
             <div className="p-4">
-              <div className="flex gap-4 items-center mb-3 cursor-pointer  hover:bg-blue-100 rounded-lg transition "
+              <div className="flex gap-4 items-center mb-3 cursor-pointer bg-blend-luminosity hover:bg-blue-100 rounded-lg transition "
                    onClick={() =>navigate(`/profile/${isGroup? project.teamLead?.studentId: project.student?.studentId}`)}>
                   <img src={
                           isGroup
