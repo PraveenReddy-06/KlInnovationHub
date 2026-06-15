@@ -3,6 +3,7 @@ import axios from "axios";
 import Navbar from "../../Components/Navbar";
 import {Search,Heart,Users,User,ExternalLink} from "lucide-react";
 import { FaGithub } from "react-icons/fa";
+import { useNavigate } from "react-router-dom";
 
 const ExploreProjects = () => {
 
@@ -16,7 +17,7 @@ const ExploreProjects = () => {
   const [selectedType,setSelectedType] = useState("ALL");
 
   const studentId = JSON.parse(localStorage.getItem("studentId"));
-
+  const navigate = useNavigate();
   useEffect(() => {
     fetchProjects();
   }, []);
@@ -145,7 +146,8 @@ const ExploreProjects = () => {
         return (
           <div key={`${project.type}-${project.projectId || project.groupProjectId}`} className="bg-white rounded-xl shadow hover:shadow-lg transition overflow-hidden">
             <div className="p-4">
-              <div className="flex gap-4 items-center mb-3">
+              <div className="flex gap-4 items-center mb-3 cursor-pointer  hover:bg-blue-100 rounded-lg transition "
+                   onClick={() =>navigate(`/profile/${isGroup? project.teamLead?.studentId: project.student?.studentId}`)}>
                   <img src={
                           isGroup
                               ? ( project.teamLead?.avatarUrl ||`/avatars/Avatar${(project.teamLead?.studentId % 40) + 1}.svg`
@@ -153,18 +155,18 @@ const ExploreProjects = () => {
                       alt=""
                       className="w-16 h-16 rounded-full object-cover border-2 border-gray-200 shrink-0"
                   />
-                  <h3 className="font-bold text-xl leading-tight text-gray-900 ">{title}</h3>
+                  <div>
+                    <h3 className="font-bold text-xl leading-tight text-gray-900 ">{title}</h3>
+                    <p className="font-medium text-gray-800">{ownerName}</p> 
+                  </div>
               </div>
-
               <div className="mb-3">
-                <p className="font-medium text-gray-800">{ownerName}</p>
                 {isGroup && (
                     <div className="flex flex-wrap gap-2 mt-2">
                         {project.studentList?.filter(student => student.studentId !== ownerId) .map(student => (
-                                <span
-                                    key={student.studentId}
-                                    className="text-xs bg-gray-100 px-3 py-1 rounded-full text-gray-700">
-                                    {student.student_name}
+                                <span key={student.studentId}
+                                      className="text-xs bg-gray-100 px-3 py-1 rounded-full text-gray-700">
+                                  {student.student_name}
                                 </span>
                         ))}
                     </div>

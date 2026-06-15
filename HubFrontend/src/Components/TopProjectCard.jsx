@@ -1,6 +1,7 @@
 import { memo, useState } from 'react';
 import { FaGithub, FaHeart } from "react-icons/fa";
 import axios from "axios";
+import { useNavigate } from "react-router-dom";
 
 const TopProjectCard = ({project}) => {
 
@@ -24,11 +25,19 @@ const TopProjectCard = ({project}) => {
     }
   };
 
+  const navigate = useNavigate();
+
+  const handleProfileClick = () => {
+    const id =project.type === "GROUP"? project.teamLead?.studentId: project.student?.studentId;
+    navigate(`/profile/${id}`);
+  };
+
   return (
-    <div className="flex flex-col w-full p-4 bg-blue-500 rounded-xl text-white">
+    <div className="flex flex-col w-full p-4 hover:bg-blue-600 hover:ring-1 hover:ring-white/30 bg-blue-500 rounded-xl text-white">
       <h2 className="font-bold text-lg pb-3">{project.title}</h2>
 
-      <div className="flex gap-4 items-start">
+      <div className="flex gap-4 items-start hover:bg-white/10 rounded-lg p-2 transition cursor-pointer" 
+            onClick={handleProfileClick}>
         <img
           src={project.type === "GROUP"
             ? ( project.teamLead?.avatarUrl || `/avatars/Avatar${(project.teamLead?.studentId % 40) + 1}.svg`
@@ -42,7 +51,9 @@ const TopProjectCard = ({project}) => {
           {project.type === "GROUP" && project.studentList?.length > 0 && (
             <div className="flex flex-wrap gap-2 m-2">{
               project.studentList?.filter((student) =>student.studentId !== project.ownerId).map((student) => 
-              (<span key={student.studentId}className="text-xs bg-white/15 px-3 py-1 rounded-full text-white/90">
+              (<span key={student.studentId}
+                      onClick={(e) => { e.stopPropagation(); navigate(`/profile/${student.studentId}`);}}
+                     className="text-xs bg-white/15 px-3 py-1 rounded-full text-white/90">
                   {student.student_name}
                 </span>
               ))}

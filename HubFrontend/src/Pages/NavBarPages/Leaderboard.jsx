@@ -18,6 +18,7 @@ const Leaderboard = () => {
         const top = async () => {
             try {
                 const res = await axios.get("http://localhost:8080/leaderboard");
+                console.log(res);
                 setLeaderboard(res.data);
             } catch (err) {
                 console.error(err);
@@ -93,7 +94,7 @@ const Leaderboard = () => {
             <tbody>
                 {leaderboard.map((p, index) => (
                     <tr key={index}   onClick={() => navigate(`/profile/${p.type === "SOLO" ? p.studentId: p.teamLeadId}`)}
-                        className={` border-b transition-colors duration-200
+                        className={` border-b transition-all duration-200 cursor-pointer hover:bg-white/10 rounded-lg p-2
                             ${
                                 index === 0 ? "bg-yellow-50 border-l-4 border-yellow-500"
                                 : index === 1? "bg-slate-50 border-l-4 border-slate-500"

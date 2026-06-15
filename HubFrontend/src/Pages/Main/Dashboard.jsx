@@ -111,7 +111,7 @@ const Dashboard = () => {
         <div className="relative overflow-hidden py-2">
           <div className="flex gap-5 w-max animate-scroll">
             {[...filteredProjects, ...filteredProjects].map((project, index) => (
-              <div key={`${project.type}-${project.projectKey}-${index}`} className="w-95 h-44 flex-shrink-0">
+              <div key={`${project.type}-${project.projectKey}-${index}`} className="w-95 h-47 flex-shrink-0">
                 <Card project={project} />
               </div>
             ))}

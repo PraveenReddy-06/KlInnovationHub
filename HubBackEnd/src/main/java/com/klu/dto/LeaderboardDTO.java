@@ -19,6 +19,7 @@ public class LeaderboardDTO {
     private List<String> members;
 
     private String teamLead;
+    private Long teamLeadId;
     private Integer teamSize;
     private String githubUrl;
     private String liveUrl;

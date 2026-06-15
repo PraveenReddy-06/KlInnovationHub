@@ -46,6 +46,7 @@ public class LeaderboardService {
         	dto.setLikeCount(gp.getLikeCount());
         	dto.setGithubUrl(gp.getGithubUrl());
         	dto.setLiveUrl(gp.getLiveUrl());
+        	dto.setTeamLeadId(gp.getTeamLead().getStudentId());
 
         	List<String> members =gp.getStudentList() != null &&!gp.getStudentList().isEmpty()
         	        ? gp.getStudentList().stream().map(Student::getStudent_name).toList()
