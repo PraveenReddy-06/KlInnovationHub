@@ -1,11 +1,22 @@
 import { memo, useState } from 'react';
 import { FaUserCircle } from "react-icons/fa";
 import {useNavigate } from 'react-router-dom';
+import {useRef, useEffect } from "react";
 
 const Navbar = () => {
   const studentId = JSON.parse(localStorage.getItem("studentId") || "null")
-
   const [showDropdown, setShowDropdown] = useState(false);
+  const dropdownRef = useRef(null);
+  useEffect(() => {
+    const handleClickOutside = (event) => {
+      if (dropdownRef.current &&!dropdownRef.current.contains(event.target)) {
+        setShowDropdown(false);
+      }
+    };
+    document.addEventListener("mousedown", handleClickOutside);
+    return () => {document.removeEventListener("mousedown", handleClickOutside);};
+  }, []);
+
 
   const navigate = useNavigate()
   const handleProfile =() => {
@@ -34,7 +45,7 @@ const Navbar = () => {
       </ul>
       {
         studentId ? (
-        <div className="relative">          
+        <div className="relative " ref={dropdownRef}>          
           <button  className="flex items-center gap-3 cursor-pointer"  onClick={() => setShowDropdown(!showDropdown)}>
             <FaUserCircle size={35} />
           </button>
