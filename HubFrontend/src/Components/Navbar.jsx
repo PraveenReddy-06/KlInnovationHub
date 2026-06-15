@@ -33,9 +33,20 @@ const Navbar = () => {
   }
 
   return (
-    <div className="flex justify-between items-center py-3 px-10 bg-blue-600 text-amber-50">
+    <div className="sticky top-0 z-50 flex justify-between items-center px-8 lg:px-12 h-18 bg-blue-600 border-b border-slate-200 shadow-sm">
 
-      <a href="/LandingPage">Logo</a>
+      <a href="/LandingPage" className="flex items-center gap-2">
+          <img src="/Logo.svg" alt="logo" className="h-14" />
+
+          <div className="flex flex-col leading-none">
+            <span className="font-bold text-slate-900 text-xl">
+              KL Innovation Hub
+            </span>
+            <span className="text-[11px] tracking-widest uppercase text-black">
+              Innovate • Build • Launch
+            </span>
+          </div>
+      </a>
       <ul className="flex items-center text-xs uppercase tracking-[2px] gap-8">
         <li><a href="/dashboard">Dashboard</a></li>
         <li><a href="/exploreProjects">Explore Projects</a></li>
