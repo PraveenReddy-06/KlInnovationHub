@@ -5,19 +5,20 @@ import gold from '../../Images/Gold.png'
 import silver from '../../Images/Silver.png'
 import bronze from '../../Images/bronze.png'
 import axios from 'axios';
+import { useNavigate } from "react-router-dom";
 
 const Leaderboard = () => {
 
     const [leaderboard, setLeaderboard] = useState([]);
     const medals = [silver, gold, bronze];
     const order =[1,0,2];
+    const navigate = useNavigate();
 
     useEffect(() => {
         const top = async () => {
             try {
                 const res = await axios.get("http://localhost:8080/leaderboard");
                 setLeaderboard(res.data);
-                console.log("triggered");
             } catch (err) {
                 console.error(err);
             }
@@ -56,7 +57,7 @@ const Leaderboard = () => {
                             <h2>{p.studentId}</h2>
                             <h2>from {p.branch}</h2>
                         </>
-                    ) : (
+                    ):(
                         <>
                             <h2 className="font-semibold text-lg">{p.teamLead}</h2>
                             <h3 className="text-sm">{p.teamSize > 1? `Team of ${p.teamSize}`: "Team Lead"}</h3>
@@ -91,7 +92,8 @@ const Leaderboard = () => {
 
             <tbody>
                 {leaderboard.map((p, index) => (
-                    <tr key={index} className={` border-b transition-colors duration-200
+                    <tr key={index}   onClick={() => navigate(`/profile/${p.type === "SOLO" ? p.studentId: p.teamLeadId}`)}
+                        className={` border-b transition-colors duration-200
                             ${
                                 index === 0 ? "bg-yellow-50 border-l-4 border-yellow-500"
                                 : index === 1? "bg-slate-50 border-l-4 border-slate-500"
@@ -128,7 +130,7 @@ const Leaderboard = () => {
 
                         <td className="px-6 py-4 text-center">
                             {p.githubUrl ? (
-                                <a href={p.githubUrl} target="_blank" rel="noreferrer" className="bg-gray-300 text-black px-3 py-2 ">
+                                <a href={p.githubUrl} onClick={(e) => e.stopPropagation()} target="_blank" rel="noreferrer" className="bg-gray-300 text-black px-3 py-2 ">
                                     GitHub
                                 </a>
                             ) : (
@@ -138,7 +140,7 @@ const Leaderboard = () => {
 
                         <td className="px-6 py-4 text-center">
                             {p.liveUrl ? (
-                                <a href={p.liveUrl} target="_blank"rel="noreferrer"className="bg-blue-600 text-white px-3 py-2 hover:bg-blue-700 transition">
+                                <a href={p.liveUrl} onClick={(e) => e.stopPropagation()} target="_blank"rel="noreferrer"className="bg-blue-600 text-white px-3 py-2 hover:bg-blue-700 transition">
                                     Open
                                 </a>
                             ) : (

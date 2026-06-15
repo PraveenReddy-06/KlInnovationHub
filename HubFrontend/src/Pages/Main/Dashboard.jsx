@@ -16,7 +16,6 @@ const Dashboard = () => {
     const projectCard = async () => {
       const[projectsRes,groupProjectsRes] = await Promise.all([axios.get("http://localhost:8080/project/latest")
       ,axios.get("http://localhost:8080/groupProject/latest"),]);
-      
       const formattedProjects = projectsRes.data.map((item) => {
         return {...item,type: "INDIVIDUAL",title: item.projectName,
           ownerName: item.student?.student_name,
@@ -37,10 +36,6 @@ const Dashboard = () => {
 
       setProjects(formattedProjects);
       setGroupProjects(formattedGroupProjects);
-      console.log("this is latest projects")
-      console.log(formattedProjects);
-      console.log("this is latest group projects")
-      console.log(formattedGroupProjects);
     }
 
     const TopProject = async () => {
@@ -63,9 +58,7 @@ const Dashboard = () => {
           branch: item.teamLead?.branch,
           year: item.teamLead?.year,
           projectKey: item.groupProjectId};
-        });
-      console.log("this is top projects")
-      console.log(formattedTopProjects,formattedTopGroupProjects)        
+        });        
       setTopProjects(formattedTopProjects);
       setTopGroupProjects(formattedTopGroupProjects);
     }

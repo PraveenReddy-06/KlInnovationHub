@@ -28,7 +28,7 @@ function App() {
         <Route path="/submitProject" element={< SubmitProject/>} />
         <Route path="/leaderBoard" element={< Leaderboard/>}/>
         <Route path="/exploreProjects" element={<ExploreProjects/>}/>
-        <Route path="/profile" element={<Profile/>}/>
+        <Route path="/profile/:studentId?" element={<Profile/>}/>
         <Route path="/formATeam" element={<FormATeam/>}/>
         <Route path="/teamApplications" element={<TeamApplications/>}/>
       </Routes>

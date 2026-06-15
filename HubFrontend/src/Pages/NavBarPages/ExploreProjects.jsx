@@ -39,8 +39,6 @@ const ExploreProjects = () => {
 
       setProjects(formattedProjects);
       setGroupProjects(formattedGroupProjects);
-      console.log(formattedProjects);
-      console.log(formattedGroupProjects);
     }catch (err) {console.log(err);} 
     finally {setLoading(false);}
   };
@@ -147,54 +145,31 @@ const ExploreProjects = () => {
         return (
           <div key={`${project.type}-${project.projectId || project.groupProjectId}`} className="bg-white rounded-xl shadow hover:shadow-lg transition overflow-hidden">
             <div className="p-4">
-<div className="flex gap-4 items-center mb-3">
+              <div className="flex gap-4 items-center mb-3">
+                  <img src={
+                          isGroup
+                              ? ( project.teamLead?.avatarUrl ||`/avatars/Avatar${(project.teamLead?.studentId % 40) + 1}.svg`
+                              ): ( project.student?.avatarUrl || `/avatars/Avatar${(project.student?.studentId % 40) + 1}.svg`)}
+                      alt=""
+                      className="w-16 h-16 rounded-full object-cover border-2 border-gray-200 shrink-0"
+                  />
+                  <h3 className="font-bold text-xl leading-tight text-gray-900 ">{title}</h3>
+              </div>
 
-    <img
-        src={
-            isGroup
-                ? (
-                    project.teamLead?.avatarUrl ||
-                    `/Avatars/Avatar${(project.teamLead?.studentId % 40) + 1}.svg`
-                )
-                : (
-                    project.student?.avatarUrl ||
-                    `/Avatars/Avatar${(project.student?.studentId % 40) + 1}.svg`
-                )
-        }
-        alt=""
-        className="w-16 h-16 rounded-full object-cover border-2 border-gray-200 shrink-0"
-    />
-
-    <h3 className="font-bold text-xl leading-tight text-gray-900 ">
-        {title}
-    </h3>
-
-</div>
-
-<div className="mb-3">
-
-    <p className="font-medium text-gray-800">
-        {ownerName}
-    </p>
-
-    {isGroup && (
-        <div className="flex flex-wrap gap-2 mt-2">
-
-            {project.studentList
-                ?.filter(student => student.studentId !== ownerId)
-                .map(student => (
-                    <span
-                        key={student.studentId}
-                        className="text-xs bg-gray-100 px-3 py-1 rounded-full text-gray-700"
-                    >
-                        {student.student_name}
-                    </span>
-                ))}
-
-        </div>
-    )}
-
-</div>
+              <div className="mb-3">
+                <p className="font-medium text-gray-800">{ownerName}</p>
+                {isGroup && (
+                    <div className="flex flex-wrap gap-2 mt-2">
+                        {project.studentList?.filter(student => student.studentId !== ownerId) .map(student => (
+                                <span
+                                    key={student.studentId}
+                                    className="text-xs bg-gray-100 px-3 py-1 rounded-full text-gray-700">
+                                    {student.student_name}
+                                </span>
+                        ))}
+                    </div>
+                )}
+              </div>
               <div className="flex flex-wrap gap-2 ">
                   <span className="text-xs bg-gray-100 px-2 py-1 rounded">{branch}</span>
                 <span className="text-xs bg-gray-100 px-2 py-1 rounded">{year}</span>
@@ -203,13 +178,10 @@ const ExploreProjects = () => {
                 </span>
               </div>
               <div className="text-xs py-1 rounded-full">
-
                 {project.tech1 && (<span className="text-xs text-blue-700 px-2 py-1 rounded">{project.tech1}</span>)}
                 {project.tech2 && (<span className="text-xs text-blue-700 px-2 py-1 rounded">{project.tech2}</span>)}
                 {project.tech3 && (<span className="text-xs text-blue-700 px-2 py-1 rounded">{project.tech3}</span>)}
-
               </div>
-
               <p className="text-sm text-gray-600 mt-3 line-clamp-3">{project.description}</p>
               <div className="flex justify-between items-center mt-5">
                 <button onClick={() => handleLike(project)} className="flex items-center gap-1 text-sm">
@@ -222,7 +194,6 @@ const ExploreProjects = () => {
                 )}
 
               </div>
-
               <div className="flex gap-2 mt-4">
                 <a href={project.liveUrl} className="flex-1 bg-blue-600 hover:bg-blue-700 text-white px-5 py-2 rounded text-sm">View Project</a>
                 <a href={project.githubUrl} target="_blank" rel="noreferrer" className="w-14 border px-3 rounded flex items-center justify-center hover:bg-gray-100"><FaGithub size={20} /></a>

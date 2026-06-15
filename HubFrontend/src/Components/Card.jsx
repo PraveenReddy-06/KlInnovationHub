@@ -24,7 +24,6 @@ const Card = ({ project }) => {
 
   const bgMap = { cse: CSECard, ece: ECECard, csit: CSITCard};
   const bg = bgMap[project.branch?.toLowerCase()] || CSITCard;
-  console.log("CARD", project);
 
   return (
     <div className="relative flex flex-col w-full h-full p-4 rounded-2xl overflow-hidden bg-cover bg-center border border-gray-400 text-white" style={{ backgroundImage: `url(${bg})` }}>
@@ -34,8 +33,8 @@ const Card = ({ project }) => {
         <h2 className="font-bold pb-1 truncate text-md">{project.title}</h2>
         <div className="flex gap-3 items-start ">
           <img
-            src={project.type === "GROUP"? (project.teamLead?.avatarUrl ||`/Avatars/Avatar${(project.teamLead?.studentId % 40) + 1}.svg`
-            ) : (project.student?.avatarUrl ||`/Avatars/Avatar${(project.student?.studentId % 40) + 1}.svg`)}
+            src={project.type === "GROUP"? (project.teamLead?.avatarUrl ||`/avatars/Avatar${(project.teamLead?.studentId % 40) + 1}.svg`
+            ) : (project.student?.avatarUrl ||`/avatars/Avatar${(project.student?.studentId % 40) + 1}.svg`)}
             alt=""
             className="w-14 h-14 rounded-full object-cover border-2 border-white/30"
           />
