@@ -31,13 +31,13 @@ const Leaderboard = () => {
     <div>
         < Navbar/>
 
-        <div className ="flex px-10 gap-5 items-center bg-oxford-blue text-gray-300">
-            <div className ="w-1/2 flex flex-col gap-3">
+        <div className ="flex px-10 gap-5 items-center bg-primary text-gray-300 border-t border-t-gray-800">
+            <div className ="w-1/2 flex flex-col gap-3 px-25">
             <h1 className =" text-3xl font-bold">Celebrating Our Innovators</h1>
             <p className="font-serif">Impact Recognizing the top students and most impactful projects.</p>
             </div>
             <div className="w-1/2 flex justify-center items-center">
-            <img src={background} className="h-40 w-200 p-3" alt=""/>
+            <img src={background} className="h-40 w-200" alt=""/>
             </div>
         </div>
 

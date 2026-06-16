@@ -40,7 +40,7 @@ const Navbar = () => {
 
           <div className="flex flex-col leading-none">
             <span className="font-bold text-vanilla-custard text-xl">
-              KL • Innovation Hub
+              KL InnovationHub
             </span>
             <span className="text-[11px] tracking-widest uppercase text-tan">
               Innovate • Build • Launch

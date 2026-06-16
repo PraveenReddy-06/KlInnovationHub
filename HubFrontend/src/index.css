@@ -6,6 +6,8 @@
   --color-accent: #5483B3;
   --color-sky: #7DA0CA;
   --color-light-blue: #C1E8FF;
+  --color-submitProject: #042648;
+  --color-dashboard: #011b3c;
 
   --color-vanilla-custard: #FFF9EB;
   --color-misty-sage: #9FB2AC;
@@ -16,6 +18,13 @@
 
   --color-cream: #F8F0E5;
   --color-dark-navy: #082052;
+  --color-sky-blue: #c0e8ff;
+  --color-featuredProject: #5d686e;
+  --color-MydarkGreen: #2c4d56;
+
+  --color-formTeam: #172762;
+  --color-collab: #d0e6fd;
+  --color-submit: #f1e4d1;
 }
 
 html,

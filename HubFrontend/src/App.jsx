@@ -31,6 +31,7 @@ function App() {
         <Route path="/profile/:studentId?" element={<Profile/>}/>
         <Route path="/formATeam" element={<FormATeam/>}/>
         <Route path="/teamApplications" element={<TeamApplications/>}/>
+        <Route path="/landingPage" element={<LandingPage/>}/>
       </Routes>
     </BrowserRouter>
   )

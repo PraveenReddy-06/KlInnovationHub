@@ -5,6 +5,7 @@ import { useNavigate } from "react-router-dom";
 import Card from "../../Components/Card";
 import { FaGithub, FaLinkedin } from "react-icons/fa";
 import { useParams } from "react-router-dom";
+import {Users,Handshake,Rocket} from "lucide-react";
 
 const Profile = () => {
   const { studentId: routeStudentId } = useParams();
@@ -130,14 +131,14 @@ return (
                 <p className="uppercase tracking-[6px] text-sm opacity-80">KL Innovation Hub</p>
             </div>
         </div>
-        <div className="relative -mt-24 z-20 bg-">
-            <div className="backdrop-blur-2xl bg-white/10 border border-white/10 rounded-[35px] p-8 shadow-[0_20px_80px_rgba(0,0,0,.35)]">
+        <div className="relative -mt-24 z-20 ">
+            <div className="backdrop-blur-2xl bg-white/10  rounded-[35px] p-8 shadow-[0_20px_80px_rgba(0,0,0,.35)]">
                 <div className="flex flex-col lg:flex-row justify-between items-center gap-8">
                     <div className="flex items-center gap-6">
                         <img
                             src={student.avatarUrl ||`/avatars/Avatar${(student.studentId % 40) + 1}.svg`}
                             alt={student.student_name}
-                            className="h-36 w-36 rounded-full object-cover shadow-2xl"
+                            className="h-36 w-36 rounded-full object-cover border border-black shadow-2xl"
                             onError={(e) => {e.target.src =`/avatars/Avatar${(student.studentId % 40) + 1}.svg`;
                             }}
                         />
@@ -169,22 +170,24 @@ return (
                             </div>
                         </div>
                     </div>
-                    <div className="flex gap-4">
+                    <div className="flex gap-4 text-sm">
                         {isOwnProfile && (<button
                             onClick={() => navigate("/formATeam")}
-                            className="bg-white text-slate-900 font-semibold px-6 py-3 rounded-2xl hover:scale-105 duration-300 cursor-pointer">
-                            Form My Team
+                            className=" bg-submit text-slate-900 border border-amber-900 font-semibold px-6 py-2 rounded-2xl hover:scale-105 duration-300 cursor-pointer">
+                                <Users size={20} /> Form My Team
                         </button>)}
                         {isOwnProfile && (
                         <button
                             onClick={() => navigate("/teamApplications")}
-                            className="bg-cyan-300 text-gray-800 font-semibold px-6 py-3 rounded-2xl hover:scale-105 duration-300 cursor-pointer">
-                            Veiw Requests
+                            className="bg-collab text-gray-800 border border-black font-semibold px-6 rounded-2xl hover:scale-105 duration-300 cursor-pointer">
+                            <Handshake size={20} />
+                            Collab Hub 
                         </button>)}
                         {isOwnProfile && (
                         <button
                             onClick={() => navigate("/submitProject")}
-                            className="bg-cyan-500 text-white font-semibold px-6 py-3 rounded-2xl hover:scale-105 duration-300 cursor-pointer">
+                            className="bg-formTeam text-white border border-gray-400 font-semibold px-6 rounded-2xl hover:scale-105 duration-300 cursor-pointer">
+                            <Rocket size={20} />
                             Submit Project
                         </button> )}
                     </div>
@@ -212,26 +215,26 @@ return (
         </div>
         {isOwnProfile && (
         <div onClick={() => navigate("/submitProject")}
-            className="cursor-pointer mt-12 rounded-[35px] overflow-hidden group"       >
-            <div className="relative h-70 ">
-                <div className="absolute inset-0 bg-black/20" />
-                <div className="absolute inset-0 flex flex-col justify-center px-12">
-                    <p className="uppercase tracking-[5px] text-white/80"> Showcase Your Work</p>
-                    <h2 className="text-5xl font-black text-white mt-3">    Launch Your Next Project</h2>
-                    <p className="text-xl text-white/90 mt-3">    Click here to submit and showcase your project.</p>
+            className="cursor-pointer mt-12 rounded-[35px] border-amber-500 border-2 overflow-hidden group"       >
+            <div className="relative h-70">
+                <div className="absolute inset-0 bg-cream" />
+                <div className="absolute inset-0 flex flex-col justify-center px-12 ">
+                    <p className="uppercase tracking-[5px] text-black"> Showcase Your Work</p>
+                    <h2 className="text-5xl font-black  mt-3 text-black/90">    Launch Your Next Project</h2>
+                    <p className="text-xl  mt-3 text-black">    Click here to submit and showcase your project.</p>
                     <div className="mt-8">
-                        <span className="bg-white text-slate-900 px-6 py-3 rounded-xl font-bold">Submit Project →</span>
+                        <span className="bg-tan border border-amber-700 text-slate-900 px-6 py-3 rounded-xl font-bold">Submit Project →</span>
                     </div>
                 </div>
             </div>
         </div>)}
         {projects.length > 0 && (
-            <div className="mt-12">
-                <h2 className="text-white text-3xl font-bold mb-6">  Featured Project  </h2>
-                <div className="bg-linear-to-r from-slate-900 to-slate-800 border border-white/10 rounded-[35px] p-8">
-                    <p className="text-cyan-400 uppercase tracking-[4px]">    Featured  </p>
-                    <h3 className="text-white text-4xl font-black mt-4">  {projects[0].projectName}  </h3>
-                    <p className="text-slate-400 mt-4">  {projects[0].description}  </p>
+            <div className="mt-12 ">
+                <h2 className="text-white text-3xl font-bold mb-6"> My Featured Project  </h2>
+                <div className="bg-featuredProject border-2 border-gray-400 rounded-[35px] p-8">
+                    <p className=" text-black/90 uppercase tracking-[4px]">    Featured  </p>
+                    <h3 className="text-black text-4xl font-black mt-4">  {projects[0].projectName}  </h3>
+                    <p className="text-slate-900 mt-4">  {projects[0].description}  </p>
                 </div>
             </div>
         )}

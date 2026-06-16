@@ -99,17 +99,16 @@ const TeamApplications = () => {
       }
   };
 
-  if (loading) return <div className="min-h-screen bg-gradient-to-br from-slate-950 via-blue-950 to-slate-950 flex items-center justify-center text-white text-xl">Loading...</div>;
+  if (loading) return <div className="min-h-screen bg-linear-to-br from-slate-950 via-blue-950 to-slate-950 flex items-center justify-center text-white text-xl">Loading...</div>;
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-slate-950 via-blue-950 to-slate-950">
+    <div className="min-h-screen bg-linear-to-br from-slate-950 via-blue-950 to-slate-950">
       <Navbar />
 
       <div className="max-w-7xl mx-auto px-6 py-8">
-        <div className="relative h-[260px] rounded-b-[50px] rounded-tr-[50px] overflow-hidden bg-gradient-to-r from-indigo-600 via-blue-500 to-cyan-500 shadow-2xl">
-          <div className="absolute -top-24 -right-24 h-80 w-80 rounded-full bg-white/10" />
-          <div className="absolute bottom-0 left-0 h-72 w-72 rounded-full bg-white/5" />
-          <div className="absolute top-10 left-1/3 h-40 w-40 rounded-full bg-white/5 blur-3xl" />
+        <div className="relative h-65 rounded-b-[50px] rounded-tr-[50px] overflow-hidden shadow-2xl ">
+            <img src="/KlProfile.png"className="absolute inset-0 w-full h-full object-cover blur-xs scale-110"/>
+          <div className="absolute inset-0 bg-black/40" />
           <div className="absolute inset-0 flex items-end justify-between px-10 pb-10">
             <div className=" text-white">
               <p className="uppercase tracking-[6px] text-sm opacity-80">KL Innovation Hub</p>
@@ -145,7 +144,7 @@ const TeamApplications = () => {
                 <div key={team.collaboration_id} className="bg-white/5 border border-white/10 overflow-hidden backdrop-blur-xl">
                   <button onClick={() => setExpandedTeam(isOpen ? null : team.collaboration_id)} className="w-full flex items-center justify-between px-8 py-5 text-left">
                     <div className="flex items-center gap-5">
-                      <div className="h-12 w-12 rounded-full bg-gradient-to-br from-cyan-400 to-blue-600 flex items-center justify-center text-white font-black text-xl">{team.name?.charAt(0)}</div>
+                      <div className="h-12 w-12 rounded-full bg-linear-to-br from-cyan-400 to-blue-600 flex items-center justify-center text-white font-black text-xl">{team.name?.charAt(0)}</div>
                       <div>
                         <h3 className="text-white text-lg font-bold">{team.name}</h3>
                         <p className="text-slate-400 text-sm mt-0.5 max-w-xl line-clamp-1">{team.problemStatement}</p>
@@ -157,7 +156,7 @@ const TeamApplications = () => {
                           <span key={sk} className="text-xs bg-blue-500/20 text-blue-300 border border-blue-500/30 px-3 py-1 rounded-full">{sk}</span>
                         ))}
                       </div>
-                      <div className="flex items-center gap-2 bg-white/10 px-4 py-1.5 rounded-full text-white text-sm"><Users size={14} />{apps.length} applicant{apps.length !== 1 ? "s" : ""}</div>
+                      <div className="flex items-center gap-2 bg-white/10 px-4 py-1.5 text-white text-sm"><Users size={14} />{apps.length} applicant{apps.length !== 1 ? "s" : ""}</div>
                       {isOpen ? <ChevronUp size={20} className="text-slate-400" /> : <ChevronDown size={20} className="text-slate-400" />}
                         <button onClick={(e) => { e.stopPropagation(); openDeleteModal(team.collaboration_id);}}
                           className="bg-red-500/20 hover:bg-red text-red-400 hover:text-white border border-red-500/40 px-4 py-1.5 text-xs font-semibold transition-all duration-200">
@@ -176,7 +175,7 @@ const TeamApplications = () => {
                             <div key={app.collabApplication_id} onClick={() => navigate(`/profile/${app.student?.studentId}`)} className="flex items-center justify-between bg-white/5  px-5 py-4  cursor-pointer hover:bg-white/10 transition">
                               <div className="flex items-center gap-4 cursor-pointer hover:bg-white/5  p-2 transition"
                                   onClick={() => navigate(`/profile/${app.student?.studentId}`)}>
-                                <div className="h-10 w-10  bg-gradient-to-br from-purple-400 to-indigo-600 flex items-center justify-center text-white font-bold">{app.student?.student_name?.charAt(0) || "?"}</div>
+                                <div className="h-10 w-10  bg-linear-to-br from-purple-400 to-indigo-600 flex items-center justify-center text-white font-bold">{app.student?.student_name?.charAt(0) || "?"}</div>
                                 <div>
                                   <p className="text-white font-semibold text-sm">{app.student?.student_name || `ID: ${app.student?.studentId}`}</p>
                                   <p className="text-slate-400 text-xs">{app.student?.branch} • Year {app.student?.year} • #{app.student?.studentId}</p>
