@@ -85,11 +85,11 @@ const ExploreProjects = () => {
 
     <div className="min-h-screen bg-gray-100">
     <Navbar/>
-    <div className="bg-white shadow-md px-5 py-5 mb-6">
+    <div className="bg-oxford-blue text-gray-700 shadow-md px-5 py-5 mb-6">
       <div className="flex flex-col lg:flex-row lg:items-center lg:justify-between gap-5">
         <div>
-          <h1 className="text-2xl font-bold text-gray-800">  Exploring All Innovations</h1>
-          <p className="text-gray-500 mt-1">  {filteredProjects.length} results found  </p>
+          <h1 className="text-2xl font-bold text-gray-100">  Exploring All Innovations</h1>
+          <p className="text-gray-300 mt-1">  {filteredProjects.length} results found  </p>
         </div>
 
         <div className="flex flex-wrap items-center gap-4">
@@ -133,7 +133,7 @@ const ExploreProjects = () => {
       <div className="text-center py-20 text-lg">Loading Projects...</div>
     ) : (
     <>
-    <div className=" px-10 grid grid-cols-4 gap-5">
+    <div className=" px-10 grid grid-cols-4 gap-5 ">
       {filteredProjects.map((project) => {
         const isGroup = project.type === "GROUP";
 
@@ -144,9 +144,9 @@ const ExploreProjects = () => {
         const year = isGroup ? project.teamLead?.year : project.student?.year;
         const likes = project.likeCount || 0;
         return (
-          <div key={`${project.type}-${project.projectId || project.groupProjectId}`} className="bg-white rounded-xl shadow hover:shadow-lg transition overflow-hidden">
+          <div key={`${project.type}-${project.projectId || project.groupProjectId}`} className="bg-cream hover:bg-tan/50 rounded-xl shadow hover:shadow-lg transition overflow-hidden border border-amber-800">
             <div className="p-4">
-              <div className="flex gap-4 items-center mb-3 cursor-pointer bg-blend-luminosity hover:bg-blue-100 rounded-lg transition "
+              <div className="flex gap-4 items-center mb-3 cursor-pointer bg-blend-luminosity hover:bg-amber-100 rounded-lg transition "
                    onClick={() =>navigate(`/profile/${isGroup? project.teamLead?.studentId: project.student?.studentId}`)}>
                   <img src={
                           isGroup
@@ -197,7 +197,7 @@ const ExploreProjects = () => {
 
               </div>
               <div className="flex gap-2 mt-4">
-                <a href={project.liveUrl} className="flex-1 bg-blue-600 hover:bg-blue-700 text-white px-5 py-2 rounded text-sm">View Project</a>
+                <a href={project.liveUrl} className="flex-1 bg-accent hover:bg-blue-700 text-white px-5 py-2 rounded text-sm">View Project</a>
                 <a href={project.githubUrl} target="_blank" rel="noreferrer" className="w-14 border px-3 rounded flex items-center justify-center hover:bg-gray-100"><FaGithub size={20} /></a>
               </div>
             </div>

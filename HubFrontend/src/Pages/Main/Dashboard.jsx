@@ -82,17 +82,17 @@ const Dashboard = () => {
   /*<div className="flex-1 h-px bg-gray-300"></div> for line*/
 
   return (
-    <div className="h-full bg-gradient-to-br text-white from-slate-950 via-blue-950 to-slate-950">
+    <div className="min-h-screen overflow-y-auto no-scrollbar" style={{background:"linear-gradient(135deg, #FFF9EB 0%, #F8F0E5 50%, #D2B48C 100%)",}}>
       <Navbar/>
 
-      <div className ="flex px-10 py-5 gap-5 items-center bg-blue-100 text-black">
+      <div className ="flex px-10 py-5 gap-5 items-center text-tan bg-oxford-blue border-b border-b-amber-700">
         <div className ="w-1/2 flex flex-col gap-3">
-          <h1 className =" text-3xl font-bold">Give Life to Your Projects!</h1>
-          <p className="font-serif">Share your innovative solutions with the hub and inspire the community.</p>
+          <h1 className =" text-3xl font-bold text-gray-200">Give Life to Your Projects!</h1>
+          <p className="text-lg opacity-90">Share your innovative solutions with the hub and inspire the community.</p>
           <div className="w-full max-w-md">
-            <div className="flex items-center bg-white border border-gray-300 rounded-xl px-3 py-2 shadow-sm focus-within:ring-2 focus-within:ring-blue-400">
-              <input type="text" placeholder="Search projects, tech, student..." value={search} onChange={(e) => setSearch(e.target.value)} className="w-full outline-none text-sm"/>
-              <span className="text-gray-400 mr-2">🔍</span>
+            <div className="flex items-center rounded-xl px-4 py-3 shadow-sm focus-within:ring-2 bg-white "  style={{border: "1px solid #D2B48C",}}>
+              <input type="text" placeholder="Search projects, tech, student..." value={search} onChange={(e) => setSearch(e.target.value)} className="w-full outline-none text-black text-sm"/>
+              <span className="text-primary ml-2">🔍</span>
             </div>
         </div>
         </div>
@@ -101,13 +101,8 @@ const Dashboard = () => {
         </div>
       </div>
 
-      <div className="py-6 px-10 overflow-hidden">
-        <div className="flex items-center gap-3 pb-5">
-          <div className="text-xl font-bold text-white">
-            Latest Projects
-          </div>
-
-        </div>
+      <div className="py-5 px-10 overflow-hidden">
+        <h2 className="text-2xl font-bold text-primary">Latest Projects</h2>
         <div className="relative overflow-hidden py-2">
           <div className="flex gap-5 w-max animate-scroll">
             {[...filteredProjects, ...filteredProjects].map((project, index) => (
@@ -121,13 +116,12 @@ const Dashboard = () => {
       
       <div className="pb-3 px-10">
         <div className="flex items-center gap-3 pb-2">
-          <div className="text-xl font-bold whitespace-nowrap">Top Projects</div>
-
+          <div className="text-2xl font-bold  text-primary whitespace-nowrap">Top Projects</div>
         </div>
-        <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
+        <div className="grid grid-cols-1 md:grid-cols-2 gap-12">
           <div>
-            <div className="font-thin pb-3 flex items-center justify-center">Solo Projects</div>
-            <div className="flex flex-col gap-5">
+            <div className="font-medium text-secondary mb-3 flex items-center justify-center">Solo Projects</div>
+            <div className="flex flex-col gap-4">
               {topProjects.filter(filterFn).map((project) => (
                 <div key={`${project.type}-${project.projectKey}`}>
                   <TopProjectCard project={project} />
@@ -136,7 +130,7 @@ const Dashboard = () => {
             </div>
           </div>
           <div>
-            <div className="font-thin pb-3 flex items-center justify-center">Group Projects</div>
+            <div className="font-medium text-secondary mb-3 flex items-center justify-center">Group Projects</div>
             <div className="flex flex-col gap-5">
               {topGroupProjects.filter(filterFn).map((project) => (
                 <div key={`${project.type}-${project.projectKey}`}>

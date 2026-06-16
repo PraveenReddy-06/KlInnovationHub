@@ -32,12 +32,12 @@ const Card = ({ project }) => {
   const bg = bgMap[project.branch?.toLowerCase()] || CSITCard;
 
   return (
-    <div className="relative flex flex-col w-full h-full p-4 rounded-2xl overflow-hidden bg-cover bg-center border border-gray-400 text-white" style={{ backgroundImage: `url(${bg})` }}>
-      <div className="absolute inset-0 bg-black/40 rounded-xl"></div>
+    <div className="relative flex flex-col w-full h-full p-4 rounded-2xl overflow-hidden bg-cover bg-center border border-tan/40 text-white" style={{ backgroundImage: `url(${bg})` }}>
+      <div className="absolute inset-0 bg-primary/55 rounded-xl"></div>
 
       <div className="relative z-10">
-        <h2 className="font-bold truncate text-md">{project.title}</h2>
-        <div className="flex gap-3 items-start cursor-pointer hover:bg-white/10 rounded-lg p-2 transition"onClick={handleProfileClick}>
+        <h2 className="font-bold truncate text-md text-vanilla-custard">{project.title}</h2>
+        <div className="flex gap-3 items-start cursor-pointer  hover:bg-light-blue/10 rounded-lg p-2 transition"onClick={handleProfileClick}>
           <img
             src={project.type === "GROUP"? (project.teamLead?.avatarUrl ||`/avatars/Avatar${(project.teamLead?.studentId % 40) + 1}.svg`
             ) : (project.student?.avatarUrl ||`/avatars/Avatar${(project.student?.studentId % 40) + 1}.svg`)}
@@ -45,13 +45,13 @@ const Card = ({ project }) => {
             className="w-14 h-14 rounded-full object-cover border-2 border-white/30"
           />
           <div className="flex-1">
-            <p>{project.ownerName} . {project.ownerId}</p>
+            <p className="text-light-blue">{project.ownerName} . {project.ownerId}</p>
             {project.type === "GROUP" && project.studentList?.length > 0 && (
               <div className="flex flex-wrap gap-1">{
                 project.studentList?.filter((student) =>student.studentId !== project.ownerId).map((student) => 
                 (<span key={student.studentId}
                       onClick={(e) => { e.stopPropagation(); navigate(`/profile/${student.studentId}`);}}
-                      className="text-xs bg-white/20 px-2 py-1 rounded">
+                      className="text-xs bg-tan/25 text-vanilla-custard px-2 py-1 rounded">
                     {student.student_name}
                   </span>))}
               </div>
@@ -67,12 +67,12 @@ const Card = ({ project }) => {
           </button>
 
           <a className="hover:scale-110 transition" href={project.githubUrl} target="_blank" rel="noopener noreferrer">
-            <div className="flex-row items-center justify-center">
+            <div className="text-vanilla-custard hover:text-light-blue transition">
               <FaGithub size={22} />
             </div>
           </a>
 
-          <a href={project.liveUrl} className="rounded-2xl text-black bg-green-500/60  p-1.5">View</a>
+          <a href={project.liveUrl} className="rounded-2xl px-3 py-1 text-vanilla-custard bg-accent hover:bg-sky transition">View</a>
         </div>
       </div>
     </div>

@@ -1,5 +1,39 @@
 @import "tailwindcss";
 
+@theme {
+  --color-primary: #021024;
+  --color-secondary: #052659;
+  --color-accent: #5483B3;
+  --color-sky: #7DA0CA;
+  --color-light-blue: #C1E8FF;
+
+  --color-vanilla-custard: #FFF9EB;
+  --color-misty-sage: #9FB2AC;
+  --color-bloodstone: #5D0D18;
+
+  --color-oxford-blue: #002147;
+  --color-tan: #D2B48C;
+
+  --color-cream: #F8F0E5;
+  --color-dark-navy: #082052;
+}
+
+html,
+body {
+  margin: 0;
+  padding: 0;
+  scrollbar-width: none;
+  -ms-overflow-style: none;
+}
+
+html::-webkit-scrollbar,
+body::-webkit-scrollbar {
+  display: none;
+}
+body {
+  overflow-x: hidden;
+}
+
 @layer components {
     .section {
         @apply py-12 px-10 text-center;

@@ -31,13 +31,13 @@ const Leaderboard = () => {
     <div>
         < Navbar/>
 
-        <div className ="flex px-10 gap-5 items-center bg-blue-100 text-black">
+        <div className ="flex px-10 gap-5 items-center bg-oxford-blue text-gray-300">
             <div className ="w-1/2 flex flex-col gap-3">
             <h1 className =" text-3xl font-bold">Celebrating Our Innovators</h1>
             <p className="font-serif">Impact Recognizing the top students and most impactful projects.</p>
             </div>
             <div className="w-1/2 flex justify-center items-center">
-            <img src={background} className="h-40 w-200" alt=""/>
+            <img src={background} className="h-40 w-200 p-3" alt=""/>
             </div>
         </div>
 
@@ -80,7 +80,7 @@ const Leaderboard = () => {
     <div className="overflow-hidden  shadow-lg border border-gray-200">
         <table className="w-full">
             <thead className="sticky top-0 z-10">
-                <tr className="bg-linear-to-r from-blue-600 to-indigo-600 text-white">
+                <tr className="bg-secondary text-white">
                     <th className="px-6 py-4 text-left">Rank</th>
                     <th className="px-6 py-4 text-left">Project</th>
                     <th className="px-6 py-4 text-left">Type</th>
@@ -94,12 +94,12 @@ const Leaderboard = () => {
             <tbody>
                 {leaderboard.map((p, index) => (
                     <tr key={index}   onClick={() => navigate(`/profile/${p.type === "SOLO" ? p.studentId: p.teamLeadId}`)}
-                        className={` border-b transition-all duration-200 cursor-pointer hover:bg-white/10 rounded-lg p-2
+                        className={` border-b transition-all duration-200 cursor-pointer hover:bg-vanilla-custard rounded-lg p-2
                             ${
-                                index === 0 ? "bg-yellow-50 border-l-4 border-yellow-500"
-                                : index === 1? "bg-slate-50 border-l-4 border-slate-500"
-                                : index === 2? "bg-orange-50 border-l-4 border-orange-500"
-                                : "hover:bg-blue-50"}`}>
+                                index === 0 ? "bg-yellow-100 border-l-4 border-yellow-500"
+                                : index === 1? "bg-slate-100 border-l-4 border-slate-500"
+                                : index === 2? "bg-orange-100 border-l-4 border-orange-500"
+                                : "hover:bg-tan"}`}>
 
                         <td className="px-6 py-4 font-bold">
                             {index === 0 ? (<span>🏆 #1</span>

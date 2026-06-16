@@ -33,50 +33,50 @@ const TopProjectCard = ({project}) => {
   };
 
   return (
-    <div className="flex flex-col w-full p-4 hover:bg-blue-600 hover:ring-1 hover:ring-white/30 bg-blue-500 rounded-xl text-white">
-      <h2 className="font-bold text-lg pb-3">{project.title}</h2>
+    <div className="flex flex-col w-full p-4 bg-white border border-slate-400 rounded-2xl shadow-sm transition-all duration-300 hover:bg-tan/50 hover:shadow-xl hover:border-amber-800">
+      <h2 className="font-bold text-lg pb-3 text-slate-900 group-hover:text-accent transition-colors">{project.title}</h2>
 
-      <div className="flex gap-4 items-start hover:bg-white/10 rounded-lg p-2 transition cursor-pointer" 
+      <div className="flex gap-4 items-start  hover:bg-tan/40 rounded-lg p-2 transition-all duration-200 cursor-pointer"
             onClick={handleProfileClick}>
         <img
           src={project.type === "GROUP"
             ? ( project.teamLead?.avatarUrl || `/avatars/Avatar${(project.teamLead?.studentId % 40) + 1}.svg`
               ): ( project.student?.avatarUrl || `/avatars/Avatar${(project.student?.studentId % 40) + 1}.svg`)}
           alt=""
-          className="w-20 h-20 rounded-full object-cover border-2 border-white/30 shrink-0"
+          className="w-20 h-20 rounded-full object-cover border border-slate-200 shrink-0"
         />
         <div className="flex-1">
           <p className="text-md font-semibold leading-none" >{project.ownerName}</p>
-          <p className="text-sm text-white/70 mt-1">#{project.ownerId}</p>
+          <p className="text-sm text-slate-500 mt-1">#{project.ownerId}</p>
           {project.type === "GROUP" && project.studentList?.length > 0 && (
             <div className="flex flex-wrap gap-2 m-2">{
               project.studentList?.filter((student) =>student.studentId !== project.ownerId).map((student) => 
               (<span key={student.studentId}
                       onClick={(e) => { e.stopPropagation(); navigate(`/profile/${student.studentId}`);}}
-                     className="text-xs bg-white/15 px-3 py-1 rounded-full text-white/90">
+                     className="text-xs bg-slate-200 px-2 py-0.5 rounded-md text-slate-700">
                   {student.student_name}
                 </span>
               ))}
             </div>
             )}
-          <p className="mt-3 text-md font-medium">{project.tech1} . {project.tech2}</p>     
+          <p className="mt-3 text-md font-medium text-blue-600">{project.tech1} . {project.tech2}</p>     
         </div>
       </div>
-      <p className="mt-4 leading-relaxed line-clamp-3">
+      <p className="mt-4 text-slate-600 leading-relaxed line-clamp-3">
           {project.description}
       </p>      
 
-      <div className="flex gap-5 justify-end items-center text-xs">
-        <button onClick={handleLike} className="flex items-center gap-1 active:scale-95">
-          <FaHeart className={liked ? "text-red-500" : "text-gray-300"} size={20} />
-          <span> {like}</span>
+      <div className="flex gap-5 justify-end items-center text-xs text-slate-500">
+        <button onClick={handleLike} className="flex items-center gap-1 hover:text-red-500 transition">
+          <FaHeart className={liked ? "text-red-500" : "text-slate-400"} size={18} />
+          <span className="font-semibold text-slate-700"> {like}</span>
           Likes
         </button>
 
-        <a className="hover:scale-110 transition" href={project.githubUrl} target="_blank" rel="noopener noreferrer">
+        <a className="hover:text-black transition" href={project.githubUrl} target="_blank" rel="noopener noreferrer">
           <FaGithub size={30} />
         </a>
-        <a href={project.liveUrl}>View</a>
+        <a href={project.liveUrl} className="font-semibold text-blue-600 hover:underline">View</a>
       </div>
     </div>
   );
