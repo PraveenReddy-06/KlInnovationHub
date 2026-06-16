@@ -119,21 +119,18 @@ return (
 }
 
 return (
-<div className="min-h-screen bg-gradient-to-br from-slate-950 via-blue-950 to-slate-950">
+<div className="min-h-screen bg-linear-to-br from-slate-950 via-blue-950 to-slate-950">
 
     <Navbar />
 
-    <div className="max-w-7xl mx-auto px-6 py-8">
-        <div className="relative h-[350px] rounded-[40px] overflow-hidden bg-gradient-to-r from-indigo-600 via-blue-500 to-cyan-500 shadow-2xl">
-            <div className="absolute -top-24 -right-24 h-80 w-80 rounded-full bg-white/10" />
-            <div className="absolute bottom-0 left-0 h-72 w-72 rounded-full bg-white/5" />
-            <div className="absolute top-10 left-1/3 h-40 w-40 rounded-full bg-white/5 blur-3xl" />
+    <div className="max-w-7xl mx-auto px-6 py-8" >
+        <div className="relative h-96 rounded-[40px] overflow-hidden shadow-2xl bg-cover"
+             style={{backgroundImage: "url('/KlProfile.png')",backgroundPosition: "center 50%", }} >
             <div className="absolute bottom-10 left-10 text-white">
                 <p className="uppercase tracking-[6px] text-sm opacity-80">KL Innovation Hub</p>
-                <h1 className="text-6xl font-black mt-2">{student.student_name}</h1>
             </div>
         </div>
-        <div className="relative -mt-24 z-20">
+        <div className="relative -mt-24 z-20 bg-">
             <div className="backdrop-blur-2xl bg-white/10 border border-white/10 rounded-[35px] p-8 shadow-[0_20px_80px_rgba(0,0,0,.35)]">
                 <div className="flex flex-col lg:flex-row justify-between items-center gap-8">
                     <div className="flex items-center gap-6">
@@ -175,19 +172,19 @@ return (
                     <div className="flex gap-4">
                         {isOwnProfile && (<button
                             onClick={() => navigate("/formATeam")}
-                            className="bg-white text-slate-900 font-semibold px-6 py-3 rounded-2xl hover:scale-105 duration-300">
+                            className="bg-white text-slate-900 font-semibold px-6 py-3 rounded-2xl hover:scale-105 duration-300 cursor-pointer">
                             Form My Team
                         </button>)}
                         {isOwnProfile && (
                         <button
                             onClick={() => navigate("/teamApplications")}
-                            className="bg-cyan-300 text-gray-800 font-semibold px-6 py-3 rounded-2xl hover:scale-105 duration-300">
+                            className="bg-cyan-300 text-gray-800 font-semibold px-6 py-3 rounded-2xl hover:scale-105 duration-300 cursor-pointer">
                             Veiw Requests
                         </button>)}
                         {isOwnProfile && (
                         <button
                             onClick={() => navigate("/submitProject")}
-                            className="bg-cyan-500 text-white font-semibold px-6 py-3 rounded-2xl hover:scale-105 duration-300">
+                            className="bg-cyan-500 text-white font-semibold px-6 py-3 rounded-2xl hover:scale-105 duration-300 cursor-pointer">
                             Submit Project
                         </button> )}
                     </div>
@@ -197,7 +194,7 @@ return (
 
         <div className="grid lg:grid-cols-4 gap-6 mt-12">
             <div className="bg-white/10 backdrop-blur-xl border border-white/10  p-6 hover:-translate-y-2 duration-300">
-                <p className="text-slate-400">Projects Built</p>
+                <p className="text-slate-400">Solo Projects</p>
                 <h2 className="text-5xl font-black text-white mt-3">{projects.length}</h2>
             </div>
             <div className="bg-white/10 backdrop-blur-xl border border-white/10 p-6 hover:-translate-y-2 duration-300">
@@ -216,7 +213,7 @@ return (
         {isOwnProfile && (
         <div onClick={() => navigate("/submitProject")}
             className="cursor-pointer mt-12 rounded-[35px] overflow-hidden group"       >
-            <div className="relative h-70 bg-linear-to-r from-violet-600 via-indigo-600 to-cyan-500">
+            <div className="relative h-70 ">
                 <div className="absolute inset-0 bg-black/20" />
                 <div className="absolute inset-0 flex flex-col justify-center px-12">
                     <p className="uppercase tracking-[5px] text-white/80"> Showcase Your Work</p>
