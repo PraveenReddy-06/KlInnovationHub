@@ -37,7 +37,7 @@ const Leaderboard = () => {
             <p className="font-serif">Impact Recognizing the top students and most impactful projects.</p>
             </div>
             <div className="w-1/2 flex justify-center items-center">
-            <img src={background} className="h-40 w-200" alt=""/>
+            <img src={background} className="h-40 w-200" />
             </div>
         </div>
 

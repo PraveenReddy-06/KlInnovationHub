@@ -69,18 +69,17 @@ const SubmitProject = () => {
         }
     };
 
-
   return (
-    <div className="min-h-screen bg-gradient-to-b from-primary via-secondary to-oxford-blue">
+    <div className="min-h-screen bg-linear-to-b from-primary via-secondary to-oxford-blue">
         <Navbar/>
 
-        <div className="flex px-10 gap-5 items-center bg-submitProject text-vanilla-custard">           
+        <div className="flex pl-10 gap-5 items-center bg-submitProject text-vanilla-custard">           
             <div className ="w-1/2 flex flex-col gap-3">
                 <h1 className =" text-3xl font-bold">Unleash Your Potential at the Hub!</h1>
                 <p className="font-serif">Join today to give life to your projects and share your innovation with peers.</p>
             </div>
-            <div className="w-1/2 flex justify-center items-center">
-                <img src={background} className="h-50" alt=""/>
+            <div className="w-1/2 flex justify-end items-end">
+                <img src={background} className="h-50"/>
             </div>
         </div>
         <h1 className="text-3xl font-bold text-center py-5 text-vanilla-custard">Solo Project Submission</h1>

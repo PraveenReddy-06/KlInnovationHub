@@ -42,7 +42,7 @@ const TopProjectCard = ({project}) => {
           src={project.type === "GROUP"
             ? ( project.teamLead?.avatarUrl || `/avatars/Avatar${(project.teamLead?.studentId % 40) + 1}.svg`
               ): ( project.student?.avatarUrl || `/avatars/Avatar${(project.student?.studentId % 40) + 1}.svg`)}
-          alt=""
+          
           className="w-20 h-20 rounded-full object-cover border border-slate-200 shrink-0"
         />
         <div className="flex-1">

@@ -85,7 +85,7 @@ const Dashboard = () => {
     <div className="min-h-screen overflow-y-auto no-scrollbar" style={{background:"linear-gradient(135deg, #FFF9EB 0%, #F8F0E5 50%, #D2B48C 100%)",}}>
       <Navbar/>
 
-      <div className ="flex px-20 gap-5 items-center text-tan bg-dashboard border-b border-b-amber-700">
+      <div className ="flex pl-20 gap-5 items-center text-tan bg-dashboard border-b border-b-amber-700">
         <div className ="w-1/2 flex flex-col gap-3">
           <h1 className =" text-3xl font-bold text-gray-200">Give Life to Your Projects!</h1>
           <p className="text-lg opacity-90">Share your innovative solutions with the hub and inspire the community.</p>
@@ -97,7 +97,7 @@ const Dashboard = () => {
         </div>
         </div>
         <div className="w-1/2 flex justify-center items-center">
-          <img src={background} className="h-65 w-max" alt=""/>
+          <img src={background} className="h-60 w-max"/>
         </div>
       </div>
 

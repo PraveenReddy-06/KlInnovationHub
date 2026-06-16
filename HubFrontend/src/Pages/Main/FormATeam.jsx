@@ -195,7 +195,7 @@ return (
         <div className="bg-white rounded-3xl shadow-xl p-6 flex flex-col justify-center items-center">
         {!isSubmitted ? (
             <>
-            <img src={background} alt=""className="w-full object-contain"/>
+            <img src={background} className="w-full object-contain"/>
             <div className="mt-6 text-center">
                 <h2 className="text-2xl font-bold text-gray-800">Build Your Dream Team</h2>
                 <p className="text-gray-500 mt-3 text-sm leading-6">Find passionate teammates and turn your innovative idea into reality.</p>
@@ -203,7 +203,7 @@ return (
             </>
         ) : (
             <>
-            <img src="/success.png"alt=""className="w-full object-contain animate-pulse"/>
+            <img src="/success.png"className="w-full object-contain animate-pulse"/>
             <div className="mt-6 text-center">
                 <h2 className="text-2xl font-bold text-green-600">Collaboration Created!</h2>
                 <p className="text-gray-500 mt-3 text-sm">Redirecting to dashboard in 5 seconds...</p>

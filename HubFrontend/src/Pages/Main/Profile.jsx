@@ -295,7 +295,7 @@ return (
                         <h3 className="text-white text-sm font-semibold mb-3">Boys</h3>
                         <div className="h-96 w-28 no-scrollbar overflow-y-auto border-r border-slate-700 pr-2">
                             {boyAvatars.map((avatar) => (
-                                <img key={avatar} src={avatar} alt="" onClick={() => setSelectedAvatar(avatar)}
+                                <img key={avatar} src={avatar}  onClick={() => setSelectedAvatar(avatar)}
                                     className={`w-20 h-20 rounded-full cursor-pointer mb-3 border-2 ${
                                     selectedAvatar === avatar? "border-cyan-400": "border-transparent"}`}
                                 />
@@ -306,7 +306,7 @@ return (
                         <h3 className="text-white text-sm font-semibold mb-3">Girls </h3>
                         <div className="h-96 w-28 no-scrollbar overflow-y-auto border-r border-slate-700 pr-2">
                             {girlAvatars.map((avatar) => (
-                                <img key={avatar} src={avatar} alt="" onClick={() => setSelectedAvatar(avatar)}className={`w-20 h-20 rounded-full cursor-pointer mb-3 border-2 ${
+                                <img key={avatar} src={avatar}  onClick={() => setSelectedAvatar(avatar)}className={`w-20 h-20 rounded-full cursor-pointer mb-3 border-2 ${
                                     selectedAvatar === avatar? "border-cyan-400": "border-transparent"}`}
                                 />
                             ))}
@@ -317,7 +317,7 @@ return (
                     <div className="flex justify-center mb-6">
                         <img
                             src={selectedAvatar}
-                            alt=""
+                            
                             className="w-48 h-48 rounded-full border-4 border-cyan-400"
                         />
                     </div>

@@ -41,7 +41,7 @@ const Card = ({ project }) => {
           <img
             src={project.type === "GROUP"? (project.teamLead?.avatarUrl ||`/avatars/Avatar${(project.teamLead?.studentId % 40) + 1}.svg`
             ) : (project.student?.avatarUrl ||`/avatars/Avatar${(project.student?.studentId % 40) + 1}.svg`)}
-            alt=""
+            
             className="w-14 h-14 rounded-full object-cover border-2 border-white/30"
           />
           <div className="flex-1">
