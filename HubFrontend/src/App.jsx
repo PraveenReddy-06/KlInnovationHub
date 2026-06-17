@@ -12,6 +12,7 @@ import ExploreProjects from "./Pages/NavBarPages/ExploreProjects";
 import Profile from "./Pages/Main/Profile";
 import FormATeam from "./Pages/Main/FormATeam";
 import TeamApplications from "./Pages/Main/TeamApplications";
+import ForgotPassword from "./Pages/SignUpLogin/ForgotPassword";
 
 function App() {
 
@@ -32,6 +33,7 @@ function App() {
         <Route path="/formATeam" element={<FormATeam/>}/>
         <Route path="/teamApplications" element={<TeamApplications/>}/>
         <Route path="/landingPage" element={<LandingPage/>}/>
+        <Route path="/forgotPassword" element={<ForgotPassword/>}/>
       </Routes>
     </BrowserRouter>
   )

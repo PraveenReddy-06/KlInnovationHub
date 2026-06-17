@@ -25,6 +25,7 @@ const Navbar = () => {
 
   const handleLogout = () => {
   localStorage.removeItem("studentId");
+  localStorage.removeItem("student");
   navigate("/");
   };
 

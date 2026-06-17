@@ -9,8 +9,10 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.klu.dto.LoginRequestDto;
+import com.klu.dto.ResetPasswordDto;
 import com.klu.dto.SignUpFormDto;
 import com.klu.dto.VerifyOtpDto;
+import com.klu.dto.VerifyResetOtpDto;
 import com.klu.mail.Login;
 import com.klu.mail.MailService;
 
@@ -47,4 +49,18 @@ public class MailController {
 		return service.reSend(mail);
 	}
 	
+	@PostMapping("/forgotPassword")
+	public String forgotPassword(@RequestParam String mail) {
+	    return service.forgotPassword(mail);
+	}
+	
+	@PostMapping("/verifyResetOtp")
+	public String verifyResetOtp(@RequestBody VerifyResetOtpDto dto) {
+	    return service.verifyResetOtp(dto.getMail(), dto.getOtp());
+	}
+	
+	@PostMapping("/resetPassword")public String resetPassword(@RequestBody ResetPasswordDto dto) {
+	    return service.resetPassword(dto.getMail(),dto.getNewPassword());
+	}
+
 }
