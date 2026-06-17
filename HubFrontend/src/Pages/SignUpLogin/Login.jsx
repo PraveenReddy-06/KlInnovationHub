@@ -32,24 +32,58 @@ const Login = () => {
     navigate("/signup")
   }
 
-  return (    
-    <div className="h-screen w-screen flex ">
-      <div className=" w-1/2 flex flex-col justify-center items-center gap-5 bg-blue-600">
-        <h1 className="text-5xl mb-9 font-extrabold text-red-500 px-20">Hey Pal! Great To See You Again</h1>     
-          <input className="bg-gray-200 p-2 w-75" onChange={handleChange} name="mail" value={login.mail} type="email" placeholder=" Kl University Mail Here"/>
-          <input className="bg-gray-200 p-2 w-75"  onChange={handleChange}name="password" value={login.password} type="password" placeholder="Password Here"/>
-            {error && (<p className="text-red-200 text-sm font-medium w-75">{error}</p>)}
-          <button className="bg-red-500 active:scale-95 rounded-2xl p-2 w-75" onClick={handleClick} type="button" disabled={!login.mail || !login.password} >Let's Go </button>
-          <div className="flex items-center gap-5">
-            <h1 className="text-red-500 font-bold">First Time? </h1>
-            <button className="bg-red-500 active:scale-95 rounded-2xl p-2 w-30" onClick={handleSignup}>SignUp</button>
+return (
+  
+  <div className="min-h-screen relative overflow-hidden" >
+    <img src="/LoginBg.png" className="absolute inset-0 w-400 h-full object-cover"/>
+    <div className="absolute inset-0 bg-primary/50" />
+
+    <div className="relative z-10 flex min-h-screen">
+      <div className="w-1/2 flex items-center justify-center px-10">
+        <div className="w-full max-w-md bg-white/10 backdrop-blur-xl border border-white/20 rounded-3xl p-8 shadow-2xl">
+          <h1 className="text-4xl font-bold text-tan mb-2">Welcome Back </h1>
+          <p className="text-gray-300 mb-8"> Sign in to continue your innovation journey</p>
+          <div className="flex flex-col gap-4">
+            <input type="email" name="mail" value={login.mail} onChange={handleChange}
+              placeholder="KL University Email"
+              className="w-full p-3 rounded-xl bg-white/10 border border-white/20 text-white placeholder-gray-400 outline-none focus:border-tan"
+            />
+            <input type="password" name="password" value={login.password} onChange={handleChange}
+              placeholder="Enter Password"
+              className="w-full p-3 rounded-xl bg-white/10 border border-white/20 text-white placeholder-gray-400 outline-none focus:border-tan"
+            />
+            <div className="text-right">
+              <button type="button" onClick={() => navigate("/forgotPassword")}
+                className="text-tan text-sm hover:underline">
+                Forgot Password?
+              </button>
+            </div>
+            {error && (
+              <div className="bg-red-500/20 border border-red-500/30 rounded-xl p-3 text-red-300 text-sm">
+                {error}
+              </div>
+            )}
+            <button onClick={handleClick} disabled={!login.mail || !login.password}
+              className="bg-tan text-primary font-bold py-3 rounded-xl hover:scale-[1.02] transition active:scale-95 disabled:opacity-50">
+              Login
+            </button>
+            <div className="flex justify-center items-center gap-2 mt-2">
+              <span className="text-gray-300">First Time?</span>
+              <button onClick={handleSignup}
+                className="text-tan font-semibold hover:underline">
+                Sign Up
+              </button>
+            </div>
           </div>
+        </div>
       </div>
-      <div className="w-1/2 flex justify-center items-center">
-        <h1>Image</h1>
-      </div>
+
     </div>
-  );
+    <div className="w-1/2"></div>
+  </div>
+);
+
+
 };
 
 export default memo(Login);

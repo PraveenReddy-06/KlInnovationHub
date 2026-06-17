@@ -17,6 +17,10 @@ public class StudentImple implements StudentService{
 	@Override
 	public String CreateStudentByEmail(String email,String name) {
 		
+	    Student existing =studentRepo.findByStudentEmail(email);
+	    if(existing != null) {
+	        throw new RuntimeException("Student already exists");
+	    }
 		Student s = new Student();
 		
 		s.setStudentId(Long.parseLong(email.substring(0,10)));

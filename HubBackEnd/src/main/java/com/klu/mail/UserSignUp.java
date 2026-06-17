@@ -2,6 +2,7 @@ package com.klu.mail;
 
 import java.time.LocalDateTime;
 
+import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
@@ -21,13 +22,18 @@ public class UserSignUp {
 	private int id;
 
 	private String name;
+	
+	@Column(unique = true)
 	private String mail;
+	
 	private String password;
 	private int otp;
 	
 	private LocalDateTime otpTimeOut;
 	
 	boolean verified;
+	
+	private boolean resetOtpVerified;
 
 }
 

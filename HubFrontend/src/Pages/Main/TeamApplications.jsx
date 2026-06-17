@@ -228,8 +228,11 @@ const TeamApplications = () => {
             return (
               <div key={team.collaboration_id} className="bg-white/5 border border-white/10 p-6 flex flex-col gap-4 backdrop-blur-xl hover:-translate-y-1 transition-all duration-300">
                 <div className="flex items-start justify-between">
-                  <div className="flex items-center gap-3">
-                    <div className="h-11 w-11 rounded-full bg-gradient-to-br from-violet-500 to-purple-700 flex items-center justify-center text-white font-black text-lg">{team.name?.charAt(0)}</div>
+                  <div  onClick={() => navigate(`/profile/${team.student?.studentId}`)} 
+                        className="flex items-center gap-3 cursor-pointer hover:bg-white/5  transition">
+                    <img src={  team.student?.avatarUrl ||`/avatars/Avatar${(team.student?.studentId % 40) + 1}.svg`} alt="avatar"
+                      className="h-11 w-11 rounded-full object-cover border border-white/20"
+                    />
                     <div>
                       <h3 className="text-white font-bold text-base leading-tight">{team.name}</h3>
                       <p className="text-slate-400 text-xs">by {team.student?.student_name} • {team.student?.branch}</p>
