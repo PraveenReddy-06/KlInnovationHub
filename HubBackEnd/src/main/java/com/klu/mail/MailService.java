@@ -6,6 +6,9 @@ import java.util.Optional;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.mail.SimpleMailMessage;
 import org.springframework.mail.javamail.JavaMailSender;
+import org.springframework.security.authentication.AuthenticationManager;
+import org.springframework.security.authentication.BadCredentialsException;
+import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
@@ -16,6 +19,8 @@ import com.klu.service.implementation.StudentImple;
 
 @Service
 public class MailService {
+
+    private final AuthenticationManager authenticationManager;
 	
 	@Autowired
 	private JavaMailSender sender;
@@ -34,6 +39,10 @@ public class MailService {
 	
 	private final SecureRandom secureRandom = new SecureRandom();
 	private static final String PASSWORD_REGEX ="^(?=.*[A-Z])(?=.*[a-z])(?=.*\\d)(?=.*[@$!%*?&]).{10,}$";
+
+    MailService(AuthenticationManager authenticationManager) {
+        this.authenticationManager = authenticationManager;
+    }
 	
 	public String generateOtp(String name,String toMail,String password) {
 		if (!toMail.matches("\\d{10}@kluniversity\\.in")){
@@ -64,6 +73,7 @@ public class MailService {
 		user.setMail(toMail);
 		user.setOtp(otpnum);
 		user.setPassword(passwordEncoder.encode(password));
+		user.setRole("ROLE_STUDENT");
 		user.setVerified(false);
 		repo.save(user);		
 		return "If the email exists, OTP has been sent";
@@ -105,8 +115,10 @@ public class MailService {
 	        return new LoginRequestDto("Please verify email first",null,null,null);
 	    }
 		
-		if(!passwordEncoder.matches(req.getPassword(),recMail.getPassword())) {
-			return new LoginRequestDto("Incorrect PassWord",null,null,null);
+		try {
+			authenticationManager.authenticate(new UsernamePasswordAuthenticationToken(req.getMail(),req.getPassword()));
+		}catch (BadCredentialsException e) {
+			return new LoginRequestDto("Bad Credentials",null,null,null);
 		}
 		
 		Student s = studentRepo.findByStudentEmail(recMail.getMail());

@@ -36,7 +36,7 @@ return (
   
   <div className="min-h-screen relative overflow-hidden" >
     <img src="/LoginBg.png" className="absolute inset-0 w-400 h-full object-cover"/>
-    <div className="absolute inset-0 bg-primary/50" />
+    <div className="absolute inset-0" />
 
     <div className="relative z-10 flex min-h-screen">
       <div className="w-1/2 flex items-center justify-center px-10">

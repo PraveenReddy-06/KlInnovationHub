@@ -168,7 +168,7 @@ return (
           </div>
         )}
         {check && (
-          <a href="/login" className="block text-center mt-5 bg-green-500 text-white font-bold py-3 rounded-xl">
+          <a href="/login" className="block text-center mt-5 bg-MydarkGreen text-white font-bold py-3 rounded-xl">
             Continue To Login
           </a>
         )}
