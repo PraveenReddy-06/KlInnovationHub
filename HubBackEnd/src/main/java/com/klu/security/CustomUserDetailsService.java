@@ -25,6 +25,4 @@ public class CustomUserDetailsService implements UserDetailsService {
 		 UserSignUp user = repo.findByMail(username).orElseThrow(() ->new UsernameNotFoundException("User not found with email: " + username));
 	        return new User(user.getMail(), user.getPassword(),List.of(new SimpleGrantedAuthority(user.getRole())));
 	}
-
-	
 }

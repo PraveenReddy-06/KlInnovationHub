@@ -9,12 +9,14 @@ import org.springframework.mail.javamail.JavaMailSender;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.BadCredentialsException;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
+import org.springframework.security.core.Authentication;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import com.klu.dto.LoginRequestDto;
 import com.klu.model.Student;
 import com.klu.repository.StudentRepo;
+import com.klu.security.JwtService;
 import com.klu.service.implementation.StudentImple;
 
 @Service
@@ -36,6 +38,8 @@ public class MailService {
 	
 	@Autowired
 	private PasswordEncoder passwordEncoder;
+	
+	@Autowired JwtService jwtService;
 	
 	private final SecureRandom secureRandom = new SecureRandom();
 	private static final String PASSWORD_REGEX ="^(?=.*[A-Z])(?=.*[a-z])(?=.*\\d)(?=.*[@$!%*?&]).{10,}$";
@@ -101,31 +105,35 @@ public class MailService {
 	}
 	
 	public LoginRequestDto login(Login req) {
+		
 		UserSignUp recMail = repo.findByMail(req.getMail()).orElse(null);
 		
 		if(recMail==null) {
-			return new LoginRequestDto("Mail Not Found",null,null,null);
+			return new LoginRequestDto("Mail Not Found",null,null,null,null);
 		}
 		
 		if (!recMail.getMail().endsWith("@kluniversity.in")) {
-		    return new LoginRequestDto("Use valid university email",null,null,null);
+		    return new LoginRequestDto("Use valid university email",null,null,null,null);
 		}
 		
 		if (!recMail.isVerified()) {
-	        return new LoginRequestDto("Please verify email first",null,null,null);
+	        return new LoginRequestDto("Please verify email first",null,null,null,null);
 	    }
 		
+		String token=null;
 		try {
-			authenticationManager.authenticate(new UsernamePasswordAuthenticationToken(req.getMail(),req.getPassword()));
+			Authentication auth = authenticationManager.authenticate(new UsernamePasswordAuthenticationToken(req.getMail(),req.getPassword()));
+			token = jwtService.generateToken(auth.getName());
 		}catch (BadCredentialsException e) {
-			return new LoginRequestDto("Bad Credentials",null,null,null);
+			return new LoginRequestDto("Bad Credentials",null,null,null,null);
 		}
+		
 		
 		Student s = studentRepo.findByStudentEmail(recMail.getMail());
 		if(s == null){
-			return new LoginRequestDto("Student profile not found",null,null,null);
+			return new LoginRequestDto("Student profile not found",null,null,null,null);
 		}
-		return new LoginRequestDto("Welcome To DashBoard",s,s.getStudentId(),s.getStudentEmail());
+		return new LoginRequestDto("Welcome To DashBoard",s,s.getStudentId(),s.getStudentEmail(),token);
 	}
 
 	public String reSend(String mail) {
