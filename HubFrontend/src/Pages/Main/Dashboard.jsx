@@ -2,7 +2,7 @@ import { memo, useEffect,useState } from 'react';
 import Navbar from "../../Components/Navbar";
 import background from "../../Images/dashboardBg.png";
 import Card from '../../Components/Card';
-import axios from "axios";
+import axiosInstance from "../../Api/axiosInstance"
 import TopProjectCard from '../../Components/TopProjectCard';
 
 const Dashboard = () => {
@@ -14,8 +14,8 @@ const Dashboard = () => {
 
   useEffect(() => {
     const projectCard = async () => {
-      const[projectsRes,groupProjectsRes] = await Promise.all([axios.get("http://localhost:8080/project/latest")
-      ,axios.get("http://localhost:8080/groupProject/latest"),]);
+      const[projectsRes,groupProjectsRes] = await Promise.all([axiosInstance.get("/project/latest")
+      ,axiosInstance.get("/groupProject/latest"),]);
       const formattedProjects = projectsRes.data.map((item) => {
         return {...item,type: "INDIVIDUAL",title: item.projectName,
           ownerName: item.student?.student_name,
@@ -39,8 +39,8 @@ const Dashboard = () => {
     }
 
     const TopProject = async () => {
-      const[topProjectsRes,topGroupProjectsRes] = await Promise.all([axios.get("http://localhost:8080/likes/top")
-        ,axios.get("http://localhost:8080/grouplikes/top")
+      const[topProjectsRes,topGroupProjectsRes] = await Promise.all([axiosInstance.get("/likes/top")
+        ,axiosInstance.get("/grouplikes/top")
       ])
       const formattedTopProjects = topProjectsRes.data.map((item) => {
         return {...item,type: "INDIVIDUAL",title: item.projectName,

@@ -1,6 +1,6 @@
 import { memo, useState } from 'react';
 import { FaGithub, FaHeart } from "react-icons/fa";
-import axios from "axios";
+import axiosInstance from "../Api/axiosInstance"
 import CSECard from "../Images/CSECard.png";
 import ECECard from "../Images/ECECard.png";
 import CSITCard from "../Images/CSITCard.png";
@@ -16,9 +16,9 @@ const Card = ({ project }) => {
     try {
       const isGroup = project.type === "GROUP";
       const url = isGroup
-        ? `http://localhost:8080/grouplikes/toggleLike/${studentId}/${project.groupProjectId}`
-        : `http://localhost:8080/likes/toggleLike/${studentId}/${project.projectId}`;
-      const res = await axios.post(url);
+        ? `/grouplikes/toggleLike/${studentId}/${project.groupProjectId}`
+        : `/likes/toggleLike/${studentId}/${project.projectId}`;
+      const res = await axiosInstance.post(url);
       setLiked(res.data.liked);
       setLike(res.data.likeCount);
     } catch (err) { console.error(err);}
@@ -45,7 +45,7 @@ const Card = ({ project }) => {
             className="w-14 h-14 rounded-full object-cover border-2 border-white/30"
           />
           <div className="flex-1">
-            <p className="text-light-blue">{project.ownerName} . {project.ownerId}</p>
+            <p className="text-white">{project.ownerName} . {project.ownerId}</p>
             {project.type === "GROUP" && project.studentList?.length > 0 && (
               <div className="flex flex-wrap gap-1">{
                 project.studentList?.filter((student) =>student.studentId !== project.ownerId).map((student) => 

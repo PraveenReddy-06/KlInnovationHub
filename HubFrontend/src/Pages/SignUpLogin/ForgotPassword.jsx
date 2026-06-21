@@ -1,5 +1,5 @@
 import { useState } from "react";
-import axios from "axios";
+import axiosInstance from "../../Api/axiosInstance"
 import { useNavigate } from "react-router-dom";
 
 const ForgotPassword = () => {
@@ -27,7 +27,7 @@ const ForgotPassword = () => {
     }
     try {
       setLoading(true);
-      const res = await axios.post(`http://localhost:8080/mail/forgotPassword?mail=${mail}`);
+      const res = await axiosInstance.post(`/mail/forgotPassword?mail=${mail}`);
       setMessage(res.data);
       setOtpSent(true);
     } catch (err) {
@@ -46,7 +46,7 @@ const ForgotPassword = () => {
     }
     try {
       setLoading(true);
-      const res = await axios.post("http://localhost:8080/mail/verifyResetOtp", {mail,otp: Number(otp),});
+      const res = await axiosInstance.post("/mail/verifyResetOtp", {mail,otp: Number(otp),});
       if (res.data === "OTP Verified") {
         setOtpVerified(true);
         setMessage("OTP verified successfully");
@@ -73,7 +73,7 @@ const ForgotPassword = () => {
     }
     try {
       setLoading(true);
-      const res = await axios.post("http://localhost:8080/mail/resetPassword", {mail, newPassword,});
+      const res = await axiosInstance.post("/mail/resetPassword", {mail, newPassword,});
       if (res.data === "Password Updated Successfully") {
         setResetSuccess(true);
         setMessage("Password updated successfully. Redirecting...");

@@ -15,5 +15,5 @@ public class LoginRequestDto {
 	private Student student;
 	private Long studentId;
 	private String email;
-	
+	private String token;
 }

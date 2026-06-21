@@ -26,6 +26,8 @@ public class UserSignUp {
 	@Column(unique = true)
 	private String mail;
 	
+	private String role;
+	
 	private String password;
 	private int otp;
 	

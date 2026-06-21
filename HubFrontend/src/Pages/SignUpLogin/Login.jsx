@@ -1,5 +1,5 @@
 import { memo,useState } from 'react';
-import axios from 'axios';
+import axiosInstance from '../../Api/axiosInstance';
 import {useNavigate } from 'react-router-dom';
 
 const Login = () => {
@@ -14,10 +14,12 @@ const Login = () => {
   const handleClick = async (e) => {
     e.preventDefault()
     try {
-      const res = await axios.post(`http://localhost:8080/mail/login`,login)
+      const res = await axiosInstance.post(`/mail/login`,login)
       if(res.data.message==="Welcome To DashBoard"){
         localStorage.setItem("studentId",res.data.studentId)
         localStorage.setItem("student", JSON.stringify(res.data.student))
+        localStorage.setItem("token",res.data.token)
+        console.log(localStorage.getItem("token"))
         navigate("/dashboard")
       }else {
         setError(res.data.message);
@@ -36,7 +38,7 @@ return (
   
   <div className="min-h-screen relative overflow-hidden" >
     <img src="/LoginBg.png" className="absolute inset-0 w-400 h-full object-cover"/>
-    <div className="absolute inset-0 bg-primary/50" />
+    <div className="absolute inset-0" />
 
     <div className="relative z-10 flex min-h-screen">
       <div className="w-1/2 flex items-center justify-center px-10">

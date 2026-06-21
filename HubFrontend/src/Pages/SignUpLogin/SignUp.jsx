@@ -37,7 +37,7 @@ const SignUp = () => {
             return;
         }
         if(confirmPassword===form.password){
-            const res = await axios.post(`http://localhost:8080/mail/generateOtp`,form)
+            const res = await axiosInstance.post(`/mail/generateOtp`,form)
             setResponse(res.data)
             if(res.data === "If the email exists, OTP has been sent") {
                 setTimer(180);
@@ -61,7 +61,7 @@ const SignUp = () => {
        e.preventDefault()
       setError("");
       setResponse("");
-       const res = await axios.post(`http://localhost:8080/mail/verifyOtp`,verify)
+       const res = await axiosInstance.post(`/mail/verifyOtp`,verify)
        setCheck(true)
        if(res.data === "Verified You Can SignIn Now"){
             setCheck(true);
@@ -83,7 +83,7 @@ const SignUp = () => {
         setError("");
         setResponse("");
         try {
-            const res = await axios.post(`http://localhost:8080/mail/resend?mail=${form.mail}`)
+            const res = await axiosInstance.post(`/mail/resend?mail=${form.mail}`)
             setResponse(res.data)
             if(res.data === "Check your inbox for otp"){
                 setTimer(180);
@@ -168,7 +168,7 @@ return (
           </div>
         )}
         {check && (
-          <a href="/login" className="block text-center mt-5 bg-green-500 text-white font-bold py-3 rounded-xl">
+          <a href="/login" className="block text-center mt-5 bg-MydarkGreen text-white font-bold py-3 rounded-xl">
             Continue To Login
           </a>
         )}

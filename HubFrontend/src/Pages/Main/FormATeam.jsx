@@ -2,7 +2,7 @@ import { memo, useState } from 'react';
 import Navbar from '../../Components/Navbar';
 import background from "../../Images/dashboardBg.png";
 import { useNavigate } from "react-router-dom";
-import axios from "axios";
+import axiosInstance from "../../Api/axiosInstance"
 
 const FormATeam = () => {
 
@@ -53,7 +53,7 @@ const FormATeam = () => {
       setLoading(true);
       try {
           const studentId = localStorage.getItem("studentId");
-          await axios.post(`http://localhost:8080/collaboration/create/${studentId}`,formData);
+          await axiosInstance.post(`/collaboration/create/${studentId}`,formData);
           setSuccessMsg("Team created successfully. Redirecting to dashboard...");
           setIsSubmitted(true);
           setFormData({name:"",problemStatement:"", description:"", teamSize:"",skill1:"", skill2:"",skill3:"", linkedIn:"", status:true});

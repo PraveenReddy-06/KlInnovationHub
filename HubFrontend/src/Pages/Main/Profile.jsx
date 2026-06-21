@@ -1,5 +1,5 @@
 import { memo, useEffect, useState } from "react";
-import axios from "axios";
+import axiosInstance from "../../Api/axiosInstance"
 import Navbar from "../../Components/Navbar";1
 import { useNavigate } from "react-router-dom";
 import Card from "../../Components/Card";
@@ -33,7 +33,7 @@ const Profile = () => {
     fetchData(id);
     if (routeStudentId) {
         axios
-        .get(`http://localhost:8080/student/getById/${routeStudentId}`)
+        .get(`/student/getById/${routeStudentId}`)
         .then((res) => setStudent(res.data))
         .catch(console.error);}
     else {
@@ -56,10 +56,10 @@ const Profile = () => {
 
   const fetchData = async (id) => {
     try {
-      const projectRes = await axios.get(`http://localhost:8080/project/student/${studentId}`);
-      const groupProjectRes = await axios.get(`http://localhost:8080/groupProject/student/${studentId}`);
-      const collaborationRes = await axios.get(`http://localhost:8080/collaboration/student/${studentId}`);
-      const applicationRes = await axios.get(`http://localhost:8080/collabapplication/student/${studentId}`);
+      const projectRes = await axiosInstance.get(`/project/student/${studentId}`);
+      const groupProjectRes = await axiosInstance.get(`/groupProject/student/${studentId}`);
+      const collaborationRes = await axiosInstance.get(`/collaboration/student/${studentId}`);
+      const applicationRes = await axiosInstance.get(`/collabapplication/student/${studentId}`);
       setProjects(projectRes.data);
       setGroupProjects(groupProjectRes.data);
       setCollaborations(collaborationRes.data);
@@ -77,7 +77,7 @@ const Profile = () => {
 
     const handleSaveLinks = async () => {
     try {
-        const res = await axios.put( `http://localhost:8080/student/socialLinks/${studentId}`,{ avatarUrl: selectedAvatar,studentName,githubUrl,linkedinUrl});
+        const res = await axiosInstance.put( `/student/socialLinks/${studentId}`,{ avatarUrl: selectedAvatar,studentName,githubUrl,linkedinUrl});
         localStorage.setItem("student",JSON.stringify(res.data));
         setShowLinksModal(false);
         window.location.reload();
@@ -88,10 +88,10 @@ const Profile = () => {
     const handleDeleteProject = async () => {
         try {
             if (deleteType === "PROJECT") {
-                await axios.delete(`http://localhost:8080/project/deleteProject/${selectedProjectId}`);
+                await axiosInstance.delete(`/project/deleteProject/${selectedProjectId}`);
                 setProjects(prev =>prev.filter(p => p.projectId !== selectedProjectId));
             } else {
-                await axios.delete(`http://localhost:8080/groupProject/deleteProject/${selectedProjectId}`);
+                await axiosInstance.delete(`/groupProject/deleteProject/${selectedProjectId}`);
                 setGroupProjects(prev =>prev.filter(p => p.groupProjectId !== selectedProjectId));
             }
             setShowDeleteModal(false);
@@ -105,7 +105,7 @@ const Profile = () => {
 
     const handleSaveAvatar = async () => {
     try {
-        const res = await axios.put( `http://localhost:8080/student/avatar/${studentId}`,{avatarUrl: selectedAvatar });
+        const res = await axiosInstance.put( `/student/avatar/${studentId}`,{avatarUrl: selectedAvatar });
         localStorage.setItem("student",JSON.stringify(res.data));
         window.location.reload();} 
     catch (err) {
