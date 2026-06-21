@@ -45,7 +45,7 @@ const Card = ({ project }) => {
             className="w-14 h-14 rounded-full object-cover border-2 border-white/30"
           />
           <div className="flex-1">
-            <p className="text-light-blue">{project.ownerName} . {project.ownerId}</p>
+            <p className="text-white">{project.ownerName} . {project.ownerId}</p>
             {project.type === "GROUP" && project.studentList?.length > 0 && (
               <div className="flex flex-wrap gap-1">{
                 project.studentList?.filter((student) =>student.studentId !== project.ownerId).map((student) => 

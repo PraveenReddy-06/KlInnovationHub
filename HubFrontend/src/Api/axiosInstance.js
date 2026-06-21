@@ -16,5 +16,19 @@ axiosInstance.interceptors.request.use(
     }
 );
 
+let isLoggingOut = false;
+axiosInstance.interceptors.response.use(
+    response => response,
+    error => {
+        if(!isLoggingOut && error.response?.status === 401 || error.response?.status === 403) {
+            isLoggingOut=true;
+            alert(" Your session has expired.Please login again to continue.");
+            localStorage.clear();
+            window.location.href = "/login";
+        }
+        return Promise.reject(error);
+    }
+);
+
 export default axiosInstance;
 

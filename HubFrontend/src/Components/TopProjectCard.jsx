@@ -34,7 +34,7 @@ const TopProjectCard = ({project}) => {
 
   return (
     <div className="flex flex-col w-full p-4 bg-white border border-slate-400 rounded-2xl shadow-sm transition-all duration-300 hover:bg-tan/50 hover:shadow-xl hover:border-amber-800">
-      <h2 className="font-bold text-lg pb-3 text-slate-900 group-hover:text-accent transition-colors">{project.title}</h2>
+      <h2 className="font-bold text-lg pb-3 text-bloodstone group-hover:text-accent transition-colors">{project.title}</h2>
 
       <div className="flex gap-4 items-start  hover:bg-tan/40 rounded-lg p-2 transition-all duration-200 cursor-pointer"
             onClick={handleProfileClick}>
@@ -59,7 +59,7 @@ const TopProjectCard = ({project}) => {
               ))}
             </div>
             )}
-          <p className="mt-3 text-md font-medium text-blue-600">{project.tech1} . {project.tech2}</p>     
+          <p className="mt-3 text-md font-medium text-bloodstone">{project.tech1} . {project.tech2}</p>     
         </div>
       </div>
       <p className="mt-4 text-slate-600 leading-relaxed line-clamp-3">
