@@ -10,6 +10,7 @@ import com.klu.model.Student;
 import com.klu.repository.CollaborationRepo;
 import com.klu.repository.StudentRepo;
 import com.klu.service.CollaborationService;
+import com.klu.service.CurrentUserService;
 
 @Service
 public class CollaborationImple implements CollaborationService{
@@ -19,6 +20,9 @@ public class CollaborationImple implements CollaborationService{
 	
 	@Autowired
 	StudentRepo studentRepo;
+	
+	@Autowired
+	CurrentUserService currentUser;
 	
 	@Override
 	public String CreateTeam(Collaboration collab, Long studentId) {
@@ -41,6 +45,12 @@ public class CollaborationImple implements CollaborationService{
 	@Override
 	public void deleteTeam(Integer collaborationId) {
 	    Collaboration collaboration = collaborationRepo.findById(collaborationId).orElseThrow(() -> new RuntimeException("Team not found"));
+	    long currentUserId =currentUser.getCurrentStudent().getStudentId();
+	        if (collaboration.getStudent().getStudentId()!= currentUserId) {
+	            throw new RuntimeException(
+	                "Not authorized"
+	            );
+	        }
 	    collaborationRepo.delete(collaboration);
 	}
 }

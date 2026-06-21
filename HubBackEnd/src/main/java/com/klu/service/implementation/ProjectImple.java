@@ -9,6 +9,7 @@ import com.klu.model.Project;
 import com.klu.model.Student;
 import com.klu.repository.ProjectRepo;
 import com.klu.repository.StudentRepo;
+import com.klu.service.CurrentUserService;
 import com.klu.service.ProjectService;
 
 @Service
@@ -19,6 +20,9 @@ public class ProjectImple implements ProjectService{
 	
 	@Autowired
 	StudentRepo studentRepo;
+	
+	@Autowired
+	CurrentUserService currentUser;
 	
 	@Override
 	public String SubmitProject(Project p,Long id) {	
@@ -60,6 +64,10 @@ public class ProjectImple implements ProjectService{
 
 	public String deleteProjectsById(int projectId) {
 		Project p = projectRepo.findById(projectId).orElseThrow(() -> new RuntimeException("Project not found"));
+		long currentUserId = currentUser.getCurrentStudent().getStudentId();
+		if (!p.getStudent().getStudentId().equals(currentUserId)) {
+		    throw new RuntimeException("Not authorized");
+		}
 		projectRepo.delete(p);
 		return "Project Deleted Sucessfully";
 	}

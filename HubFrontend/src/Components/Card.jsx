@@ -16,8 +16,8 @@ const Card = ({ project }) => {
     try {
       const isGroup = project.type === "GROUP";
       const url = isGroup
-        ? `/grouplikes/toggleLike/${studentId}/${project.groupProjectId}`
-        : `/likes/toggleLike/${studentId}/${project.projectId}`;
+        ? `/grouplikes/toggleLike/${project.groupProjectId}`
+        : `/likes/toggleLike/${project.projectId}`;
       const res = await axiosInstance.post(url);
       setLiked(res.data.liked);
       setLike(res.data.likeCount);

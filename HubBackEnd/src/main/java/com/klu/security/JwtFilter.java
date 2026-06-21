@@ -10,6 +10,7 @@ import org.springframework.security.web.authentication.WebAuthenticationDetailsS
 import org.springframework.stereotype.Component;
 import org.springframework.web.filter.OncePerRequestFilter;
 
+import io.jsonwebtoken.ExpiredJwtException;
 import jakarta.servlet.FilterChain;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.http.HttpServletRequest;
@@ -26,6 +27,7 @@ public class JwtFilter extends OncePerRequestFilter{
 
 	@Override
 	protected void doFilterInternal(HttpServletRequest request, HttpServletResponse response, FilterChain filterChain)throws ServletException, IOException {
+		System.out.println("JWT Filter Hit: " + request.getRequestURI());
 		String path = request.getServletPath();
 
 		if(path.startsWith("/mail/")) {
@@ -41,8 +43,18 @@ public class JwtFilter extends OncePerRequestFilter{
             return;
         }
 
-        token = authHeader.substring(7);
-        username =jwtService.extractUsername(token);
+        try {
+            token = authHeader.substring(7);
+            username = jwtService.extractUsername(token);
+        }
+        catch (ExpiredJwtException e) {
+            response.setStatus(HttpServletResponse.SC_UNAUTHORIZED);
+            return;
+        }
+        catch (Exception e) {
+            response.setStatus(HttpServletResponse.SC_UNAUTHORIZED);
+            return;
+        }
         if(username != null && SecurityContextHolder.getContext().getAuthentication()== null) {
         	
             UserDetails userDetails = customUserDetailsService.loadUserByUsername(username);

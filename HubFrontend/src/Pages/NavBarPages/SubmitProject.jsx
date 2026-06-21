@@ -43,7 +43,7 @@ const SubmitProject = () => {
     const navigate = useNavigate();
     const handleSubmit = async () => {
         try {
-            const res = await axiosInstance.post(`/project/submit/${studentId}`,project);
+            const res = await axiosInstance.post(`/project/submit`,project);
             console.log(res.data);
             if (res.data === "Project Submitted Sucessfully") {
                 setProjectStatus(true);

@@ -13,6 +13,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.klu.model.Project;
+import com.klu.service.CurrentUserService;
 import com.klu.service.implementation.ProjectImple;
 
 import jakarta.validation.Valid;
@@ -25,8 +26,12 @@ public class ProjectController {
 	@Autowired
 	ProjectImple projectService;
 	
-	@PostMapping("/submit/{id}")
-    public String submitProject(@Valid @RequestBody Project p,@PathVariable Long id) {
+	@Autowired
+	CurrentUserService currentUser;
+	
+	@PostMapping("/submit")
+    public String submitProject(@Valid @RequestBody Project p) {
+		long id = currentUser.getCurrentStudent().getStudentId();
         return projectService.SubmitProject(p,id);
     }
     @GetMapping("/latest")

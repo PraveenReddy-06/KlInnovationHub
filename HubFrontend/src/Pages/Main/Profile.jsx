@@ -1,6 +1,6 @@
 import { memo, useEffect, useState } from "react";
 import axiosInstance from "../../Api/axiosInstance"
-import Navbar from "../../Components/Navbar";1
+import Navbar from "../../Components/Navbar";
 import { useNavigate } from "react-router-dom";
 import Card from "../../Components/Card";
 import { FaGithub, FaLinkedin } from "react-icons/fa";
@@ -23,7 +23,7 @@ const Profile = () => {
   const [githubUrl, setGithubUrl] = useState("");
   const [linkedinUrl, setLinkedinUrl] = useState("");
   const [selectedAvatar, setSelectedAvatar] = useState("");
-    const studentId = routeStudentId || loggedInStudentId;  
+  const studentId = routeStudentId || loggedInStudentId;  
   const [student, setStudent] = useState(routeStudentId ? null : loggedInStudent);
     const isOwnProfile =Number(studentId) === Number(loggedInStudentId);
   const navigate = useNavigate();
@@ -32,7 +32,7 @@ const Profile = () => {
     const id = routeStudentId || loggedInStudentId;
     fetchData(id);
     if (routeStudentId) {
-        axios
+        axiosInstance
         .get(`/student/getById/${routeStudentId}`)
         .then((res) => setStudent(res.data))
         .catch(console.error);}
@@ -56,10 +56,10 @@ const Profile = () => {
 
   const fetchData = async (id) => {
     try {
-      const projectRes = await axiosInstance.get(`/project/student/${studentId}`);
-      const groupProjectRes = await axiosInstance.get(`/groupProject/student/${studentId}`);
-      const collaborationRes = await axiosInstance.get(`/collaboration/student/${studentId}`);
-      const applicationRes = await axiosInstance.get(`/collabapplication/student/${studentId}`);
+      const projectRes = await axiosInstance.get(`/project/student/${id}`);
+      const groupProjectRes = await axiosInstance.get(`/groupProject/student/${id}`);
+      const collaborationRes = await axiosInstance.get(`/collaboration/student/${id}`);
+      const applicationRes = await axiosInstance.get(`/collabapplication/student/${id}`);
       setProjects(projectRes.data);
       setGroupProjects(groupProjectRes.data);
       setCollaborations(collaborationRes.data);
@@ -77,7 +77,7 @@ const Profile = () => {
 
     const handleSaveLinks = async () => {
     try {
-        const res = await axiosInstance.put( `/student/socialLinks/${studentId}`,{ avatarUrl: selectedAvatar,studentName,githubUrl,linkedinUrl});
+        const res = await axiosInstance.put( `/student/socialLinks`,{ avatarUrl: selectedAvatar,studentName,githubUrl,linkedinUrl});
         localStorage.setItem("student",JSON.stringify(res.data));
         setShowLinksModal(false);
         window.location.reload();
@@ -103,14 +103,6 @@ const Profile = () => {
     const boyAvatars = Array.from({ length: 20 },(_, i) => `/avatars/Avatar${i + 1}.svg`);
     const girlAvatars = Array.from({ length: 20 },(_, i) => `/avatars/Avatar${i + 21}.svg`);
 
-    const handleSaveAvatar = async () => {
-    try {
-        const res = await axiosInstance.put( `/student/avatar/${studentId}`,{avatarUrl: selectedAvatar });
-        localStorage.setItem("student",JSON.stringify(res.data));
-        window.location.reload();} 
-    catch (err) {
-        console.error(err);}
-    };
 
 if (!student) {
 return (

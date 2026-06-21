@@ -4,6 +4,7 @@ import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.CrossOrigin;
+import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -12,6 +13,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.klu.model.GroupProject;
+import com.klu.service.CurrentUserService;
 import com.klu.service.implementation.GroupProjectImple;
 
 import jakarta.validation.Valid;
@@ -23,9 +25,16 @@ public class GroupProjectController {
 
     @Autowired
     GroupProjectImple groupProjectService;
+    
+    @Autowired
+    CurrentUserService currentUser;
 
     @PostMapping("/submit/{teamLeadId}")
     public String submitGroupProject(@Valid @RequestBody GroupProject p,@PathVariable Long teamLeadId) {
+    	
+    	if(!teamLeadId.equals(currentUser.getCurrentStudent().getStudentId())) {
+    		throw new RuntimeException("Not authorized");
+    	}
         return groupProjectService.SubmitGroupProject(p,teamLeadId);
     }
     @GetMapping("/latest")
@@ -51,5 +60,10 @@ public class GroupProjectController {
     @GetMapping("/student/{id}")
     public List<GroupProject> getProjectsById(@PathVariable long id) {
         return groupProjectService.getProjectsByid(id);
+    }
+    
+    @DeleteMapping("/deleteProject/{projectId}")
+    public  String deleteProject(@PathVariable int projectId) {
+    	return groupProjectService.deleteProjectsById(projectId);
     }
 }

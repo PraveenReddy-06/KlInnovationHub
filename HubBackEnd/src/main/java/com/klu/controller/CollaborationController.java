@@ -13,6 +13,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.klu.model.Collaboration;
+import com.klu.service.CurrentUserService;
 import com.klu.service.implementation.CollaborationImple;
 
 @CrossOrigin(origins = "http://localhost:5173")
@@ -22,9 +23,13 @@ public class CollaborationController {
 
     @Autowired
     CollaborationImple collaborationService;
+    
+    @Autowired
+    CurrentUserService currentUser;
 
-    @PostMapping("/create/{studentId}")
-    public String createTeam(@RequestBody Collaboration collab,@PathVariable Long studentId) {
+    @PostMapping("/create")
+    public String createTeam(@RequestBody Collaboration collab) {
+    	long studentId = currentUser.getCurrentStudent().getStudentId();
     	collaborationService.CreateTeam(collab,studentId);
         return "Collboration Posted Sucessfully";
     }
@@ -41,11 +46,8 @@ public class CollaborationController {
     }
     
     @DeleteMapping("/delete/{collaborationId}")
-    public String deleteTeam(
-            @PathVariable Integer collaborationId) {
-
+    public String deleteTeam( @PathVariable Integer collaborationId) {
         collaborationService.deleteTeam(collaborationId);
-
         return "Team Deleted Successfully";
     }
 }

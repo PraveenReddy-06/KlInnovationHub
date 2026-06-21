@@ -1,6 +1,6 @@
 import { memo,useState } from 'react';
-import axiosInstance from '../../Api/axiosInstance';
 import {useNavigate } from 'react-router-dom';
+import axios from "axios";
 
 const Login = () => {
   
@@ -14,7 +14,7 @@ const Login = () => {
   const handleClick = async (e) => {
     e.preventDefault()
     try {
-      const res = await axiosInstance.post(`/mail/login`,login)
+      const res = await axios.post("http://localhost:8080/mail/login",login)
       if(res.data.message==="Welcome To DashBoard"){
         localStorage.setItem("studentId",res.data.studentId)
         localStorage.setItem("student", JSON.stringify(res.data.student))

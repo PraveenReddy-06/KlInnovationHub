@@ -12,6 +12,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.klu.dto.ProjectLikeDto;
 import com.klu.model.Project;
+import com.klu.service.CurrentUserService;
 import com.klu.service.implementation.ProjectLikesImple;
 
 @CrossOrigin(origins = "http://localhost:5173")
@@ -21,6 +22,9 @@ public class ProjectLikesController {
 
     @Autowired
     ProjectLikesImple projectLikesService;
+    
+    @Autowired
+    CurrentUserService currentUser;
 
     @GetMapping("/top")
     public List<Project> getTopProjects() {
@@ -37,8 +41,9 @@ public class ProjectLikesController {
         return projectLikesService.getTop8Projects();
     }
     
-    @PostMapping("/toggleLike/{studentId}/{projectId}")
-    public ProjectLikeDto toggleLike(@PathVariable Long studentId,@PathVariable Integer projectId) {
+    @PostMapping("/toggleLike/{projectId}")
+    public ProjectLikeDto toggleLike(@PathVariable Integer projectId) {
+    	long studentId = currentUser.getCurrentStudent().getStudentId();
     	return projectLikesService.toggleLike(studentId, projectId);
 	}
     

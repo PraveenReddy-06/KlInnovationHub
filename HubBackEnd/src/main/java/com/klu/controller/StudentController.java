@@ -14,6 +14,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.klu.dto.SocialLinksRequest;
 import com.klu.model.Student;
+import com.klu.service.CurrentUserService;
 import com.klu.service.implementation.StudentImple;
 
 @RestController
@@ -23,6 +24,9 @@ public class StudentController {
 	
 	@Autowired
 	StudentImple studentService;
+	
+	@Autowired
+	CurrentUserService currentUser;
 	
 	/*@PostMapping("/create")
 	public String create(@RequestParam String email,@RequestParam String name) {
@@ -38,10 +42,12 @@ public class StudentController {
 	
 	}
 	
-	@PutMapping("/socialLinks/{studentId}")
-    public ResponseEntity<Student> updateSocialLinks(@PathVariable Long studentId,@RequestBody SocialLinksRequest request) {
+	@PutMapping("/socialLinks")
+    public ResponseEntity<Student> updateSocialLinks(@RequestBody SocialLinksRequest request) {
+		long studentId = currentUser.getCurrentStudent().getStudentId();
         Student updatedStudent = studentService.updateSocialLinks(studentId, request);
         return ResponseEntity.ok(updatedStudent);
     }
+	
 	
 }

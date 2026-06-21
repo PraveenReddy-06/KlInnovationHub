@@ -14,6 +14,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.klu.dto.CollabApplyRequest;
 import com.klu.model.CollabApplication;
 import com.klu.service.implementation.CollabApplicationImple;
 
@@ -27,9 +28,10 @@ public class CollaborationApplicationController {
     CollabApplicationImple collabApplicationService;
 
     @PostMapping("/apply")
-    public String createCollabApplication(@RequestBody CollabApplication app) {
-        return collabApplicationService.createCollabApplication(app);
+    public String createCollabApplication(@RequestBody CollabApplyRequest request) {
+        return collabApplicationService.createCollabApplication(request.getCollaborationId());
     }
+    
     @GetMapping("/all")
     public List<CollabApplication> getAllCollabApplications() {
         return collabApplicationService.getAllCollabApplications();

@@ -8,9 +8,11 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.klu.model.GroupProject;
+import com.klu.model.Project;
 import com.klu.model.Student;
 import com.klu.repository.GroupProjectRepo;
 import com.klu.repository.StudentRepo;
+import com.klu.service.CurrentUserService;
 import com.klu.service.GroupProjectService;
 
 @Service
@@ -21,6 +23,10 @@ public class GroupProjectImple implements GroupProjectService{
 	
 	@Autowired 
 	StudentRepo studentRepo; 
+	
+	@Autowired
+	CurrentUserService currentUser;
+	
 	
 	
 	@Override
@@ -63,6 +69,16 @@ public class GroupProjectImple implements GroupProjectService{
 	@Override
 	public List<GroupProject> getProjectsByid(Long id) {
 		return groupProjectRepo.findByTeamLead_StudentId(id);
+	}
+
+	public String deleteProjectsById(int projectId) {
+		GroupProject p = groupProjectRepo.findById(projectId).orElseThrow(() -> new RuntimeException("Project not found"));
+		long currentUserId = currentUser.getCurrentStudent().getStudentId();
+		if (p.getTeamLead().getStudentId() != currentUserId) {
+		    throw new RuntimeException("Not authorized");
+		}
+		groupProjectRepo.delete(p);
+		return "Project Deleted Sucessfully";
 	}
 
 

@@ -1,6 +1,7 @@
 import { memo,useState,useEffect } from 'react';
 import axios from 'axios';
 import {useNavigate } from 'react-router-dom';
+import axiosInstance from '../../Api/axiosInstance';
 
 const SignUp = () => {
 

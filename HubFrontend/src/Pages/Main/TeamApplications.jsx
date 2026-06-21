@@ -38,7 +38,7 @@ const TeamApplications = () => {
       ]);
       setMyTeams(myTeamsRes.data);
       setAllApplications(allAppsRes.data);
-      const others = allTeamsRes.data.filter((t) => t.student?.studentId !== studentId);
+      const others = allTeamsRes.data.filter((t) => Number(t.student?.studentId) !== Number(studentId));
       setAllTeams(others);
       const applied = new Set(myAppsRes.data.map((a) => a.collaboration?.collaboration_id));
       setMyApplicationIds(applied);
@@ -61,7 +61,7 @@ const TeamApplications = () => {
   const handleApply = async (team) => {
     try {
       setApplying(team.collaboration_id);
-      await axiosInstance.post(`/collabapplication/apply`, { collaboration: { collaboration_id: team.collaboration_id }, student: { studentId }, status: "PENDING" });
+     await axiosInstance.post( "/collabapplication/apply", { collaborationId:team.collaboration_id});
       setMyApplicationIds((prev) => new Set([...prev, team.collaboration_id]));
     } catch (err) {
       console.error(err);

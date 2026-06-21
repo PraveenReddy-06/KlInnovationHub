@@ -64,13 +64,13 @@ const ExploreProjects = () => {
   const handleLike = async (project) => {
     try {
       if(project.type === "INDIVIDUAL") {
-        const res = await axiosInstance.post(`/likes/toggleLike/${studentId}/${project.projectId}`);
+        const res = await axiosInstance.post(`/likes/toggleLike/${project.projectId}`);
         const {liked,likeCount} = res.data;
         setProjects((prev) =>  prev.map((p) =>
             p.projectId === project.projectId? {...p, isLiked: liked, likeCount: likeCount,} : p)
         );
       } else {
-        const res = await axiosInstance.post(`/grouplikes/toggleLike/${studentId}/${project.groupProjectId}`);
+        const res = await axiosInstance.post(`/grouplikes/toggleLike/${project.groupProjectId}`);
         const {liked,likeCount} = res.data;
         setGroupProjects((prev) => prev.map((p) =>
             p.groupProjectId === project.groupProjectId ? {...p,isLiked : liked,  likeCount: likeCount,}: p)
