@@ -1,6 +1,6 @@
 import { memo, useState } from 'react';
 import { FaGithub, FaHeart } from "react-icons/fa";
-import axios from "axios";
+import axiosInstance from "../Api/axiosInstance"
 import { useNavigate } from "react-router-dom";
 
 const TopProjectCard = ({project}) => {
@@ -14,9 +14,9 @@ const TopProjectCard = ({project}) => {
     try {
       const isGroup =project.type === "GROUP";
       const url = isGroup
-        ? `http://localhost:8080/grouplikes/toggleLike/${studentId}/${project.groupProjectId}`
-        : `http://localhost:8080/likes/toggleLike/${studentId}/${project.projectId}`;
-      const res = await axios.post(url);
+        ? `/grouplikes/toggleLike/${studentId}/${project.groupProjectId}`
+        : `/likes/toggleLike/${studentId}/${project.projectId}`;
+      const res = await axiosInstance.post(url);
       setLiked(res.data.liked);
       setLike(res.data.likeCount);
 

@@ -1,5 +1,5 @@
 import {memo,useEffect,useMemo,useState} from "react";
-import axios from "axios";
+import axiosInstance from "../../Api/axiosInstance"
 import Navbar from "../../Components/Navbar";
 import {Search,Heart,Users,User,ExternalLink} from "lucide-react";
 import { FaGithub } from "react-icons/fa";
@@ -25,8 +25,8 @@ const ExploreProjects = () => {
   const fetchProjects = async () => {
     try {
       setLoading(true);
-      const [projectRes,groupProjectRes] = await Promise.all([axios.get("http://localhost:8080/project/all"),
-        axios.get("http://localhost:8080/groupProject/all"),]);
+      const [projectRes,groupProjectRes] = await Promise.all([axiosInstance.get("/project/all"),
+        axiosInstance.get("/groupProject/all"),]);
 
       const formattedProjects = projectRes.data.map((item) => {  
         const isLiked = item.likes?.some((like) =>  Number(like.likedStudentId) === Number(studentId));
@@ -64,13 +64,13 @@ const ExploreProjects = () => {
   const handleLike = async (project) => {
     try {
       if(project.type === "INDIVIDUAL") {
-        const res = await axios.post(`http://localhost:8080/likes/toggleLike/${studentId}/${project.projectId}`);
+        const res = await axiosInstance.post(`/likes/toggleLike/${studentId}/${project.projectId}`);
         const {liked,likeCount} = res.data;
         setProjects((prev) =>  prev.map((p) =>
             p.projectId === project.projectId? {...p, isLiked: liked, likeCount: likeCount,} : p)
         );
       } else {
-        const res = await axios.post(`http://localhost:8080/grouplikes/toggleLike/${studentId}/${project.groupProjectId}`);
+        const res = await axiosInstance.post(`/grouplikes/toggleLike/${studentId}/${project.groupProjectId}`);
         const {liked,likeCount} = res.data;
         setGroupProjects((prev) => prev.map((p) =>
             p.groupProjectId === project.groupProjectId ? {...p,isLiked : liked,  likeCount: likeCount,}: p)

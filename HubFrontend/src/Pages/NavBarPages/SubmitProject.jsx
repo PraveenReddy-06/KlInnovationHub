@@ -1,6 +1,6 @@
 import { memo,useState } from 'react';
 import Navbar from "../../Components/Navbar";
-import axios from "axios";
+import axiosInstance from "../../Api/axiosInstance"
 import background from "../../Images/SubmitBg.png";
 import { useNavigate } from "react-router-dom";
 
@@ -43,7 +43,7 @@ const SubmitProject = () => {
     const navigate = useNavigate();
     const handleSubmit = async () => {
         try {
-            const res = await axios.post(`http://localhost:8080/project/submit/${studentId}`,project);
+            const res = await axiosInstance.post(`/project/submit/${studentId}`,project);
             console.log(res.data);
             if (res.data === "Project Submitted Sucessfully") {
                 setProjectStatus(true);
@@ -57,7 +57,7 @@ const SubmitProject = () => {
     const[groupProjectStatus,setGroupProjectStatus] = useState(false)
     const handleGroupSubmit = async () => {
         try {
-            const res = await axios.post(`http://localhost:8080/groupProject/submit/${studentId}`,groupProject);
+            const res = await axiosInstance.post(`/groupProject/submit/${studentId}`,groupProject);
             console.log(res.data);
             if (res.data === "Group Project Submitted Sucessfully") {
                 setGroupProjectStatus(true);

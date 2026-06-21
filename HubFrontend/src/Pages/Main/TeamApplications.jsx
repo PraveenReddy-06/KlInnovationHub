@@ -1,5 +1,5 @@
 import { memo, useEffect, useState } from "react";
-import axios from "axios";
+import axiosInstance from "../../Api/axiosInstance"
 import Navbar from "../../Components/Navbar";
 import { Users, CheckCircle, XCircle, Clock, UserPlus, ChevronDown, ChevronUp } from "lucide-react";
 import { FaLinkedin } from "react-icons/fa";
@@ -31,10 +31,10 @@ const TeamApplications = () => {
     try {
       setLoading(true);
       const [myTeamsRes, allTeamsRes, allAppsRes, myAppsRes] = await Promise.all([
-        axios.get(`http://localhost:8080/collaboration/student/${studentId}`),
-        axios.get(`http://localhost:8080/collaboration/all`),
-        axios.get(`http://localhost:8080/collabapplication/all`),
-        axios.get(`http://localhost:8080/collabapplication/student/${studentId}`),
+        axiosInstance.get(`/collaboration/student/${studentId}`),
+        axiosInstance.get(`/collaboration/all`),
+        axiosInstance.get(`/collabapplication/all`),
+        axiosInstance.get(`/collabapplication/student/${studentId}`),
       ]);
       setMyTeams(myTeamsRes.data);
       setAllApplications(allAppsRes.data);
@@ -51,7 +51,7 @@ const TeamApplications = () => {
 
   const handleStatusUpdate = async (appId, status) => {
     try {
-      await axios.patch(`http://localhost:8080/collabapplication/updateStatus/${appId}?status=${status}`);
+      await axiosInstance.patch(`/collabapplication/updateStatus/${appId}?status=${status}`);
       setAllApplications((prev) => prev.map((a) => a.collabApplication_id === appId ? { ...a, status } : a));
     } catch (err) {
       console.error(err);
@@ -61,7 +61,7 @@ const TeamApplications = () => {
   const handleApply = async (team) => {
     try {
       setApplying(team.collaboration_id);
-      await axios.post(`http://localhost:8080/collabapplication/apply`, { collaboration: { collaboration_id: team.collaboration_id }, student: { studentId }, status: "PENDING" });
+      await axiosInstance.post(`/collabapplication/apply`, { collaboration: { collaboration_id: team.collaboration_id }, student: { studentId }, status: "PENDING" });
       setMyApplicationIds((prev) => new Set([...prev, team.collaboration_id]));
     } catch (err) {
       console.error(err);
@@ -90,7 +90,7 @@ const TeamApplications = () => {
   };
 
   const handleDeleteTeam = async () => {
-      try {await axios.delete( `http://localhost:8080/collaboration/delete/${selectedTeamId}`);
+      try {await axiosInstance.delete( `/collaboration/delete/${selectedTeamId}`);
           setMyTeams(prev => prev.filter(team => team.collaboration_id !== selectedTeamId) );
           setShowDeleteModal(false);
           setSelectedTeamId(null);
@@ -133,7 +133,7 @@ const TeamApplications = () => {
 
         {myTeams.length === 0 ? (
           <div className="bg-white/5 border border-white/10 p-10 text-center text-slate-400">
-            You haven't created any teams yet. <a href="/formATeam" className="text-cyan-400 underline">Create one</a>.
+            If You Haven't created any team <a href="/formATeam" className="text-cyan-400 underline"> Create one</a>.
           </div>
         ) : (
           <div className="flex flex-col gap-5">
@@ -142,7 +142,7 @@ const TeamApplications = () => {
               const isOpen = expandedTeam === team.collaboration_id;
               return (
                 <div key={team.collaboration_id} className="bg-white/5 border border-white/10 overflow-hidden backdrop-blur-xl">
-                  <button onClick={() => setExpandedTeam(isOpen ? null : team.collaboration_id)} className="w-full flex items-center justify-between px-8 py-5 text-left">
+                  <div onClick={() => setExpandedTeam(isOpen ? null : team.collaboration_id)} className="w-full flex items-center justify-between px-8 py-5 text-left">
                     <div className="flex items-center gap-5">
                       <div className="h-12 w-12 rounded-full bg-linear-to-br from-cyan-400 to-blue-600 flex items-center justify-center text-white font-black text-xl">{team.name?.charAt(0)}</div>
                       <div>
@@ -163,7 +163,7 @@ const TeamApplications = () => {
                             Delete
                         </button>                    
                     </div>
-                  </button>
+                  </div>
 
                   {isOpen && (
                     <div className="border-t border-white/10 px-8 py-5">
@@ -219,7 +219,7 @@ const TeamApplications = () => {
         </div>
 
         {allTeams.length === 0 ? (
-          <div className="bg-white/5 border border-white/10 rounded-3xl p-10 text-center text-slate-400">No teams available right now.</div>
+          <div className="bg-white/5 border border-white/10 rounded-3xl p-10 text-center text-slate-400">No teams available right now to apply.</div>
         ) : (
         <div className="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-6">
           {allTeams.map((team) => {
@@ -257,7 +257,9 @@ const TeamApplications = () => {
                   {alreadyApplied ? (
                     <span className="flex items-center gap-1.5 text-xs bg-emerald-500/20 text-emerald-300 border border-emerald-500/30 px-4 py-2 rounded-full font-medium"><CheckCircle size={13} /> Applied</span>
                   ) : (
-                    <button onClick={() => handleApply(team)} disabled={isApplying} className="flex items-center gap-1.5 bg-cyan-500 hover:bg-cyan-400 disabled:opacity-60 text-white px-5 py-2 rounded-full text-xs font-semibold transition-all duration-200 active:scale-95"><UserPlus size={13} /> {isApplying ? "Applying..." : "Apply"}</button>
+                    <button onClick={() => handleApply(team)} disabled={isApplying} className="flex items-center gap-1.5 bg-cyan-500 hover:bg-cyan-400 disabled:opacity-60 text-white px-5 py-2 rounded-full text-xs font-semibold transition-all duration-200 active:scale-95">
+                      <UserPlus size={13} /> {isApplying ? "Applying..." : "Apply"}
+                    </button>
                   )}
                 </div>
               </div>

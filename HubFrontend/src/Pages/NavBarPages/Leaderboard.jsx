@@ -4,7 +4,7 @@ import background from '../../Images/Leaderboard.png'
 import gold from '../../Images/Gold.png'
 import silver from '../../Images/Silver.png'
 import bronze from '../../Images/bronze.png'
-import axios from 'axios';
+import axiosInstance from "../../Api/axiosInstance"
 import { useNavigate } from "react-router-dom";
 
 const Leaderboard = () => {
@@ -17,7 +17,7 @@ const Leaderboard = () => {
     useEffect(() => {
         const top = async () => {
             try {
-                const res = await axios.get("http://localhost:8080/leaderboard");
+                const res = await axiosInstance.get("/leaderboard");
                 console.log(res);
                 setLeaderboard(res.data);
             } catch (err) {
