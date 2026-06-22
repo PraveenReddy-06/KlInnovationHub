@@ -13,8 +13,20 @@ import Profile from "./Pages/Main/Profile";
 import FormATeam from "./Pages/Main/FormATeam";
 import TeamApplications from "./Pages/Main/TeamApplications";
 import ForgotPassword from "./Pages/SignUpLogin/ForgotPassword";
+import Solution from "./Pages/Main/LandingPageSections/Solution";
+import { useEffect } from "react";
+import AOS from "aos";
+import "aos/dist/aos.css";
+
 
 function App() {
+  useEffect(() => {
+    AOS.init({
+      duration: 1200,
+      once: true,
+      easing: "ease-out-cubic",
+    });
+  }, []);
 
   return (
     <BrowserRouter>
@@ -34,6 +46,7 @@ function App() {
         <Route path="/teamApplications" element={<TeamApplications/>}/>
         <Route path="/landingPage" element={<LandingPage/>}/>
         <Route path="/forgotPassword" element={<ForgotPassword/>}/>
+        <Route path="/solution" element={<Solution/>}/>
       </Routes>
     </BrowserRouter>
   )
