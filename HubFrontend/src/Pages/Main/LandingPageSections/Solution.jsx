@@ -1,105 +1,127 @@
-import { memo } from 'react';
+import { memo,useEffect } from 'react';
+import { Swiper, SwiperSlide } from "swiper/react";
+import { Navigation, Pagination } from "swiper/modules";
+import "swiper/css";
+import "swiper/css/navigation";
+import AOS from "aos";
+import "aos/dist/aos.css";
 
 const Solution = () => {
-  return (
-<section className="relative py-28 px-6 md:px-16 bg-[#052659] overflow-hidden">
-  
-  {/* Background Glow */}
-  <div className="absolute top-20 left-1/2 -translate-x-1/2 w-[700px] h-[700px] bg-accent/10 blur-[180px] rounded-full"></div>
+  useEffect(() => {
+    AOS.init({
+      duration: 1000,
+      once: true,
+      offset: 100,
+      easing: "ease-out-cubic",
+    });
+  }, []);
 
+  const solutions = [
+  {
+    image: "/SolutionBg/1.png",
+    title: "Explore Projects",
+    desc: "Discover innovative projects built by students across different domains."
+  },
+  {
+    image: "/SolutionBg/2.png",
+    title: "Recruit Members",
+    desc: "Find talented teammates and build stronger project teams."
+  },
+  {
+    image: "/SolutionBg/3.png",
+    title: "Join Teams",
+    desc: "Collaborate on exciting ideas and gain hands-on experience."
+  },
+  {
+    image: "/SolutionBg/4.png",
+    title: "Gain Recognition",
+    desc: "Earn likes, visibility, rankings, and recognition for your work."
+  },
+  {
+    image: "/SolutionBg/5.png",
+    title: "Build Portfolio",
+    desc: "Create a professional project portfolio that showcases your skills."
+  },
+  {
+    image: "/SolutionBg/6.png",
+    title: "Showcase Innovation",
+    desc: "Present your ideas, prototypes, and achievements to the community."
+  }
+];
+
+  return (
+  <section className="relative py-28 px-6 md:px-16 bg-[#052659] overflow-hidden">
+  <div className="absolute top-20 left-1/2 -translate-x-1/2 w-[700px] h-[700px] bg-accent/10 blur-[180px] rounded-full"></div>
   <div className="relative z-10 max-w-7xl mx-auto">
 
-    {/* Heading */}
-    <div className="text-center mb-20">
-      <span className="text-sky uppercase tracking-[0.25em] text-sm font-semibold">
+    <div className="text-center mb-20"data-aos="fade-up">
+      <span   data-aos="fade-up" data-aos-delay="100" className="text-sky uppercase tracking-[0.25em] text-sm font-semibold">
         The Solution
       </span>
-
-      <h2 className="mt-4 text-4xl md:text-6xl font-bold text-white">
+      <h2   data-aos="fade-up" data-aos-delay="200" className="mt-4 text-4xl md:text-6xl font-bold text-white">
         Innovation Hub
         <span className="block text-sky">
           Solves All Of This
         </span>
       </h2>
-
-      <p className="mt-6 text-gray-300 max-w-3xl mx-auto text-lg">
+      <p   data-aos="fade-up" data-aos-delay="300" className="mt-6 text-gray-300 max-w-3xl mx-auto text-lg">
         Everything students need to transform ideas into impactful projects,
         collaborate with peers, and gain recognition—all in one platform.
       </p>
     </div>
 
-    {/* Cards Grid */}
-    <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-8">
+      <Swiper
+  modules={[Navigation]}
+  navigation
+  spaceBetween={30}
+  slidesPerView={3}
+  loop={true}
+  centeredSlides={false}
+  grabCursor={true}
+  breakpoints={{
+    320: {
+      slidesPerView: 1,
+    },
+    768: {
+      slidesPerView: 2,
+    },
+    1024: {
+      slidesPerView: 3.2,
+    },
+  }}
+>
+  {solutions.map((card, index) => (
+    <SwiperSlide key={index}> 
+      <div data-aos="fade-up" data-aos-delay={index * 150} className="group relative h-[380px] overflow-hidden rounded-3xl border border-white/10">
 
-      {[
-        {
-          icon: "🎯",
-          title: "Explore Projects",
-          desc: "Discover innovative projects built by students across different domains."
-        },
-        {
-          icon: "🤝",
-          title: "Recruit Members",
-          desc: "Find talented teammates and build stronger project teams."
-        },
-        {
-          icon: "🚀",
-          title: "Join Teams",
-          desc: "Collaborate on exciting ideas and gain hands-on experience."
-        },
-        {
-          icon: "🏆",
-          title: "Gain Recognition",
-          desc: "Earn likes, visibility, rankings, and recognition for your work."
-        },
-        {
-          icon: "📁",
-          title: "Build Portfolio",
-          desc: "Create a professional project portfolio that showcases your skills."
-        },
-        {
-          icon: "💡",
-          title: "Showcase Innovation",
-          desc: "Present your ideas, prototypes, and achievements to the community."
-        }
-      ].map((card, index) => (
-        <div
-          key={index}
-          className="group relative p-[1px] rounded-3xl overflow-hidden"
-        >
-          {/* Glow Border */}
-          <div className="absolute inset-0 bg-gradient-to-r from-accent via-[#7DA0CA] to-accent opacity-0 group-hover:opacity-100 transition-all duration-500 blur-sm"></div>
+        <img
+          src={card.image}
+          alt={card.title}
+          className="absolute inset-0 w-full h-full object-cover transition-transform duration-700 group-hover:scale-110"
+        />
 
-          {/* Card */}
-          <div className="relative h-full rounded-3xl bg-primary/95 backdrop-blur-xl border border-white/10 p-8 transition-all duration-500 group-hover:-translate-y-3 group-hover:shadow-[0_0_40px_rgba(125,160,202,0.25)]">
+        <div className="absolute inset-0 bg-gradient-to-t from-[#021024] via-[#021024]/70 to-transparent"></div>
 
-            {/* Icon */}
-            <div className="w-16 h-16 rounded-2xl bg-accent/15 border border-accent/30 flex items-center justify-center text-3xl mb-6 transition-all duration-500 group-hover:scale-110">
-              {card.icon}
-            </div>
+        <div className="absolute bottom-0 left-0 right-0 p-6">
+          <div className="backdrop-blur-md bg-black/20 border border-white/10 rounded-2xl p-5">
 
-            {/* Title */}
-            <h3 className="text-2xl font-bold text-white mb-4">
+            <h3 className="text-2xl font-bold text-white mb-3">
               {card.title}
             </h3>
 
-            {/* Description */}
-            <p className="text-gray-400 leading-relaxed">
+            <p className="text-gray-300 leading-relaxed">
               {card.desc}
             </p>
 
-            {/* Hover Arrow */}
-            <div className="mt-6 text-sky opacity-0 group-hover:opacity-100 transition-all duration-500 translate-x-0 group-hover:translate-x-2">
-              →
-            </div>
-
           </div>
         </div>
-      ))}
-    </div>
 
+      </div>
+    </SwiperSlide>
+  ))}
+</Swiper>
   </div>
-</section>
+  </section>
   );
 };
 

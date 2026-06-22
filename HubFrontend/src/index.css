@@ -71,3 +71,13 @@ body {
 .animate-scroll:hover {
   animation-play-state: paused;
 }
+
+.swiper-button-next,
+.swiper-button-prev {
+  color: white !important;
+}
+
+.swiper-button-next:after,
+.swiper-button-prev:after {
+  font-size: 24px !important;
+}

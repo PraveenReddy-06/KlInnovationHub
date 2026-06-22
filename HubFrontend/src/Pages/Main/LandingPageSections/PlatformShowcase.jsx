@@ -43,14 +43,14 @@ const PlatformShowcase = () => {
                     </p>
                 </div>
                 <div data-aos="fade-left" className="relative group">
-                    <img src="/PlatformShow2.png" alt="Leaderboard" className="border border-accent/20 shadow-2xl transition-all duration-500 group-hover:scale-110" />
+                    <img src="/PlatformShow2.png" alt="Leaderboard" className="h-70 w-max border border-accent/20 shadow-2xl transition-all duration-500 group-hover:scale-110" />
                  </div>
             </div>
 
 
             <div data-aos="fade-up" data-aos-delay="450"className="grid lg:grid-cols-2 gap-16 items-center mb-32">
                 <div data-aos="fade-right" className="relative group">
-                    <img src="/PlatformShow11.png" alt="Explore Projects" className="border border-accent/20 shadow-2xl transition-all duration-500 group-hover:scale-110" />
+                    <img src="/PlatformShow11.png" alt="Explore Projects" className="h-60 w-max border border-accent/20 shadow-2xl transition-all duration-500 group-hover:scale-110" />
                 </div>
                 <div data-aos="fade-left">
                     <span className="text-sky font-semibold">EXPLORE PROJECTS</span>
@@ -70,7 +70,7 @@ const PlatformShowcase = () => {
                     </p>
                 </div>
                 <div data-aos="fade-left" className="relative group order-1 lg:order-2">
-                    <img src="/PlatformShow4.png" alt="Latest Projects" className="border border-accent/20 shadow-2xl transition-all duration-500 group-hover:scale-110" />
+                    <img src="/PlatformShow4.png" alt="Latest Projects" className="h-65 w-max border border-accent/20 shadow-2xl transition-all duration-500 group-hover:scale-110" />
                  </div>
             </div>
         </div>
