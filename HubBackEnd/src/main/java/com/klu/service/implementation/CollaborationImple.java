@@ -46,7 +46,7 @@ public class CollaborationImple implements CollaborationService{
 	public void deleteTeam(Integer collaborationId) {
 	    Collaboration collaboration = collaborationRepo.findById(collaborationId).orElseThrow(() -> new RuntimeException("Team not found"));
 	    long currentUserId =currentUser.getCurrentStudent().getStudentId();
-	        if (collaboration.getStudent().getStudentId()!= currentUserId) {
+	        if (!collaboration.getStudent().getStudentId().equals(currentUserId)) {
 	            throw new RuntimeException(
 	                "Not authorized"
 	            );

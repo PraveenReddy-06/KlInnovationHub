@@ -46,8 +46,11 @@ const SignUp = () => {
         }else {
             setError("Enter same passwords");
         }
-    }finally {
-      setLoading(false)
+    }catch(err){
+      setError("Unable to send OTP");
+    }
+    finally{
+      setLoading(false);
     }
   }
     
@@ -62,6 +65,7 @@ const SignUp = () => {
        e.preventDefault()
       setError("");
       setResponse("");
+      try{
        const res = await axiosInstance.post(`/mail/verifyOtp`,verify)
        setCheck(true)
        if(res.data === "Verified You Can SignIn Now"){
@@ -69,6 +73,8 @@ const SignUp = () => {
             setResponse(res.data);
         }else{
             setError(res.data);
+      }}catch (err) {
+    setError("Verification failed. Please try again.");
       }
     }
 
@@ -90,7 +96,10 @@ const SignUp = () => {
                 setTimer(180);
             }
         }catch(e){
-            setError(e);
+          setError(
+              e.response?.data ||
+              "Failed to resend OTP"
+          );
         }
     }
 

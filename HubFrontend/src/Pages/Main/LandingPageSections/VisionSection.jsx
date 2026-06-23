@@ -73,7 +73,6 @@ const VisionSection = () => {
       </svg>
 
     </div>
-
   </div>
 </section>
     </div>

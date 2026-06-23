@@ -49,7 +49,11 @@ public class StudentImple implements StudentService{
 
 	@Override
 	public Student getStudentByEmail(String email) {
-		return studentRepo.findByStudentEmail(email);
+	    Student student = studentRepo.findByStudentEmail(email);
+	    if(student == null) {
+	        throw new RuntimeException("Student not found");
+	    }
+	    return student;
 	}
 	
 	@Override

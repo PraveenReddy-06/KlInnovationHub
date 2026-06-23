@@ -74,7 +74,7 @@ public class GroupProjectImple implements GroupProjectService{
 	public String deleteProjectsById(int projectId) {
 		GroupProject p = groupProjectRepo.findById(projectId).orElseThrow(() -> new RuntimeException("Project not found"));
 		long currentUserId = currentUser.getCurrentStudent().getStudentId();
-		if (p.getTeamLead().getStudentId() != currentUserId) {
+		if (!p.getTeamLead().getStudentId().equals(currentUserId)) {
 		    throw new RuntimeException("Not authorized");
 		}
 		groupProjectRepo.delete(p);

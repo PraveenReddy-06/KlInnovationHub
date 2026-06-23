@@ -37,6 +37,7 @@ public class GroupProjectController {
     	}
         return groupProjectService.SubmitGroupProject(p,teamLeadId);
     }
+    
     @GetMapping("/latest")
     public List<GroupProject> getLatestGroupSubmissions() {
         return groupProjectService.getLatestGroupSubmissions();

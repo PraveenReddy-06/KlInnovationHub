@@ -20,7 +20,9 @@ let isLoggingOut = false;
 axiosInstance.interceptors.response.use(
     response => response,
     error => {
-        if(!isLoggingOut && error.response?.status === 401) {
+
+        const isAuthPage =window.location.pathname === "/login" || window.location.pathname === "/signup";
+        if(!isLoggingOut && error.response?.status === 401 && !isAuthPage) {
             isLoggingOut=true;
             alert(" Your session has expired.Please login again to continue.");
             localStorage.clear();

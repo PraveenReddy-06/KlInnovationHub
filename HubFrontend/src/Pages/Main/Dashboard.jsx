@@ -11,56 +11,64 @@ const Dashboard = () => {
   const[topProjects,setTopProjects] = useState([])
   const[topGroupProjects,setTopGroupProjects] = useState([])
   const [search, setSearch] = useState("");
+  const [error, setError] = useState("");
 
   useEffect(() => {
     const projectCard = async () => {
-      const[projectsRes,groupProjectsRes] = await Promise.all([axiosInstance.get("/project/latest")
-      ,axiosInstance.get("/groupProject/latest"),]);
-      const formattedProjects = projectsRes.data.map((item) => {
-        return {...item,type: "INDIVIDUAL",title: item.projectName,
-          ownerName: item.student?.student_name,
-          ownerId: item.student?.studentId,
-          branch: item.student?.branch,
-          year: item.student?.year,
-          projectKey: item.projectId};
-        });
-      const formattedGroupProjects = groupProjectsRes.data.map((item) => {
-        return {...item,type: "GROUP",
-          title: item.project_name,
-          ownerName: item.teamLead?.student_name,
-          ownerId: item.teamLead?.studentId,
-          branch: item.teamLead?.branch,
-          year: item.teamLead?.year,
-          projectKey: item.groupProjectId};
-        });
+      try{
+        const[projectsRes,groupProjectsRes] = await Promise.all([axiosInstance.get("/project/latest")
+        ,axiosInstance.get("/groupProject/latest"),]);
+        const formattedProjects = projectsRes.data.map((item) => {
+          return {...item,type: "INDIVIDUAL",title: item.projectName,
+            ownerName: item.student?.student_name,
+            ownerId: item.student?.studentId,
+            branch: item.student?.branch,
+            year: item.student?.year,
+            projectKey: item.projectId};
+          });
+        const formattedGroupProjects = groupProjectsRes.data.map((item) => {
+          return {...item,type: "GROUP",
+            title: item.project_name,
+            ownerName: item.teamLead?.student_name,
+            ownerId: item.teamLead?.studentId,
+            branch: item.teamLead?.branch,
+            year: item.teamLead?.year,
+            projectKey: item.groupProjectId};
+          });
 
-      setProjects(formattedProjects);
-      setGroupProjects(formattedGroupProjects);
+        setProjects(formattedProjects);
+        setGroupProjects(formattedGroupProjects);
+        } catch (error) {
+            setError("Failed to load projects");
+        }
     }
 
     const TopProject = async () => {
-      const[topProjectsRes,topGroupProjectsRes] = await Promise.all([axiosInstance.get("/likes/top")
-        ,axiosInstance.get("/grouplikes/top")
-      ])
-      const formattedTopProjects = topProjectsRes.data.map((item) => {
-        return {...item,type: "INDIVIDUAL",title: item.projectName,
-          ownerName: item.student?.student_name,
-          ownerId: item.student?.studentId,
-          branch: item.student?.branch,
-          year: item.student?.year,
-          projectKey: item.projectId};
-        });
-      const formattedTopGroupProjects = topGroupProjectsRes.data.map((item) => {
-        return {...item,type: "GROUP",
-          title: item.project_name,
-          ownerName: item.teamLead?.student_name,
-          ownerId: item.teamLead?.studentId,
-          branch: item.teamLead?.branch,
-          year: item.teamLead?.year,
-          projectKey: item.groupProjectId};
-        });        
-      setTopProjects(formattedTopProjects);
-      setTopGroupProjects(formattedTopGroupProjects);
+      try{  
+        const[topProjectsRes,topGroupProjectsRes] = await Promise.all([axiosInstance.get("/likes/top")
+              ,axiosInstance.get("/grouplikes/top")])
+        const formattedTopProjects = topProjectsRes.data.map((item) => {
+          return {...item,type: "INDIVIDUAL",title: item.projectName,
+            ownerName: item.student?.student_name,
+            ownerId: item.student?.studentId,
+            branch: item.student?.branch,
+            year: item.student?.year,
+            projectKey: item.projectId};
+          });
+        const formattedTopGroupProjects = topGroupProjectsRes.data.map((item) => {
+          return {...item,type: "GROUP",
+            title: item.project_name,
+            ownerName: item.teamLead?.student_name,
+            ownerId: item.teamLead?.studentId,
+            branch: item.teamLead?.branch,
+            year: item.teamLead?.year,
+            projectKey: item.groupProjectId};
+          });        
+        setTopProjects(formattedTopProjects);
+        setTopGroupProjects(formattedTopGroupProjects);
+      } catch (error) {
+            setError("Failed to load projects");
+      }
     }
     projectCard();
     TopProject();
@@ -113,7 +121,11 @@ const Dashboard = () => {
           </div>
         </div>
       </div>
-      
+      {error && (
+        <div className="mx-6 mt-4 p-3 bg-red-100 text-bloodstone rounded-lg">
+          {error}
+        </div>
+      )}
       <div className="pb-3 px-10">
         <div className="flex items-center gap-3 pb-2">
           <div className="text-2xl font-bold  text-primary whitespace-nowrap">Top Projects</div>

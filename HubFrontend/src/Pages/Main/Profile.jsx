@@ -201,7 +201,7 @@ return (
                 <h2 className="text-5xl font-black text-white mt-3"> {collaborations.length}</h2>
             </div>
             <div className="bg-white/10 backdrop-blur-xl border border-white/10 p-6 hover:-translate-y-2 duration-300">
-                <p className="text-slate-400">Team Openings</p>
+                <p className="text-slate-400">Applications Sent</p>
                 <h2 className="text-5xl font-black text-white mt-3"> {applications.length}</h2>
             </div>
         </div>
