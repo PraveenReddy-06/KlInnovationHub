@@ -15,6 +15,7 @@ const ExploreProjects = () => {
   const [selectedBranch,setSelectedBranch] = useState("");
   const [selectedYear,setSelectedYear] = useState("");
   const [selectedType,setSelectedType] = useState("ALL");
+  const allProjects = [...projects,...groupProjects];
 
   const studentId = JSON.parse(localStorage.getItem("studentId"));
   const navigate = useNavigate();
@@ -25,41 +26,40 @@ const ExploreProjects = () => {
   const fetchProjects = async () => {
     try {
       setLoading(true);
-      const [projectRes,groupProjectRes] = await Promise.all([axiosInstance.get("/project/all"),
-        axiosInstance.get("/groupProject/all"),]);
-
+      const [projectRes,groupProjectRes] = await Promise.all([axiosInstance.get("/project/all"),axiosInstance.get("/groupProject/all"),]);
       const formattedProjects = projectRes.data.map((item) => {  
         const isLiked = item.likes?.some((like) =>  Number(like.likedStudentId) === Number(studentId));
         return {...item,  type: "INDIVIDUAL", isLiked: isLiked || false,};
       });
-
       const formattedGroupProjects = groupProjectRes.data.map((item) => {
         const isLiked = item.likes?.some((like) =>  Number(like.likedStudentId) === Number(studentId));
         return { ...item,type: "GROUP",isLiked: isLiked || false,};
       });
-
       setProjects(formattedProjects);
       setGroupProjects(formattedGroupProjects);
     }catch (err) {console.log(err);} 
     finally {setLoading(false);}
   };
 
-  const allProjects = [...projects,...groupProjects];
   const filteredProjects = useMemo(() => {
+    const query = search.toLowerCase().trim();
     return allProjects.filter((project) => {
       const isGroup = project.type === "GROUP";
-      
-      const title = isGroup ? project.project_name?.toLowerCase() : project.projectName?.toLowerCase();
-      const branch = isGroup ? project.teamLead?.branch : project.student?.branch;
-      const year = isGroup ? project.teamLead?.year : project.student?.year;
-      const matchesSearch = title?.includes(search.toLowerCase());
-      const matchesBranch = selectedBranch ? branch === selectedBranch : true;
-      const matchesYear = selectedYear ? year === parseInt(selectedYear) : true;
-      const matchesType = selectedType === "ALL" ? true : selectedType === project.type;
-
-      return matchesSearch && matchesBranch && matchesYear && matchesType;
+      const ownerName = isGroup? project.teamLead?.student_name: project.student?.student_name;
+      const ownerId = isGroup? project.teamLead?.studentId: project.student?.studentId;
+      const title = isGroup? project.project_name?.toLowerCase(): project.projectName?.toLowerCase();
+      const branch = isGroup? project.teamLead?.branch: project.student?.branch;
+      const year = isGroup? project.teamLead?.year: project.student?.year;
+      const teamMembers =project.studentList?.map((s) => `${s.student_name.toLowerCase()} ${s.studentId}`).join(" ") || "";
+     const matchesSearch =title?.includes(query) ||ownerName?.toLowerCase().includes(query) ||String(ownerId || "").includes(query) ||teamMembers.includes(query) ||teamMembers.includes(query) 
+            ||project.tech1?.toLowerCase().includes(query) || project.tech2?.toLowerCase().includes(query) || project.tech3?.toLowerCase().includes(query);      
+      const matchesBranch = selectedBranch? branch === selectedBranch: true;
+      const matchesYear = selectedYear? year === parseInt(selectedYear): true;
+      const matchesType =selectedType === "ALL"  ? true  : selectedType === project.type;
+      return (matchesSearch &&matchesBranch &&matchesYear &&matchesType);
     });
-  }, [allProjects,search,selectedBranch,selectedYear,selectedType]);
+  }, [allProjects,search,selectedBranch,selectedYear,selectedType,
+  ]);
 
   const handleLike = async (project) => {
     try {
@@ -118,9 +118,9 @@ const ExploreProjects = () => {
             <option value="2027">2027</option>
           </select>
        
-          <div className="flex items-center border rounded-xl px-3 py-2 bg-gray-50 min-w-[280px]">
-            <Search size={18} className="text-gray-500" />
-            <input  type="text"  placeholder="Search projects..."  value={search}  onChange={(e) => setSearch(e.target.value)}
+          <div className="flex items-center border rounded-xl px-3 py-2 bg-gray-50 min-w-100">
+            <span className="text-primary ml-2">🔍</span>
+            <input  type="text"  placeholder="Search projects, tech, student, id..."  value={search}  onChange={(e) => setSearch(e.target.value)}
               className="w-full bg-transparent outline-none px-2"/>
           </div>
         </div>

@@ -75,14 +75,16 @@ const Dashboard = () => {
   },[])
 
   const filterFn = (p) => {
-    const teamMembers =p.studentList?.map((s) => s.student_name).join(" ") || "";
+    const query = search.toLowerCase();
+
     return (
-      p.title?.toLowerCase().includes(search.toLowerCase()) 
-    ||p.ownerName?.toLowerCase().includes(search.toLowerCase()) 
-    ||teamMembers?.toLowerCase().includes(search.toLowerCase()) 
-    ||p.tech1?.toLowerCase().includes(search.toLowerCase()) 
-    ||p.tech2?.toLowerCase().includes(search.toLowerCase()) 
-    ||p.tech3?.toLowerCase().includes(search.toLowerCase()));
+      p.title?.toLowerCase().includes(query) ||
+      p.ownerName?.toLowerCase().includes(query) ||
+      String(p.ownerId).includes(search) ||
+      p.tech1?.toLowerCase().includes(query) ||
+      p.tech2?.toLowerCase().includes(query) ||
+      p.tech3?.toLowerCase().includes(query)
+    );
   };
 
   const filteredProjects = [...projects,...groupProjects].filter(filterFn);
@@ -99,7 +101,7 @@ const Dashboard = () => {
           <p className="text-lg opacity-90">Share your innovative solutions with the hub and inspire the community.</p>
           <div className="w-full max-w-md">
             <div className="flex items-center rounded-xl px-4 py-3 shadow-sm focus-within:ring-2 bg-white "  style={{border: "1px solid #D2B48C",}}>
-              <input type="text" placeholder="Search projects, tech, student..." value={search} onChange={(e) => setSearch(e.target.value)} className="w-full outline-none text-black text-sm"/>
+              <input type="text" placeholder="Search projects, tech, student, id..." value={search} onChange={(e) => setSearch(e.target.value)} className="w-full outline-none text-black text-sm"/>
               <span className="text-primary ml-2">🔍</span>
             </div>
         </div>
