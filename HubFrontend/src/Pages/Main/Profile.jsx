@@ -138,7 +138,6 @@ return (
                         <div className="text-white">
                             <h2 className="text-4xl font-bold">{student.student_name}</h2>
                             <p className="text-slate-300 mt-2">{student.studentEmail}</p>
-                            <FollowSection studentId={studentId} isOwnProfile={isOwnProfile}/>
                             <div className="flex items-center gap-4 mt-3">
                                 {student.githubUrl ? (
                                     <a href={student.githubUrl} target="_blank" rel="noopener noreferrer"className="text-white hover:text-cyan-300">
@@ -164,27 +163,33 @@ return (
                             </div>
                         </div>
                     </div>
-                    <div className="flex gap-4 text-sm">
-                        {isOwnProfile && (<button
-                            onClick={() => navigate("/formATeam")}
-                            className=" bg-submit text-slate-900 border border-amber-900 font-semibold px-6 py-2 rounded-2xl hover:scale-105 duration-300 cursor-pointer">
-                                <Users size={20} /> Form My Team
-                        </button>)}
-                        {isOwnProfile && (
-                        <button
-                            onClick={() => navigate("/teamApplications")}
-                            className="bg-collab text-gray-800 border border-black font-semibold px-6 rounded-2xl hover:scale-105 duration-300 cursor-pointer">
-                            <Handshake size={20} />
-                            Collab Hub 
-                        </button>)}
-                        {isOwnProfile && (
-                        <button
-                            onClick={() => navigate("/submitProject")}
-                            className="bg-formTeam text-white border border-gray-400 font-semibold px-6 rounded-2xl hover:scale-105 duration-300 cursor-pointer">
-                            <Rocket size={20} />
-                            Submit Project
-                        </button> )}
-                    </div>
+                    <div className="flex flex-col gap-10">
+                        <div className="flex items-end justify-end">
+                            <FollowSection studentId={studentId} isOwnProfile={isOwnProfile}/>                            
+                        </div>                       
+                        <div className="flex gap-4 text-sm">
+                            {isOwnProfile && (<button
+                                onClick={() => navigate("/formATeam")}
+                                className=" bg-submit text-slate-900 border border-amber-900 font-semibold px-6 py-2 rounded-2xl hover:scale-105 duration-300 cursor-pointer">
+                                    <Users size={20} /> Form My Team
+                            </button>)}
+                            {isOwnProfile && (
+                            <button
+                                onClick={() => navigate("/teamApplications")}
+                                className="bg-collab text-gray-800 border border-black font-semibold px-6 rounded-2xl hover:scale-105 duration-300 cursor-pointer">
+                                <Handshake size={20} />
+                                Collab Hub 
+                            </button>)}
+                            {isOwnProfile && (
+                            <button
+                                onClick={() => navigate("/submitProject")}
+                                className="bg-formTeam text-white border border-gray-400 font-semibold px-6 rounded-2xl hover:scale-105 duration-300 cursor-pointer">
+                                <Rocket size={20} />
+                                Submit Project
+                            </button> )}
+                            
+                        </div>
+                    </div>                   
                 </div>
             </div>
         </div>

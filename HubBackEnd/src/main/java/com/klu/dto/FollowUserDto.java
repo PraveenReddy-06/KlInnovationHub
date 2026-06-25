@@ -11,4 +11,5 @@ public class FollowUserDto {
     private String student_name;
     private String avatarUrl;
     private String branch;
+    private Integer year;
 }

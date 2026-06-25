@@ -79,7 +79,8 @@ public class FollowerImple implements FollowerService {
                         f.getFollower().getStudentId(),
                         f.getFollower().getStudent_name(),
                         f.getFollower().getAvatarUrl(),
-                        f.getFollower().getBranch()
+                        f.getFollower().getBranch(),
+                        f.getFollower().getYear()
                 ))
                 .collect(Collectors.toList());
     }
@@ -93,7 +94,8 @@ public class FollowerImple implements FollowerService {
                         f.getFollowing().getStudentId(),
                         f.getFollowing().getStudent_name(),
                         f.getFollowing().getAvatarUrl(),
-                        f.getFollowing().getBranch()
+                        f.getFollowing().getBranch(),
+                        f.getFollower().getYear()
                 ))
                 .collect(Collectors.toList());
     }
