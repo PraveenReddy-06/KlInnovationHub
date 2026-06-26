@@ -13,4 +13,6 @@ public interface NotificationRepo extends JpaRepository<Notification, Long> {
     findTop20ByRecipientOrderByCreatedAtDesc(Student recipient);
 
     long countByRecipientAndIsReadFalse(Student recipient);
+
+	List<Notification> findByRecipient(Student current);
 }

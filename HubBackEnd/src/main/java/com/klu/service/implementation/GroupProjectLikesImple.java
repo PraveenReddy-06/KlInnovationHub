@@ -60,7 +60,6 @@ public class GroupProjectLikesImple implements GroupProjectLikesService{
 			 if(!p.getTeamLead().getStudentId().equals(s.getStudentId())) {
 				    notificationService.createNotification( p.getTeamLead(),s, "GROUP_PROJECT_LIKED", p.getProject_name());
 				}
-			 activityService.createActivity(s,"GROUP_PROJECT_LIKED",p.getProject_name());
 			 
 			 liked=true;
 		 }

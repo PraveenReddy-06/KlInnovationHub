@@ -32,7 +32,7 @@ public class ActivityImple implements ActivityService {
     @Override
     public List<ActivityDto> getRecentActivities() {
 
-        return activityRepo.findTop20ByOrderByCreatedAtDesc().stream()
+        return activityRepo.findTop15ByOrderByCreatedAtDesc().stream()
                 .map(a -> new ActivityDto(
                         a.getStudent().getStudentId(),
                         a.getStudent().getStudent_name(),
@@ -42,4 +42,5 @@ public class ActivityImple implements ActivityService {
                         a.getCreatedAt()
                 )).collect(Collectors.toList());
     }
+    
 }

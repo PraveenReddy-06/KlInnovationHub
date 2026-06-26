@@ -20,4 +20,5 @@ public class ActivityController {
     public List<ActivityDto> recentActivities() {
         return activityService.getRecentActivities();
     }
+    
 }

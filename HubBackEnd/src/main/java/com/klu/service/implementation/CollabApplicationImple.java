@@ -41,6 +41,7 @@ public class CollabApplicationImple implements CollabApplicationService {
 	    app.setStatus("PENDING");
 
 	    collabApplicationRepo.save(app);
+	    
 	    notificationService.createNotification(collaboration.getStudent(),currentStudent ,"TEAM_APPLICATION",collaboration.getName());
 
 	    return "Application Submitted";

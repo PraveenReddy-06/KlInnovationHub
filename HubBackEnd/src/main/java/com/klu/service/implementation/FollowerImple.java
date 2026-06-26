@@ -49,6 +49,7 @@ public class FollowerImple implements FollowerService {
         relation.setFollowing(following);
         followerRepo.save(relation);
         notificationService.createNotification(following,follower,"FOLLOWED_USER",follower.getStudent_name());
+        notificationService.createNotification(follower, follower,"STARTED_FOLLOWING",following.getStudent_name());
         return "Followed successfully";
     }
 

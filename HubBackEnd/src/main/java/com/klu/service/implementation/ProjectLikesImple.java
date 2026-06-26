@@ -59,7 +59,6 @@ public class ProjectLikesImple implements ProjectLikesServic{
 	        if(!project.getStudent().getStudentId().equals(student.getStudentId())) {
 	            notificationService.createNotification( project.getStudent(), student,"PROJECT_LIKED",project.getProjectName());
 	        }
-	        activityService.createActivity(student,"PROJECT_LIKED",project.getProjectName());
 
 	        liked = true;
 	    }

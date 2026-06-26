@@ -23,6 +23,7 @@ public class NotificationImple implements NotificationService {
     @Autowired
     private CurrentUserService currentUser;
 
+    
     @Override
     public void createNotification(Student recipient, Student actor, String notificationType,String referenceName) {
 
@@ -51,6 +52,7 @@ public class NotificationImple implements NotificationService {
                 )).collect(Collectors.toList());
     }
 
+
     @Override
     public long unreadCount() {
         Student current = currentUser.getCurrentStudent();
@@ -66,5 +68,13 @@ public class NotificationImple implements NotificationService {
         }
         notification.setIsRead(true);
         notificationRepo.save(notification);
+    }
+    
+    @Override
+    public void markAllRead() {
+        Student current = currentUser.getCurrentStudent();
+        List<Notification> notifications =notificationRepo.findByRecipient(current);
+        notifications.forEach(n -> n.setIsRead(true));
+        notificationRepo.saveAll(notifications);
     }
 }
