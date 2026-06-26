@@ -12,6 +12,7 @@ import com.klu.model.Student;
 import com.klu.repository.ProjectLikesRepo;
 import com.klu.repository.ProjectRepo;
 import com.klu.repository.StudentRepo;
+import com.klu.service.ActivityService;
 import com.klu.service.ProjectLikesServic;
 
 import jakarta.transaction.Transactional;
@@ -27,6 +28,9 @@ public class ProjectLikesImple implements ProjectLikesServic{
 	
 	@Autowired
 	ProjectRepo projectRepo;
+	
+	@Autowired
+	ActivityService activityService;
 	
 	@Override
 	public List<Project> getTopProjects() {		
@@ -48,6 +52,7 @@ public class ProjectLikesImple implements ProjectLikesServic{
 	        like.setStudent(student);
 	        like.setProject(project);
 	        likesRepo.save(like);
+	        activityService.createActivity(student,"PROJECT_LIKED",project.getProjectName());
 
 	        liked = true;
 	    }
