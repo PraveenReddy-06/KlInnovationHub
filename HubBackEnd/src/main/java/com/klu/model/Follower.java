@@ -23,4 +23,6 @@ public class Follower {
     @ManyToOne
     @JoinColumn(name = "following_id", nullable = false)
     private Student following;
+    
+    
 }

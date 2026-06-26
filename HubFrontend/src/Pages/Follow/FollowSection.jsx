@@ -73,18 +73,18 @@ const FollowSection = ({ studentId, isOwnProfile }) => {
   return (
     <div className="mt-4 ">
       <div className="flex items-center gap-8 cursor-pointer ">
-        <button onClick={openFollowers} className="hover:text-black text-dark-navy cursor-pointer rounded-xl bg-cyan-500 p-2" >
+        <button onClick={openFollowers} className="hover:text-black border border-gray text-dark-navy cursor-pointer rounded-xl bg-cyan-500 p-2" >
           <span className="font-bold text-lg">{followersCount}</span>
           <span className="ml-2">Followers</span>
         </button>
 
-        <button onClick={openFollowing} className="hover:text-black text-blue-950 cursor-pointer rounded-xl bg-cyan-500 p-2">
+        <button onClick={openFollowing} className="hover:text-black border border-gray text-blue-950 cursor-pointer rounded-xl bg-cyan-500 p-2">
           <span className="font-bold text-lg">{followingCount}</span>
           <span className="ml-2">Following</span>
         </button>
 
         {!isOwnProfile && (
-          <button onClick={handleFollow} className={isFollowing ? "bg-red-500 text-white px-5 py-2 rounded-xl" : "bg-cyan-500 text-white px-5 py-2 rounded-xl"}>
+          <button onClick={handleFollow} className={isFollowing ? "bg-red-500 text-white px-5 border border-black py-2 rounded-xl" : "bg-green-400 text-black px-5 border border-black py-2 rounded-xl"}>
             {isFollowing ? "Unfollow" : "Follow"}
           </button>
         )}
@@ -95,7 +95,7 @@ const FollowSection = ({ studentId, isOwnProfile }) => {
           <div className="bg-slate-900 w-[700px] max-h-[80vh] rounded-2xl overflow-hidden">
             <div className="flex justify-between items-center p-5 border-b border-slate-700">
               <h2 className="text-white text-xl font-bold">Followers</h2>
-              <button onClick={() => setShowFollowersModal(false)} className="text-white">✕</button>
+              <button onClick={() => setShowFollowersModal(false)} className="text-white cursor-pointer">✕</button>
             </div>
             <div className="p-5 overflow-y-auto max-h-[65vh]">
               {followers.length === 0 ? <p className="text-slate-400">No followers yet</p> : (
@@ -109,7 +109,9 @@ const FollowSection = ({ studentId, isOwnProfile }) => {
                         <p className="text-slate-500 text-xs">#{user.studentId}</p>
                       </div>
                     </div>
-                    <button onClick={() => { setShowFollowersModal(false); navigate(`/profile/${user.studentId}`); }} className="bg-cyan-500 text-white px-4 py-2 rounded-xl">View</button>
+                    <button onClick={() => { setShowFollowersModal(false); navigate(`/profile/${user.studentId}`); }} className="bg-cyan-500 text-white px-4 py-2 rounded-xl">
+                      View
+                    </button>
                   </div>
                 ))
               )}
@@ -123,7 +125,9 @@ const FollowSection = ({ studentId, isOwnProfile }) => {
           <div className="bg-slate-900 w-[700px] max-h-[80vh] rounded-2xl overflow-hidden">
             <div className="flex justify-between items-center p-5 border-b border-slate-700">
               <h2 className="text-white text-xl font-bold">Following</h2>
-              <button onClick={() => setShowFollowingModal(false)} className="text-white">✕</button>
+              <button onClick={() => setShowFollowingModal(false)} className="text-white cursor-pointer">
+                ✕
+              </button>
             </div>
             <div className="p-5 overflow-y-auto max-h-[65vh]">
               {following.length === 0 ? <p className="text-slate-400">No following yet</p> : (
@@ -137,7 +141,9 @@ const FollowSection = ({ studentId, isOwnProfile }) => {
                         <p className="text-slate-500 text-xs">#{user.studentId}</p>
                       </div>
                     </div>
-                    <button onClick={() => { setShowFollowingModal(false); navigate(`/profile/${user.studentId}`); }} className="bg-cyan-500 text-white px-4 py-2 rounded-xl">View</button>
+                    <button onClick={() => { setShowFollowingModal(false); navigate(`/profile/${user.studentId}`); }} className="bg-cyan-500 text-white px-4 py-2 rounded-xl">
+                      View
+                    </button>
                   </div>
                 ))
               )}
