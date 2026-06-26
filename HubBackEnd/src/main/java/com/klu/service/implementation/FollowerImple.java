@@ -14,6 +14,7 @@ import com.klu.repository.StudentRepo;
 import com.klu.service.ActivityService;
 import com.klu.service.CurrentUserService;
 import com.klu.service.FollowerService;
+import com.klu.service.NotificationService;
 
 @Service
 public class FollowerImple implements FollowerService {
@@ -29,6 +30,9 @@ public class FollowerImple implements FollowerService {
     
 	@Autowired
 	ActivityService activityService;
+	
+	@Autowired 
+	NotificationService notificationService;
 
     @Override
     public String follow(Long followingId) {
@@ -44,7 +48,7 @@ public class FollowerImple implements FollowerService {
         relation.setFollower(follower);
         relation.setFollowing(following);
         followerRepo.save(relation);
-        activityService.createActivity(follower,"FOLLOWED_USER",following.getStudent_name());
+        notificationService.createNotification(following,follower,"FOLLOWED_USER",follower.getStudent_name());
         return "Followed successfully";
     }
 

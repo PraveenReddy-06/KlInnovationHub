@@ -15,6 +15,7 @@ import com.klu.repository.GroupProjectRepo;
 import com.klu.repository.StudentRepo;
 import com.klu.service.ActivityService;
 import com.klu.service.GroupProjectLikesService;
+import com.klu.service.NotificationService;
 
 import jakarta.transaction.Transactional;
 
@@ -32,6 +33,9 @@ public class GroupProjectLikesImple implements GroupProjectLikesService{
 	 
 	@Autowired
 	ActivityService activityService;
+	
+	@Autowired
+	NotificationService notificationService;
 	 
 	 @Override
 	 public List<GroupProject> getTopGroupProjects() {	  
@@ -53,6 +57,9 @@ public class GroupProjectLikesImple implements GroupProjectLikesService{
 			 like.setStudent(s);
 			 like.setGroupProject(p);
 			 groupProjectLikesRepo.save(like);
+			 if(!p.getTeamLead().getStudentId().equals(s.getStudentId())) {
+				    notificationService.createNotification( p.getTeamLead(),s, "GROUP_PROJECT_LIKED", p.getProject_name());
+				}
 			 activityService.createActivity(s,"GROUP_PROJECT_LIKED",p.getProject_name());
 			 
 			 liked=true;
