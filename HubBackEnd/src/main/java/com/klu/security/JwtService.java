@@ -4,6 +4,7 @@ import java.util.Date;
 
 import javax.crypto.SecretKey;
 
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Service;
 
@@ -15,12 +16,22 @@ import io.jsonwebtoken.security.Keys;
 public class JwtService {
 	
 
-	private static final String secret="SECRETKEYFORKLINNOVATIONHUBIS:REDDY@12345PRAVEEN@069963656797";
-    private final SecretKey key =Keys.hmacShaKeyFor(secret.getBytes());
+    @Value("${jwt.secret}")
+    private String secret;
+
+    @Value("${jwt.expiration-ms:3600000}")
+    private long expirationMs;
+
+    private SecretKey key;
+
+    @jakarta.annotation.PostConstruct
+    private void init() {
+        this.key = Keys.hmacShaKeyFor(secret.getBytes());
+    }
+
      
 	public String generateToken(String email) {
-
-        return Jwts.builder().subject(email).issuedAt(new Date()).expiration(new Date(System.currentTimeMillis()+ 1000 * 60 * 60))
+        return Jwts.builder().subject(email).issuedAt(new Date()).expiration(new Date(System.currentTimeMillis()+ expirationMs))
                 .signWith(key)
                 .compact();
     }

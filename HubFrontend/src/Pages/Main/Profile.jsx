@@ -196,15 +196,15 @@ return (
 
         <div className="grid lg:grid-cols-4 gap-6 mt-12">
             <div className="bg-white/10 backdrop-blur-xl border border-white/10  p-6 hover:-translate-y-2 duration-300">
-                <p className="text-slate-400">Solo Projects</p>
+                <p className="text-slate-400">My Solo Projects</p>
                 <h2 className="text-5xl font-black text-white mt-3">{projects.length}</h2>
             </div>
             <div className="bg-white/10 backdrop-blur-xl border border-white/10 p-6 hover:-translate-y-2 duration-300">
-                <p className="text-slate-400">Group Projects</p>
+                <p className="text-slate-400">My Group Projects</p>
                 <h2 className="text-5xl font-black text-white mt-3">{groupProjects.length}</h2>
             </div>
             <div className="bg-white/10 backdrop-blur-xl border border-white/10 p-6 hover:-translate-y-2 duration-300">
-                <p className="text-slate-400">Teams Created</p>
+                <p className="text-slate-400">My Teams</p>
                 <h2 className="text-5xl font-black text-white mt-3"> {collaborations.length}</h2>
             </div>
             <div className="bg-white/10 backdrop-blur-xl border border-white/10 p-6 hover:-translate-y-2 duration-300">
