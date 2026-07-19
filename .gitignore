@@ -34,3 +34,7 @@ build/
 .vscode/
 eclipse-workspace/
 .metadata/
+
+.env
+**/.env
+application-local.properties
