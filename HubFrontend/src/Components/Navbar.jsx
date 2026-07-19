@@ -4,6 +4,7 @@ import {useNavigate } from 'react-router-dom';
 import {useRef, useEffect } from "react";
 import { FaBell } from "react-icons/fa";
 import axiosInstance from "../Api/axiosInstance";
+import toast from "react-hot-toast";
 
 const Navbar = () => {
   const studentId = JSON.parse(localStorage.getItem("studentId") || "null")
@@ -30,7 +31,7 @@ const Navbar = () => {
         const res = await axiosInstance.get( "/notification/unreadCount");
         setUnreadCount(res.data);
       } catch (err) {
-        console.log(err);
+        toast.error("Something went wrong. Please try again.");
       }
     };
     loadUnreadCount();
@@ -47,7 +48,7 @@ const Navbar = () => {
       setActivities(activityRes.data);
       setUnreadCount(0);
     } catch(err) {
-      console.log(err);
+      toast.error("Something went wrong. Please try again.");
     }
   };
 

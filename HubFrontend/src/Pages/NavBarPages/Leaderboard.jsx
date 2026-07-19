@@ -18,7 +18,6 @@ const Leaderboard = () => {
         const top = async () => {
             try {
                 const res = await axiosInstance.get("/leaderboard");
-                console.log(res);
                 setLeaderboard(res.data);
             } catch (err) {
                 console.error(err);

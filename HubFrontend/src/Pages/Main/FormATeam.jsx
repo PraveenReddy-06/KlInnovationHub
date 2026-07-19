@@ -3,6 +3,7 @@ import Navbar from '../../Components/Navbar';
 import background from "../../Images/dashboardBg.png";
 import { useNavigate } from "react-router-dom";
 import axiosInstance from "../../Api/axiosInstance"
+import toast from "react-hot-toast";
 
 const FormATeam = () => {
 
@@ -59,7 +60,7 @@ const FormATeam = () => {
           setFormData({name:"",problemStatement:"", description:"", teamSize:"",skill1:"", skill2:"",skill3:"", linkedIn:"", status:true});
           setTimeout(() => { navigate("/dashboard");},5000);
       } catch(error) {
-          console.log(error);
+          toast.error("Something went wrong. Please try again.");
           setErrorMsg("Failed to create collaboration");
       } finally {
           setLoading(false);

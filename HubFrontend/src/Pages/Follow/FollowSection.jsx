@@ -1,6 +1,7 @@
 import { useEffect, useState } from "react";
 import axiosInstance from "../../Api/axiosInstance";
 import { useNavigate } from "react-router-dom";
+import toast from "react-hot-toast";
 
 const FollowSection = ({ studentId, isOwnProfile }) => {
   const [followersCount, setFollowersCount] = useState(0);
@@ -30,7 +31,7 @@ const FollowSection = ({ studentId, isOwnProfile }) => {
         setIsFollowing(followRes.data);
       }
     } catch (err) {
-      console.log(err);
+      toast.error("Something went wrong. Please try again.");
     }
   };
 
@@ -46,7 +47,7 @@ const FollowSection = ({ studentId, isOwnProfile }) => {
         setIsFollowing(true);
       }
     } catch (err) {
-      console.log(err);
+      toast.error("Something went wrong. Please try again.");
     }
   };
 
@@ -56,7 +57,7 @@ const FollowSection = ({ studentId, isOwnProfile }) => {
       setFollowers(res.data);
       setShowFollowersModal(true);
     } catch (err) {
-      console.log(err);
+      toast.error("Something went wrong. Please try again.");
     }
   };
 
@@ -66,7 +67,7 @@ const FollowSection = ({ studentId, isOwnProfile }) => {
       setFollowing(res.data);
       setShowFollowingModal(true);
     } catch (err) {
-      console.log(err);
+      toast.error("Something went wrong. Please try again.");
     }
   };
 

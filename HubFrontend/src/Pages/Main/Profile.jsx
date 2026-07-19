@@ -7,6 +7,7 @@ import { FaGithub, FaLinkedin } from "react-icons/fa";
 import { useParams } from "react-router-dom";
 import {Users,Handshake,Rocket} from "lucide-react";
 import FollowSection from "../Follow/FollowSection";
+import toast from "react-hot-toast";
 
 const Profile = () => {
   const { studentId: routeStudentId } = useParams();
@@ -67,7 +68,7 @@ const Profile = () => {
       setApplications(applicationRes.data);
 
     } catch (error) {
-      console.log(error);
+      toast.error("Something went wrong. Please try again.");
     }
   };
     const openDeleteModal = (id, type) => {
@@ -83,7 +84,7 @@ const Profile = () => {
         setShowLinksModal(false);
         window.location.reload();
     } catch (error) {
-        console.log(error);}
+        toast.error("Something went wrong. Please try again.");}
     };
 
     const handleDeleteProject = async () => {

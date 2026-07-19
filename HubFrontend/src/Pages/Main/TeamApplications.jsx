@@ -5,6 +5,7 @@ import { Users, CheckCircle, XCircle, Clock, UserPlus, ChevronDown, ChevronUp } 
 import { FaLinkedin } from "react-icons/fa";
 import { useNavigate } from "react-router-dom";
 import { Plus } from "lucide-react";
+import toast from "react-hot-toast";
 
 const TeamApplications = () => {
   const studentId = Number(localStorage.getItem("studentId"));
@@ -95,7 +96,7 @@ const TeamApplications = () => {
           setShowDeleteModal(false);
           setSelectedTeamId(null);
       } catch (error) {
-          console.log(error);
+          toast.error("Something went wrong. Please try again.");
       }
   };
 

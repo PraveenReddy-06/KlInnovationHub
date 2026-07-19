@@ -69,7 +69,6 @@ const SubmitProject = () => {
         try {
             const payload = {...project,projectName: capitalizeWords(project.projectName.trim())};
             const res = await axiosInstance.post(`/project/submit`,payload);
-            console.log(res.data);
             if (res.data === "Project Submitted Sucessfully") {
                 setProjectStatus(true);
                 setTimeout(() => { navigate("/dashboard");}, 1500);
@@ -87,7 +86,6 @@ const SubmitProject = () => {
         try {
             const payload = {...groupProject,project_name: capitalizeWords(groupProject.project_name.trim())};
             const res = await axiosInstance.post(`/groupProject/submit/${studentId}`,payload);
-            console.log(res.data);
             if (res.data === "Group Project Submitted Sucessfully") {
                 setGroupProjectStatus(true);
                 setTimeout(() => { navigate("/dashboard");}, 1500);

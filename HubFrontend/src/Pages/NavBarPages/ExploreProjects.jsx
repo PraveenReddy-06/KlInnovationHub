@@ -4,6 +4,7 @@ import Navbar from "../../Components/Navbar";
 import {Search,Heart,Users,User,ExternalLink} from "lucide-react";
 import { FaGithub } from "react-icons/fa";
 import { useNavigate } from "react-router-dom";
+import toast from "react-hot-toast";
 
 const ExploreProjects = () => {
 
@@ -37,7 +38,7 @@ const ExploreProjects = () => {
       });
       setProjects(formattedProjects);
       setGroupProjects(formattedGroupProjects);
-    }catch (err) {console.log(err);} 
+    }catch (err) {toast.error("Something went wrong. Please try again.");} 
     finally {setLoading(false);}
   };
 
@@ -77,7 +78,7 @@ const ExploreProjects = () => {
         );
       }
     } catch(err) {
-      console.log(err);
+      toast.error("Something went wrong. Please try again.");
     }
   };
 
