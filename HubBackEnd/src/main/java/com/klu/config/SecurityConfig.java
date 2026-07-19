@@ -1,7 +1,10 @@
 package com.klu.config;
 
 
+import java.util.List;
+
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.authentication.AuthenticationManager;
@@ -36,12 +39,15 @@ public class SecurityConfig {
         return config.getAuthenticationManager();
     }
 	
+	@Value("${frontend.url}")
+	private String frontendUrl;
+	
 	@Bean
 	CorsConfigurationSource corsConfigurationSource() {
 
 	    CorsConfiguration configuration =new CorsConfiguration();
 
-	    configuration.addAllowedOrigin("http://localhost:5173");
+	    configuration.setAllowedOrigins(List.of("http://localhost:5173", frontendUrl));
 	    configuration.addAllowedHeader("*");
 	    configuration.addAllowedMethod("*");
 	    configuration.setAllowCredentials(true);
