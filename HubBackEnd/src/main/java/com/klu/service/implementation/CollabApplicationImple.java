@@ -12,6 +12,7 @@ import com.klu.repository.CollabApplicationRepo;
 import com.klu.repository.CollaborationRepo;
 import com.klu.service.CollabApplicationService;
 import com.klu.service.CurrentUserService;
+import com.klu.service.NotificationService;
 
 @Service
 public class CollabApplicationImple implements CollabApplicationService {
@@ -25,6 +26,9 @@ public class CollabApplicationImple implements CollabApplicationService {
 	@Autowired
 	CollaborationRepo collaborationRepo;
 	
+	@Autowired
+	NotificationService notificationService;
+	
 	@Override
 	public String createCollabApplication(Integer collaborationId) {
 	    Student currentStudent =currentUser.getCurrentStudent();
@@ -37,6 +41,8 @@ public class CollabApplicationImple implements CollabApplicationService {
 	    app.setStatus("PENDING");
 
 	    collabApplicationRepo.save(app);
+	    
+	    notificationService.createNotification(collaboration.getStudent(),currentStudent ,"TEAM_APPLICATION",collaboration.getName());
 
 	    return "Application Submitted";
 	}

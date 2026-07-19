@@ -19,7 +19,6 @@ const Login = () => {
         localStorage.setItem("studentId",res.data.studentId)
         localStorage.setItem("student", JSON.stringify(res.data.student))
         localStorage.setItem("token",res.data.token)
-        console.log(localStorage.getItem("token"))
         navigate("/dashboard")
       }else {
         setError(res.data.message);

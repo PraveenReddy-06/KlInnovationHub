@@ -9,6 +9,7 @@ import com.klu.model.Project;
 import com.klu.model.Student;
 import com.klu.repository.ProjectRepo;
 import com.klu.repository.StudentRepo;
+import com.klu.service.ActivityService;
 import com.klu.service.CurrentUserService;
 import com.klu.service.ProjectService;
 
@@ -24,11 +25,15 @@ public class ProjectImple implements ProjectService{
 	@Autowired
 	CurrentUserService currentUser;
 	
+	@Autowired
+	ActivityService activityService;
+	
 	@Override
 	public String SubmitProject(Project p,Long id) {	
 		Student student = studentRepo.findById(id).orElseThrow(() -> new RuntimeException("Student not found"));
 		p.setStudent(student);
 		projectRepo.save(p);
+		activityService.createActivity(student,"PROJECT_CREATED",p.getProjectName());
 		return "Project Submitted Sucessfully";
 	}
 

@@ -12,6 +12,7 @@ import com.klu.model.Project;
 import com.klu.model.Student;
 import com.klu.repository.GroupProjectRepo;
 import com.klu.repository.StudentRepo;
+import com.klu.service.ActivityService;
 import com.klu.service.CurrentUserService;
 import com.klu.service.GroupProjectService;
 
@@ -27,6 +28,9 @@ public class GroupProjectImple implements GroupProjectService{
 	@Autowired
 	CurrentUserService currentUser;
 	
+	@Autowired
+	ActivityService activityService;
+	
 	
 	
 	@Override
@@ -38,6 +42,7 @@ public class GroupProjectImple implements GroupProjectService{
 		Student s = studentRepo.findById(teamLeadId).orElseThrow(() -> new RuntimeException("Team Lead Id do not found")) ;
 		p.setTeamLead(s);
 		groupProjectRepo.save(p);
+		activityService.createActivity(s, "GROUP_PROJECT_CREATED",p.getProject_name());
 		return "Group Project Submitted Sucessfully";
 	}
 
