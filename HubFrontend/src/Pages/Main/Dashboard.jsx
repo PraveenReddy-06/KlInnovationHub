@@ -4,6 +4,7 @@ import background from "../../Images/dashboardBg.png";
 import Card from '../../Components/Card';
 import axiosInstance from "../../Api/axiosInstance"
 import TopProjectCard from '../../Components/TopProjectCard';
+import toast, { Toaster } from "react-hot-toast";
 
 const Dashboard = () => {
   const[projects,setProjects] = useState([])
@@ -111,6 +112,11 @@ const Dashboard = () => {
         </div>
       </div>
 
+<button
+  onClick={() => toast.error("Something went wrong. Please try again.")}
+>
+  Test Toast
+</button>
       <div className="py-3 px-10 overflow-hidden">
         <h2 className="text-2xl font-bold text-primary">Latest Projects</h2>
         <div className="relative overflow-hidden py-2">

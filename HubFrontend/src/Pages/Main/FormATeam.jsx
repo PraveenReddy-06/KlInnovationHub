@@ -3,7 +3,7 @@ import Navbar from '../../Components/Navbar';
 import background from "../../Images/dashboardBg.png";
 import { useNavigate } from "react-router-dom";
 import axiosInstance from "../../Api/axiosInstance"
-import toast from "react-hot-toast";
+import toast, { Toaster } from "react-hot-toast";
 
 const FormATeam = () => {
 

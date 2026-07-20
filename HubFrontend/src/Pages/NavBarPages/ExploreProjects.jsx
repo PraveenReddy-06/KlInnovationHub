@@ -4,7 +4,7 @@ import Navbar from "../../Components/Navbar";
 import {Search,Heart,Users,User,ExternalLink} from "lucide-react";
 import { FaGithub } from "react-icons/fa";
 import { useNavigate } from "react-router-dom";
-import toast from "react-hot-toast";
+import toast, { Toaster } from "react-hot-toast";
 
 const ExploreProjects = () => {
 

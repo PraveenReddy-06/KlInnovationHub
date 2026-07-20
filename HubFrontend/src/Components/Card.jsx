@@ -5,6 +5,7 @@ import CSECard from "../Images/CSECard.png";
 import ECECard from "../Images/ECECard.png";
 import CSITCard from "../Images/CSITCard.png";
 import { useNavigate } from "react-router-dom";
+import { Globe } from "lucide-react";
 
 const Card = ({ project }) => {
 
@@ -72,7 +73,10 @@ const Card = ({ project }) => {
             </div>
           </a>
 
-          <a href={project.liveUrl} className="rounded-2xl px-3 py-1 text-vanilla-custard bg-accent hover:bg-sky transition">View</a>
+          <a href={project.liveUrl}  target="_blank" rel="noopener noreferrer"
+            className="rounded-2xl px-2 py-1 text-vanilla-custard bg-sky-500 hover:bg-sky-700 transition flex items-center gap-1">
+            Try It <Globe size={16} />
+          </a>        
         </div>
       </div>
     </div>

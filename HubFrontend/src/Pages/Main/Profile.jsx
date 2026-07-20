@@ -7,7 +7,7 @@ import { FaGithub, FaLinkedin } from "react-icons/fa";
 import { useParams } from "react-router-dom";
 import {Users,Handshake,Rocket} from "lucide-react";
 import FollowSection from "../Follow/FollowSection";
-import toast from "react-hot-toast";
+import toast, { Toaster } from "react-hot-toast";
 
 const Profile = () => {
   const { studentId: routeStudentId } = useParams();

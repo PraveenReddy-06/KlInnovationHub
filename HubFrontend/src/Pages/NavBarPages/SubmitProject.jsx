@@ -3,6 +3,7 @@ import Navbar from "../../Components/Navbar";
 import axiosInstance from "../../Api/axiosInstance"
 import background from "../../Images/SubmitBg.png";
 import { useNavigate } from "react-router-dom";
+import toast, { Toaster } from "react-hot-toast";
 
 const SubmitProject = () => {
     const studentId = JSON.parse(localStorage.getItem("studentId"))
@@ -71,6 +72,7 @@ const SubmitProject = () => {
             const res = await axiosInstance.post(`/project/submit`,payload);
             if (res.data === "Project Submitted Sucessfully") {
                 setProjectStatus(true);
+                toast.success("Project Submitted Sucessfully");
                 setTimeout(() => { navigate("/dashboard");}, 1500);
             }
         } catch (err) {
@@ -88,6 +90,7 @@ const SubmitProject = () => {
             const res = await axiosInstance.post(`/groupProject/submit/${studentId}`,payload);
             if (res.data === "Group Project Submitted Sucessfully") {
                 setGroupProjectStatus(true);
+                toast.success("Group Project Submitted Sucessfully");
                 setTimeout(() => { navigate("/dashboard");}, 1500);
             }
         } catch (err) {
@@ -193,9 +196,19 @@ const SubmitProject = () => {
                 )}
                 <select name="choice" value={project.choice} onChange={handleChange} className="p-3 border border-misty-sage rounded-lg bg-white focus:border-accent focus:outline-none">
                     <option>AI/ML</option>
+                    <option>Data Science</option>
                     <option>Web Development</option>
-                    <option>IoT</option>
+                    <option>Mobile App Development</option>
+                    <option>Cloud Computing</option>
+                    <option>Cybersecurity</option>
+                    <option>Internet of Things (IoT)</option>
                     <option>Robotics</option>
+                    <option>Embedded Systems</option>
+                    <option>Blockchain</option>
+                    <option>Computer Vision</option>
+                    <option>Natural Language Processing (NLP)</option>
+                    <option>DevOps</option>
+                    <option>AR/VR</option>
                 </select>
                 <div className="flex gap-2">
                     <input onChange={handleChange} name="tech1" value={project.tech1} type="text" placeholder="Technology (e.g.React)" className="p-3 border border-misty-sage rounded-lg bg-white focus:border-accent focus:outline-none"/>
@@ -255,9 +268,19 @@ const SubmitProject = () => {
                 )}
                 <select name="choice" value={groupProject.choice} onChange={handleGroupChange} className="p-3 border border-misty-sage rounded-lg bg-white focus:border-accent focus:outline-none">
                     <option>AI/ML</option>
+                    <option>Data Science</option>
                     <option>Web Development</option>
-                    <option>IoT</option>
+                    <option>Mobile App Development</option>
+                    <option>Cloud Computing</option>
+                    <option>Cybersecurity</option>
+                    <option>Internet of Things (IoT)</option>
                     <option>Robotics</option>
+                    <option>Embedded Systems</option>
+                    <option>Blockchain</option>
+                    <option>Computer Vision</option>
+                    <option>Natural Language Processing (NLP)</option>
+                    <option>DevOps</option>
+                    <option>AR/VR</option>
                 </select>
                 <div className="flex gap-2">
                     <input onChange={handleGroupChange} name="tech1" value={groupProject.tech1} type="text" placeholder="Technology (e.g.React)" className="p-3 border border-misty-sage rounded-lg bg-white focus:border-accent focus:outline-none"/>

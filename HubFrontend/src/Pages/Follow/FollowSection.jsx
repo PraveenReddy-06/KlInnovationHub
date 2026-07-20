@@ -1,7 +1,7 @@
 import { useEffect, useState } from "react";
 import axiosInstance from "../../Api/axiosInstance";
 import { useNavigate } from "react-router-dom";
-import toast from "react-hot-toast";
+import toast, { Toaster } from "react-hot-toast";
 
 const FollowSection = ({ studentId, isOwnProfile }) => {
   const [followersCount, setFollowersCount] = useState(0);
