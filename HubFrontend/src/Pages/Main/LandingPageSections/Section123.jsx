@@ -6,6 +6,7 @@ import CountUp from "react-countup";
 import {FolderKanban,GraduationCap,Handshake,Heart} from "lucide-react";
 import AOS from "aos";
 import "aos/dist/aos.css";
+import toast, { Toaster } from "react-hot-toast";
 
 const Section123 = () => {
   useEffect(() => {
@@ -34,7 +35,7 @@ const Section123 = () => {
         const res = await axiosInstance.get("/dashboard/stats");
         setStats(res.data);
       } catch (error) {
-        console.error(error);
+        toast.error("Something went wrong. Please try again.");
       }
     };
   

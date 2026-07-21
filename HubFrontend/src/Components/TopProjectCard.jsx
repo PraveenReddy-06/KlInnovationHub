@@ -2,6 +2,7 @@ import { memo, useState } from 'react';
 import { FaGithub, FaHeart } from "react-icons/fa";
 import axiosInstance from "../Api/axiosInstance"
 import { useNavigate } from "react-router-dom";
+import toast, { Toaster } from "react-hot-toast";
 
 const TopProjectCard = ({project}) => {
 
@@ -21,7 +22,7 @@ const TopProjectCard = ({project}) => {
       setLike(res.data.likeCount);
 
     } catch (err) {
-      console.error(err);
+      toast.error("Something went wrong. Please try again.");
     }
   };
 

@@ -44,7 +44,7 @@ const TeamApplications = () => {
       const applied = new Set(myAppsRes.data.map((a) => a.collaboration?.collaboration_id));
       setMyApplicationIds(applied);
     } catch (err) {
-      console.error(err);
+      toast.error("Something went wrong. Please try again.");
     } finally {
       setLoading(false);
     }
@@ -55,7 +55,7 @@ const TeamApplications = () => {
       await axiosInstance.patch(`/collabapplication/updateStatus/${appId}?status=${status}`);
       setAllApplications((prev) => prev.map((a) => a.collabApplication_id === appId ? { ...a, status } : a));
     } catch (err) {
-      console.error(err);
+      toast.error("Something went wrong. Please try again.");
     }
   };
 
@@ -65,7 +65,7 @@ const TeamApplications = () => {
      await axiosInstance.post( "/collabapplication/apply", { collaborationId:team.collaboration_id});
       setMyApplicationIds((prev) => new Set([...prev, team.collaboration_id]));
     } catch (err) {
-      console.error(err);
+      toast.error("Something went wrong. Please try again.");
     } finally {
       setApplying(null);
     }

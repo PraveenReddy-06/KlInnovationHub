@@ -37,7 +37,7 @@ const Profile = () => {
         axiosInstance
         .get(`/student/getById/${routeStudentId}`)
         .then((res) => setStudent(res.data))
-        .catch(console.error);}
+        .toast.error("Something went wrong. Please try again.");}
     else {
         setStudent(loggedInStudent);
     }
@@ -98,7 +98,7 @@ const Profile = () => {
             }
             setShowDeleteModal(false);
         } catch (error) {
-            console.error(error);
+            toast.error("Something went wrong. Please try again.");
         }
     };
 

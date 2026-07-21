@@ -7,6 +7,7 @@ import bronze from '../../Images/bronze.png'
 import axiosInstance from "../../Api/axiosInstance"
 import { useNavigate } from "react-router-dom";
 import DashboardFooter from "../../Components/DashboardFooter";
+import toast, { Toaster } from "react-hot-toast";
 
 const Leaderboard = () => {
 
@@ -21,7 +22,7 @@ const Leaderboard = () => {
                 const res = await axiosInstance.get("/leaderboard");
                 setLeaderboard(res.data);
             } catch (err) {
-                console.error(err);
+                toast.error("Something went wrong. Please try again.");
             }
         };
         top();

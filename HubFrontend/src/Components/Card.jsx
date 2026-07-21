@@ -6,6 +6,7 @@ import ECECard from "../Images/ECECard.png";
 import CSITCard from "../Images/CSITCard.png";
 import { useNavigate } from "react-router-dom";
 import { Globe } from "lucide-react";
+import toast, { Toaster } from "react-hot-toast";
 
 const Card = ({ project }) => {
 
@@ -22,7 +23,7 @@ const Card = ({ project }) => {
       const res = await axiosInstance.post(url);
       setLiked(res.data.liked);
       setLike(res.data.likeCount);
-    } catch (err) { console.error(err);}
+    } catch (err) { toast.error("Something went wrong. Please try again.");}
   };
   const handleProfileClick = () => {
     const id = project.type === "GROUP"? project.teamLead?.studentId: project.student?.studentId;
