@@ -46,6 +46,10 @@ const Solution = () => {
     image: "/SolutionBg/6.png",
     title: "Showcase Innovation",
     desc: "Present your ideas, prototypes, and achievements to the community."
+  },{
+    image: "/SolutionBg/7.png",
+    title: "Student Network",
+    desc: "Follow students, stay updated on their projects, activities, and achievements through real-time notifications."
   }
 ];
 

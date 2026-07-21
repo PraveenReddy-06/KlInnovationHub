@@ -19,6 +19,7 @@ import AOS from "aos";
 import "aos/dist/aos.css";
 import Footer from "./Components/Footer";
 import DashboardFooter from "./Components/DashboardFooter";
+import Guide from "./Pages/NavBarPages/Guide";
 
 
 function App() {
@@ -51,6 +52,7 @@ function App() {
         <Route path="/solution" element={<Solution/>}/>
         <Route path="/footer" element ={<Footer/>}/>
         <Route path="/dashboardFooter" element={<DashboardFooter/>}/>
+        <Route path="/guide" element={<Guide/>}/>
       </Routes>
     </BrowserRouter>
   )

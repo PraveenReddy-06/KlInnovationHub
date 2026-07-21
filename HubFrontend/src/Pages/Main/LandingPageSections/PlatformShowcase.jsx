@@ -61,7 +61,7 @@ const PlatformShowcase = () => {
             </div>
 
 
-            <div className="grid lg:grid-cols-2 gap-16 items-center">
+            <div className="grid lg:grid-cols-2 gap-16 items-center mb-32">
                 <div data-aos="fade-right" className="order-2 lg:order-1">
                     <span className="text-sky font-semibold">LATEST PROJECTS</span>
                     <h3 className="text-4xl font-bold text-white mt-4 mb-6">Stay Updated With New Innovations</h3>
@@ -72,6 +72,25 @@ const PlatformShowcase = () => {
                 <div data-aos="fade-left" className="relative group order-1 lg:order-2">
                     <img src="/PlatformShow4.png" alt="Latest Projects" className="h-65 w-max border border-accent/20 shadow-2xl transition-all duration-500 group-hover:scale-110" />
                  </div>
+            </div>
+
+            <div data-aos="fade-up" data-aos-delay="450"className="grid lg:grid-cols-2 gap-16 items-center mb-15">
+                <div data-aos="fade-right" className="relative group">
+                    <img src="/PlatformShow7.png" alt="Notifcation" className="h-60 w-max border border-accent/20 shadow-2xl transition-all duration-500 group-hover:scale-110" />
+                </div>
+                <div data-aos="fade-left">
+                    <span className="text-sky font-semibold">Follow And Notifications</span>
+                    <h3 className="text-4xl font-bold text-white mt-4 mb-6">Stay Connected with Campus Innovation</h3>
+                    <p className="text-gray-400 tracking-wide text-lg leading-relaxed">
+                        Follow fellow innovators, view their profiles, and stay updated on
+                        their latest projects and achievements. Receive personalized updates
+                        in <span className="text-sky">For You</span>, including new followers,
+                        project interactions, and collaboration requests. Explore
+                        <span className="text-sky"> Campus Buzz</span> to discover newly
+                        showcased projects, team recruitment posts, and trending activities
+                        happening across the university innovation community.
+                    </p>
+                </div>
             </div>
         </div>
         </section>

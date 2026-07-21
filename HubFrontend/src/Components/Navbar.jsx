@@ -26,6 +26,7 @@ const Navbar = () => {
   }, []);
 
   useEffect(() => {
+    if (!studentId) return;
     const loadUnreadCount = async () => {
       try {
         const res = await axiosInstance.get( "/notification/unreadCount");
@@ -38,6 +39,7 @@ const Navbar = () => {
   }, []);
 
   const openNotifications = async () => {
+    if (!studentId) return;
     try{
       setShowDropdown(false);
       await axiosInstance.put("/notification/readAll");
@@ -129,7 +131,7 @@ const getActivityText = (a) => {
         <li><a href="/exploreProjects" className="transition-colors duration-200 hover:text-[#C1E8FF]">Explore Projects</a></li>
         <li><a href="/leaderBoard" className="transition-colors duration-200 hover:text-[#C1E8FF]">LeaderBoard</a></li>
         <li><a href="/submitProject" className="transition-colors duration-200 hover:text-[#C1E8FF]">Submit Project</a></li>
-        <li><a href="" className="transition-colors duration-200 hover:text-[#C1E8FF]">Guide</a></li>
+        <li><a href="/guide" className="transition-colors duration-200 hover:text-[#C1E8FF]">Guide</a></li>
       </ul>
       {
         studentId ? (
@@ -167,7 +169,7 @@ const getActivityText = (a) => {
                   {activities.map((a, index) => (
                     <div key={index} className="bg-white/5 p-3 rounded-xl mb-2">
                       <p className="text-white text-sm">
-                        {getActivityText(n)}
+                        {getActivityText(a)}
                       </p>
                     </div>
                   ))}

@@ -1,6 +1,8 @@
 import { memo } from 'react';
+import { useNavigate } from "react-router-dom";
 
 const CallToAction = () => {
+   const navigate = useNavigate();
   return (
     <div>
       <section className="relative py-32 bg-[#011b3c] overflow-hidden">
@@ -26,13 +28,9 @@ const CallToAction = () => {
           </p>
 
           <div className="flex flex-col sm:flex-row justify-center gap-6 mt-12">
-            <button className="px-8 py-4 rounded-2xl bg-gradient-to-r from-[#5483B3] to-[#7DA0CA] text-[#021024] font-bold transition-all duration-500 hover:scale-105 hover:shadow-[0_0_35px_rgba(125,160,202,0.4)]">
-              Explore Projects
-            </button>
-
-            <button className="px-8 py-4 rounded-2xl border border-[#5483B3]/40 bg-[#052659]/60 backdrop-blur-xl text-white font-semibold transition-all duration-500 hover:border-[#7DA0CA] hover:bg-[#052659] hover:scale-105">
+            <button onClick={() => navigate("/login")} className="px-8 py-4 rounded-2xl border border-[#5483B3]/40 bg-[#052659]/60 backdrop-blur-xl text-white font-semibold transition-all duration-500 hover:border-[#7DA0CA] hover:bg-[#052659] hover:scale-105">
               Create Profile
-            </button>
+            </button >
           </div>
         </div>
       </section>

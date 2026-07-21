@@ -95,9 +95,6 @@ const Section123 = () => {
             Discover projects, find teammates, showcase innovations, and become part of KL University's growing innovation ecosystem.
           </p>
           <div className="flex flex-wrap justify-center gap-3">
-            <Link to="/exploreProjects" className="inline-flex items-center gap-2 px-7 py-3.5 rounded-xl bg-tan border border-amber-700 text-bloodstone text-sm font-semibold transition-all duration-200 hover:-translate-y-0.5" >
-              Explore Projects
-            </Link>
             <Link to="/signup" className="inline-flex items-center gap-2 px-7 py-3.5 rounded-xl bg-tan border border-amber-700 text-bloodstone text-sm font-semibold transition-all duration-200 hover:-translate-y-0.5" >
               Join Innovation Hub
             </Link>
