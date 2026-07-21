@@ -9,6 +9,7 @@ import PlatformShowcase from './LandingPageSections/PlatformShowcase';
 import VisionSection from './LandingPageSections/VisionSection';
 import CallToAction from './LandingPageSections/CallToAction';
 import Section123 from './LandingPageSections/Section123';
+import Footer from '../../Components/Footer';
 
 const LandingPage = () => {
   return (
@@ -19,6 +20,7 @@ const LandingPage = () => {
       <PlatformShowcase/>
       <VisionSection/>
       <CallToAction/>
+      <Footer/>
     </div>
   );
 };

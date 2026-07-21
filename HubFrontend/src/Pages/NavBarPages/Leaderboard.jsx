@@ -6,6 +6,7 @@ import silver from '../../Images/Silver.png'
 import bronze from '../../Images/bronze.png'
 import axiosInstance from "../../Api/axiosInstance"
 import { useNavigate } from "react-router-dom";
+import DashboardFooter from "../../Components/DashboardFooter";
 
 const Leaderboard = () => {
 
@@ -153,7 +154,7 @@ const Leaderboard = () => {
         </table>
     </div></div>
 </div>
-
+    <DashboardFooter/>
     </div>
   );
 };

@@ -17,6 +17,8 @@ import Solution from "./Pages/Main/LandingPageSections/Solution";
 import { useEffect } from "react";
 import AOS from "aos";
 import "aos/dist/aos.css";
+import Footer from "./Components/Footer";
+import DashboardFooter from "./Components/DashboardFooter";
 
 
 function App() {
@@ -47,6 +49,8 @@ function App() {
         <Route path="/landingPage" element={<LandingPage/>}/>
         <Route path="/forgotPassword" element={<ForgotPassword/>}/>
         <Route path="/solution" element={<Solution/>}/>
+        <Route path="/footer" element ={<Footer/>}/>
+        <Route path="/dashboardFooter" element={<DashboardFooter/>}/>
       </Routes>
     </BrowserRouter>
   )

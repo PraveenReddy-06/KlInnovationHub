@@ -5,6 +5,7 @@ import {Search,Heart,Users,User,ExternalLink} from "lucide-react";
 import { FaGithub } from "react-icons/fa";
 import { useNavigate } from "react-router-dom";
 import toast, { Toaster } from "react-hot-toast";
+import DashboardFooter from "../../Components/DashboardFooter"
 
 const ExploreProjects = () => {
 
@@ -84,7 +85,7 @@ const ExploreProjects = () => {
 
   return (
 
-    <div className="min-h-screen bg-gray-100">
+    <div className="min-h-screen bg-gray-100 flex flex-col">
     <Navbar/>
     <div className="bg-oxford-blue text-gray-700 shadow-md px-5 py-5 mb-6">
       <div className="flex flex-col lg:flex-row lg:items-center lg:justify-between gap-5">
@@ -211,6 +212,7 @@ const ExploreProjects = () => {
     </>)}
     </div>
    </div>
+   <DashboardFooter/>
   </div>
   );
 };
