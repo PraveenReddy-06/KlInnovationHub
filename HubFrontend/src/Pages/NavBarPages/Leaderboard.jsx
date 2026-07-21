@@ -3,7 +3,7 @@ import Navbar from '../../Components/Navbar';
 import background from '../../Images/Leaderboard.png'
 import gold from '../../Images/Gold.png'
 import silver from '../../Images/Silver.png'
-import bronze from '../../Images/bronze.png'
+import bronze from '../../Images/Bronze.png'
 import axiosInstance from "../../Api/axiosInstance"
 import { useNavigate } from "react-router-dom";
 import DashboardFooter from "../../Components/DashboardFooter";
