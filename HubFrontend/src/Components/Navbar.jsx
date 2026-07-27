@@ -1,6 +1,6 @@
 import { memo, useState } from 'react';
 import { FaUserCircle } from "react-icons/fa";
-import {useNavigate } from 'react-router-dom';
+import {useNavigate, Link } from 'react-router-dom';
 import {useRef, useEffect } from "react";
 import { FaBell } from "react-icons/fa";
 import axiosInstance from "../Api/axiosInstance";
@@ -127,11 +127,24 @@ const getActivityText = (a) => {
           </div>
       </a>
       <ul className="flex items-center text-xs uppercase tracking-[2px] gap-8 text-[#F8F0E5]">
-        <li><a href="/dashboard" className="transition-colors duration-200 hover:text-[#C1E8FF]">Dashboard</a></li>
-        <li><a href="/exploreProjects" className="transition-colors duration-200 hover:text-[#C1E8FF]">Explore Projects</a></li>
-        <li><a href="/leaderBoard" className="transition-colors duration-200 hover:text-[#C1E8FF]">LeaderBoard</a></li>
-        <li><a href="/submitProject" className="transition-colors duration-200 hover:text-[#C1E8FF]">Submit Project</a></li>
-        <li><a href="/guide" className="transition-colors duration-200 hover:text-[#C1E8FF]">Guide</a></li>
+        <li>
+          <Link to="/dashboard" className="transition-colors duration-200 hover:text-[#C1E8FF]">  Dashboard </Link>
+        </li>
+        <li>
+          <Link to="/exploreProjects" className="transition-colors duration-200 hover:text-[#C1E8FF]">  Explore Projects</Link>
+        </li>
+        <li>
+          <Link to="/leaderBoard" className="transition-colors duration-200 hover:text-[#C1E8FF]">  LeaderBoard
+          </Link>
+        </li>
+        <li>
+          <Link to="/submitProject" className="transition-colors duration-200 hover:text-[#C1E8FF]">  Submit Project </Link>
+        </li>
+        <li>
+          <Link to="/guide" className="transition-colors duration-200 hover:text-[#C1E8FF]">
+            Guide
+          </Link>
+        </li>
       </ul>
       {
         studentId ? (
