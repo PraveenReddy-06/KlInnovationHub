@@ -64,21 +64,28 @@ const Profile = () => {
 
     const [showLinksModal, setShowLinksModal] = useState(false);
 
-  const fetchData = async (id) => {
+    const fetchData = async (id) => {
     try {
-      const projectRes = await axiosInstance.get(`/project/student/${id}`);
-      const groupProjectRes = await axiosInstance.get(`/groupProject/student/${id}`);
-      const collaborationRes = await axiosInstance.get(`/collaboration/student/${id}`);
-      const applicationRes = await axiosInstance.get(`/collabapplication/student/${id}`);
-      setProjects(projectRes.data);
-      setGroupProjects(groupProjectRes.data);
-      setCollaborations(collaborationRes.data);
-      setApplications(applicationRes.data);
+        const [
+        projectRes,
+        groupProjectRes,
+        collaborationRes,
+        applicationRes,
+        ] = await Promise.all([
+        axiosInstance.get(`/project/student/${id}`),
+        axiosInstance.get(`/groupProject/student/${id}`),
+        axiosInstance.get(`/collaboration/student/${id}`),
+        axiosInstance.get(`/collabapplication/student/${id}`),
+        ]);
 
-    } catch (error) {
-      toast.error("Something went wrong. Please try again.");
+        setProjects(projectRes.data);
+        setGroupProjects(groupProjectRes.data);
+        setCollaborations(collaborationRes.data);
+        setApplications(applicationRes.data);
+    } catch (err) {
+        toast.error("Something went wrong.");
     }
-  };
+    };
     const openDeleteModal = (id, type) => {
     setSelectedProjectId(id);
     setDeleteType(type);
