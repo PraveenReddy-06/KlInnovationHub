@@ -30,18 +30,26 @@ const Profile = () => {
     const isOwnProfile =Number(studentId) === Number(loggedInStudentId);
   const navigate = useNavigate();
 
-  useEffect(() => {
-    const id = routeStudentId || loggedInStudentId;
-    fetchData(id);
-    if (routeStudentId) {
-        axiosInstance
-        .get(`/student/getById/${routeStudentId}`)
-        .then((res) => setStudent(res.data))
-        .toast.error("Something went wrong. Please try again.");}
-    else {
+    useEffect(() => {
+    const loadProfile = async () => {
+        const id = routeStudentId || loggedInStudentId;
+        await fetchData(id);
+
+        if (routeStudentId) {
+        try {
+            const res = await axiosInstance.get(`/student/getById/${routeStudentId}`);
+            setStudent(res.data);
+        } catch (err) {
+            console.error(err);
+            toast.error("Something went wrong. Please try again.");
+        }
+        } else {
         setStudent(loggedInStudent);
-    }
-  }, [routeStudentId]);
+        }
+    };
+
+    loadProfile();
+    }, [routeStudentId]);
 
   useEffect(() => {
   if (student) {
