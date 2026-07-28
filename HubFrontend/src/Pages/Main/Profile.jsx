@@ -50,7 +50,7 @@ const Profile = () => {
     setLinkedinUrl(student.linkedinUrl || "");
     setSelectedAvatar(
       student.avatarUrl ||
-      `/avatars/Avatar${(student.studentId % 40) + 1}.svg`
+      `/avatars/Avatar${(student.studentId % 40) + 1}.webp`
     );}
   }, [student]);
 
@@ -102,8 +102,8 @@ const Profile = () => {
         }
     };
 
-    const boyAvatars = Array.from({ length: 20 },(_, i) => `/avatars/Avatar${i + 1}.svg`);
-    const girlAvatars = Array.from({ length: 20 },(_, i) => `/avatars/Avatar${i + 21}.svg`);
+    const boyAvatars = Array.from({ length: 20 },(_, i) => `/avatars/Avatar${i + 1}.webp`);
+    const girlAvatars = Array.from({ length: 20 },(_, i) => `/avatars/Avatar${i + 21}.webp`);
 
 
 if (!student) {
@@ -130,10 +130,10 @@ return (
                 <div className="flex flex-col lg:flex-row justify-between items-center gap-8">
                     <div className="flex items-center gap-6">
                         <img
-                            src={student.avatarUrl ||`/avatars/Avatar${(student.studentId % 40) + 1}.svg`}
+                            src={student.avatarUrl ||`/avatars/Avatar${(student.studentId % 40) + 1}.webp`}
                             alt={student.student_name}
                             className="h-36 w-36 rounded-full object-cover border border-black shadow-2xl"
-                            onError={(e) => {e.target.src =`/avatars/Avatar${(student.studentId % 40) + 1}.svg`;
+                            onError={(e) => {e.target.src =`/avatars/Avatar${(student.studentId % 40) + 1}.webp`;
                             }}
                         />
                         <div className="text-white">

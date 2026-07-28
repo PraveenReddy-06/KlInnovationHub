@@ -231,7 +231,7 @@ const TeamApplications = () => {
                 <div className="flex items-start justify-between">
                   <div  onClick={() => navigate(`/profile/${team.student?.studentId}`)} 
                         className="flex items-center gap-3 cursor-pointer hover:bg-white/5  transition">
-                    <img src={  team.student?.avatarUrl ||`/avatars/Avatar${(team.student?.studentId % 40) + 1}.svg`} alt="avatar"
+                    <img src={  team.student?.avatarUrl ||`/avatars/Avatar${(team.student?.studentId % 40) + 1}.webp`} alt="avatar"
                       className="h-11 w-11 rounded-full object-cover border border-white/20"
                     />
                     <div>

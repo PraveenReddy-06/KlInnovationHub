@@ -152,8 +152,8 @@ const ExploreProjects = () => {
                    onClick={() =>navigate(`/profile/${isGroup? project.teamLead?.studentId: project.student?.studentId}`)}>
                   <img src={
                           isGroup
-                              ? ( project.teamLead?.avatarUrl ||`/avatars/Avatar${(project.teamLead?.studentId % 40) + 1}.svg`
-                              ): ( project.student?.avatarUrl || `/avatars/Avatar${(project.student?.studentId % 40) + 1}.svg`)}
+                              ? ( project.teamLead?.avatarUrl ||`/avatars/Avatar${(project.teamLead?.studentId % 40) + 1}.webp`
+                              ): ( project.student?.avatarUrl || `/avatars/Avatar${(project.student?.studentId % 40) + 1}.webp`)}
                       
                       className="w-16 h-16 rounded-full object-cover border-2 border-gray-200 shrink-0"
                   />

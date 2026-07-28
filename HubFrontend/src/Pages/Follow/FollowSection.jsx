@@ -103,7 +103,7 @@ const FollowSection = ({ studentId, isOwnProfile }) => {
                 followers.map((user) => (
                   <div key={user.studentId} className="flex justify-between items-center bg-white/5 rounded-xl p-4 mb-3">
                     <div className="flex gap-4 items-center">
-                      <img src={user.avatarUrl || `/avatars/Avatar${(user.studentId % 40) + 1}.svg`} className="w-14 h-14 rounded-full" />
+                      <img src={user.avatarUrl || `/avatars/Avatar${(user.studentId % 40) + 1}.webp`} className="w-14 h-14 rounded-full" />
                       <div>
                         <h3 className="text-white font-semibold">{user.student_name}</h3>
                         <p className="text-slate-400 text-sm">{user.branch} • Year {user.year}</p>
@@ -135,7 +135,7 @@ const FollowSection = ({ studentId, isOwnProfile }) => {
                 following.map((user) => (
                   <div key={user.studentId} className="flex justify-between items-center bg-white/5 rounded-xl p-4 mb-3">
                     <div className="flex gap-4 items-center">
-                      <img src={user.avatarUrl || `/avatars/Avatar${(user.studentId % 40) + 1}.svg`} className="w-14 h-14 rounded-full" />
+                      <img src={user.avatarUrl || `/avatars/Avatar${(user.studentId % 40) + 1}.webp`} className="w-14 h-14 rounded-full" />
                       <div>
                         <h3 className="text-white font-semibold">{user.student_name}</h3>
                         <p className="text-slate-400 text-sm">{user.branch} • Year {user.year}</p>

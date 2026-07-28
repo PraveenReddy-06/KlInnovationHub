@@ -41,8 +41,8 @@ const Card = ({ project }) => {
         <h2 className="font-bold truncate text-md text-vanilla-custard">{project.title}</h2>
         <div className="flex gap-3 items-start cursor-pointer  hover:bg-light-blue/10 rounded-lg p-2 transition"onClick={handleProfileClick}>
           <img
-            src={project.type === "GROUP"? (project.teamLead?.avatarUrl ||`/avatars/Avatar${(project.teamLead?.studentId % 40) + 1}.svg`
-            ) : (project.student?.avatarUrl ||`/avatars/Avatar${(project.student?.studentId % 40) + 1}.svg`)}
+            src={project.type === "GROUP"? (project.teamLead?.avatarUrl ||`/avatars/Avatar${(project.teamLead?.studentId % 40) + 1}.webp`
+            ) : (project.student?.avatarUrl ||`/avatars/Avatar${(project.student?.studentId % 40) + 1}.webp`)}
             
             className="w-14 h-14 rounded-full object-cover border-2 border-white/30"
           />

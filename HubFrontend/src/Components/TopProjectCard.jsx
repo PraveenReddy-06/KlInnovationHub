@@ -41,8 +41,8 @@ const TopProjectCard = ({project}) => {
             onClick={handleProfileClick}>
         <img
           src={project.type === "GROUP"
-            ? ( project.teamLead?.avatarUrl || `/avatars/Avatar${(project.teamLead?.studentId % 40) + 1}.svg`
-              ): ( project.student?.avatarUrl || `/avatars/Avatar${(project.student?.studentId % 40) + 1}.svg`)}
+            ? ( project.teamLead?.avatarUrl || `/avatars/Avatar${(project.teamLead?.studentId % 40) + 1}.webp`
+              ): ( project.student?.avatarUrl || `/avatars/Avatar${(project.student?.studentId % 40) + 1}.webp`)}
           
           className="w-20 h-20 rounded-full object-cover border border-slate-200 shrink-0"
         />

@@ -173,7 +173,7 @@ const SubmitProject = () => {
             <div className="w-1/5 flex flex-col gap-4 p-5 bg-vanilla-custard border border-tan rounded-2xl shadow-lg">
                 <h2 className="font-semibold text-lg text-secondary border-b border-tan pb-2">Student Info</h2>
                 <div className="flex justify-center">
-                <img src={ student.avatarUrl ||`/avatars/Avatar${(student.studentId % 40) + 1}.svg` }
+                <img src={ student.avatarUrl ||`/avatars/Avatar${(student.studentId % 40) + 1}.webp` }
                     alt={student.student_name}
                     className="w-24 h-24 rounded-full object-cover border-4 border-light-blue shadow-md"
                 />
