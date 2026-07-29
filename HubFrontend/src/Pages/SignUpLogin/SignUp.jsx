@@ -70,6 +70,11 @@ const SignUp = () => {
        setCheck(true)
        if(res.data === "Verified You Can SignIn Now"){
             setCheck(true);
+            if (window.gtag) {
+              window.gtag("event", "sign_up", {
+                method: "email",
+              });
+            }
             setResponse(res.data);
         }else{
             setError(res.data);

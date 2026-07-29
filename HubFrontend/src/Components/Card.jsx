@@ -23,10 +23,16 @@ const Card = ({ project }) => {
       const res = await axiosInstance.post(url);
       setLiked(res.data.liked);
       setLike(res.data.likeCount);
+      if (window.gtag) {
+        window.gtag("event", "project_like");
+      }
     } catch (err) { toast.error("Something went wrong. Please try again.");}
   };
   const handleProfileClick = () => {
     const id = project.type === "GROUP"? project.teamLead?.studentId: project.student?.studentId;
+    if (window.gtag) {
+      window.gtag("event", "profile_view");
+    }
     navigate(`/profile/${id}`);
   };
 
@@ -68,14 +74,25 @@ const Card = ({ project }) => {
             <span>{like}</span>
           </button>
 
-          <a className="hover:scale-110 transition" href={project.githubUrl} target="_blank" rel="noopener noreferrer">
+          <a className="hover:scale-110 transition" href={project.githubUrl} target="_blank" rel="noopener noreferrer"    
+              onClick={() => {
+                  if (window.gtag) {
+                      window.gtag("event", "github_click");
+                  }
+              }}>
             <div className="text-vanilla-custard hover:text-light-blue transition">
               <FaGithub size={22} />
             </div>
           </a>
 
           <a href={project.liveUrl}  target="_blank" rel="noopener noreferrer"
-            className="rounded-2xl px-2 py-1 text-vanilla-custard bg-sky-500 hover:bg-sky-700 transition flex items-center gap-1">
+            className="rounded-2xl px-2 py-1 text-vanilla-custard bg-sky-500 hover:bg-sky-700 transition flex items-center gap-1"
+            onClick={() => {
+                if (window.gtag) {
+                    window.gtag("event", "live_demo_click");
+                }
+            }}            
+          >
             Try It <Globe size={16} />
           </a>        
         </div>

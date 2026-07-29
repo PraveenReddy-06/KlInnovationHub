@@ -54,6 +54,12 @@ const TeamApplications = () => {
   const handleStatusUpdate = async (appId, status) => {
     try {
       await axiosInstance.patch(`/collabapplication/updateStatus/${appId}?status=${status}`);
+      if (status === "ACCEPTED" && window.gtag) {
+          window.gtag("event", "application_accepted");
+      }
+      if (status === "REJECTED" && window.gtag) {
+          window.gtag("event", "application_rejected");
+      }
       setAllApplications((prev) => prev.map((a) => a.collabApplication_id === appId ? { ...a, status } : a));
     } catch (err) {
       toast.error("Something went wrong. Please try again.");
@@ -64,6 +70,11 @@ const TeamApplications = () => {
     try {
       setApplying(team.collaboration_id);
      await axiosInstance.post( "/collabapplication/apply", { collaborationId:team.collaboration_id});
+      if (window.gtag) {
+          window.gtag("event", "team_apply", {
+              team_id: team.collaboration_id,
+          });
+      }
       setMyApplications((prev) => { 
         const updated = new Map(prev)
         updated.set(team.collaboration_id,{

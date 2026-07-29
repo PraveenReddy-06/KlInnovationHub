@@ -20,7 +20,9 @@ const TopProjectCard = ({project}) => {
       const res = await axiosInstance.post(url);
       setLiked(res.data.liked);
       setLike(res.data.likeCount);
-
+      if (window.gtag) {
+        window.gtag("event", "project_like");
+      }
     } catch (err) {
       toast.error("Something went wrong. Please try again.");
     }
@@ -30,6 +32,9 @@ const TopProjectCard = ({project}) => {
 
   const handleProfileClick = () => {
     const id =project.type === "GROUP"? project.teamLead?.studentId: project.student?.studentId;
+    if (window.gtag) {
+      window.gtag("event", "profile_view");
+    }
     navigate(`/profile/${id}`);
   };
 
@@ -74,10 +79,23 @@ const TopProjectCard = ({project}) => {
           Likes
         </button>
 
-        <a className="hover:text-black transition" href={project.githubUrl} target="_blank" rel="noopener noreferrer">
+        <a className="hover:text-black transition" href={project.githubUrl} target="_blank" rel="noopener noreferrer"
+          onClick={() => {
+              if (window.gtag) {
+                  window.gtag("event", "github_click");
+              }
+          }}        
+        >
           <FaGithub size={30} />
         </a>
-        <a href={project.liveUrl} className="font-semibold text-blue-600 hover:underline">View</a>
+        <a href={project.liveUrl} className="font-semibold text-blue-600 hover:underline"
+          onClick={() => {
+              if (window.gtag) {
+                  window.gtag("event", "live_demo_click");
+              }
+          }} >
+          View
+        </a>
       </div>
     </div>
   );
