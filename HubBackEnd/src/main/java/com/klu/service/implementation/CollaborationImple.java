@@ -9,6 +9,7 @@ import com.klu.model.Collaboration;
 import com.klu.model.Student;
 import com.klu.repository.CollaborationRepo;
 import com.klu.repository.StudentRepo;
+import com.klu.service.ActivityService;
 import com.klu.service.CollaborationService;
 import com.klu.service.CurrentUserService;
 
@@ -24,11 +25,15 @@ public class CollaborationImple implements CollaborationService{
 	@Autowired
 	CurrentUserService currentUser;
 	
+	@Autowired 
+	ActivityService activityService;
+	
 	@Override
 	public String CreateTeam(Collaboration collab, Long studentId) {
 	    Student student = studentRepo.findById(studentId).orElseThrow(() -> new RuntimeException("Student not found"));
 	    collab.setStudent(student);
 	    collaborationRepo.save(collab);
+	    activityService.createActivity(student,"COLLABORATION_CREATED",collab.getName());
 	    return "Collaboration Posted Successfully";
 	}
 

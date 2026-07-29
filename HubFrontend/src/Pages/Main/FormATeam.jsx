@@ -58,7 +58,7 @@ const FormATeam = () => {
           setSuccessMsg("Team created successfully. Redirecting to dashboard...");
           setIsSubmitted(true);
           setFormData({name:"",problemStatement:"", description:"", teamSize:"",skill1:"", skill2:"",skill3:"", linkedIn:"", status:true});
-          setTimeout(() => { navigate("/dashboard");},5000);
+          setTimeout(() => { navigate("/dashboard");},1500);
       } catch(error) {
           toast.error("Something went wrong. Please try again.");
           setErrorMsg("Failed to create collaboration");

@@ -8,7 +8,6 @@ import org.springframework.stereotype.Repository;
 
 import com.klu.model.GroupProject;
 import com.klu.model.GroupProjectLikes;
-import com.klu.model.Project;
 
 @Repository
 public interface GroupProjectLikesRepo extends JpaRepository<GroupProjectLikes,Integer>{

@@ -16,7 +16,7 @@ const TeamApplications = () => {
   const [expandedTeam, setExpandedTeam] = useState(null);
 
   const [allTeams, setAllTeams] = useState([]);
-  const [myApplicationIds, setMyApplicationIds] = useState(new Set());
+  const [myApplications, setMyApplications] = useState(new Map());
   const [applying, setApplying] = useState(null);
 
   const [loading, setLoading] = useState(true);
@@ -41,8 +41,9 @@ const TeamApplications = () => {
       setAllApplications(allAppsRes.data);
       const others = allTeamsRes.data.filter((t) => Number(t.student?.studentId) !== Number(studentId));
       setAllTeams(others);
-      const applied = new Set(myAppsRes.data.map((a) => a.collaboration?.collaboration_id));
-      setMyApplicationIds(applied);
+      const applicationMap = new Map()
+      myAppsRes.data.forEach(app => {applicationMap.set( app.collaboration.collaboration_id,app)});
+      setMyApplications(applicationMap)
     } catch (err) {
       toast.error("Something went wrong. Please try again.");
     } finally {
@@ -63,7 +64,16 @@ const TeamApplications = () => {
     try {
       setApplying(team.collaboration_id);
      await axiosInstance.post( "/collabapplication/apply", { collaborationId:team.collaboration_id});
-      setMyApplicationIds((prev) => new Set([...prev, team.collaboration_id]));
+      setMyApplications((prev) => { 
+        const updated = new Map(prev)
+        updated.set(team.collaboration_id,{
+          collaboration:{
+            collaboration_id:team.collaboration_id,
+          },
+          status:"PENDING",
+        })
+        return updated
+      });
     } catch (err) {
       toast.error("Something went wrong. Please try again.");
     } finally {
@@ -224,7 +234,7 @@ const TeamApplications = () => {
         ) : (
         <div className="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-6">
           {allTeams.map((team) => {
-            const alreadyApplied = myApplicationIds.has(team.collaboration_id);
+            const application = myApplications.get(team.collaboration_id);
             const isApplying = applying === team.collaboration_id;
             return (
               <div key={team.collaboration_id} className="bg-white/5 border border-white/10 p-6 flex flex-col gap-4 backdrop-blur-xl hover:-translate-y-1 transition-all duration-300">
@@ -255,13 +265,24 @@ const TeamApplications = () => {
                   {team.linkedIn ? (
                     <a href={team.linkedIn} target="_blank" rel="noreferrer" className="flex items-center gap-1.5 text-blue-400 hover:text-blue-300 text-xs transition"><FaLinkedin size={14} /> LinkedIn</a>
                   ) : <span />}
-                  {alreadyApplied ? (
-                    <span className="flex items-center gap-1.5 text-xs bg-emerald-500/20 text-emerald-300 border border-emerald-500/30 px-4 py-2 rounded-full font-medium"><CheckCircle size={13} /> Applied</span>
-                  ) : (
-                    <button onClick={() => handleApply(team)} disabled={isApplying} className="flex items-center gap-1.5 bg-cyan-500 hover:bg-cyan-400 disabled:opacity-60 text-white px-5 py-2 rounded-full text-xs font-semibold transition-all duration-200 active:scale-95">
-                      <UserPlus size={13} /> {isApplying ? "Applying..." : "Apply"}
+                {application ? (
+                    <span
+                        className={`flex items-center gap-1.5 text-xs px-4 py-2 rounded-full font-medium ${
+                            application.status === "ACCEPTED"
+                                ? "bg-emerald-500/20 text-emerald-300 border border-emerald-500/30": application.status === "REJECTED"
+                                ? "bg-red-500/20 text-red-400 border border-red-500/30": "bg-amber-500/20 text-amber-300 border border-amber-500/30"
+                        }`}>
+                      <CheckCircle size={13} />
+                        {application.status}
+                    </span>
+                ) : (
+                    <button
+                        onClick={() => handleApply(team)} disabled={isApplying}
+                        className="flex items-center gap-1.5 bg-cyan-500 hover:bg-cyan-400 disabled:opacity-60 text-white px-5 py-2 rounded-full text-xs font-semibold transition-all duration-200 active:scale-95">
+                        <UserPlus size={13} />
+                        {isApplying ? "Applying..." : "Apply"}
                     </button>
-                  )}
+                )}
                 </div>
               </div>
             );

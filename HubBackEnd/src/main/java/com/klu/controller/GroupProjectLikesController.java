@@ -12,7 +12,6 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.klu.dto.GroupProjectLikeDto;
 import com.klu.model.GroupProject;
-import com.klu.model.Project;
 import com.klu.service.CurrentUserService;
 import com.klu.service.implementation.GroupProjectLikesImple;
 

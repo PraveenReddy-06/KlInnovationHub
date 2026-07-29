@@ -4,7 +4,6 @@ import java.util.List;
 
 import com.klu.dto.GroupProjectLikeDto;
 import com.klu.model.GroupProject;
-import com.klu.model.Project;
 
 public interface GroupProjectLikesService {
 

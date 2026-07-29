@@ -1,6 +1,5 @@
 package com.klu.service.implementation;
 
-import java.time.LocalDateTime;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -8,7 +7,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.klu.model.GroupProject;
-import com.klu.model.Project;
 import com.klu.model.Student;
 import com.klu.repository.GroupProjectRepo;
 import com.klu.repository.StudentRepo;

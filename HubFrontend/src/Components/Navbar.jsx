@@ -90,6 +90,9 @@ const getActivityText = (a) => {
     case "GROUP_PROJECT_LIKED":
       return `🔥 ${a.studentName} appreciated ${a.referenceName}`;
 
+    case "COLLABORATION_CREATED":
+      return `🤝 ${a.studentName} posted a team recruitment for "${a.referenceName}".`
+
     default:
       return `📢 ${a.activityType}`;
   }
