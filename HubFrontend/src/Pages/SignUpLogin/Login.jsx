@@ -19,6 +19,11 @@ const Login = () => {
         localStorage.setItem("studentId",res.data.studentId)
         localStorage.setItem("student", JSON.stringify(res.data.student))
         localStorage.setItem("token",res.data.token)
+        if (window.gtag) {
+          window.gtag("event", "login", {
+            method: "email",
+          });
+        }
         navigate("/dashboard")
       }else {
         setError(res.data.message);

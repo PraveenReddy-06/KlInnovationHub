@@ -20,6 +20,7 @@ import "aos/dist/aos.css";
 import Footer from "./Components/Footer";
 import DashboardFooter from "./Components/DashboardFooter";
 import Guide from "./Pages/NavBarPages/Guide";
+import Analytics from "./Analytics";
 
 
 function App() {
@@ -33,6 +34,7 @@ function App() {
 
   return (
     <BrowserRouter>
+      <Analytics />
       <Routes>
         <Route path="/" element={<LandingPage/>}/>
         <Route path="/signup" element={<SignUp/>}/>

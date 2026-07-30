@@ -72,6 +72,11 @@ const SubmitProject = () => {
             const res = await axiosInstance.post(`/project/submit`,payload);
             if (res.data === "Project Submitted Sucessfully") {
                 setProjectStatus(true);
+                if (window.gtag) {
+                    window.gtag("event", "project_submit", {
+                        project_type: "solo",
+                    });
+                }
                 toast.success("Project Submitted Sucessfully");
                 setTimeout(() => { navigate("/dashboard");}, 1500);
             }
@@ -91,6 +96,11 @@ const SubmitProject = () => {
             if (res.data === "Group Project Submitted Sucessfully") {
                 setGroupProjectStatus(true);
                 toast.success("Group Project Submitted Sucessfully");
+                if (window.gtag) {
+                    window.gtag("event", "project_submit", {
+                        project_type: "group",
+                    });
+                }
                 setTimeout(() => { navigate("/dashboard");}, 1500);
             }
         } catch (err) {
