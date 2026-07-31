@@ -81,12 +81,12 @@ const Section123 = () => {
         <div className="absolute -bottom-10 -right-16 w-105 h-105 opacity-[0.04] blur-[2px]" style={{ backgroundImage: "url('/LogoWhite.png')", backgroundSize: "contain", backgroundRepeat: "no-repeat", backgroundPosition: "center" }} />               
          <div className="flex flex-col items-center relative z-10 max-w-3xl mx-auto px-8 py-16 text-center" data-aos="fade-up">
           <img src="/LogoWhite.png" alt="" className="w-60 h-40 object-contain opacity-90"   data-aos="zoom-in" data-aos-delay="200"/>
-          <h2 className="text-light-blue font-semibold tracking-[0.4em] uppercase text-sm md:text-base mb-4">
+          <h1 className="text-light-blue font-semibold tracking-[0.4em] uppercase text-sm md:text-base mb-4">
             KL INNOVATION HUB
-          </h2>
-          <h1 className="text-5xl md:text-7xl font-extrabold leading-[1.08] tracking-tight text-cream mb-6">
-            Ideas Need People. People Need This.
           </h1>
+          <h2 className="text-5xl md:text-7xl font-extrabold leading-[1.08] tracking-tight text-cream mb-6">
+            Ideas Need People. People Need This.
+          </h2>
           <div className="flex flex-wrap justify-center gap-2 mb-8">
             {["Projects", "Leaderboards", "Collaboration", "Showcase"].map(t => (
               <span key={t} className="text-[11px] font-medium bg-MydarkGreen text-white rounded-full px-3 py-1 tracking-wide">{t}</span>

@@ -14,6 +14,9 @@ import Footer from '../../Components/Footer';
 const LandingPage = () => {
   return (
     <div>
+      <h1 className="sr-only">
+        KLU Innovation Hub – KL University Student Project Platform
+      </h1>
       <Navbar />
       <Section123/>
       <Solution />
