@@ -14,9 +14,6 @@ const CallToAction = () => {
         <div className="absolute bottom-0 left-0 w-full h-px bg-gradient-to-r from-transparent via-[#5483B3]/40 to-transparent"></div>
 
         <div className="relative z-10 max-w-5xl mx-auto px-6 text-center">
-          <span className="inline-block px-4 py-2 rounded-full border border-[#5483B3]/30 bg-[#052659]/50 text-[#7DA0CA] text-sm font-medium mb-8">
-            Start Your Journey Today
-          </span>
 
           <h2 className="text-4xl md:text-6xl font-bold text-white leading-tight">
             Ready To Build
@@ -28,7 +25,7 @@ const CallToAction = () => {
           </p>
 
           <div className="flex flex-col sm:flex-row justify-center gap-6 mt-12">
-            <button onClick={() => navigate("/login")} className="px-8 py-4 rounded-2xl border border-[#5483B3]/40 bg-[#052659]/60 backdrop-blur-xl text-white font-semibold transition-all duration-500 hover:border-[#7DA0CA] hover:bg-[#052659] hover:scale-105">
+            <button onClick={() => navigate("/login")} className="px-8 py-4 border border-[#5483B3]/40 bg-[#052659]/60 backdrop-blur-xl text-white font-semibold transition-all duration-500 hover:border-[#7DA0CA] hover:bg-[#052659] hover:scale-105">
               Create Profile
             </button >
           </div>
