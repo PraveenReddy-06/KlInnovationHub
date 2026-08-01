@@ -73,23 +73,23 @@ const FormATeam = () => {
 return (
   <div className="min-h-screen bg-linear-to-b from-primary via-secondary to-oxford-blue">
     <Navbar />
-    <div className="flex pl-10 gap-5 items-center bg-formTeamForm text-vanilla-custard">
-      <div className="w-1/2 flex flex-col gap-3">
-          <h1 className="text-3xl font-bold">Build Something Bigger Together </h1>
+    <div className="flex flex-col-reverse lg:flex-row items-center gap-8 px-4 sm:px-8 lg:px-10 py-6 bg-formTeamForm text-vanilla-custard">
+      <div className="w-full lg:w-1/2 flex flex-col gap-3 text-center lg:text-left">
+          <h1 className="text-2xl sm:text-3xl lg:text-4xl font-bold" >Build Something Bigger Together </h1>
           <p className="font-serif">Find talented teammates, share your vision, and create projects that make an impact.</p>
       </div>
-      <div className="w-1/2 flex justify-end">
-        <img src={background} className="h-50"/>
+      <div className="w-full lg:w-1/2 flex justify-center lg:justify-end">
+        <img src={background}  className="w-full max-w-sm lg:max-w-md h-auto"/>
       </div>
     </div>
     
-    <div className="px-6 md:px-12 py-8">
-      <div className="px-20 py-8">
+    <div className="px-4 sm:px-6 md:px-12 py-8">
+      <div className="px-0 md:px-10 lg:px-20 py-8">
 
-        <div className="bg-vanilla-custard border border-tan rounded-3xl shadow-xl p-8">
+        <div className="bg-vanilla-custard border border-tan rounded-3xl shadow-xl p-5 sm:p-8">
 
           <div className="mb-8">
-            <h1 className="text-3xl font-bold text-gray-800">
+            <h1 className="text-2xl sm:text-3xl font-bold text-gray-800">
               Create Your Team
             </h1>
 
@@ -165,11 +165,11 @@ return (
                   {successMsg}
                 </div>
               )}
-              <div className="md:col-span-2 flex justify-end mt-3">
+              <div className="md:col-span-2 flex justify-center md:justify-end mt-3">
                 <button
                   type="submit"
                   disabled={loading}
-                  className="bg-secondary hover:bg-accent text-white px-8 py-3 rounded-2xl font-semibold transition disabled:opacity-50"
+                  className="w-full sm:w-auto bg-secondary hover:bg-accent text-white px-8 py-3 rounded-2xl font-semibold transition disabled:opacity-50"
                 >
                   {loading ? "Creating Team..." : "Create Team"}
                 </button>

@@ -7,27 +7,27 @@ import {
 
 export default function Footer() {
   return (
-    <footer className="mt-20 border-t border-white/10 bg-primary">
-      <div className="max-w-7xl mx-auto px-6 pt-12">
+    <footer className="mt-12 md:mt-20 border-t border-white/10 bg-primary">
+      <div className="max-w-7xl mx-auto px-4 sm:px-6 pt-10 md:pt-12">
 
         <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-10">
 
           {/* Brand */}
           <div>
-            <div className="flex items-center gap-3 mb-4">
+            <div className="flex items-center justify-center sm:justify-start gap-3 mb-4">
               <img
                 src="/LogoWhite.png"
                 alt="KL Innovation Hub"
-                className="h-12 w-auto"
+                className="h-10 sm:h-12 w-auto"
               />
-              <h2 className="text-lg font-bold text-vanilla-custard">
+              <h2 className="text-base sm:text-lg font-bold text-vanilla-custard">
                 KL Innovation Hub
               </h2>
             </div>
           </div>
 
           {/* Platform */}
-          <div>
+          <div className="text-center sm:text-left">
             <h3 className="font-semibold text-accent mb-4">
               Platform
             </h3>
@@ -61,7 +61,7 @@ export default function Footer() {
           </div>
 
           {/* Community */}
-          <div>
+          <div className="text-center sm:text-left">
             <h3 className="font-semibold text-accent mb-4">
               Community
             </h3>
@@ -88,11 +88,11 @@ export default function Footer() {
             </div>
           </div>
 
-          <div>
+          <div className="text-center sm:text-left">
             <h3 className="font-semibold text-accent mb-4">
               Connect
             </h3>
-            <div className="flex gap-5 text-2xl text-sky">
+            <div className="flex justify-center sm:justify-start gap-5 text-xl sm:text-2xl text-sky">
               <a
                   href="https://www.linkedin.com/in/kl-innovation-hub-343322419/"
                   target="_blank" rel="noopener noreferrer"
@@ -118,7 +118,7 @@ export default function Footer() {
           </div>
         </div>
 
-        <div className="flex flex-row justify-between mt-10 border-t border-white/10 py-2 text-center text-sm text-sky">
+        <div className="flex flex-col md:flex-row items-center justify-between gap-2 mt-10 border-t border-white/10 py-4 text-center text-xs sm:text-sm text-sky">
           <div>
             © 2026 KL Innovation Hub. All rights reserved
           </div>

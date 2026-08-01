@@ -40,35 +40,35 @@ const Card = ({ project }) => {
   const bg = bgMap[project.branch?.toLowerCase()] || CSITCard;
 
   return (
-    <div className="relative flex flex-col w-full h-full p-4 rounded-2xl overflow-hidden bg-cover bg-center border border-tan/40 text-white" style={{ backgroundImage: `url(${bg})` }}>
+    <div className="relative flex flex-col w-full h-full p-3 sm:p-4 rounded-2xl overflow-hidden bg-cover bg-center border border-tan/40 text-white" style={{ backgroundImage: `url(${bg})` }}>
       <div className="absolute inset-0 bg-primary/55 rounded-xl"></div>
 
       <div className="relative z-10">
-        <h2 className="font-bold truncate text-md text-vanilla-custard">{project.title}</h2>
-        <div className="flex gap-3 items-start cursor-pointer  hover:bg-light-blue/10 rounded-lg p-2 transition"onClick={handleProfileClick}>
+        <h2 className="font-bold text-base sm:text-md truncate text-vanilla-custard" >{project.title}</h2>
+        <div className="flex gap-2 sm:gap-3 items-start cursor-pointer hover:bg-light-blue/10 rounded-lg p-2 transition" onClick={handleProfileClick}>
           <img
             src={project.type === "GROUP"? (project.teamLead?.avatarUrl ||`/avatars/Avatar${(project.teamLead?.studentId % 40) + 1}.webp`
             ) : (project.student?.avatarUrl ||`/avatars/Avatar${(project.student?.studentId % 40) + 1}.webp`)}
             
-            className="w-14 h-14 rounded-full object-cover border-2 border-white/30"
+            className="w-12 h-12 sm:w-14 sm:h-14 rounded-full object-cover border-2 border-white/30 flex-shrink-0"
           />
           <div className="flex-1">
-            <p className="text-white">{project.ownerName} . {project.ownerId}</p>
+            <p className="text-white text-sm sm:text-base break-words">{project.ownerName} . {project.ownerId}</p>
             {project.type === "GROUP" && project.studentList?.length > 0 && (
               <div className="flex flex-wrap gap-1">{
                 project.studentList?.filter((student) =>student.studentId !== project.ownerId).map((student) => 
                 (<span key={student.studentId}
                       onClick={(e) => { e.stopPropagation(); navigate(`/profile/${student.studentId}`);}}
-                      className="text-xs bg-tan/25 text-vanilla-custard px-2 py-1 rounded">
+                      className="text-[10px] sm:text-xs bg-tan/25 text-vanilla-custard px-2 py-1 rounded">
                     {student.student_name}
                   </span>))}
               </div>
             )}
-            <p className="truncate text-sm">{project.tech1} . {project.tech2} . {project.tech3}</p>
+            <p className="truncate text-xs sm:text-sm">{project.tech1} . {project.tech2} . {project.tech3}</p>
           </div>
         </div>
 
-        <div className="flex gap-7 justify-end items-center text-xs">
+        <div className="flex flex-wrap justify-between sm:justify-end gap-3 sm:gap-6 items-center text-xs mt-3">
           <button onClick={handleLike} className="flex items-center gap-1 active:scale-95">
             Likes<FaHeart className={liked ? "text-red-500" : "text-gray-300"} />
             <span>{like}</span>
@@ -86,7 +86,7 @@ const Card = ({ project }) => {
           </a>
 
           <a href={project.liveUrl}  target="_blank" rel="noopener noreferrer"
-            className="rounded-2xl px-2 py-1 text-vanilla-custard bg-sky-500 hover:bg-sky-700 transition flex items-center gap-1"
+            className="rounded-2xl px-2 sm:px-3 py-1 text-xs sm:text-sm text-vanilla-custard bg-sky-500 hover:bg-sky-700 transition flex items-center gap-1"
             onClick={() => {
                 if (window.gtag) {
                     window.gtag("event", "live_demo_click");

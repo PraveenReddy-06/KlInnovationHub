@@ -97,27 +97,27 @@ const Dashboard = () => {
     <div className="min-h-screen overflow-y-auto no-scrollbar" style={{background:"linear-gradient(135deg, #FFF9EB 0%, #F8F0E5 50%, #D2B48C 100%)",}}>
       <Navbar/>
 
-      <div className ="flex pl-20 gap-5 items-center text-tan bg-dashboard border-b border-b-amber-700">
-        <div className ="w-1/2 flex flex-col gap-3">
-          <h1 className =" text-3xl font-bold text-gray-200">Give Life to Your Projects!</h1>
-          <p className="text-lg opacity-90">Share your innovative solutions with the hub and inspire the community.</p>
-          <div className="w-full max-w-md">
+      <div className="flex flex-col-reverse lg:flex-row px-4 sm:px-8 lg:px-20 py-8 gap-8 items-center text-tan bg-dashboard border-b border-b-amber-700">
+        <div className="w-full lg:w-1/2 flex flex-col gap-3 text-center lg:text-left">
+          <h1 className="text-2xl sm:text-3xl lg:text-4xl font-bold text-gray-200">Give Life to Your Projects!</h1>
+          <p className="text-base sm:text-lg opacity-90">Share your innovative solutions with the hub and inspire the community.</p>
+          <div className="w-full max-w-md mx-auto lg:mx-0">
             <div className="flex items-center rounded-xl px-4 py-3 shadow-sm focus-within:ring-2 bg-white "  style={{border: "1px solid #D2B48C",}}>
               <input type="text" placeholder="Search projects, tech, student, id..." value={search} onChange={(e) => setSearch(e.target.value)} className="w-full outline-none text-black text-sm"/>
               <span className="text-primary ml-2">🔍</span>
             </div>
         </div>
         </div>
-        <div className="w-1/2 flex justify-center items-center">
-          <img src={background} className="h-60 w-max"/>
+        <div className="w-full lg:w-1/2 flex justify-center items-center">
+          <img src={background} className="w-full max-w-md lg:max-w-lg h-auto"/>
         </div>
       </div>
-      <div className="py-3 px-10 overflow-hidden">
-        <h2 className="text-2xl font-bold text-primary">Latest Projects</h2>
+      <div className="py-3 px-4 sm:px-6 lg:px-10 overflow-hidden">
+        <h2 className="text-xl sm:text-2xl font-bold text-primary">Latest Projects</h2>
         <div className="relative overflow-hidden py-2">
           <div className="flex gap-5 w-max animate-scroll">
             {[...filteredProjects, ...filteredProjects].map((project, index) => (
-              <div key={`${project.type}-${project.projectKey}-${index}`} className="w-95 h-47 flex-shrink-0">
+              <div key={`${project.type}-${project.projectKey}-${index}`} className="w-[320px] sm:w-[380px] lg:w-[380px] h-auto flex-shrink-0">
                 <Card project={project} />
               </div>
             ))}
@@ -125,11 +125,11 @@ const Dashboard = () => {
         </div>
       </div>
       {error && (
-        <div className="mx-6 mt-4 p-3 bg-red-100 text-bloodstone rounded-lg">
+        <div className="mx-4 sm:mx-6 mt-4 p-3 bg-red-100 text-bloodstone rounded-lg">
           {error}
         </div>
       )}
-      <div className="pb-3 px-10">
+      <div className="pb-3 px-4 sm:px-6 lg:px-10">
         <div className="flex items-center gap-3 pb-2">
           <div className="text-2xl font-bold  text-primary whitespace-nowrap">Top Projects</div>
         </div>
