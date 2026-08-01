@@ -1,6 +1,8 @@
 package com.klu.controller;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -40,8 +42,12 @@ public class MailController {
 	}
 	
 	@PostMapping("/login")
-	public LoginRequestDto login(@RequestBody Login req) {
-		return service.login(req);
+	public ResponseEntity<LoginRequestDto> login(@RequestBody Login req) {
+	    LoginRequestDto response = service.login(req);
+	    if (response.getMessage().startsWith("Too many")) {
+	        return ResponseEntity.status(HttpStatus.TOO_MANY_REQUESTS).body(response);
+	    }
+	    return ResponseEntity.ok(response);
 	}
 	
 	@PostMapping("/resend")

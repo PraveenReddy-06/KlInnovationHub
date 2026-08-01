@@ -24,13 +24,24 @@ const Login = () => {
             method: "email",
           });
         }
+        setError("");
         navigate("/dashboard")
       }else {
         setError(res.data.message);
       }}
-    catch (error){
-      setError("Something went wrong");
-    }
+    catch (error) {
+      if (error.response) {
+        if (error.response.status === 429) {
+          setError(error.response.data.message);
+        }
+        else {
+          setError(error.response.data?.message || "Login failed");
+        }
+      }
+      else {
+          setError("Unable to connect to server");
+        }
+      }
   }
 
   const handleSignup = (e) => {

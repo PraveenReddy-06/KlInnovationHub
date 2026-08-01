@@ -17,6 +17,7 @@ import com.klu.dto.LoginRequestDto;
 import com.klu.model.Student;
 import com.klu.repository.StudentRepo;
 import com.klu.security.JwtService;
+import com.klu.security.ratelimit.LoginRateLimiterService;
 import com.klu.service.implementation.StudentImple;
 
 @Service
@@ -38,6 +39,9 @@ public class MailService {
 	
 	@Autowired
 	private PasswordEncoder passwordEncoder;
+	
+	@Autowired
+	private LoginRateLimiterService loginRateLimiterService;
 	
 	@Autowired JwtService jwtService;
 	
@@ -107,6 +111,10 @@ public class MailService {
 	public LoginRequestDto login(Login req) {
 		
 		UserSignUp recMail = repo.findByMail(req.getMail()).orElse(null);
+		if (loginRateLimiterService.isBlocked(req.getMail())) {
+		    long minutes =loginRateLimiterService.getRemainingLockMinutes(req.getMail());
+		    return new LoginRequestDto("Too many failed login attempts. Try again in " + minutes + " minute(s).", null,null, null,null);
+		}
 		
 		if(recMail==null) {
 			return new LoginRequestDto("Mail Not Found",null,null,null,null);
@@ -124,7 +132,9 @@ public class MailService {
 		try {
 			Authentication auth = authenticationManager.authenticate(new UsernamePasswordAuthenticationToken(req.getMail(),req.getPassword()));
 			token = jwtService.generateToken(auth.getName());
+			loginRateLimiterService.loginSucceeded(req.getMail());
 		}catch (BadCredentialsException e) {
+			loginRateLimiterService.loginFailed(req.getMail());
 			return new LoginRequestDto("Bad Credentials",null,null,null,null);
 		}
 		
