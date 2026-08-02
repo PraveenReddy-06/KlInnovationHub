@@ -6,6 +6,7 @@ import { FaGithub } from "react-icons/fa";
 import { useNavigate } from "react-router-dom";
 import toast, { Toaster } from "react-hot-toast";
 import DashboardFooter from "../../Components/DashboardFooter"
+import SEO from "../../Components/SEO";
 
 const ExploreProjects = () => {
 

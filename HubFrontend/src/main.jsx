@@ -6,9 +6,9 @@ import toast, { Toaster } from "react-hot-toast";
 
 createRoot(document.getElementById('root')).render(
     <StrictMode>
-        <Toaster position="top-right"
-                toastOptions={{duration: 1500, style: {background: "#111827",color: "#fff",border: "1px solid #374151",},}}
-        />
-        <App />
+            <Toaster position="top-right"
+                    toastOptions={{duration: 1500, style: {background: "#111827",color: "#fff",border: "1px solid #374151",},}}
+            />
+            <App />
     </StrictMode>
 )
