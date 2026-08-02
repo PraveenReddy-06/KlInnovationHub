@@ -9,15 +9,5 @@ export default defineConfig({
     sourcemap: false,
     cssCodeSplit: true,
     chunkSizeWarningLimit: 1000,
-    rollupOptions: {
-      output: {
-        manualChunks: {
-          react: ["react", "react-dom"],
-          router: ["react-router-dom"],
-          swiper: ["swiper"],
-          icons: ["react-icons", "lucide-react"],
-        },
-      },
-    },
   },
 })
