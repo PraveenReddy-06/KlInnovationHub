@@ -23,28 +23,28 @@ const VisionSection = () => {
 
   return (
     <div>
-      <section className="relative py-32 bg-tan overflow-hidden text-white">
+      <section className="relative py-16 md:py-24 lg:py-32 bg-tan overflow-hidden text-white">
 
-  <div className="relative z-10 max-w-7xl mx-auto px-6">
+  <div className="relative z-10 max-w-7xl mx-auto px-4 sm:px-6">
 
     <div className="text-center mb-20"   data-aos="fade-up">
       <span   data-aos="fade-up" data-aos-delay="100" className="text-black uppercase tracking-widest text-sm font-semibold">
         Our Vision
       </span>
-      <h2   data-aos="fade-up" data-aos-delay="200" className="mt-4 text-4xl md:text-6xl font-bold text-black">
+      <h2   data-aos="fade-up" data-aos-delay="200" className="mt-4 text-3xl sm:text-4xl md:text-6xl font-bold text-black">
         Building A Culture
         <span className="block text-black">
           Of Innovation
         </span>
       </h2>
-      <p  data-aos="fade-up" data-aos-delay="300" className="mt-8 max-w-4xl mx-auto text-lg text-bloodstone leading-relaxed">
+      <p  data-aos="fade-up" data-aos-delay="300" className="mt-8 max-w-4xl mx-auto text-base sm:text-lg text-bloodstone leading-relaxed px-2">
         Innovation Hub is more than a project platform. It is a university-wide
         ecosystem designed to connect students, encourage collaboration, and
         inspire innovation across disciplines.
       </p>
     </div>
 
-    <div className="relative flex items-center justify-center min-h-[600px]">
+    <div className="relative hidden lg:flex items-center justify-center min-h-[600px]">
       <div   data-aos="zoom-in" data-aos-delay="400" className="absolute z-20 w-48 h-48 rounded-full bg-amber-600 flex items-center justify-center shadow-[0_0_60px_rgba(125,160,202,0.4)]">
         <div className="text-center">
           <h3 className="text-[#021024] font-bold text-2xl">
@@ -74,7 +74,9 @@ const VisionSection = () => {
 
     </div>
   </div>
+  
 </section>
+
     </div>
   );
 };

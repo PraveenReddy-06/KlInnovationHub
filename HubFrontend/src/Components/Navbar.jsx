@@ -1,5 +1,5 @@
 import { memo, useState } from 'react';
-import { FaUserCircle } from "react-icons/fa";
+import { FaUserCircle, FaBars, FaTimes } from "react-icons/fa";
 import {useNavigate, Link } from 'react-router-dom';
 import {useRef, useEffect } from "react";
 import { FaBell } from "react-icons/fa";
@@ -10,6 +10,7 @@ const Navbar = () => {
   const studentId = JSON.parse(localStorage.getItem("studentId") || "null")
   const [showDropdown, setShowDropdown] = useState(false);
   const dropdownRef = useRef(null);
+  const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
   const [showNotifications,setShowNotifications] = useState(false);
   const [notifications,setNotifications] = useState([]);
   const [activities,setActivities] = useState([]);
@@ -115,46 +116,50 @@ const getActivityText = (a) => {
   }
 
   return (
-    <div className="sticky top-0 z-50 flex justify-between items-center px-8 lg:px-12 h-18 shadow-lg bg-primary">
-
-      <a href="/LandingPage" className="flex items-center gap-2">
-          <img src="/Logo.svg" alt="logo" className="h-14" />
+    <div className="sticky top-0 z-50 flex justify-between items-center px-4 sm:px-6 lg:px-12 h-16 lg:h-18 shadow-lg bg-primary">
+      <button  onClick={() => setMobileMenuOpen(!mobileMenuOpen)}  className="lg:hidden text-white text-2xl">
+        {mobileMenuOpen ? <FaTimes /> : <FaBars />}
+      </button>
+      
+      <a href="/LandingPage" className="flex items-center gap-2 flex-shrink-0">
+          <img src="/Logo.svg" alt="logo" className="h-10 sm:h-12 lg:h-14" />
 
           <div className="flex flex-col leading-none">
-            <span className="font-bold text-vanilla-custard text-xl">
+            <span className="font-bold text-vanilla-custard text-sm sm:text-lg lg:text-xl">
               KL InnovationHub
             </span>
-            <span className="text-[11px] tracking-widest uppercase text-tan">
+            <span className="hidden sm:block text-[10px] lg:text-[11px] tracking-widest uppercase text-tan">
               Innovate • Build • Launch
             </span>
           </div>
       </a>
-      <ul className="flex items-center text-xs uppercase tracking-[2px] gap-8 text-[#F8F0E5]">
+
+      <ul className="hidden lg:flex items-center text-xs uppercase tracking-[2px] gap-8 text-[#F8F0E5]">
         <li>
-          <Link to="/dashboard" className="transition-colors duration-200 hover:text-[#C1E8FF]">  Dashboard </Link>
+          <Link to="/dashboard" className="transition-colors duration-200 hover:text-[#C1E8FF]"onClick={() => setMobileMenuOpen(false)}>  Dashboard </Link>
         </li>
         <li>
-          <Link to="/exploreProjects" className="transition-colors duration-200 hover:text-[#C1E8FF]">  Explore Projects</Link>
+          <Link to="/exploreProjects" className="transition-colors duration-200 hover:text-[#C1E8FF]"onClick={() => setMobileMenuOpen(false)}>  Explore Projects</Link>
         </li>
         <li>
-          <Link to="/leaderBoard" className="transition-colors duration-200 hover:text-[#C1E8FF]">  LeaderBoard
+          <Link to="/leaderBoard" className="transition-colors duration-200 hover:text-[#C1E8FF]" onClick={() => setMobileMenuOpen(false)}>  LeaderBoard
           </Link>
         </li>
         <li>
-          <Link to="/submitProject" className="transition-colors duration-200 hover:text-[#C1E8FF]">  Submit Project </Link>
+          <Link to="/submitProject" className="transition-colors duration-200 hover:text-[#C1E8FF]" onClick={() => setMobileMenuOpen(false)}>  Submit Project </Link>
         </li>
         <li>
-          <Link to="/guide" className="transition-colors duration-200 hover:text-[#C1E8FF]">
+          <Link to="/guide" className="transition-colors duration-200 hover:text-[#C1E8FF]" onClick={() => setMobileMenuOpen(false)}>
             Guide
           </Link>
         </li>
       </ul>
       {
         studentId ? (
-        <div className="flex items-center gap-6 justify-center" ref={dropdownRef}>   
+        <div className="flex items-center gap-3 sm:gap-4 lg:gap-6 justify-center" ref={dropdownRef}>
           <div className="relative">
             <button onClick={openNotifications} className="relative">
-              <FaBell size={24} className="text-[#FFF9EB] hover:text-[#C1E8FF]" />
+              <FaBell size={24} className="sm:text-[22px] lg:text-[24px] text-[#FFF9EB] hover:text-[#C1E8FF]"/>
               {unreadCount > 0 && (
                 <span className="absolute -top-2 -right-2 bg-red-500 text-white text-[10px] px-1.5 rounded-full">
                   {unreadCount}
@@ -162,7 +167,7 @@ const getActivityText = (a) => {
               )}
             </button>
             {showNotifications && (
-              <div className="absolute right-0 top-14 w-138 max-h-[70vh] overflow-y-auto no-scrollbar bg-primary border border-sky-800 rounded-2xl shadow-2xl z-[9999]">
+              <div className="    fixed left-1/2 top-20 -translate-x-1/2  w-[95vw] max-w-[550px]  sm:absolute sm:right-0 sm:left-auto sm:top-14 sm:translate-x-0  max-h-[70vh] overflow-y-auto no-scrollbar bg-primary border border-sky-800 rounded-2xl shadow-2xl z-[9999]">
                 <div className="p-4 border-b border-sky-800">
                   <h2 className="text-white font-bold">Notifications</h2>
                 </div>
@@ -195,10 +200,10 @@ const getActivityText = (a) => {
           </div> 
           <div className="relative">
           <button  className="flex items-center gap-3 cursor-pointer"  onClick={() => {setShowNotifications(false);setShowDropdown(prev => !prev);}}>
-            <FaUserCircle size={35}  className="text-[#FFF9EB] hover:text-[#C1E8FF] transition-colors"/>
+            <FaUserCircle size={35}  className="sm:text-[32px] lg:text-[35px] text-[#FFF9EB] hover:text-[#C1E8FF] transition-colors"/>
           </button>
           {showDropdown && (
-              <div className="absolute right-0 mt-3 z-1000 w-40 rounded shadow-2xl overflow-hidden"   style={{backgroundColor: "#FFF9EB",color: "#082052",border: "1px solid #D2B48C",}}>               
+              <div className="absolute right-0 mt-3 z-1000 w-36 sm:w-40 rounded shadow-2xl overflow-hidden"   style={{backgroundColor: "#FFF9EB",color: "#082052",border: "1px solid #D2B48C",}}>               
                 <button  onClick={handleProfile}  className="w-full text-left px-4 py-2 transition-colors" 
                          style={{}}onMouseEnter={(e) => e.target.style.backgroundColor = "#F8F0E5"}
                          onMouseLeave={(e) => e.target.style.backgroundColor = "transparent"}>
@@ -221,12 +226,33 @@ const getActivityText = (a) => {
 
         </div>
         ) : (
-          <div className="flex px-5 items-center gap-1 text-[#FFF9EB]">
+          <div className="flex items-center gap-1 sm:gap-2 text-sm lg:text-base text-[#FFF9EB]">
             <a href="/login" className="hover:text-[#C1E8FF]">Login/</a>
             <a href="/signup" className="hover:text-[#C1E8FF]">SignIn</a>
           </div>
         )
       }
+      {mobileMenuOpen && (
+        <div className="absolute top-full left-0 w-full bg-primary lg:hidden shadow-xl border-t border-white/10">
+          <div className="flex flex-col py-4">
+            <Link to="/dashboard" onClick={() => setMobileMenuOpen(false)} className="px-6 py-3 text-white hover:bg-white/10">
+              Dashboard
+            </Link>
+            <Link to="/exploreProjects" onClick={() => setMobileMenuOpen(false)} className="px-6 py-3 text-white hover:bg-white/10">
+              Explore Projects
+            </Link>
+            <Link to="/leaderBoard" onClick={() => setMobileMenuOpen(false)} className="px-6 py-3 text-white hover:bg-white/10">
+              Leaderboard
+            </Link>
+            <Link to="/submitProject" onClick={() => setMobileMenuOpen(false)} className="px-6 py-3 text-white hover:bg-white/10">
+              Submit Project
+            </Link>
+            <Link to="/guide" onClick={() => setMobileMenuOpen(false)} className="px-6 py-3 text-white hover:bg-white/10">
+              Guide
+            </Link>
+          </div>
+        </div>
+      )}
     </div>
   );
 };

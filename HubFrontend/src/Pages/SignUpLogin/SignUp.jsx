@@ -115,18 +115,18 @@ const SignUp = () => {
     }
 
 return (
-<div className="min-h-screen bg-tan flex">
+<div className="min-h-screen bg-tan flex flex-col lg:flex-row">
 
-  <div className="w-1/2 flex flex-col justify-center px-20">
-    <h1 className="text-6xl font-black text-primary mb-6">JOIN THE<br />INNOVATION<br />MOVEMENT</h1>
-    <p className="text-bloodstone text-xl max-w-lg">Build projects, form teams, showcase your ideas and turn imagination into impact.</p>
+  <div className="w-full lg:w-1/2 flex flex-col justify-center px-6 sm:px-10 lg:px-20 py-10 lg:py-0 text-center lg:text-left">
+    <h1 className="text-4xl sm:text-5xl lg:text-6xl font-black text-primary mb-6">JOIN THE<br />INNOVATION<br />MOVEMENT</h1>
+    <p className="text-bloodstone text-base sm:text-lg lg:text-xl max-w-lg mx-auto lg:mx-0">Build projects, form teams, showcase your ideas and turn imagination into impact.</p>
   </div>
 
-  <div className="w-1/2 flex justify-center items-center">
-    <div className="w-full max-w-xl bg-white/10 backdrop-blur-2xl border border-amber-700 rounded-3xl p-8 shadow-2xl">
-      <h1 className="text-4xl font-bold text-primary mb-8 text-center">Create Account</h1>
+  <div className="w-full lg:w-1/2 flex justify-center items-center px-4 sm:px-6 lg:px-0 pb-10 lg:pb-0">
+    <div className="w-full max-w-xl bg-white/10 backdrop-blur-2xl border border-amber-700 rounded-3xl p-5 sm:p-8 shadow-2xl">
+      <h1 className="text-3xl sm:text-4xl font-bold text-primary mb-8 text-center">Create Account</h1>
       <form onSubmit={handleLoginIn}>
-        <div className="grid grid-cols-2 gap-4">
+        <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
           <input className="p-3 rounded-xl  border border-amber-700 text-black placeholder-bloodstone outline-none"
             onChange={handleForm} name="name" value={form.name}
             type="text" placeholder="Full Name"
@@ -148,7 +148,7 @@ return (
             </div>
           )}
         </div>
-        <div className="mt-5 flex gap-3">
+        <div className="mt-5 flex flex-col sm:flex-row gap-3">
           {timer === 0 ? (
             <button onClick={otpSent ? handleResend : handleSendOtp} type="button" disabled={loading || !form.name || !form.mail || !form.password}
                     className="flex-1 bg-primary text-tan font-bold py-3 rounded-xl hover:scale-[1.02] transition active:scale-95 "

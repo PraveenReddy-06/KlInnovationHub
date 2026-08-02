@@ -54,9 +54,9 @@ const Solution = () => {
 ];
 
   return (
-  <section className="relative py-28 px-6 md:px-16 bg-[#052659] overflow-hidden">
+  <section className="relative py-16 md:py-28 px-4 sm:px-6 md:px-16 bg-[#052659] overflow-hidden">
   <div className="absolute top-20 left-1/2 -translate-x-1/2 w-[700px] h-[700px] bg-accent/10 blur-[180px] rounded-full"></div>
-  <div className="relative z-10 max-w-7xl mx-auto">
+  <div className="relative z-10 max-w-7xl mx-auto w-full overflow-hidden">
 
     <div className="text-center mb-20"data-aos="fade-up">
       <span   data-aos="fade-up" data-aos-delay="100" className="text-sky uppercase tracking-[0.25em] text-sm font-semibold">
@@ -68,35 +68,22 @@ const Solution = () => {
           Solves All Of This
         </span>
       </h2>
-      <p   data-aos="fade-up" data-aos-delay="300" className="mt-6 text-gray-300 max-w-3xl mx-auto text-lg">
+      <p   data-aos="fade-up" data-aos-delay="300" className="mt-6 text-gray-300 max-w-3xl mx-auto text-base sm:text-lg px-2">
         Everything students need to transform ideas into impactful projects,
         collaborate with peers, and gain recognition—all in one platform.
       </p>
     </div>
 
-      <Swiper
-  modules={[Navigation]}
-  navigation
-  spaceBetween={30}
-  slidesPerView={3}
-  loop={true}
-  centeredSlides={false}
-  grabCursor={true}
-  breakpoints={{
-    320: {
-      slidesPerView: 1,
-    },
-    768: {
-      slidesPerView: 2,
-    },
-    1024: {
-      slidesPerView: 3.2,
-    },
-  }}
->
+      <Swiper  className="w-full" modules={[Navigation]} navigation spaceBetween={30} slidesPerView={3} loop={true} centeredSlides={false} grabCursor={true}
+       breakpoints={{
+          320: {slidesPerView: 1, },
+          768: { slidesPerView: 2, },
+          1024: {  slidesPerView: 3.2,},
+        }}
+      >
   {solutions.map((card, index) => (
     <SwiperSlide key={index}> 
-      <div data-aos="fade-up" data-aos-delay={index * 150} className="group relative h-[380px] overflow-hidden rounded-3xl border border-white/10">
+      <div data-aos="fade-up" data-aos-delay={index * 150} className="group relative h-[320px] sm:h-[380px] overflow-hidden rounded-3xl border border-white/10" >
 
         <img
           src={card.image}

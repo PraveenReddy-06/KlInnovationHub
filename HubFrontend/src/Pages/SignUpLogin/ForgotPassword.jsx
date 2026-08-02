@@ -90,11 +90,11 @@ const ForgotPassword = () => {
 
   return (
     <div className="min-h-screen bg-primary flex items-center justify-center px-4">
-      <div className="w-full max-w-md rounded-3xl border border-white/20 bg-white/10 backdrop-blur-xl shadow-2xl p-8">
-        <h1 className="text-3xl font-bold text-tan text-center mb-2">
+      <div className="w-full max-w-md rounded-3xl border border-white/20 bg-white/10 backdrop-blur-xl shadow-2xl p-5 sm:p-8">
+        <h1 className="text-2xl sm:text-3xl font-bold text-tan text-center mb-2">
           Forgot Password
         </h1>
-        <p className="text-gray-300 text-center mb-8">Recover your account securely </p>
+        <p className="text-sm sm:text-base text-gray-300 text-center mb-8">Recover your account securely </p>
         {message && (
           <div className="mb-4 rounded-xl border border-green-500/30 bg-green-500/20 p-4 text-green-300 text-sm">
             {message}
@@ -141,7 +141,7 @@ const ForgotPassword = () => {
             {newPassword && !passwordRegex.test(newPassword) && (
               <div className="text-yellow-300 text-sm leading-relaxed">
                 Password must contain:
-                <ul className="list-disc pl-5 mt-1">
+                <ul className="list-disc pl-5 mt-1 text-xs sm:text-sm">
                   <li>Minimum 10 characters</li>
                   <li>One uppercase letter</li>
                   <li>One lowercase letter</li>

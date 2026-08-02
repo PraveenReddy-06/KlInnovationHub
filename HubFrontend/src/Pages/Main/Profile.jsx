@@ -133,28 +133,28 @@ return (
 
     <Navbar />
 
-    <div className="max-w-7xl mx-auto px-6 py-8" >
-        <div className="relative h-96 rounded-[40px] overflow-hidden shadow-2xl bg-cover"
+    <div className="max-w-7xl mx-auto px-4 sm:px-6 py-6 sm:py-8">
+        <div className="relative h-52 sm:h-72 lg:h-96 rounded-2xl lg:rounded-[40px] overflow-hidden shadow-2xl bg-cover"
              style={{backgroundImage: "url('/KlProfile.png')",backgroundPosition: "center 50%", }} >
             <div className="absolute bottom-10 left-10 text-white">
                 <p className="uppercase tracking-[6px] text-sm opacity-80">KL Innovation Hub</p>
             </div>
         </div>
         <div className="relative -mt-24 z-20 ">
-            <div className="backdrop-blur-2xl bg-white/10  rounded-[35px] p-8 shadow-[0_20px_80px_rgba(0,0,0,.35)]">
+            <div className="backdrop-blur-2xl bg-white/10 rounded-2xl lg:rounded-[35px] p-5 sm:p-6 lg:p-8 shadow-[0_20px_80px_rgba(0,0,0,.35)]">
                 <div className="flex flex-col lg:flex-row justify-between items-center gap-8">
-                    <div className="flex items-center gap-6">
+                    <div className="flex flex-col sm:flex-row items-center sm:items-start gap-6 text-center sm:text-left">
                         <img
                             src={student.avatarUrl ||`/avatars/Avatar${(student.studentId % 40) + 1}.webp`}
                             alt={student.student_name}
-                            className="h-36 w-36 rounded-full object-cover border border-black shadow-2xl"
+                            className="h-28 w-28 sm:h-32 sm:w-32 lg:h-36 lg:w-36 rounded-full object-cover border border-black shadow-2xl"
                             onError={(e) => {e.target.src =`/avatars/Avatar${(student.studentId % 40) + 1}.webp`;
                             }}
                         />
                         <div className="text-white">
-                            <h2 className="text-4xl font-bold">{student.student_name}</h2>
+                            <h2 className="text-2xl sm:text-3xl lg:text-4xl font-bold">{student.student_name}</h2>
                             <p className="text-slate-300 mt-2">{student.studentEmail}</p>
-                            <div className="flex items-center gap-4 mt-3">
+                            <div className="flex flex-wrap justify-center sm:justify-start items-center gap-4 mt-3">
                                 {student.githubUrl ? (
                                     <a href={student.githubUrl} target="_blank" rel="noopener noreferrer"className="text-white hover:text-cyan-300">
                                         <FaGithub size={24} />Github
@@ -183,23 +183,23 @@ return (
                         <div className="flex items-end justify-end">
                             <FollowSection studentId={studentId} isOwnProfile={isOwnProfile}/>                            
                         </div>                       
-                        <div className="flex gap-4 text-sm">
+                        <div className="flex flex-col sm:flex-row gap-3 text-sm w-full lg:w-auto">
                             {isOwnProfile && (<button
                                 onClick={() => navigate("/formATeam")}
-                                className=" bg-submit text-slate-900 border border-amber-900 font-semibold px-6 py-2 rounded-2xl hover:scale-105 duration-300 cursor-pointer">
+                                className="w-full sm:w-auto flex items-center justify-center gap-2 bg-submit text-slate-900 border border-amber-900 font-semibold px-6 py-2 rounded-2xl hover:scale-105 duration-300 cursor-pointer">
                                     <Users size={20} /> Form My Team
                             </button>)}
                             {isOwnProfile && (
                             <button
                                 onClick={() => navigate("/teamApplications")}
-                                className="bg-collab text-gray-800 border border-black font-semibold px-6 rounded-2xl hover:scale-105 duration-300 cursor-pointer">
+                                className="w-full sm:w-auto flex items-center justify-center gap-2 bg-collab text-gray-800 border border-black font-semibold px-6 py-2 rounded-2xl hover:scale-105 duration-300 cursor-pointer">
                                 <Handshake size={20} />
                                 Collab Hub 
                             </button>)}
                             {isOwnProfile && (
                             <button
                                 onClick={() => navigate("/submitProject")}
-                                className="bg-formTeam text-white border border-gray-400 font-semibold px-6 rounded-2xl hover:scale-105 duration-300 cursor-pointer">
+                                className="w-full sm:w-auto flex items-center justify-center gap-2 bg-formTeam text-white border border-gray-400 font-semibold px-6 py-2 rounded-2xl hover:scale-105 duration-300 cursor-pointer">
                                 <Rocket size={20} />
                                 Submit Project
                             </button> )}
@@ -210,32 +210,32 @@ return (
             </div>
         </div>
 
-        <div className="grid lg:grid-cols-4 gap-6 mt-12">
+        <div className="grid grid-cols-2 lg:grid-cols-4 gap-4 lg:gap-6 mt-12">
             <div className="bg-white/10 backdrop-blur-xl border border-white/10  p-6 hover:-translate-y-2 duration-300">
                 <p className="text-slate-400">My Solo Projects</p>
-                <h2 className="text-5xl font-black text-white mt-3">{projects.length}</h2>
+                <h2 className="text-3xl sm:text-4xl lg:text-5xl font-black text-white mt-3">{projects.length}</h2>
             </div>
             <div className="bg-white/10 backdrop-blur-xl border border-white/10 p-6 hover:-translate-y-2 duration-300">
                 <p className="text-slate-400">My Group Projects</p>
-                <h2 className="text-5xl font-black text-white mt-3">{groupProjects.length}</h2>
+                <h2 className="text-3xl sm:text-4xl lg:text-5xl font-black text-white mt-3">{groupProjects.length}</h2>
             </div>
             <div className="bg-white/10 backdrop-blur-xl border border-white/10 p-6 hover:-translate-y-2 duration-300">
                 <p className="text-slate-400">My Teams</p>
-                <h2 className="text-5xl font-black text-white mt-3"> {collaborations.length}</h2>
+                <h2 className="text-3xl sm:text-4xl lg:text-5xl font-black text-white mt-3"> {collaborations.length}</h2>
             </div>
             <div className="bg-white/10 backdrop-blur-xl border border-white/10 p-6 hover:-translate-y-2 duration-300">
                 <p className="text-slate-400">Applications Sent</p>
-                <h2 className="text-5xl font-black text-white mt-3"> {applications.length}</h2>
+                <h2 className="text-3xl sm:text-4xl lg:text-5xl font-black text-white mt-3"> {applications.length}</h2>
             </div>
         </div>
         {isOwnProfile && (
         <div onClick={() => navigate("/submitProject")}
             className="cursor-pointer mt-12 rounded-[35px] border-amber-500 border-2 overflow-hidden group"       >
-            <div className="relative h-70">
+            <div className="relative min-h-[260px] lg:h-70">
                 <div className="absolute inset-0 bg-cream" />
-                <div className="absolute inset-0 flex flex-col justify-center px-12 ">
+                <div className="absolute inset-0 flex flex-col justify-center px-6 lg:px-12 text-center lg:text-left">
                     <p className="uppercase tracking-[5px] text-black"> Showcase Your Work</p>
-                    <h2 className="text-5xl font-black  mt-3 text-black/90">    Launch Your Next Project</h2>
+                    <h2 className="text-3xl sm:text-4xl lg:text-5xl font-black  mt-3 text-black/90">    Launch Your Next Project</h2>
                     <p className="text-xl  mt-3 text-black">    Click here to submit and showcase your project.</p>
                     <div className="mt-8">
                         <span className="bg-tan border border-amber-700 text-slate-900 px-6 py-3 rounded-xl font-bold">Submit Project →</span>
@@ -248,7 +248,7 @@ return (
                 <h2 className="text-white text-3xl font-bold mb-6"> My Featured Project  </h2>
                 <div className="bg-featuredProject border-2 border-gray-400 rounded-[35px] p-8">
                     <p className=" text-black/90 uppercase tracking-[4px]">    Featured  </p>
-                    <h3 className="text-black text-4xl font-black mt-4">  {projects[0].projectName}  </h3>
+                    <h3 className="text-black text-2xl sm:text-3xl lg:text-4xl font-black mt-4">  {projects[0].projectName}  </h3>
                     <p className="text-slate-900 mt-4">  {projects[0].description}  </p>
                 </div>
             </div>
@@ -290,7 +290,7 @@ return (
     </div>
     {showDeleteModal && (
         <div className="fixed inset-0 z-[9999] flex items-center text-white justify-center bg-black/50">
-            <div className="bg-slate-900 p-6 rounded-xl w-[450px]">
+            <div className="bg-slate-900 p-6 rounded-xl w-[95%] max-w-[450px]">
                 <h2 className="text-lg font-bold">Delete Project?</h2>
                 <p className="mt-2">This action cannot be undone.</p>
                 <div className="flex justify-end gap-3 mt-5">
@@ -302,13 +302,13 @@ return (
     )}
     {showLinksModal && (
     <div className="fixed inset-0 z-9999 flex items-center justify-center bg-black/60">
-        <div className="bg-slate-900 p-6 rounded-xl w-225">
+        <div className="bg-slate-900 p-4 sm:p-6 rounded-xl w-[95%] max-w-[900px] max-h-[90vh] overflow-y-auto" style={{ scrollbarWidth: "thin" }}>
             <h2 className="text-lg text-white font-bold">Update Profile </h2>
-            <div className="flex gap-6">
-                <div className="flex gap-4">
+            <div className="flex flex-col lg:flex-row gap-6">
+                <div className="flex justify-center gap-4 overflow-x-auto lg:overflow-visible shrink-0">
                     <div>
                         <h3 className="text-white text-sm font-semibold mb-3">Boys</h3>
-                        <div className="h-96 w-28 no-scrollbar overflow-y-auto border-r border-slate-700 pr-2">
+                        <div className="h-96 w-28 overflow-y-auto border-r border-slate-700 pr-2" style={{ scrollbarWidth: "thin" }}>
                             {boyAvatars.map((avatar) => (
                                 <img key={avatar} src={avatar}  onClick={() => setSelectedAvatar(avatar)}
                                     className={`w-20 h-20 rounded-full cursor-pointer mb-3 border-2 ${
@@ -319,7 +319,7 @@ return (
                     </div>
                     <div>
                         <h3 className="text-white text-sm font-semibold mb-3">Girls </h3>
-                        <div className="h-96 w-28 no-scrollbar overflow-y-auto border-r border-slate-700 pr-2">
+                        <div className="h-96 w-28 overflow-y-auto border-r border-slate-700 pr-2" style={{ scrollbarWidth: "thin" }}>
                             {girlAvatars.map((avatar) => (
                                 <img key={avatar} src={avatar}  onClick={() => setSelectedAvatar(avatar)}className={`w-20 h-20 rounded-full cursor-pointer mb-3 border-2 ${
                                     selectedAvatar === avatar? "border-cyan-400": "border-transparent"}`}
@@ -330,10 +330,8 @@ return (
                 </div>
                 <div className="flex-1">
                     <div className="flex justify-center mb-6">
-                        <img
-                            src={selectedAvatar}
-                            
-                            className="w-48 h-48 rounded-full border-4 border-cyan-400"
+                        <img src={selectedAvatar}
+                            className="w-32 h-32 sm:w-40 sm:h-40 lg:w-48 lg:h-48 rounded-full border-4 border-cyan-400"
                         />
                     </div>
                     <div className="space-y-4">
@@ -350,9 +348,9 @@ return (
                             className="w-full p-3 rounded bg-slate-800 text-white border border-slate-700"
                         />
                     </div>
-                    <div className="flex justify-end gap-3 mt-6">
-                        <button onClick={() => setShowLinksModal(false)} className="px-4 py-2 bg-gray-700 text-white rounded"> Cancel</button>
-                        <button onClick={handleSaveLinks} className="px-4 py-2 bg-cyan-500 text-white rounded"> Save</button>
+                    <div className="flex flex-col sm:flex-row justify-end gap-3 mt-6">
+                        <button onClick={() => setShowLinksModal(false)} className=" w-full sm:w-auto px-4 py-2 bg-gray-700 text-white rounded"> Cancel</button>
+                        <button onClick={handleSaveLinks} className="w-full sm:w-auto px-4 py-2 bg-cyan-500 text-white rounded"> Save</button>
                     </div>
                 </div>
             </div>

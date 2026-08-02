@@ -5,4 +5,9 @@ import tailwindcss from '@tailwindcss/vite'
 // https://vite.dev/config/
 export default defineConfig({
   plugins: [react(),tailwindcss()],
+  build: {
+    sourcemap: false,
+    cssCodeSplit: true,
+    chunkSizeWarningLimit: 1000,
+  },
 })

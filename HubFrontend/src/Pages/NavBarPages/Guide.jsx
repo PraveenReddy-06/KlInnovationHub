@@ -26,23 +26,17 @@ export default function Guide() {
       <Navbar />
 
       {/* HERO */}
-      <section className="relative py-24 px-6 overflow-hidden">
+      <section className="relative py-16 md:py-24 px-4 sm:px-6 overflow-hidden">
         <div className="max-w-7xl mx-auto text-center">
 
-          <div className="inline-flex items-center gap-2 px-5 py-2 rounded-full border border-accent/30 bg-secondary/40">
-            <span className="text-sky font-medium">
-              KL Innovation Hub Student Guide
-            </span>
-          </div>
-
-          <h1 className="mt-8 text-5xl lg:text-7xl font-bold text-vanilla-custard leading-tight">
+          <h1 className="mt-8 text-4xl md:text-5xl lg:text-7xl font-bold text-vanilla-custard leading-tight">
             Build Projects
             <span className="block text-sky">
               That Actually Matter
             </span>
           </h1>
 
-          <p className="mt-8 text-lg text-misty-sage max-w-3xl mx-auto leading-relaxed">
+          <p className="mt-8 text-base md:text-lg text-misty-sage max-w-3xl mx-auto leading-relaxed">
             A roadmap for CSE, CSIT and ECE students to choose the right
             projects, collaborate effectively, use GitHub professionally,
             deploy applications and build a portfolio that stands out.
@@ -52,7 +46,7 @@ export default function Guide() {
 
       {/* COMMON MISTAKES */}
       <section className="max-w-7xl mx-auto px-6 py-20">
-        <h2 className="text-4xl font-bold text-vanilla-custard mb-12">
+        <h2 className="text-3xl md:text-4xl font-bold text-vanilla-custard mb-12">
           Mistakes Most Students Make
         </h2>
 
@@ -77,13 +71,13 @@ export default function Guide() {
       {/* DOMAINS */}
       <section className="max-w-7xl mx-auto px-6 py-20">
 
-        <h2 className="text-4xl font-bold text-vanilla-custard mb-12">
+        <h2 className="text-3xl md:text-3xl md:text-4xl font-bold text-vanilla-custard mb-12">
           Choose Your Domain
         </h2>
 
         <div className="grid lg:grid-cols-3 gap-8">
 
-          <div className="bg-secondary border border-accent/20 rounded-3xl p-8">
+          <div className="bg-secondary border border-accent/20 p-8">
             <h3 className="text-3xl font-bold text-sky mb-6">
               CSE
             </h3>
@@ -97,7 +91,7 @@ export default function Guide() {
             </ul>
           </div>
 
-          <div className="bg-secondary border border-accent/20 rounded-3xl p-8">
+          <div className="bg-secondary border border-accent/20  p-8">
             <h3 className="text-3xl font-bold text-sky mb-6">
               CSIT
             </h3>
@@ -111,7 +105,7 @@ export default function Guide() {
             </ul>
           </div>
 
-          <div className="bg-secondary border border-accent/20 rounded-3xl p-8">
+          <div className="bg-secondary border border-accent/20  p-8">
             <h3 className="text-3xl font-bold text-sky mb-6">
               ECE
             </h3>
@@ -131,7 +125,7 @@ export default function Guide() {
       {/* PROJECT ROADMAP */}
       <section className="max-w-7xl mx-auto px-6 py-20">
 
-        <h2 className="text-4xl font-bold text-vanilla-custard mb-12">
+        <h2 className="text-3xl md:text-4xl font-bold text-vanilla-custard mb-12">
           Project Development Roadmap
         </h2>
 
@@ -140,9 +134,9 @@ export default function Guide() {
           {roadmap.map((step, index) => (
             <div
               key={index}
-              className="flex gap-6 items-center bg-secondary border border-accent/20 rounded-3xl p-6"
+              className="flex flex-col sm:flex-row gap-4 sm:gap-6 items-center sm:items-center text-center sm:text-left bg-secondary border border-accent/20 rounded-3xl p-6"
             >
-              <div className="w-14 h-14 rounded-full bg-accent flex items-center justify-center text-white font-bold">
+              <div className="w-12 h-12 sm:w-14 sm:h-14 rounded-full bg-accent flex items-center justify-center text-white font-bold">
                 {index + 1}
               </div>
 
@@ -158,13 +152,13 @@ export default function Guide() {
       {/* GITHUB GUIDE */}
       <section className="max-w-7xl mx-auto px-6 py-20">
 
-        <h2 className="text-4xl font-bold text-vanilla-custard mb-12">
+        <h2 className="text-3xl md:text-4xl font-bold text-vanilla-custard mb-12">
           GitHub Like a Professional
         </h2>
 
         <div className="grid lg:grid-cols-2 gap-8">
 
-          <div className="bg-dashboard rounded-3xl border border-accent/20 p-8">
+          <div className="bg-dashboard  border border-accent/20 p-8">
             <h3 className="text-sky text-2xl font-bold mb-4">
               Bad Commits
             </h3>
@@ -190,12 +184,12 @@ export default function Guide() {
 
         </div>
 
-        <div className="mt-10 bg-secondary rounded-3xl border border-accent/20 p-8">
+        <div className="mt-10 bg-secondary border border-accent/20 p-8">
           <h3 className="text-2xl text-sky font-bold mb-4">
             Recommended Branching
           </h3>
 
-          <pre className="text-light-blue">
+          <pre className="text-light-blue overflow-x-auto text-sm">
 {`main
 │
 develop
@@ -211,13 +205,13 @@ develop
       {/* DEPLOYMENT */}
       <section className="max-w-7xl mx-auto px-6 py-20">
 
-        <h2 className="text-4xl font-bold text-vanilla-custard mb-12">
+        <h2 className="text-3xl md:text-4xl font-bold text-vanilla-custard mb-12">
           Deployment Checklist
         </h2>
 
         <div className="grid lg:grid-cols-4 gap-6">
 
-          <div className="bg-secondary rounded-3xl p-6 border border-accent/20">
+          <div className="bg-secondary  p-6 border border-accent/20">
             <h3 className="text-sky text-xl font-bold mb-4">
               Frontend
             </h3>
@@ -227,7 +221,7 @@ develop
             <p className="text-cream">AWS S3</p>
           </div>
 
-          <div className="bg-secondary rounded-3xl p-6 border border-accent/20">
+          <div className="bg-secondary  p-6 border border-accent/20">
             <h3 className="text-sky text-xl font-bold mb-4">
               Backend
             </h3>
@@ -237,7 +231,7 @@ develop
             <p className="text-cream">Docker</p>
           </div>
 
-          <div className="bg-secondary rounded-3xl p-6 border border-accent/20">
+          <div className="bg-secondary p-6 border border-accent/20">
             <h3 className="text-sky text-xl font-bold mb-4">
               Database
             </h3>
@@ -246,7 +240,7 @@ develop
             <p className="text-cream">MySQL</p>
           </div>
 
-          <div className="bg-secondary rounded-3xl p-6 border border-accent/20">
+          <div className="bg-secondary  p-6 border border-accent/20">
             <h3 className="text-sky text-xl font-bold mb-4">
               Storage
             </h3>
@@ -261,7 +255,7 @@ develop
       {/* RESUME */}
       <section className="max-w-7xl mx-auto px-6 py-20">
 
-        <h2 className="text-4xl font-bold text-vanilla-custard mb-12">
+        <h2 className="text-3xl md:text-4xl font-bold text-vanilla-custard mb-12">
           Resume & Portfolio Tips
         </h2>
 
@@ -295,14 +289,11 @@ develop
       {/* FINAL CHECKLIST */}
       <section className="max-w-5xl mx-auto px-6 py-24">
 
-        <div className="bg-secondary border border-accent/20 rounded-[40px] p-10">
-
-          <h2 className="text-4xl font-bold text-vanilla-custard mb-8 text-center">
+        <div className="bg-secondary border border-accent/20  p-6 sm:p-10">
+          <h2 className="text-3xl md:text-4xl font-bold text-vanilla-custard mb-8 text-center">
             Final Submission Checklist
           </h2>
-
-          <div className="grid md:grid-cols-2 gap-6 text-light-blue text-lg">
-
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-4 sm:gap-6 text-light-blue text-base sm:text-lg">
             <div>✓ Real Problem Solved</div>
             <div>✓ GitHub Repository</div>
             <div>✓ Proper README</div>
