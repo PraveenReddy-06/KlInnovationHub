@@ -108,7 +108,7 @@ const Section123 = () => {
         <div className="grid grid-cols-2 md:grid-cols-4">
           {cards.map((card,index) => {const Icon = card.icon;
             return (
-              <div key={card.label}   data-aos="fade-up" data-aos-delay={index * 100} className="group text-white border border-black text-center  p-4 sm:p-6 backdrop-blur-md transition-all duration-300 hover:-translate-y-1 hover:border-[#7DA0CA] hover:shadow-[0_0_30px_rgba(125,160,202,0.15)]">
+              <div key={card.label}   data-aos="fade-up" data-aos-delay={index * 100} className="group text-white border border-black text-center  p-4 sm:p-6 backdrop-blur-md transition-all duration-300 hover:-translate-y-1 hover:border-sky hover:shadow-[0_0_30px_rgba(125,160,202,0.15)]">
                 <div className="flex justify-center">
                   <div className="w-14 h-14 rounded-xl flex items-center justify-center">
                     <Icon size={28} strokeWidth={2} />
@@ -125,7 +125,7 @@ const Section123 = () => {
       </div>
     </section>
     <section className="relative py-16 md:py-28 px-4 sm:px-6 md:px-10 lg:px-16 bg-primary overflow-hidden">
-      <div className="absolute top-0 left-1/2 -translate-x-1/2 w-[700px] h-[700px] bg-accent/10 blur-[180px] rounded-full"></div>
+      <div className="absolute top-0 left-1/2 -translate-x-1/2 w-175 h-175 bg-accent/10 blur-[180px] rounded-full"></div>
         <div className="relative z-10 max-w-7xl mx-auto">
           <div className="text-center mb-20"data-aos="fade-up">
             <span className="text-sky uppercase tracking-widest text-sm font-semibold">
@@ -152,7 +152,7 @@ const Section123 = () => {
               </div>
             </div>
             <div className="relative">
-              <div className="absolute left-6 top-0 bottom-0 w-[2px] bg-gradient-to-b from-red-500 via-red-400 to-accent"></div>
+              <div className="absolute left-6 top-0 bottom-0 w-0.5 bg-linear-to-b from-red-500 via-red-400 to-accent"></div>
                 <div className="space-y-8 sm:space-y-10 lg:space-y-12">
                   {problems.map((item, index) => (
                     <div key={index} className="relative flex items-start gap-6" data-aos="fade-left" data-aos-delay={index * 150}>
@@ -160,7 +160,7 @@ const Section123 = () => {
                         ❌
                       </div>
 
-                      <div className="bg-[#052659]/60 backdrop-blur-md border border-accent/20 px-4 sm:px-6 py-5 rounded-2xl w-full">
+                      <div className="bg-secondary/60 backdrop-blur-md border border-accent/20 px-4 sm:px-6 py-5 rounded-2xl w-full">
                         <h3 className="text-white text-lg font-semibold mb-2">
                           {item.title}
                         </h3>
@@ -174,10 +174,10 @@ const Section123 = () => {
                 </div>
               <div className="flex flex-col items-center mt-16"   data-aos="zoom-in-up"data-aos-delay="500">
                 <div className="text-5xl text-sky animate-bounce">↓</div>
-                <div className="mt-6 px-10 py-5 rounded-2xl bg-gradient-to-r from-accent to-[#7DA0CA] text-primary font-bold text-xl shadow-[0_0_40px_rgba(125,160,202,0.4)]">
+                <div className="mt-6 px-10 py-5 rounded-2xl bg-linear-to-r from-accent to-sky text-primary font-bold text-xl shadow-[0_0_40px_rgba(125,160,202,0.4)]">
                   Innovation Hub
                 </div>
-                <p className="mt-4 text-[#C1E8FF] text-center max-w-md">
+                <p className="mt-4 text-light-blue text-center max-w-md">
                   One platform that helps students discover ideas, find teammates, showcase projects, gain recognition, and keep building.
                 </p>
               </div>

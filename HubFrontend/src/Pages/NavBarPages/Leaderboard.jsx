@@ -78,7 +78,7 @@ const Leaderboard = () => {
         Leading Projects
     </h2>
 <div className="overflow-x-auto shadow-xl border border-slate-200 bg-linear-to-br from-slate-50 via-white to-indigo-50">
-    <div className="min-w-[900px] shadow-lg border border-gray-200">
+    <div className="min-w-225 shadow-lg border border-gray-200">
         <table className="w-full">
             <thead className="sticky top-0 z-10">
                 <tr className="bg-secondary text-white">

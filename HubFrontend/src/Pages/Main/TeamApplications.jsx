@@ -303,7 +303,7 @@ const TeamApplications = () => {
         )}
       </div>
       {showDeleteModal && (
-      <div className="fixed inset-0 z-[9999] flex items-center text-white justify-center bg-black/50">
+      <div className="fixed inset-0 z-9999 flex items-center text-white justify-center bg-black/50">
           <div className="bg-slate-900 p-6 rounded-xl w-[90%] max-w-[450px]">
               <h2 className="text-lg font-bold"> Delete Team Recruitment?</h2>
               <p className="mt-2"> This will permanently remove the recruitment post and all applications received for it.</p>

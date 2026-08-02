@@ -10,7 +10,6 @@ import VisionSection from './LandingPageSections/VisionSection';
 import CallToAction from './LandingPageSections/CallToAction';
 import Section123 from './LandingPageSections/Section123';
 import Footer from '../../Components/Footer';
-import SEO from "../../Components/SEO";
 
 const LandingPage = () => {
   return (

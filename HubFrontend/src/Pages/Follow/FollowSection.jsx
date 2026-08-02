@@ -92,8 +92,8 @@ const FollowSection = ({ studentId, isOwnProfile }) => {
       </div>
 
       {showFollowersModal && (
-        <div className="fixed inset-0 z-[9999] bg-black/60 flex items-center justify-center">
-          <div className="bg-slate-900 w-[95%] max-w-[700px] max-h-[80vh] rounded-2xl overflow-hidden">
+        <div className="fixed inset-0 z-9999 bg-black/60 flex items-center justify-center">
+          <div className="bg-slate-900 w-[95%] max-w-175 max-h-[80vh] rounded-2xl overflow-hidden">
             <div className="flex justify-between items-center p-5 border-b border-slate-700">
               <h2 className="text-white text-xl font-bold">Followers</h2>
               <button onClick={() => setShowFollowersModal(false)} className="text-white cursor-pointer">✕</button>
@@ -122,8 +122,8 @@ const FollowSection = ({ studentId, isOwnProfile }) => {
       )}
 
       {showFollowingModal && (
-        <div className="fixed inset-0 z-[9999] bg-black/60 flex items-center justify-center">
-          <div className="bg-slate-900 w-[95%] max-w-[700px] max-h-[80vh] rounded-2xl overflow-hidden">
+        <div className="fixed inset-0 z-9999 bg-black/60 flex items-center justify-center">
+          <div className="bg-slate-900 w-[95%] max-w-175 max-h-[80vh] rounded-2xl overflow-hidden">
             <div className="flex justify-between items-center p-5 border-b border-slate-700">
               <h2 className="text-white text-xl font-bold">Following</h2>
               <button onClick={() => setShowFollowingModal(false)} className="text-white cursor-pointer">

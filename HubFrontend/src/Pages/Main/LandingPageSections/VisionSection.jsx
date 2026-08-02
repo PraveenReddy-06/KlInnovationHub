@@ -44,13 +44,13 @@ const VisionSection = () => {
       </p>
     </div>
 
-    <div className="relative hidden lg:flex items-center justify-center min-h-[600px]">
+    <div className="relative hidden lg:flex items-center justify-center min-h-150">
       <div   data-aos="zoom-in" data-aos-delay="400" className="absolute z-20 w-48 h-48 rounded-full bg-amber-600 flex items-center justify-center shadow-[0_0_60px_rgba(125,160,202,0.4)]">
         <div className="text-center">
-          <h3 className="text-[#021024] font-bold text-2xl">
+          <h3 className="text-primary font-bold text-2xl">
             Innovation
           </h3>
-          <p className="text-[#021024]/80 text-sm">
+          <p className="text-primary/80 text-sm">
             Hub
           </p>
         </div>

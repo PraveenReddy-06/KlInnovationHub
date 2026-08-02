@@ -121,7 +121,7 @@ const getActivityText = (a) => {
         {mobileMenuOpen ? <FaTimes /> : <FaBars />}
       </button>
       
-      <a href="/LandingPage" className="flex items-center gap-2 flex-shrink-0">
+      <a href="/LandingPage" className="flex items-center gap-2 shrink-0">
           <img src="/Logo.svg" alt="logo" className="h-10 sm:h-12 lg:h-14" />
 
           <div className="flex flex-col leading-none">
@@ -134,22 +134,22 @@ const getActivityText = (a) => {
           </div>
       </a>
 
-      <ul className="hidden lg:flex items-center text-xs uppercase tracking-[2px] gap-8 text-[#F8F0E5]">
+      <ul className="hidden lg:flex items-center text-xs uppercase tracking-[2px] gap-8 text-cream">
         <li>
-          <Link to="/dashboard" className="transition-colors duration-200 hover:text-[#C1E8FF]"onClick={() => setMobileMenuOpen(false)}>  Dashboard </Link>
+          <Link to="/dashboard" className="transition-colors duration-200 hover:text-light-blue"onClick={() => setMobileMenuOpen(false)}>  Dashboard </Link>
         </li>
         <li>
-          <Link to="/exploreProjects" className="transition-colors duration-200 hover:text-[#C1E8FF]"onClick={() => setMobileMenuOpen(false)}>  Explore Projects</Link>
+          <Link to="/exploreProjects" className="transition-colors duration-200 hover:text-light-blue"onClick={() => setMobileMenuOpen(false)}>  Explore Projects</Link>
         </li>
         <li>
-          <Link to="/leaderBoard" className="transition-colors duration-200 hover:text-[#C1E8FF]" onClick={() => setMobileMenuOpen(false)}>  LeaderBoard
+          <Link to="/leaderBoard" className="transition-colors duration-200 hover:text-light-blue" onClick={() => setMobileMenuOpen(false)}>  LeaderBoard
           </Link>
         </li>
         <li>
-          <Link to="/submitProject" className="transition-colors duration-200 hover:text-[#C1E8FF]" onClick={() => setMobileMenuOpen(false)}>  Submit Project </Link>
+          <Link to="/submitProject" className="transition-colors duration-200 hover:text-light-blue" onClick={() => setMobileMenuOpen(false)}>  Submit Project </Link>
         </li>
         <li>
-          <Link to="/guide" className="transition-colors duration-200 hover:text-[#C1E8FF]" onClick={() => setMobileMenuOpen(false)}>
+          <Link to="/guide" className="transition-colors duration-200 hover:text-light-blue" onClick={() => setMobileMenuOpen(false)}>
             Guide
           </Link>
         </li>
@@ -159,7 +159,7 @@ const getActivityText = (a) => {
         <div className="flex items-center gap-3 sm:gap-4 lg:gap-6 justify-center" ref={dropdownRef}>
           <div className="relative">
             <button onClick={openNotifications} className="relative">
-              <FaBell size={24} className="sm:text-[22px] lg:text-[24px] text-[#FFF9EB] hover:text-[#C1E8FF]"/>
+              <FaBell size={24} className="sm:text-[22px] lg:text-[24px] text-vanilla-custard hover:text-light-blue"/>
               {unreadCount > 0 && (
                 <span className="absolute -top-2 -right-2 bg-red-500 text-white text-[10px] px-1.5 rounded-full">
                   {unreadCount}
@@ -167,7 +167,7 @@ const getActivityText = (a) => {
               )}
             </button>
             {showNotifications && (
-              <div className="    fixed left-1/2 top-20 -translate-x-1/2  w-[95vw] max-w-[550px]  sm:absolute sm:right-0 sm:left-auto sm:top-14 sm:translate-x-0  max-h-[70vh] overflow-y-auto no-scrollbar bg-primary border border-sky-800 rounded-2xl shadow-2xl z-[9999]">
+              <div className="    fixed left-1/2 top-20 -translate-x-1/2  w-[95vw] max-w-137.5  sm:absolute sm:right-0 sm:left-auto sm:top-14 sm:translate-x-0  max-h-[70vh] overflow-y-auto no-scrollbar bg-primary border border-sky-800 rounded-2xl shadow-2xl z-9999">
                 <div className="p-4 border-b border-sky-800">
                   <h2 className="text-white font-bold">Notifications</h2>
                 </div>
@@ -200,7 +200,7 @@ const getActivityText = (a) => {
           </div> 
           <div className="relative">
           <button  className="flex items-center gap-3 cursor-pointer"  onClick={() => {setShowNotifications(false);setShowDropdown(prev => !prev);}}>
-            <FaUserCircle size={35}  className="sm:text-[32px] lg:text-[35px] text-[#FFF9EB] hover:text-[#C1E8FF] transition-colors"/>
+            <FaUserCircle size={35}  className="sm:text-[32px] lg:text-[35px] text-vanilla-custard hover:text-light-blue transition-colors"/>
           </button>
           {showDropdown && (
               <div className="absolute right-0 mt-3 z-1000 w-36 sm:w-40 rounded shadow-2xl overflow-hidden"   style={{backgroundColor: "#FFF9EB",color: "#082052",border: "1px solid #D2B48C",}}>               
@@ -226,9 +226,9 @@ const getActivityText = (a) => {
 
         </div>
         ) : (
-          <div className="flex items-center gap-1 sm:gap-2 text-sm lg:text-base text-[#FFF9EB]">
-            <a href="/login" className="hover:text-[#C1E8FF]">Login/</a>
-            <a href="/signup" className="hover:text-[#C1E8FF]">SignIn</a>
+          <div className="flex items-center gap-1 sm:gap-2 text-sm lg:text-base text-vanilla-custard">
+            <a href="/login" className="hover:text-light-blue">Login/</a>
+            <a href="/signup" className="hover:text-light-blue">SignIn</a>
           </div>
         )
       }

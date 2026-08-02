@@ -231,7 +231,7 @@ return (
         {isOwnProfile && (
         <div onClick={() => navigate("/submitProject")}
             className="cursor-pointer mt-12 rounded-[35px] border-amber-500 border-2 overflow-hidden group"       >
-            <div className="relative min-h-[260px] lg:h-70">
+            <div className="relative min-h-65 lg:h-70">
                 <div className="absolute inset-0 bg-cream" />
                 <div className="absolute inset-0 flex flex-col justify-center px-6 lg:px-12 text-center lg:text-left">
                     <p className="uppercase tracking-[5px] text-black"> Showcase Your Work</p>
@@ -289,8 +289,8 @@ return (
         </div>
     </div>
     {showDeleteModal && (
-        <div className="fixed inset-0 z-[9999] flex items-center text-white justify-center bg-black/50">
-            <div className="bg-slate-900 p-6 rounded-xl w-[95%] max-w-[450px]">
+        <div className="fixed inset-0 z-9999 flex items-center text-white justify-center bg-black/50">
+            <div className="bg-slate-900 p-6 rounded-xl w-[95%] max-w-112.5">
                 <h2 className="text-lg font-bold">Delete Project?</h2>
                 <p className="mt-2">This action cannot be undone.</p>
                 <div className="flex justify-end gap-3 mt-5">
@@ -302,7 +302,7 @@ return (
     )}
     {showLinksModal && (
     <div className="fixed inset-0 z-9999 flex items-center justify-center bg-black/60">
-        <div className="bg-slate-900 p-4 sm:p-6 rounded-xl w-[95%] max-w-[900px] max-h-[90vh] overflow-y-auto" style={{ scrollbarWidth: "thin" }}>
+        <div className="bg-slate-900 p-4 sm:p-6 rounded-xl w-[95%] max-w-225 max-h-[90vh] overflow-y-auto" style={{ scrollbarWidth: "thin" }}>
             <h2 className="text-lg text-white font-bold">Update Profile </h2>
             <div className="flex flex-col lg:flex-row gap-6">
                 <div className="flex justify-center gap-4 overflow-x-auto lg:overflow-visible shrink-0">

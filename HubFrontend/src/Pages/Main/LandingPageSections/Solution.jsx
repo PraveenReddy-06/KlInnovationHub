@@ -54,8 +54,8 @@ const Solution = () => {
 ];
 
   return (
-  <section className="relative py-16 md:py-28 px-4 sm:px-6 md:px-16 bg-[#052659] overflow-hidden">
-  <div className="absolute top-20 left-1/2 -translate-x-1/2 w-[700px] h-[700px] bg-accent/10 blur-[180px] rounded-full"></div>
+  <section className="relative py-16 md:py-28 px-4 sm:px-6 md:px-16 bg-secondary overflow-hidden">
+  <div className="absolute top-20 left-1/2 -translate-x-1/2 w-175 h-175 bg-accent/10 blur-[180px] rounded-full"></div>
   <div className="relative z-10 max-w-7xl mx-auto w-full overflow-hidden">
 
     <div className="text-center mb-20"data-aos="fade-up">
@@ -83,7 +83,7 @@ const Solution = () => {
       >
   {solutions.map((card, index) => (
     <SwiperSlide key={index}> 
-      <div data-aos="fade-up" data-aos-delay={index * 150} className="group relative h-[320px] sm:h-[380px] overflow-hidden rounded-3xl border border-white/10" >
+      <div data-aos="fade-up" data-aos-delay={index * 150} className="group relative h-80 sm:h-95 overflow-hidden rounded-3xl border border-white/10" >
 
         <img
           src={card.image}
@@ -91,7 +91,7 @@ const Solution = () => {
           className="absolute inset-0 w-full h-full object-cover transition-transform duration-700 group-hover:scale-110"
         />
 
-        <div className="absolute inset-0 bg-gradient-to-t from-[#021024] via-[#021024]/70 to-transparent"></div>
+        <div className="absolute inset-0 bg-linear-to-t from-primary via-primary/70 to-transparent"></div>
 
         <div className="absolute bottom-0 left-0 right-0 p-6">
           <div className="backdrop-blur-md bg-black/20 border border-white/10 rounded-2xl p-5">
