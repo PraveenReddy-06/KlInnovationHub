@@ -52,22 +52,22 @@ const Login = () => {
 return (
   
   <div className="min-h-screen relative overflow-hidden" >
-    <img src="/LoginBg.png" className="absolute inset-0 w-400 h-full object-cover"/>
+    <img src="/LoginBg.png"className="absolute inset-0 w-full h-full object-cover object-[85%_center] lg:object-center"/>
     <div className="absolute inset-0" />
 
-    <div className="relative z-10 flex min-h-screen">
-      <div className="w-1/2 flex items-center justify-center px-10">
-        <div className="w-full max-w-md bg-white/10 backdrop-blur-xl border border-white/20 rounded-3xl p-8 shadow-2xl">
-          <h1 className="text-4xl font-bold text-tan mb-2">Welcome Back </h1>
-          <p className="text-gray-300 mb-8"> Sign in to continue your innovation journey</p>
+    <div className="relative z-10 flex min-h-screen items-center justify-center lg:justify-start">
+      <div className="w-full lg:w-1/2 flex items-center justify-center px-4 sm:px-6 lg:px-10 py-8">
+        <div className="w-full max-w-md bg-white/10 backdrop-blur-xl border border-white/20 rounded-3xl p-5 sm:p-8 shadow-2xl">
+          <h1 className="text-3xl sm:text-4xl font-bold text-tan mb-2">Welcome Back </h1>
+          <p className="text-sm sm:text-base text-gray-300 mb-8"> Sign in to continue your innovation journey</p>
           <div className="flex flex-col gap-4">
             <input type="email" name="mail" value={login.mail} onChange={handleChange}
-              placeholder="KL University Email"
-              className="w-full p-3 rounded-xl bg-white/10 border border-white/20 text-white placeholder-gray-400 outline-none focus:border-tan"
+              placeholder="Enter KL University Email"
+              className="w-full p-3 sm:p-3 rounded-xl bg-white/10 border border-white/20 text-black placeholder-gray-800 outline-none focus:border-tan"
             />
             <input type="password" name="password" value={login.password} onChange={handleChange}
               placeholder="Enter Password"
-              className="w-full p-3 rounded-xl bg-white/10 border border-white/20 text-white placeholder-gray-400 outline-none focus:border-tan"
+              className="w-full p-3 sm:p-3 rounded-xl bg-white/10 border border-white/20 text-white placeholder-gray-800 outline-none focus:border-tan"
             />
             <div className="text-right">
               <button type="button" onClick={() => navigate("/forgotPassword")}
@@ -81,7 +81,7 @@ return (
               </div>
             )}
             <button onClick={handleClick} disabled={!login.mail || !login.password}
-              className="bg-tan text-primary font-bold py-3 rounded-xl hover:scale-[1.02] transition active:scale-95 disabled:opacity-50">
+              className="w-full bg-tan text-primary font-bold py-3 rounded-xl hover:scale-[1.02] transition active:scale-95 disabled:opacity-50">
               Login
             </button>
             <div className="flex justify-center items-center gap-2 mt-2">

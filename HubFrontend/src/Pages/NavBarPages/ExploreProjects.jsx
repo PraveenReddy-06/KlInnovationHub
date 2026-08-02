@@ -87,21 +87,21 @@ const ExploreProjects = () => {
 
     <div className="min-h-screen bg-gray-100 flex flex-col">
     <Navbar/>
-    <div className="bg-oxford-blue text-gray-700 shadow-md px-5 py-5 mb-6">
+    <div className="bg-oxford-blue text-gray-700 shadow-md px-4 sm:px-5 py-5 mb-6">
       <div className="flex flex-col lg:flex-row lg:items-center lg:justify-between gap-5">
         <div>
-          <h1 className="text-2xl font-bold text-gray-100">  Exploring All Innovations</h1>
+          <h1 className="text-xl sm:text-2xl font-bold text-gray-100">  Exploring All Innovations</h1>
           <p className="text-gray-300 mt-1">  {filteredProjects.length} results found  </p>
         </div>
 
-        <div className="flex flex-wrap items-center gap-4">
-          <select value={selectedType} onChange={(e) => setSelectedType(e.target.value)} className="border rounded-xl px-4 py-1 bg-gray-50 outline-none">
+        <div className="flex flex-wrap items-center gap-2 lg:gap-4 w-full lg:w-auto">
+          <select value={selectedType} onChange={(e) => setSelectedType(e.target.value)} className="flex-1 min-w-[110px] lg:flex-none border rounded-xl px-2 py-1.5 text-sm bg-gray-50 outline-none">
             <option value="ALL">All Projects</option>
             <option value="INDIVIDUAL">Individual</option>
             <option value="GROUP">Group</option>
           </select>
 
-          <select  value={selectedBranch}  onChange={(e) => setSelectedBranch(e.target.value)}  className="border rounded-xl px-4 py-1 bg-gray-50 outline-none">
+          <select  value={selectedBranch}  onChange={(e) => setSelectedBranch(e.target.value)}  className="flex-1 min-w-[110px] lg:flex-none border rounded-xl px-2 py-1.5 text-sm bg-gray-50 outline-none">
             <option value="">All Departments</option>
             <option value="CSE">CSE</option>
             <option value="CSIT">CSIT</option>
@@ -109,7 +109,7 @@ const ExploreProjects = () => {
           </select>
 
           <select value={selectedYear}  onChange={(e) => setSelectedYear(e.target.value)}
-            className="border rounded-xl px-4 py-1 bg-gray-50 outline-none">
+            className="flex-1 min-w-[110px] lg:flex-none border rounded-xl px-2 py-1.5 text-sm bg-gray-50 outline-none">
             <option value="">All Years</option>
             <option value="2021">2021</option>
             <option value="2022">2022</option>
@@ -120,7 +120,7 @@ const ExploreProjects = () => {
             <option value="2027">2027</option>
           </select>
        
-          <div className="flex items-center border rounded-xl px-3 py-2 bg-gray-50 min-w-100">
+          <div className="col-span-3 lg:col-span-1 flex items-center border rounded-xl px-3 py-2 bg-gray-50 w-full lg:w-[360px]">
             <span className="text-primary ml-2">🔍</span>
             <input  type="text"  placeholder="Search projects, tech, student, id..."  value={search}  onChange={(e) => setSearch(e.target.value)}
               className="w-full bg-transparent outline-none px-2"/>
@@ -135,7 +135,7 @@ const ExploreProjects = () => {
       <div className="text-center py-20 text-lg">Loading Projects...</div>
     ) : (
     <>
-    <div className=" px-10 grid grid-cols-4 gap-5 ">
+    <div className="px-4 sm:px-6 lg:px-10 grid grid-cols-1 sm:grid-cols-2 xl:grid-cols-3 2xl:grid-cols-4 gap-5">
       {filteredProjects.map((project) => {
         const isGroup = project.type === "GROUP";
 
@@ -158,7 +158,7 @@ const ExploreProjects = () => {
                       className="w-16 h-16 rounded-full object-cover border-2 border-gray-200 shrink-0"
                   />
                   <div>
-                    <h3 className="font-bold text-xl leading-tight text-gray-900 ">{title}</h3>
+                    <h3 className="font-bold text-lg sm:text-xl leading-tight text-gray-900">{title}</h3>
                     <p className="font-medium text-gray-800">{ownerName}</p> 
                   </div>
               </div>
@@ -186,7 +186,7 @@ const ExploreProjects = () => {
                 {project.tech2 && (<span className="text-xs text-blue-700 px-2 py-1 rounded">{project.tech2}</span>)}
                 {project.tech3 && (<span className="text-xs text-blue-700 px-2 py-1 rounded">{project.tech3}</span>)}
               </div>
-              <p className="text-sm text-gray-600 mt-3 line-clamp-3">{project.description}</p>
+              <p className="text-sm leading-relaxed text-gray-600 mt-3 line-clamp-3">{project.description}</p>
               <div className="flex justify-between items-center mt-5">
                 <button onClick={() => handleLike(project)} className="flex items-center gap-1 text-sm">
                 <Heart size={18}  fill={project.isLiked ? "red" : "transparent"}  className={`transition ${project.isLiked? "text-red-500" : "text-gray-400"  }`}/>{likes} Likes
@@ -198,9 +198,9 @@ const ExploreProjects = () => {
                 )}
 
               </div>
-              <div className="flex gap-2 mt-4">
-                <a href={project.liveUrl} className="flex-1 bg-accent hover:bg-blue-700 text-white px-5 py-2 rounded text-sm">View Project</a>
-                <a href={project.githubUrl} target="_blank" rel="noreferrer" className="w-14 border px-3 rounded flex items-center justify-center hover:bg-gray-100"><FaGithub size={20} /></a>
+              <div className="flex flex-col sm:flex-row gap-2 mt-4">
+                <a href={project.liveUrl} className="flex-1 text-center bg-accent hover:bg-blue-700 text-white px-5 py-2 rounded text-sm">View Project</a>
+                <a href={project.githubUrl} target="_blank" rel="noreferrer" className="w-full sm:w-14 border px-3 py-2 rounded flex items-center justify-center hover:bg-gray-100"><FaGithub size={20} /></a>
               </div>
             </div>
           </div>

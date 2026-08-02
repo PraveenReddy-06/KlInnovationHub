@@ -32,25 +32,25 @@ const Leaderboard = () => {
     <div>
         < Navbar/>
 
-        <div className ="flex px-10 gap-5 items-center bg-myLeaderboard text-gray-300 border-t border-t-gray-800">
-            <div className ="w-1/2 flex flex-col gap-3 px-25">
-                <h1 className =" text-3xl font-bold">Celebrating Our Innovators</h1>
+        <div className="flex flex-col-reverse lg:flex-row px-4 sm:px-8 lg:px-10 gap-8 items-center bg-myLeaderboard text-gray-300 border-t border-t-gray-800">
+            <div className="w-full lg:w-1/2 flex flex-col gap-3 px-0 lg:px-25 text-center lg:text-left">
+                <h1 className="text-2xl sm:text-3xl lg:text-4xl font-bold">Celebrating Our Innovators</h1>
                 <p className="font-serif">Impact Recognizing the top students and most impactful projects.</p>
             </div>
-            <div className="w-1/2 flex justify-center items-center bg-myLeaderboard">
-                <img src={background} className="h-40 w-200" />
+            <div className="w-full lg:w-1/2 flex justify-center items-center bg-myLeaderboard">
+                <img src={background}  className="w-full max-w-md lg:max-w-3xl h-auto"/>
             </div>
         </div>
 
-      <div className="p-10">
+      <div className="p-4 sm:p-6 lg:p-10">
         <h1 className ="text-xl pb-5 font-bold">Overall Top Innovators</h1>
-        <div className="flex gap-20">
+        <div className="grid grid-cols-1 md:grid-cols-3 gap-6 lg:gap-10">
             {order.map((pos, index) => {
                 const p = leaderboard[pos];
                 if (!p) return null;
                 return (
                     <div key={index}
-                        className="flex flex-col justify-center w-1/3 pt-6 pb-4 px-4 bg-contain bg-no-repeat bg-center min-h-52 text-sm rounded-xl text-center"
+                        className="flex flex-col justify-center w-full pt-6 pb-4 px-4 bg-contain bg-no-repeat bg-center min-h-52 text-sm rounded-xl text-center"
                         style={{ backgroundImage: `url(${medals[index]})` }}>
 
                     {p.type === "SOLO" ? (
@@ -73,12 +73,12 @@ const Leaderboard = () => {
         </div>
       </div>
 
-<div className="px-15 pb-10">
-    <h2 className="text-2xl font-bold mb-6">
+<div className="px-4 sm:px-6 lg:px-15 pb-10">
+    <h2 className="text-xl sm:text-2xl font-bold mb-6">
         Leading Projects
     </h2>
-    <div className="overflow-hidden shadow-xl border border-slate-200 bg-linear-to-br from-slate-50 via-white to-indigo-50">
-    <div className="overflow-hidden  shadow-lg border border-gray-200">
+<div className="overflow-x-auto shadow-xl border border-slate-200 bg-linear-to-br from-slate-50 via-white to-indigo-50">
+    <div className="min-w-[900px] shadow-lg border border-gray-200">
         <table className="w-full">
             <thead className="sticky top-0 z-10">
                 <tr className="bg-secondary text-white">

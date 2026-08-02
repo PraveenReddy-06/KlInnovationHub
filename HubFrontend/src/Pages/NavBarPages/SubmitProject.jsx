@@ -169,18 +169,18 @@ const SubmitProject = () => {
     <div className="min-h-screen bg-linear-to-b from-primary via-secondary to-oxford-blue">
         <Navbar/>
 
-        <div className="flex pl-10 gap-5 items-center bg-submitProject text-vanilla-custard">           
-            <div className ="w-1/2 flex flex-col gap-3">
+        <div className="flex flex-col-reverse lg:flex-row  lg:pl-10 gap-5 items-center bg-submitProject text-vanilla-custard">           
+            <div className="w-full lg:w-1/2 flex flex-col gap-3 text-center lg:text-left py-6">
                 <h1 className =" text-3xl font-bold">Unleash Your Potential at the Hub!</h1>
                 <p className="font-serif">Join today to give life to your projects and share your innovation with peers.</p>
             </div>
-            <div className="w-1/2 flex justify-end items-end">
-                <img src={background} className="h-50"/>
+            <div className="w-full lg:w-1/2 flex justify-center lg:justify-end items-end">
+                <img src={background} className="h-40 sm:h-48 lg:h-50 w-auto"/>
             </div>
         </div>
-        <h1 className="text-3xl font-bold text-center py-5 text-vanilla-custard">Solo Project Submission</h1>
-        <div className=" flex w-full pb-15 px-5 gap-5">
-            <div className="w-1/5 flex flex-col gap-4 p-5 bg-vanilla-custard border border-tan rounded-2xl shadow-lg">
+        <h1 className="text-2xl sm:text-3xl font-bold text-center py-5 text-vanilla-custard">Solo Project Submission</h1>
+        <div className="flex flex-col lg:flex-row w-full pb-15 px-4 lg:px-5 gap-5">
+            <div className="w-full lg:w-1/5 flex flex-col gap-4 p-5 bg-vanilla-custard border border-tan rounded-2xl shadow-lg">
                 <h2 className="font-semibold text-lg text-secondary border-b border-tan pb-2">Student Info</h2>
                 <div className="flex justify-center">
                 <img src={ student.avatarUrl ||`/avatars/Avatar${(student.studentId % 40) + 1}.webp` }
@@ -196,7 +196,7 @@ const SubmitProject = () => {
                 </div>
             </div>
 
-            <div className="w-1/2 flex flex-col gap-4 p-5 bg-vanilla-custard border border-tan rounded-2xl shadow-lg transition-all duration-300 hover:shadow-2xl hover:-translate-y-1">
+            <div className="w-full lg:w-1/2 flex flex-col gap-4 p-5 bg-vanilla-custard border border-tan rounded-2xl shadow-lg transition-all duration-300 hover:shadow-2xl hover:-translate-y-1">
                 <h2 className="font-semibold text-lg text-secondary border-b border-tan pb-2">Project Information</h2>
                 <input onChange={handleChange} name="projectName" value={project.projectName} type="text" placeholder="Project Title" className="p-3 border border-misty-sage rounded-lg bg-white focus:border-accent focus:outline-none"/>
                 {errors.projectName && (
@@ -220,10 +220,10 @@ const SubmitProject = () => {
                     <option>DevOps</option>
                     <option>AR/VR</option>
                 </select>
-                <div className="flex gap-2">
-                    <input onChange={handleChange} name="tech1" value={project.tech1} type="text" placeholder="Technology (e.g.React)" className="p-3 border border-misty-sage rounded-lg bg-white focus:border-accent focus:outline-none"/>
-                    <input onChange={handleChange} name="tech2" value={project.tech2} type="text" placeholder="Technology (e.g.Arduino)" className="p-3 border border-misty-sage rounded-lg bg-white focus:border-accent focus:outline-none"/>
-                    <input onChange={handleChange} name="tech3" value={project.tech3} type="text" placeholder="Language (e.g.Python)" className="p-3 border border-misty-sage rounded-lg bg-white focus:border-accent focus:outline-none"/>
+                <div className="flex flex-col sm:flex-row gap-2">
+                    <input onChange={handleChange} name="tech1" value={project.tech1} type="text" placeholder="Technology (e.g.React)"  className="flex-1 min-w-0 p-3 border border-misty-sage rounded-lg bg-white focus:border-accent focus:outline-none"/>
+                    <input onChange={handleChange} name="tech2" value={project.tech2} type="text" placeholder="Technology (e.g.Arduino)"  className="flex-1 min-w-0 p-3 border border-misty-sage rounded-lg bg-white focus:border-accent focus:outline-none"/>
+                    <input onChange={handleChange} name="tech3" value={project.tech3} type="text" placeholder="Language (e.g.Python)"  className="flex-1 min-w-0 p-3 border border-misty-sage rounded-lg bg-white focus:border-accent focus:outline-none"/>
                 </div>
                 {errors.tech && (
                     <p className="text-red-500 text-sm">
@@ -245,7 +245,7 @@ const SubmitProject = () => {
                 </div>
             </div>
 
-            <div className="w-1/2 flex flex-col gap-4 p-5 bg-vanilla-custard border border-tan rounded-2xl shadow-lg">
+            <div className="w-full lg:w-1/2 flex flex-col gap-4 p-5 bg-vanilla-custard border border-tan rounded-2xl shadow-lg">
                 <h2 className="font-semibold text-lg text-secondary border-b border-tan pb-2">Links & Assets</h2>
                 <input onChange={handleChange} name="githubUrl" value={project.githubUrl} type="text" placeholder="GitHub Repository URL" className="p-3 border border-misty-sage rounded-lg bg-white focus:border-accent focus:outline-none"/>
                 {errors.githubUrl && (<p className="text-red-500 text-sm">{errors.githubUrl}</p>)}
@@ -267,8 +267,8 @@ const SubmitProject = () => {
         </div>
 
         <h1 className="text-3xl font-bold text-center py-5 text-vanilla-custard">Group Project Submission</h1>
-        <div className=" flex w-full pb-15 px-5 gap-5">
-            <div className="w-1/2 flex flex-col gap-4 p-5 bg-vanilla-custard border border-tan rounded-2xl shadow-lg transition-all duration-300 hover:shadow-2xl hover:-translate-y-1">
+        <div className="flex flex-col lg:flex-row w-full pb-15 px-4 lg:px-5 gap-5">
+            <div className="w-full lg:w-1/2 flex flex-col gap-4 p-5 bg-vanilla-custard border border-tan rounded-2xl shadow-lg transition-all duration-300 hover:shadow-2xl hover:-translate-y-1">
                 <h2 className="font-semibold text-lg text-secondary border-b border-tan pb-2">Project Information</h2>
                 <input onChange={handleGroupChange} name="project_name" value={groupProject.project_name} type="text" placeholder="Project Title" className="p-3 border border-misty-sage rounded-lg bg-white focus:border-accent focus:outline-none"/>
                 {groupErrors.projectName && (
@@ -292,10 +292,10 @@ const SubmitProject = () => {
                     <option>DevOps</option>
                     <option>AR/VR</option>
                 </select>
-                <div className="flex gap-2">
-                    <input onChange={handleGroupChange} name="tech1" value={groupProject.tech1} type="text" placeholder="Technology (e.g.React)" className="p-3 border border-misty-sage rounded-lg bg-white focus:border-accent focus:outline-none"/>
-                    <input onChange={handleGroupChange} name="tech2" value={groupProject.tech2} type="text" placeholder="Technology (e.g.Arduino)" className="p-3 border border-misty-sage rounded-lg bg-white focus:border-accent focus:outline-none"/>
-                    <input onChange={handleGroupChange} name="tech3" value={groupProject.tech3} type="text" placeholder="Language (e.g.Python)" className="p-3 border border-misty-sage rounded-lg bg-white focus:border-accent focus:outline-none"/>
+                <div className="flex flex-col sm:flex-row gap-2">
+                    <input onChange={handleGroupChange} name="tech1" value={groupProject.tech1} type="text" placeholder="Technology (e.g.React)"  className="flex-1 min-w-0 p-3 border border-misty-sage rounded-lg bg-white focus:border-accent focus:outline-none"/>
+                    <input onChange={handleGroupChange} name="tech2" value={groupProject.tech2} type="text" placeholder="Technology (e.g.Arduino)" className="flex-1 min-w-0 p-3 border border-misty-sage rounded-lg bg-white focus:border-accent focus:outline-none"/>
+                    <input onChange={handleGroupChange} name="tech3" value={groupProject.tech3} type="text" placeholder="Language (e.g.Python)"  className="flex-1 min-w-0 p-3 border border-misty-sage rounded-lg bg-white focus:border-accent focus:outline-none"/>
                 </div>
                 {groupErrors.tech && (
                     <p className="text-red-500 text-sm">
@@ -315,7 +315,7 @@ const SubmitProject = () => {
                 </div>
             </div>
 
-            <div className="w-1/2 flex flex-col gap-4 p-5 bg-vanilla-custard border border-tan rounded-2xl shadow-lg transition-all duration-300 hover:shadow-2xl hover:-translate-y-1">
+            <div className="w-full lg:w-1/2 flex flex-col gap-4 p-5 bg-vanilla-custard border border-tan rounded-2xl shadow-lg transition-all duration-300 hover:shadow-2xl hover:-translate-y-1">
                 <h2 className="font-semibold text-lg text-secondary border-b border-tan pb-2">Team Memebers</h2>
                 <input className="p-3 border border-misty-sage rounded-lg bg-white focus:border-accent focus:outline-none" type="text"value={memberId}onChange={(e)=>setMemberId(e.target.value)}placeholder="Enter Student ID"/>
                 <button onClick={addMember} className="bg-accent hover:bg-sky text-white px-4 py-2 rounded-lg transition">Add Member</button>
@@ -336,7 +336,7 @@ const SubmitProject = () => {
                 )}            
             </div>
 
-            <div className="w-1/2 flex flex-col gap-4 p-5 bg-vanilla-custard border border-tan rounded-2xl shadow-lg transition-all duration-300 hover:shadow-2xl hover:-translate-y-1">
+            <div className="w-full lg:w-1/2 flex flex-col gap-4 p-5 bg-vanilla-custard border border-tan rounded-2xl shadow-lg transition-all duration-300 hover:shadow-2xl hover:-translate-y-1">
                 <h2 className="font-semibold text-lg text-secondary border-b border-tan pb-2">Links & Assets</h2>
                 <input onChange={handleGroupChange} name="githubUrl" value={groupProject.githubUrl} type="text" placeholder="GitHub Repository URL" className="p-3 border border-misty-sage rounded-lg bg-white focus:border-accent focus:outline-none"/>
                 {groupErrors.githubUrl && (

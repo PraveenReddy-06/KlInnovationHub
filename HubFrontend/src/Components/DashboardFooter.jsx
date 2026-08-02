@@ -28,7 +28,7 @@ export default function Footer() {
 
           {/* Platform */}
           <div className="text-center sm:text-left">
-            <h3 className="font-semibold text-accent mb-4">
+            <h3 className=" text-white mb-4">
               Platform
             </h3>
 
@@ -62,7 +62,7 @@ export default function Footer() {
 
           {/* Community */}
           <div className="text-center sm:text-left">
-            <h3 className="font-semibold text-accent mb-4">
+            <h3 className="font-semibold text-white mb-4">
               Community
             </h3>
 
@@ -89,7 +89,7 @@ export default function Footer() {
           </div>
 
           <div className="text-center sm:text-left">
-            <h3 className="font-semibold text-accent mb-4">
+            <h3 className="font-semibold text-white mb-4">
               Connect
             </h3>
             <div className="flex justify-center sm:justify-start gap-5 text-xl sm:text-2xl text-sky">

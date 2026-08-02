@@ -122,10 +122,10 @@ const getActivityText = (a) => {
       </button>
       
       <a href="/LandingPage" className="flex items-center gap-2 flex-shrink-0">
-          <img src="/Logo.svg" alt="logo" className="h-14 sm:h-12 lg:h-14" />
+          <img src="/Logo.svg" alt="logo" className="h-10 sm:h-12 lg:h-14" />
 
           <div className="flex flex-col leading-none">
-            <span className="font-bold text-vanilla-custard text-base sm:text-lg lg:text-xl">
+            <span className="font-bold text-vanilla-custard text-sm sm:text-lg lg:text-xl">
               KL InnovationHub
             </span>
             <span className="hidden sm:block text-[10px] lg:text-[11px] tracking-widest uppercase text-tan">
@@ -167,7 +167,7 @@ const getActivityText = (a) => {
               )}
             </button>
             {showNotifications && (
-              <div className="absolute right-0 top-14 w-138 max-h-[70vh] overflow-y-auto no-scrollbar bg-primary border border-sky-800 rounded-2xl shadow-2xl z-[9999]">
+              <div className="    fixed left-1/2 top-20 -translate-x-1/2  w-[95vw] max-w-[550px]  sm:absolute sm:right-0 sm:left-auto sm:top-14 sm:translate-x-0  max-h-[70vh] overflow-y-auto no-scrollbar bg-primary border border-sky-800 rounded-2xl shadow-2xl z-[9999]">
                 <div className="p-4 border-b border-sky-800">
                   <h2 className="text-white font-bold">Notifications</h2>
                 </div>
@@ -203,7 +203,7 @@ const getActivityText = (a) => {
             <FaUserCircle size={35}  className="sm:text-[32px] lg:text-[35px] text-[#FFF9EB] hover:text-[#C1E8FF] transition-colors"/>
           </button>
           {showDropdown && (
-              <div className="absolute right-0 mt-3 z-1000 w-40 rounded shadow-2xl overflow-hidden"   style={{backgroundColor: "#FFF9EB",color: "#082052",border: "1px solid #D2B48C",}}>               
+              <div className="absolute right-0 mt-3 z-1000 w-36 sm:w-40 rounded shadow-2xl overflow-hidden"   style={{backgroundColor: "#FFF9EB",color: "#082052",border: "1px solid #D2B48C",}}>               
                 <button  onClick={handleProfile}  className="w-full text-left px-4 py-2 transition-colors" 
                          style={{}}onMouseEnter={(e) => e.target.style.backgroundColor = "#F8F0E5"}
                          onMouseLeave={(e) => e.target.style.backgroundColor = "transparent"}>
