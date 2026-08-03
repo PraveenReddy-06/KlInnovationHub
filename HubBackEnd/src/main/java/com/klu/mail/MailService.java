@@ -46,7 +46,7 @@ public class MailService {
 	@Autowired JwtService jwtService;
 	
 	private final SecureRandom secureRandom = new SecureRandom();
-	private static final String PASSWORD_REGEX ="^(?=.*[A-Z])(?=.*[a-z])(?=.*\\d)(?=.*[@$!%*?&]).{10,}$";
+	private static final String PASSWORD_REGEX ="^(?=.*[A-Z])(?=.*[a-z])(?=.*\\d).{8,}$";
 
     MailService(AuthenticationManager authenticationManager) {
         this.authenticationManager = authenticationManager;
@@ -67,8 +67,31 @@ public class MailService {
 		int otpnum = secureRandom.nextInt(9000) + 1000;
 		SimpleMailMessage msg = new SimpleMailMessage();
 		msg.setTo(toMail);
-		msg.setSubject("Otp request for KL Innovation Hub");
-		msg.setText("Your Otp is :"+otpnum);
+		msg.setSubject("Verify Your Email • KL Innovation Hub");
+		msg.setText(
+			"Hello " + name + ",\n\n" +
+
+			"Welcome to KL Innovation Hub!\n\n" +
+
+			"Use the OTP below to verify your email address:\n\n" +
+
+			"━━━━━━━━━━━━━━━━━━━━━━\n" +
+			"        OTP : " + otpnum + "\n" +
+			"━━━━━━━━━━━━━━━━━━━━━━\n\n" +
+
+			"This OTP is valid for 3 minutes.\n\n" +
+
+			"For your security:\n" +
+			"• Never share this OTP with anyone.\n" +
+
+			"If you didn't request this verification, you can safely ignore this email.\n\n" +
+
+			"Happy Building!\n\n" +
+
+			"—\n" +
+			"KL Innovation Hub\n" +
+			"Build • Collaborate • Innovate"
+		);
 		sender.send(msg);
 		UserSignUp user;
 	    if (existingUser.isPresent()) {
@@ -170,8 +193,25 @@ public class MailService {
 		
 		SimpleMailMessage msg = new SimpleMailMessage();
 		msg.setTo(mail);
-		msg.setSubject("Otp From SpringBoot");
-		msg.setText("Your Otp is "+otpnum);
+		msg.setSubject("Your New Verification Code • KL Innovation Hub");
+		msg.setText(
+			"Hello,\n\n" +
+
+			"Here is your new verification code.\n\n" +
+
+			"━━━━━━━━━━━━━━━━━━━━━━\n" +
+			"        OTP : " + otpnum + "\n" +
+			"━━━━━━━━━━━━━━━━━━━━━━\n\n" +
+
+			"This OTP is valid for 3 minutes.\n\n" +
+
+			"Your previous OTP is no longer valid.\n\n" +
+
+			"If you didn't request this email, you can ignore it.\n\n" +
+
+			"—\n" +
+			"KL Innovation Hub"
+		);
 	
 		sender.send(msg);
 		
@@ -197,8 +237,29 @@ public class MailService {
 
 	    SimpleMailMessage msg = new SimpleMailMessage();
 	    msg.setTo(mail);
-	    msg.setSubject("Password Reset OTP For KL Innovation Hub");
-	    msg.setText("Your OTP is :" + otp);
+		msg.setSubject("Reset Your Password • KL Innovation Hub");
+
+		msg.setText(
+			"Hello,\n\n" +
+
+			"We received a request to reset your password.\n\n" +
+
+			"Use the OTP below to continue:\n\n" +
+
+			"━━━━━━━━━━━━━━━━━━━━━━\n" +
+			"        OTP : " + otp + "\n" +
+			"━━━━━━━━━━━━━━━━━━━━━━\n\n" +
+
+			"This OTP expires in 3 minutes.\n\n" +
+
+			"If you didn't request a password reset, please ignore this email.\n\n" +
+
+			"For your security, never share this OTP.\n\n" +
+
+			"—\n" +
+			"KL Innovation Hub\n" +
+			"Build • Collaborate • Innovate"
+		);
 
 	    sender.send(msg);
 

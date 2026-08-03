@@ -68,7 +68,7 @@ const ForgotPassword = () => {
       return;
     }
     if (newPassword !== confirmPassword) {
-      setError("Passwords do not match");
+      toast.error("Passwords do not match");
       return;
     }
     try {

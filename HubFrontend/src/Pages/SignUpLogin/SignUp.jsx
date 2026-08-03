@@ -1,16 +1,17 @@
 import { memo,useState,useEffect } from 'react';
-import axios from 'axios';
 import {useNavigate } from 'react-router-dom';
 import axiosInstance from '../../Api/axiosInstance';
+import { Eye, EyeOff } from "lucide-react";
+import toast from "react-hot-toast";
 
 const SignUp = () => {
 
-    const passwordRegex =/^(?=.*[A-Z])(?=.*[a-z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]{10,}$/;
-    const [error,setError] = useState("");
-    const [response,setResponse] = useState("");
+    const passwordRegex =/^(?=.*[A-Z])(?=.*[a-z])(?=.*\d).{8,}$/;
     const [timer,setTimer] = useState(0);
     const [form,setForm] = useState({name:"",mail:"",password:""})
     const [loading,setLoading] = useState(false);
+    const [showPassword, setShowPassword] = useState(false);
+    const [showConfirmPassword, setShowConfirmPassword] = useState(false);
 
 
     useEffect(()=>{
@@ -29,25 +30,26 @@ const SignUp = () => {
     const [otpSent,setOtpSent] = useState(false);
     const handleSendOtp = async (e) => {
         e.preventDefault()
-        setError("");
-        setResponse("");
         setLoading(true);
         try {
           if (!passwordRegex.test(form.password)) {
-            setError( "Password must contain uppercase, lowercase, number, special character and be at least 10 characters long");
+            toast.error("Password must be at least 8 characters with uppercase, lowercase and a number.");
             return;
         }
         if(confirmPassword===form.password){
             const res = await axiosInstance.post(`/mail/generateOtp`,form)
-            setResponse(res.data)
             if(res.data === "If the email exists, OTP has been sent") {
+                toast.success("OTP sent successfully");
                 setTimer(180);
-                setOtpSent(true);}
+                setOtpSent(true);
+            }else {
+              toast.error(res.data)
+            }
         }else {
-            setError("Enter same passwords");
+            toast.error("Passwords do not match");
         }
     }catch(err){
-      setError("Unable to send OTP");
+      toast.error("Unable to send OTP");
     }
     finally{
       setLoading(false);
@@ -63,11 +65,8 @@ const SignUp = () => {
     const [verify, setVerify] = useState({ mail: "", otp: "" });
     const handleVerify = async (e) => {
        e.preventDefault()
-      setError("");
-      setResponse("");
       try{
        const res = await axiosInstance.post(`/mail/verifyOtp`,verify)
-       setCheck(true)
        if(res.data === "Verified You Can SignIn Now"){
             setCheck(true);
             if (window.gtag) {
@@ -75,43 +74,43 @@ const SignUp = () => {
                 method: "email",
               });
             }
-            setResponse(res.data);
+            toast.success("OTP verified successfully");
         }else{
-            setError(res.data);
+            setCheck(false)
+            toast.error(res.data);
       }}catch (err) {
-    setError("Verification failed. Please try again.");
+        setCheck(false)
+        toast.error(err.response?.data || "Verification failed");
       }
     }
 
     const navigate = useNavigate()
-    const handleLoginIn = (e) => {
-        e.preventDefault()
-        if(check){
-        navigate("/login")
-        }
-    }
+
     const handleResend = async (e) => {
         e.preventDefault()
-        setError("");
-        setResponse("");
+        if (loading) return;
+        setLoading(true);
         try {
-            const res = await axiosInstance.post(`/mail/resend?mail=${form.mail}`)
-            setResponse(res.data)
+            const res = await axiosInstance.post(`/mail/resend?mail=${encodeURIComponent(form.mail)}`)
             if(res.data === "Check your inbox for otp"){
+                toast.success("OTP sent successfully");              
                 setTimer(180);
-            }
+            }else {
+              toast.error(res.data);
+            } 
         }catch(e){
-          setError(
+          toast.error(
               e.response?.data ||
               "Failed to resend OTP"
           );
+        }finally {
+          setLoading(false);
         }
     }
 
     const[confirmPassword,setConfirmPassword] = useState("");
     const handleConfirmPassword = (e) => {
         setConfirmPassword(e.target.value);
-        setError("")
     }
 
 return (
@@ -125,33 +124,58 @@ return (
   <div className="w-full lg:w-1/2 flex justify-center items-center px-4 sm:px-6 lg:px-0 pb-10 lg:pb-0">
     <div className="w-full max-w-xl bg-white/10 backdrop-blur-2xl border border-amber-700 rounded-3xl p-5 sm:p-8 shadow-2xl">
       <h1 className="text-3xl sm:text-4xl font-bold text-primary mb-8 text-center">Create Account</h1>
-      <form onSubmit={handleLoginIn}>
+      <form>
         <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
-          <input className="p-3 rounded-xl  border border-amber-700 text-black placeholder-bloodstone outline-none"
+          <input className="p-3 rounded-xl  border border-amber-700 text-black placeholder-bloodstone outline-none disabled:bg-gray-100 disabled:cursor-not-allowed"
             onChange={handleForm} name="name" value={form.name}
-            type="text" placeholder="Full Name"
+            type="text" placeholder="Full Name" disabled={otpSent}
           />
-          <input className="p-3 rounded-xl border border-amber-700 text-black placeholder-bloodstone outline-none"
+          <input className="p-3 rounded-xl border border-amber-700 text-black placeholder-bloodstone outline-none disabled:bg-gray-100 disabled:cursor-not-allowed"
             onChange={handleForm} name="mail" value={form.mail}
-            type="email" placeholder="KL University Email"
+            type="email" placeholder="KL University Email" disabled={otpSent}
           />
-          <input className="p-3 rounded-xl border border-amber-700 text-black placeholder-bloodstone outline-none"
-            onChange={handleForm} name="password" value={form.password}
-            type="password" placeholder="Password"
-          />
-          <input className="p-3 rounded-xl border border-amber-700 text-black placeholder-bloodstone outline-none"
-            onChange={handleConfirmPassword} name="confirmPassword" value={confirmPassword}  type="password" placeholder="Confirm Password"
-          />
-          {form.password && !passwordRegex.test(form.password) && (
-            <div className="col-span-2">
-                Minimum 10 chars, 1 uppercase, 1 lowercase, 1 number, 1 special character
+          <div className="relative">
+              <input  className="w-full p-3 rounded-xl border border-amber-700 text-black placeholder-bloodstone outline-none pr-10 disabled:bg-gray-100 disabled:cursor-not-allowed"
+                  onChange={handleForm} name="password"  value={form.password}  type={showPassword ? "text" : "password"}
+                  placeholder="Password" disabled={otpSent}
+              />
+              <button
+                  type="button" onClick={() => setShowPassword(!showPassword)}
+                  className="absolute right-3 inset-y-0 flex items-center text-bloodstone/70 hover:text-black"
+              >
+                {showPassword ? <EyeOff size={20}/> : <Eye size={20}/>}
+              </button>
+          </div>
+          <div className="relative">
+              <input className="w-full p-3 rounded-xl border border-amber-700 text-black placeholder-bloodstone outline-none pr-10 disabled:bg-gray-100 disabled:cursor-not-allowed"
+                  onChange={handleConfirmPassword}  value={confirmPassword}  type={showConfirmPassword ? "text" : "password"}
+                  placeholder="Confirm Password" disabled={otpSent}
+              />
+              <button  type="button"  onClick={() => setShowConfirmPassword(!showConfirmPassword)}
+                  className="absolute right-3 inset-y-0 flex items-center text-bloodstone/70 hover:text-black"
+              >
+                {showConfirmPassword ? <EyeOff size={20}/> : <Eye size={20}/>}
+              </button>
+          </div>
+          {form.password && (
+            <div className="col-span-2 text-sm text-red-600 space-y-1">
+              {form.password.length < 8 && (<p>• Password must be at least 8 characters</p>)}
+              {!/[A-Z]/.test(form.password) && (<p>• Add one uppercase letter</p>)}
+              {!/[a-z]/.test(form.password) && (<p>• Add one lowercase letter</p>)}
+              {!/\d/.test(form.password) && (<p>• Add one number</p>)}
+              {passwordRegex.test(form.password) && (<p className="text-emerald-700">✓ Strong password</p>)}
             </div>
+          )}
+          {confirmPassword && (
+            <p className={`col-span-2 text-sm ${confirmPassword === form.password? "text-emerald-700" : "text-red-600"}`}>
+              {confirmPassword === form.password? "✓ Passwords match": "✗ Passwords do not match"}
+            </p>
           )}
         </div>
         <div className="mt-5 flex flex-col sm:flex-row gap-3">
           {timer === 0 ? (
-            <button onClick={otpSent ? handleResend : handleSendOtp} type="button" disabled={loading || !form.name || !form.mail || !form.password}
-                    className="flex-1 bg-primary text-tan font-bold py-3 rounded-xl hover:scale-[1.02] transition active:scale-95 "
+            <button onClick={otpSent ? handleResend : handleSendOtp} type="button" disabled={loading || !form.name.trim() || !form.mail.trim() || !passwordRegex.test(form.password) || confirmPassword !== form.password}
+                    className="flex-1 bg-primary text-tan font-bold py-3 rounded-xl hover:scale-[1.02] transition active:scale-95 disabled:cursor-not-allowed disabled:opacity-50"
             >
               {loading? "Sending OTP...": otpSent? "Resend OTP": "Send OTP"}
             </button>
@@ -161,31 +185,23 @@ return (
             </button>
           )}
         </div>
-        {response && (
-          <div className="mt-3 bg-bloodstone/90 border border-amber-700 rounded-xl p-3 text-white text-sm">
-            {response}
-          </div>
-        )}
         {otpSent && !check && (
           <div className="mt-5 flex gap-3">
             <input onChange={handleOtp}  value={verify.otp} placeholder="Enter OTP"
               className="flex-1 p-3 rounded-xl bg-white/10 border border-amber-800 text-black placeholder-bloodstone outline-none" 
             />
-            <button className="bg-primary text-tan font-bold px-6 rounded-xl hover:scale-[1.02] transition"
-              type="button" onClick={handleVerify} disabled={!verify.otp}>
+            <button className="bg-primary text-tan font-bold px-6 rounded-xl hover:scale-[1.02] transition disabled:cursor-not-allowed disabled:opacity-50"
+              type="button" onClick={handleVerify} disabled={verify.otp.length !== 4}>
               Verify
             </button>
           </div>)
         }
-        {error && (
-          <div className="mt-3 bg-bloodstone border-red-500/30 rounded-xl p-3 text-white">
-            {error}
-          </div>
-        )}
         {check && (
-          <a href="/login" className="block text-center mt-5 bg-MydarkGreen text-white font-bold py-3 rounded-xl">
-            Continue To Login
-          </a>
+            <button  type="button"  onClick={() => navigate("/login")}
+                className="w-full mt-5 bg-MydarkGreen text-white font-bold py-3 rounded-xl hover:opacity-90"
+            >
+               Continue To Login
+            </button>
         )}
       </form>
         <div className="mt-6 pt-5 border-t border-amber-700 flex justify-center items-center gap-2">
