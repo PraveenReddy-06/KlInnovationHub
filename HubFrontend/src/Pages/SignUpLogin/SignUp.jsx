@@ -125,16 +125,22 @@ return (
     <div className="w-full max-w-xl bg-white/10 backdrop-blur-2xl border border-amber-700 rounded-3xl p-5 sm:p-8 shadow-2xl">
       <h1 className="text-3xl sm:text-4xl font-bold text-primary mb-8 text-center">Create Account</h1>
       <form>
-        <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
-          <input className="p-3 rounded-xl  border border-amber-700 text-black placeholder-bloodstone outline-none disabled:bg-gray-100 disabled:cursor-not-allowed"
-            onChange={handleForm} name="name" value={form.name}
-            type="text" placeholder="Full Name" disabled={otpSent}
-          />
-          <input className="p-3 rounded-xl border border-amber-700 text-black placeholder-bloodstone outline-none disabled:bg-gray-100 disabled:cursor-not-allowed"
-            onChange={handleForm} name="mail" value={form.mail}
-            type="email" placeholder="KL University Email" disabled={otpSent}
-          />
-          <div className="relative">
+        <div className="flex flex-col md:flex-row gap-4 pb-5">
+          <div className="flex-1 min-w-0">
+            <input className="p-3 w-full rounded-xl  border border-amber-700 text-black placeholder-bloodstone outline-none disabled:bg-gray-100 disabled:cursor-not-allowed"
+              onChange={handleForm} name="name" value={form.name}
+              type="text" placeholder="Full Name" disabled={otpSent}
+            />
+          </div>
+          <div className="flex-1 min-w-0">
+            <input className="w-full p-3 rounded-xl border border-amber-700 text-black placeholder-bloodstone outline-none disabled:bg-gray-100 disabled:cursor-not-allowed"
+              onChange={handleForm} name="mail" value={form.mail}
+              type="email" placeholder="KL University Email" disabled={otpSent}
+            />
+          </div>
+        </div>
+        <div className="flex flex-col md:flex-row gap-4">
+          <div className="flex-1 relative min-w-0">
               <input  className="w-full p-3 rounded-xl border border-amber-700 text-black placeholder-bloodstone outline-none pr-10 disabled:bg-gray-100 disabled:cursor-not-allowed"
                   onChange={handleForm} name="password"  value={form.password}  type={showPassword ? "text" : "password"}
                   placeholder="Password" disabled={otpSent}
@@ -146,8 +152,8 @@ return (
                 {showPassword ? <EyeOff size={20}/> : <Eye size={20}/>}
               </button>
           </div>
-          <div className="relative">
-              <input className="w-full p-3 rounded-xl border border-amber-700 text-black placeholder-bloodstone outline-none pr-10 disabled:bg-gray-100 disabled:cursor-not-allowed"
+          <div className="flex-1 relative min-w-0" >
+              <input className="w-full box-border p-3 rounded-xl border border-amber-700 text-black placeholder-bloodstone outline-none pr-10 disabled:bg-gray-100 disabled:cursor-not-allowed"
                   onChange={handleConfirmPassword}  value={confirmPassword}  type={showConfirmPassword ? "text" : "password"}
                   placeholder="Confirm Password" disabled={otpSent}
               />
@@ -157,21 +163,21 @@ return (
                 {showConfirmPassword ? <EyeOff size={20}/> : <Eye size={20}/>}
               </button>
           </div>
-          {form.password && (
-            <div className="col-span-2 text-sm text-red-600 space-y-1">
-              {form.password.length < 8 && (<p>• Password must be at least 8 characters</p>)}
-              {!/[A-Z]/.test(form.password) && (<p>• Add one uppercase letter</p>)}
-              {!/[a-z]/.test(form.password) && (<p>• Add one lowercase letter</p>)}
-              {!/\d/.test(form.password) && (<p>• Add one number</p>)}
-              {passwordRegex.test(form.password) && (<p className="text-emerald-700">✓ Strong password</p>)}
-            </div>
-          )}
-          {confirmPassword && (
-            <p className={`col-span-2 text-sm ${confirmPassword === form.password? "text-emerald-700" : "text-red-600"}`}>
-              {confirmPassword === form.password? "✓ Passwords match": "✗ Passwords do not match"}
-            </p>
-          )}
         </div>
+        {form.password && (
+          <div className="col-span-2 text-sm text-red-600 space-y-1">
+            {form.password.length < 8 && (<p>• Password must be at least 8 characters</p>)}
+            {!/[A-Z]/.test(form.password) && (<p>• Add one uppercase letter</p>)}
+            {!/[a-z]/.test(form.password) && (<p>• Add one lowercase letter</p>)}
+            {!/\d/.test(form.password) && (<p>• Add one number</p>)}
+            {passwordRegex.test(form.password) && (<p className="text-emerald-700">✓ Strong password</p>)}
+          </div>
+        )}
+        {confirmPassword && (
+          <p className={`col-span-2 text-sm ${confirmPassword === form.password? "text-emerald-700" : "text-red-600"}`}>
+            {confirmPassword === form.password? "✓ Passwords match": "✗ Passwords do not match"}
+          </p>
+        )}
         <div className="mt-5 flex flex-col sm:flex-row gap-3">
           {timer === 0 ? (
             <button onClick={otpSent ? handleResend : handleSendOtp} type="button" disabled={loading || !form.name.trim() || !form.mail.trim() || !passwordRegex.test(form.password) || confirmPassword !== form.password}

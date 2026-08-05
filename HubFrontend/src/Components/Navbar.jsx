@@ -6,6 +6,7 @@ import { FaBell } from "react-icons/fa";
 import axiosInstance from "../Api/axiosInstance";
 import toast, { Toaster } from "react-hot-toast";
 
+
 const Navbar = () => {
   const studentId = JSON.parse(localStorage.getItem("studentId") || "null")
   const [showDropdown, setShowDropdown] = useState(false);
@@ -14,6 +15,7 @@ const Navbar = () => {
   const [showNotifications,setShowNotifications] = useState(false);
   const [notifications,setNotifications] = useState([]);
   const [activities,setActivities] = useState([]);
+  const isLoggedIn = !!localStorage.getItem("token");
   const [unreadCount,setUnreadCount] = useState(0);
   useEffect(() => {
     const handleClickOutside = (event) => {
@@ -136,20 +138,20 @@ const getActivityText = (a) => {
 
       <ul className="hidden lg:flex items-center text-xs uppercase tracking-[2px] gap-8 text-cream">
         <li>
-          <Link to="/dashboard" className="transition-colors duration-200 hover:text-light-blue"onClick={() => setMobileMenuOpen(false)}>  Dashboard </Link>
+          <Link to={isLoggedIn ? "/dashboard" : "/login"} className="transition-colors duration-200 hover:text-light-blue"onClick={() => setMobileMenuOpen(false)}>  Dashboard </Link>
         </li>
         <li>
-          <Link to="/exploreProjects" className="transition-colors duration-200 hover:text-light-blue"onClick={() => setMobileMenuOpen(false)}>  Explore Projects</Link>
+          <Link to={isLoggedIn ? "/exploreProjects" : "/login"} className="transition-colors duration-200 hover:text-light-blue"onClick={() => setMobileMenuOpen(false)}>  Explore Projects</Link>
         </li>
         <li>
-          <Link to="/leaderBoard" className="transition-colors duration-200 hover:text-light-blue" onClick={() => setMobileMenuOpen(false)}>  LeaderBoard
+          <Link to={isLoggedIn ? "/leaderBoard" : "/login"} className="transition-colors duration-200 hover:text-light-blue" onClick={() => setMobileMenuOpen(false)}>  LeaderBoard
           </Link>
         </li>
         <li>
-          <Link to="/submitProject" className="transition-colors duration-200 hover:text-light-blue" onClick={() => setMobileMenuOpen(false)}>  Submit Project </Link>
+          <Link to={isLoggedIn ? "/submitProject" : "/login"} className="transition-colors duration-200 hover:text-light-blue" onClick={() => setMobileMenuOpen(false)}>  Submit Project </Link>
         </li>
         <li>
-          <Link to="/guide" className="transition-colors duration-200 hover:text-light-blue" onClick={() => setMobileMenuOpen(false)}>
+          <Link to={isLoggedIn ? "/guide" : "/login"} className="transition-colors duration-200 hover:text-light-blue" onClick={() => setMobileMenuOpen(false)}>
             Guide
           </Link>
         </li>
@@ -177,7 +179,7 @@ const getActivityText = (a) => {
                   {notifications.length === 0 ? (
                     <p className="text-slate-400 text-sm">No notifications</p>
                   ) : (
-                    notifications.map((n) => (
+                    notifications.slice(0, 10).map((n) => (
                       <div key={n.id} className="bg-white/5 p-3 rounded-xl mb-2">
                         <p className="text-white text-sm">
                           {getNotificationText(n)}
@@ -187,7 +189,7 @@ const getActivityText = (a) => {
                   )}
 
                   <h3 className="text-cyan-300 font-semibold mt-6 mb-3">CAMPUS BUZZ</h3>
-                  {activities.map((a, index) => (
+                  {activities.slice(0, 10).map((a, index) => (
                     <div key={index} className="bg-white/5 p-3 rounded-xl mb-2">
                       <p className="text-white text-sm">
                         {getActivityText(a)}

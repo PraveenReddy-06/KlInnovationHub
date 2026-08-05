@@ -5,6 +5,7 @@ import { useEffect } from "react";
 import AOS from "aos";
 import "aos/dist/aos.css";
 import Analytics from "./Analytics";
+import ProtectedRoute from "./Pages/SignUpLogin/ProctectedRoute";
 
 const LandingPage = lazy(() => import("./Pages/Main/LandingPage"));
 const SignUp = lazy(() => import("./Pages/SignUpLogin/SignUp"));
@@ -49,22 +50,22 @@ function App() {
           <Route path="/" element={<LandingPage/>}/>
           <Route path="/signup" element={<SignUp/>}/>
           <Route path="/login" element={<Login/>} />
-          <Route path="/dashboard" element={<Dashboard/>} />
+          <Route path="/dashboard" element={<ProtectedRoute><Dashboard/></ProtectedRoute>} />
           <Route path="/navbar" element={<Navbar/>}/>
           <Route path="/card" element={< Card/>}/>
           <Route path="/topProjectCard" element={< TopProjectCard/>}/>
-          <Route path="/submitProject" element={< SubmitProject/>} />
-          <Route path="/leaderBoard" element={< Leaderboard/>}/>
-          <Route path="/exploreProjects" element={<ExploreProjects/>}/>
-          <Route path="/profile/:studentId?" element={<Profile/>}/>
-          <Route path="/formATeam" element={<FormATeam/>}/>
-          <Route path="/teamApplications" element={<TeamApplications/>}/>
+          <Route path="/submitProject" element={<ProtectedRoute>< SubmitProject/></ProtectedRoute>} />
+          <Route path="/leaderBoard" element={<ProtectedRoute>< Leaderboard/></ProtectedRoute>}/>
+          <Route path="/exploreProjects" element={<ProtectedRoute><ExploreProjects/></ProtectedRoute>}/>
+          <Route path="/profile/:studentId?" element={<ProtectedRoute><Profile/></ProtectedRoute>}/>
+          <Route path="/formATeam" element={<ProtectedRoute><FormATeam/></ProtectedRoute>}/>
+          <Route path="/teamApplications" element={<ProtectedRoute><TeamApplications/></ProtectedRoute>}/>
           <Route path="/landingPage" element={<LandingPage/>}/>
           <Route path="/forgotPassword" element={<ForgotPassword/>}/>
           <Route path="/solution" element={<Solution/>}/>
           <Route path="/footer" element ={<Footer/>}/>
           <Route path="/dashboardFooter" element={<DashboardFooter/>}/>
-          <Route path="/guide" element={<Guide/>}/>
+          <Route path="/guide" element={<ProtectedRoute><Guide/></ProtectedRoute>}/>
         </Routes>
       </Suspense>
     </BrowserRouter>
