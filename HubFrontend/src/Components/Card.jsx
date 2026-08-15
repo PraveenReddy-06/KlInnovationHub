@@ -14,7 +14,19 @@ const Card = ({ project }) => {
   const [liked, setLiked] = useState(project.likes?.some((like) =>Number(like.likedStudentId) === Number(studentId)) || false);
   const [like, setLike] = useState(project.likeCount || 0);
   const navigate = useNavigate();
+
+  const requireLogin = () => {
+    if (!localStorage.getItem("token")) {
+      toast.error("Please login to continue");
+      navigate("/login");
+      return false;
+    }
+    return true;
+  };
+
   const handleLike = async () => {
+    if (!requireLogin()) return;
+
     try {
       const isGroup = project.type === "GROUP";
       const url = isGroup
@@ -34,6 +46,26 @@ const Card = ({ project }) => {
       window.gtag("event", "profile_view");
     }
     navigate(`/profile/${id}`);
+  };
+
+  const handleGithubClick = (e) => {
+    if (!requireLogin()) {
+      e.preventDefault();
+      return;
+    }
+    if (window.gtag) {
+      window.gtag("event", "github_click");
+    }
+  };
+
+  const handleLiveDemoClick = (e) => {
+    if (!requireLogin()) {
+      e.preventDefault();
+      return;
+    }
+    if (window.gtag) {
+      window.gtag("event", "live_demo_click");
+    }
   };
 
   const bgMap = { cse: CSECard, ece: ECECard, csit: CSITCard};
@@ -74,24 +106,15 @@ const Card = ({ project }) => {
             <span>{like}</span>
           </button>
 
-          <a className="hover:scale-110 transition" href={project.githubUrl} target="_blank" rel="noopener noreferrer"    
-              onClick={() => {
-                  if (window.gtag) {
-                      window.gtag("event", "github_click");
-                  }
-              }}>
+          <a className="hover:scale-110 transition" href={project.githubUrl} target="_blank" rel="noopener noreferrer" onClick={handleGithubClick}>
             <div className="text-vanilla-custard hover:text-light-blue transition">
               <FaGithub size={22} />
             </div>
           </a>
 
-          <a href={project.liveUrl}  target="_blank" rel="noopener noreferrer"
+          <a href={project.liveUrl} target="_blank" rel="noopener noreferrer"
             className="rounded-2xl px-2 sm:px-3 py-1 text-xs sm:text-sm text-vanilla-custard bg-sky-500 hover:bg-sky-700 transition flex items-center gap-1"
-            onClick={() => {
-                if (window.gtag) {
-                    window.gtag("event", "live_demo_click");
-                }
-            }}            
+            onClick={handleLiveDemoClick}
           >
             Try It <Globe size={16} />
           </a>        
