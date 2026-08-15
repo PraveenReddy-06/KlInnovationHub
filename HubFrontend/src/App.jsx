@@ -50,13 +50,13 @@ function App() {
           <Route path="/" element={<LandingPage/>}/>
           <Route path="/signup" element={<SignUp/>}/>
           <Route path="/login" element={<Login/>} />
-          <Route path="/dashboard" element={<ProtectedRoute><Dashboard/></ProtectedRoute>} />
+          <Route path="/dashboard" element={<Dashboard/>} />
           <Route path="/navbar" element={<Navbar/>}/>
           <Route path="/card" element={< Card/>}/>
           <Route path="/topProjectCard" element={< TopProjectCard/>}/>
           <Route path="/submitProject" element={<ProtectedRoute>< SubmitProject/></ProtectedRoute>} />
-          <Route path="/leaderBoard" element={<ProtectedRoute>< Leaderboard/></ProtectedRoute>}/>
-          <Route path="/exploreProjects" element={<ProtectedRoute><ExploreProjects/></ProtectedRoute>}/>
+          <Route path="/leaderBoard" element={<Leaderboard/>}/>
+          <Route path="/exploreProjects" element={<ExploreProjects/>}/>
           <Route path="/profile/:studentId?" element={<ProtectedRoute><Profile/></ProtectedRoute>}/>
           <Route path="/formATeam" element={<ProtectedRoute><FormATeam/></ProtectedRoute>}/>
           <Route path="/teamApplications" element={<ProtectedRoute><TeamApplications/></ProtectedRoute>}/>
