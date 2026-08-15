@@ -138,13 +138,13 @@ const getActivityText = (a) => {
 
       <ul className="hidden lg:flex items-center text-xs uppercase tracking-[2px] gap-8 text-cream">
         <li>
-          <Link to={isLoggedIn ? "/dashboard" : "/login"} className="transition-colors duration-200 hover:text-light-blue"onClick={() => setMobileMenuOpen(false)}>  Dashboard </Link>
+          <Link to="/dashboard" className="transition-colors duration-200 hover:text-light-blue"onClick={() => setMobileMenuOpen(false)}>  Dashboard </Link>
         </li>
         <li>
-          <Link to={isLoggedIn ? "/exploreProjects" : "/login"} className="transition-colors duration-200 hover:text-light-blue"onClick={() => setMobileMenuOpen(false)}>  Explore Projects</Link>
+          <Link to="/exploreProjects" className="transition-colors duration-200 hover:text-light-blue"onClick={() => setMobileMenuOpen(false)}>  Explore Projects</Link>
         </li>
         <li>
-          <Link to={isLoggedIn ? "/leaderBoard" : "/login"} className="transition-colors duration-200 hover:text-light-blue" onClick={() => setMobileMenuOpen(false)}>  LeaderBoard
+          <Link to="/leaderBoard" className="transition-colors duration-200 hover:text-light-blue" onClick={() => setMobileMenuOpen(false)}>  LeaderBoard
           </Link>
         </li>
         <li>
