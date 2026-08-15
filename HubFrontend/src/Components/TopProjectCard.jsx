@@ -113,9 +113,11 @@ const TopProjectCard = ({project}) => {
         <a className="hover:text-black transition" href={project.githubUrl} target="_blank" rel="noopener noreferrer" onClick={handleGithubClick}>
           <FaGithub className="text-2xl sm:text-3xl" />
         </a>
-        <a href={project.liveUrl} className="font-semibold text-blue-600 hover:underline" onClick={handleLiveDemoClick} >
-          View
-        </a>
+        {project.liveUrl && (
+          <a href={project.liveUrl} className="font-semibold text-blue-600 hover:underline" onClick={handleLiveDemoClick} >
+            View
+          </a>
+        )}
       </div>
     </div>
   );

@@ -113,6 +113,9 @@ const SubmitProject = () => {
         if (!project.projectName.trim()) {
             newErrors.projectName = "Project title is required";
         }
+        if (!project.choice) {
+            newErrors.choice = "Please select a project category";
+        }
 
         if (!project.tech1.trim() && !project.tech2.trim() && !project.tech3.trim()) {
             newErrors.tech = "At least one technology is required";
@@ -139,7 +142,9 @@ const SubmitProject = () => {
     if (!groupProject.project_name.trim()) {
         newErrors.projectName = "Project title is required";
     }
-
+    if (!groupProject.choice) {
+        newErrors.choice = "Please select a project category";
+    }
     if (!groupProject.tech1.trim() &&!groupProject.tech2.trim() &&!groupProject.tech3.trim()) {
         newErrors.tech = "At least one technology is required";
     }
@@ -205,6 +210,7 @@ const SubmitProject = () => {
                     </p>
                 )}
                 <select name="choice" value={project.choice} onChange={handleChange} className="p-3 border border-misty-sage rounded-lg bg-white focus:border-accent focus:outline-none">
+                    <option value="">Select Project Category *</option>
                     <option>AI/ML</option>
                     <option>Data Science</option>
                     <option>Web Development</option>
@@ -219,7 +225,13 @@ const SubmitProject = () => {
                     <option>Natural Language Processing (NLP)</option>
                     <option>DevOps</option>
                     <option>AR/VR</option>
+                    <option>Other</option>
                 </select>
+                {errors.choice && (
+                    <p className="text-red-500 text-sm">
+                        {errors.choice}
+                    </p>
+                )}
                 <div className="flex flex-col sm:flex-row gap-2">
                     <input onChange={handleChange} name="tech1" value={project.tech1} type="text" placeholder="Technology (e.g.React) *"  className="flex-1 min-w-0 p-3 border border-misty-sage rounded-lg bg-white focus:border-accent focus:outline-none"/>
                     <input onChange={handleChange} name="tech2" value={project.tech2} type="text" placeholder="Technology (e.g.Arduino)"  className="flex-1 min-w-0 p-3 border border-misty-sage rounded-lg bg-white focus:border-accent focus:outline-none"/>
@@ -277,6 +289,7 @@ const SubmitProject = () => {
                     </p>
                 )}
                 <select name="choice" value={groupProject.choice} onChange={handleGroupChange} className="p-3 border border-misty-sage rounded-lg bg-white focus:border-accent focus:outline-none">
+                    <option value="">Select Project Category *</option>
                     <option>AI/ML</option>
                     <option>Data Science</option>
                     <option>Web Development</option>
@@ -291,7 +304,13 @@ const SubmitProject = () => {
                     <option>Natural Language Processing (NLP)</option>
                     <option>DevOps</option>
                     <option>AR/VR</option>
+                    <option>Other</option>
                 </select>
+                {groupErrors.choice && (
+                    <p className="text-red-500 text-sm">
+                        {groupErrors.choice}
+                    </p>
+                )}
                 <div className="flex flex-col sm:flex-row gap-2">
                     <input onChange={handleGroupChange} name="tech1" value={groupProject.tech1} type="text" placeholder="Technology (e.g.React) *"  className="flex-1 min-w-0 p-3 border border-misty-sage rounded-lg bg-white focus:border-accent focus:outline-none"/>
                     <input onChange={handleGroupChange} name="tech2" value={groupProject.tech2} type="text" placeholder="Technology (e.g.Arduino)" className="flex-1 min-w-0 p-3 border border-misty-sage rounded-lg bg-white focus:border-accent focus:outline-none"/>

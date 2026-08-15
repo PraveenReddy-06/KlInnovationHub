@@ -111,13 +111,13 @@ const Card = ({ project }) => {
               <FaGithub size={22} />
             </div>
           </a>
-
-          <a href={project.liveUrl} target="_blank" rel="noopener noreferrer"
-            className="rounded-2xl px-2 sm:px-3 py-1 text-xs sm:text-sm text-vanilla-custard bg-sky-500 hover:bg-sky-700 transition flex items-center gap-1"
-            onClick={handleLiveDemoClick}
-          >
-            Try It <Globe size={16} />
-          </a>        
+          {project.liveUrl && (
+            <a href={project.liveUrl} target="_blank" rel="noopener noreferrer"
+              className="rounded-2xl px-2 sm:px-3 py-1 text-xs sm:text-sm text-vanilla-custard bg-sky-500 hover:bg-sky-700 transition flex items-center gap-1"
+              onClick={handleLiveDemoClick}
+            >
+              Try It <Globe size={16} />
+          </a>)}        
         </div>
       </div>
     </div>

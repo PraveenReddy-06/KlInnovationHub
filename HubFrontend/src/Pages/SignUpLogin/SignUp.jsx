@@ -26,16 +26,35 @@ const SignUp = () => {
         setForm(updated);
         setVerify(prev => ({...prev,mail: updated.mail}));
     };
+    const formatName = (value) => {
+        return value
+            .trim()
+            .replace(/\s+/g, " ")
+            .replace(/\b\w/g, char => char.toUpperCase());
+    };
 
     const [otpSent,setOtpSent] = useState(false);
     const handleSendOtp = async (e) => {
         e.preventDefault()
         setLoading(true);
         try {
+            const name = form.name.trim();
+          if (!name) {
+              toast.error("Full name is required");
+              return;
+          }
+          if (!/^[A-Za-z]+(?:\s+[A-Za-z]+)*$/.test(name)) {
+              toast.error("Name can contain only letters and spaces");
+              return;
+          }
+          if (name.length > 25) {
+              toast.error("Name cannot exceed 25 characters");
+              return;
+          }
           if (!passwordRegex.test(form.password)) {
             toast.error("Password must be at least 8 characters with uppercase, lowercase and a number.");
             return;
-        }
+          }
         if(confirmPassword===form.password){
             const res = await axiosInstance.post(`/mail/generateOtp`,form)
             if(res.data === "If the email exists, OTP has been sent") {
@@ -128,8 +147,8 @@ return (
         <div className="flex flex-col md:flex-row gap-4 pb-5">
           <div className="flex-1 min-w-0">
             <input className="p-3 w-full rounded-xl  border border-amber-700 text-black placeholder-bloodstone outline-none disabled:bg-gray-100 disabled:cursor-not-allowed"
-              onChange={handleForm} name="name" value={form.name}
-              type="text" placeholder="Full Name" disabled={otpSent}
+              onChange={handleForm} name="name" value={form.name}     onBlur={() => {setForm(prev => ({...prev,  name: formatName(prev.name)  }));}}
+              type="text" placeholder="Name" disabled={otpSent} maxLength={25}
             />
           </div>
           <div className="flex-1 min-w-0">

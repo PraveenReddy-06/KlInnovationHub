@@ -229,8 +229,8 @@ const getActivityText = (a) => {
         </div>
         ) : (
           <div className="flex items-center gap-1 sm:gap-2 text-sm lg:text-base text-vanilla-custard">
-            <a href="/login" className="hover:text-light-blue">Login/</a>
-            <a href="/signup" className="hover:text-light-blue">Register</a>
+            <a href="/login" className="hover:text-light-blue">Login /</a>
+            <a href="/signup" className="hover:font-bold text-black rounded-sm bg-tan p-1">SignUp</a>
           </div>
         )
       }

@@ -18,6 +18,7 @@ const ExploreProjects = () => {
   const [selectedYear,setSelectedYear] = useState("");
   const [selectedType,setSelectedType] = useState("ALL");
   const allProjects = [...projects,...groupProjects];
+  const [selectedChoice, setSelectedChoice] = useState("");
 
   const studentId = JSON.parse(localStorage.getItem("studentId"));
   const navigate = useNavigate();
@@ -62,16 +63,16 @@ const ExploreProjects = () => {
       const title = isGroup? project.project_name?.toLowerCase(): project.projectName?.toLowerCase();
       const branch = isGroup? project.teamLead?.branch: project.student?.branch;
       const year = isGroup? project.teamLead?.year: project.student?.year;
+      const matchesChoice = selectedChoice? project.choice === selectedChoice: true;
       const teamMembers =project.studentList?.map((s) => `${s.student_name.toLowerCase()} ${s.studentId}`).join(" ") || "";
      const matchesSearch =title?.includes(query) ||ownerName?.toLowerCase().includes(query) ||String(ownerId || "").includes(query) ||teamMembers.includes(query) ||teamMembers.includes(query) 
             ||project.tech1?.toLowerCase().includes(query) || project.tech2?.toLowerCase().includes(query) || project.tech3?.toLowerCase().includes(query);      
       const matchesBranch = selectedBranch? branch === selectedBranch: true;
       const matchesYear = selectedYear? year === parseInt(selectedYear): true;
       const matchesType =selectedType === "ALL"  ? true  : selectedType === project.type;
-      return (matchesSearch &&matchesBranch &&matchesYear &&matchesType);
+      return (matchesSearch &&matchesBranch &&matchesYear &&matchesType && matchesChoice);
     });
-  }, [allProjects,search,selectedBranch,selectedYear,selectedType,
-  ]);
+  }, [allProjects,search,selectedBranch,selectedYear,selectedType,selectedChoice]);
 
   const handleLike = async (project) => {
     if (!requireLogin()) return;
@@ -133,6 +134,26 @@ const ExploreProjects = () => {
             <option value="CSIT">CSIT</option>
             <option value="ECE">ECE</option>
           </select>
+          
+          <select value={selectedChoice}  onChange={(e) => setSelectedChoice(e.target.value)}
+            className="flex-1 min-w-27.5 lg:flex-none border rounded-xl px-2 py-1.5 text-sm bg-gray-50 outline-none">
+            <option value="">All Categories</option>
+            <option value="AI/ML">AI/ML</option>
+            <option value="Data Science">Data Science</option>
+            <option value="Web Development">Web Development</option>
+            <option value="Mobile App Development">Mobile App Development</option>
+            <option value="Cloud Computing">Cloud Computing</option>
+            <option value="Cybersecurity">Cybersecurity</option>
+            <option value="Internet of Things (IoT)">Internet of Things (IoT)</option>
+            <option value="Robotics">Robotics</option>
+            <option value="Embedded Systems">Embedded Systems</option>
+            <option value="Blockchain">Blockchain</option>
+            <option value="Computer Vision">Computer Vision</option>
+            <option value="Natural Language Processing (NLP)">  Natural Language Processing (NLP)</option>
+            <option value="DevOps">DevOps</option>
+            <option value="AR/VR">AR/VR</option>
+            <option value="Other">Other</option>
+          </select>          
 
           <select value={selectedYear}  onChange={(e) => setSelectedYear(e.target.value)}
             className="flex-1 min-w-27.5 lg:flex-none border rounded-xl px-2 py-1.5 text-sm bg-gray-50 outline-none">
@@ -225,7 +246,9 @@ const ExploreProjects = () => {
 
               </div>
               <div className="flex flex-col sm:flex-row gap-2 mt-4">
-                <a href={project.liveUrl} onClick={handleLiveUrlClick} className="flex-1 text-center bg-accent hover:bg-blue-700 text-white px-5 py-2 rounded text-sm">View Project</a>
+                {project.liveUrl && (
+                  <a href={project.liveUrl} onClick={handleLiveUrlClick} className="flex-1 text-center bg-accent hover:bg-blue-700 text-white px-5 py-2 rounded text-sm">View Project</a>
+                )}
                 <a href={project.githubUrl} target="_blank" rel="noreferrer" onClick={handleGithubClick} className="w-full sm:w-14 border px-3 py-2 rounded flex items-center justify-center hover:bg-gray-100"><FaGithub size={20} /></a>
               </div>
             </div>
