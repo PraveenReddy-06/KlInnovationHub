@@ -16,6 +16,15 @@ const Leaderboard = () => {
     const order =[1,0,2];
     const navigate = useNavigate();
 
+    const requireLogin = () => {
+        if (!localStorage.getItem("token")) {
+            toast.error("Please login to continue");
+            navigate("/login");
+            return false;
+        }
+        return true;
+    };
+
     useEffect(() => {
         const top = async () => {
             try {
@@ -27,6 +36,20 @@ const Leaderboard = () => {
         };
         top();
     }, []);
+
+    const handleGithubClick = (e) => {
+        if (!requireLogin()) {
+            e.preventDefault();
+            return;
+        }
+    };
+
+    const handleLiveDemoClick = (e) => {
+        if (!requireLogin()) {
+            e.preventDefault();
+            return;
+        }
+    };
 
   return (
     <div>
@@ -132,7 +155,7 @@ const Leaderboard = () => {
 
                         <td className="px-6 py-4 text-center">
                             {p.githubUrl ? (
-                                <a href={p.githubUrl} onClick={(e) => e.stopPropagation()} target="_blank" rel="noreferrer" className="bg-gray-300 text-black px-3 py-2 ">
+                                <a href={p.githubUrl} onClick={handleGithubClick} target="_blank" rel="noreferrer" className="bg-gray-300 text-black px-3 py-2 ">
                                     GitHub
                                 </a>
                             ) : (
@@ -142,7 +165,7 @@ const Leaderboard = () => {
 
                         <td className="px-6 py-4 text-center">
                             {p.liveUrl ? (
-                                <a href={p.liveUrl} onClick={(e) => e.stopPropagation()} target="_blank"rel="noreferrer"className="bg-blue-600 text-white px-3 py-2 hover:bg-blue-700 transition">
+                                <a href={p.liveUrl} onClick={handleLiveDemoClick} target="_blank"rel="noreferrer"className="bg-blue-600 text-white px-3 py-2 hover:bg-blue-700 transition">
                                     Open
                                 </a>
                             ) : (
