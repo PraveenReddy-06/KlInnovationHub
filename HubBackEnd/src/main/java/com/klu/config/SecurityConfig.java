@@ -7,6 +7,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.http.HttpMethod;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.config.annotation.authentication.configuration.AuthenticationConfiguration;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
@@ -27,8 +28,18 @@ public class SecurityConfig {
 	@Bean
 	SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
 		http.cors(cors -> {}).csrf(csrf -> csrf.disable())
-			.authorizeHttpRequests(auth -> auth.requestMatchers("/mail/**","/dashboard/**").permitAll()
-												.anyRequest().authenticated())
+			.authorizeHttpRequests(auth -> auth
+					.requestMatchers("/mail/**", "/dashboard/**").permitAll()
+					.requestMatchers(HttpMethod.GET,
+							"/project/all",
+							"/project/latest",
+							"/groupProject/all",
+							"/groupProject/latest",
+							"/leaderboard",
+							"/likes/top",
+							"/grouplikes/top"
+					).permitAll()
+					.anyRequest().authenticated())
 		    .addFilterBefore(jwtFilter,UsernamePasswordAuthenticationFilter.class);
 		return http.build();
 	}
