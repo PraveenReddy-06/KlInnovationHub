@@ -21,6 +21,16 @@ const ExploreProjects = () => {
 
   const studentId = JSON.parse(localStorage.getItem("studentId"));
   const navigate = useNavigate();
+
+  const requireLogin = () => {
+    if (!localStorage.getItem("token")) {
+      toast.error("Please login to continue");
+      navigate("/login");
+      return false;
+    }
+    return true;
+  };
+
   useEffect(() => {
     fetchProjects();
   }, []);
@@ -64,6 +74,8 @@ const ExploreProjects = () => {
   ]);
 
   const handleLike = async (project) => {
+    if (!requireLogin()) return;
+
     try {
       if(project.type === "INDIVIDUAL") {
         const res = await axiosInstance.post(`/likes/toggleLike/${project.projectId}`);
@@ -80,6 +92,20 @@ const ExploreProjects = () => {
       }
     } catch(err) {
       toast.error("Something went wrong. Please try again.");
+    }
+  };
+
+  const handleLiveUrlClick = (e) => {
+    if (!requireLogin()) {
+      e.preventDefault();
+      return;
+    }
+  };
+
+  const handleGithubClick = (e) => {
+    if (!requireLogin()) {
+      e.preventDefault();
+      return;
     }
   };
 
@@ -199,8 +225,8 @@ const ExploreProjects = () => {
 
               </div>
               <div className="flex flex-col sm:flex-row gap-2 mt-4">
-                <a href={project.liveUrl} className="flex-1 text-center bg-accent hover:bg-blue-700 text-white px-5 py-2 rounded text-sm">View Project</a>
-                <a href={project.githubUrl} target="_blank" rel="noreferrer" className="w-full sm:w-14 border px-3 py-2 rounded flex items-center justify-center hover:bg-gray-100"><FaGithub size={20} /></a>
+                <a href={project.liveUrl} onClick={handleLiveUrlClick} className="flex-1 text-center bg-accent hover:bg-blue-700 text-white px-5 py-2 rounded text-sm">View Project</a>
+                <a href={project.githubUrl} target="_blank" rel="noreferrer" onClick={handleGithubClick} className="w-full sm:w-14 border px-3 py-2 rounded flex items-center justify-center hover:bg-gray-100"><FaGithub size={20} /></a>
               </div>
             </div>
           </div>
