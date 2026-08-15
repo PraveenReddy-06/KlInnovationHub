@@ -11,7 +11,20 @@ const TopProjectCard = ({project}) => {
   const [liked, setLiked] = useState(project.likes?.some((like) => like.likedStudentId === studentId));
   const [like, setLike] = useState(project.likeCount);
 
+  const navigate = useNavigate();
+
+  const requireLogin = () => {
+    if (!localStorage.getItem("token")) {
+      toast.error("Please login to continue");
+      navigate("/login");
+      return false;
+    }
+    return true;
+  };
+
   const handleLike = async () => {
+    if (!requireLogin()) return;
+
     try {
       const isGroup =project.type === "GROUP";
       const url = isGroup
@@ -28,14 +41,32 @@ const TopProjectCard = ({project}) => {
     }
   };
 
-  const navigate = useNavigate();
-
   const handleProfileClick = () => {
     const id =project.type === "GROUP"? project.teamLead?.studentId: project.student?.studentId;
     if (window.gtag) {
       window.gtag("event", "profile_view");
     }
     navigate(`/profile/${id}`);
+  };
+
+  const handleGithubClick = (e) => {
+    if (!requireLogin()) {
+      e.preventDefault();
+      return;
+    }
+    if (window.gtag) {
+      window.gtag("event", "github_click");
+    }
+  };
+
+  const handleLiveDemoClick = (e) => {
+    if (!requireLogin()) {
+      e.preventDefault();
+      return;
+    }
+    if (window.gtag) {
+      window.gtag("event", "live_demo_click");
+    }
   };
 
   return (
@@ -79,21 +110,10 @@ const TopProjectCard = ({project}) => {
           Likes
         </button>
 
-        <a className="hover:text-black transition" href={project.githubUrl} target="_blank" rel="noopener noreferrer"
-          onClick={() => {
-              if (window.gtag) {
-                  window.gtag("event", "github_click");
-              }
-          }}        
-        >
+        <a className="hover:text-black transition" href={project.githubUrl} target="_blank" rel="noopener noreferrer" onClick={handleGithubClick}>
           <FaGithub className="text-2xl sm:text-3xl" />
         </a>
-        <a href={project.liveUrl} className="font-semibold text-blue-600 hover:underline"
-          onClick={() => {
-              if (window.gtag) {
-                  window.gtag("event", "live_demo_click");
-              }
-          }} >
+        <a href={project.liveUrl} className="font-semibold text-blue-600 hover:underline" onClick={handleLiveDemoClick} >
           View
         </a>
       </div>
