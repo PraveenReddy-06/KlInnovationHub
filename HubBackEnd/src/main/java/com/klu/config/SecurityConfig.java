@@ -29,7 +29,7 @@ public class SecurityConfig {
 	SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
 		http.cors(cors -> {}).csrf(csrf -> csrf.disable())
 			.authorizeHttpRequests(auth -> auth
-					.requestMatchers("/mail/**", "/dashboard/**").permitAll()
+					.requestMatchers("/mail/**", "/dashboard/**", "/reviewer/generateOtp", "/reviewer/verifyOtp").permitAll()
 					.requestMatchers(HttpMethod.GET,
 							"/project/all",
 							"/project/latest",
