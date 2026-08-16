@@ -2,6 +2,7 @@ package com.klu.service.implementation;
 
 import java.security.SecureRandom;
 import java.time.LocalDateTime;
+import java.time.temporal.ChronoUnit;
 import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -55,22 +56,29 @@ public class ReviewerRegistrationService {
         Optional<UserSignUp> existing = userRepo.findByMail(request.getMail());
         if (existing.isPresent() && existing.get().isVerified()) {
             Reviewer reviewer = reviewerRepo.findByUserMail(request.getMail()).orElse(null);
-
             if (reviewer == null) {
                 return "User already exists. Please login.";
             }
 
-            if (reviewer.getStatus() != ReviewerStatus.REJECTED) {
-                return "Your reviewer application is already active or pending.";
+            if (reviewer.getStatus() == ReviewerStatus.ACTIVE) {
+                return "Reviewer account already active. Please login.";
             }
 
-            ReviewerRequest lastRequest = reviewerRequestRepo
+            ReviewerRequest latestRequest = reviewerRequestRepo
                     .findTopByReviewerReviewerIdOrderByCreatedAtDesc(reviewer.getReviewerId())
                     .orElse(null);
 
-            if (lastRequest == null || lastRequest.getReviewedAt() == null
-                    || lastRequest.getReviewedAt().plusDays(15).isAfter(LocalDateTime.now())) {
-                return "You can submit another reviewer application after 15 days from rejection.";
+            if (reviewer.getStatus() == ReviewerStatus.PENDING
+                    || (latestRequest != null && latestRequest.getStatus() == ReviewerRequestStatus.PENDING)) {
+                return "Your reviewer application is already pending approval.";
+            }
+
+            if (reviewer.getStatus() == ReviewerStatus.REJECTED && latestRequest != null
+                    && latestRequest.getReviewedAt() != null) {
+                long days = ChronoUnit.DAYS.between(latestRequest.getReviewedAt(), LocalDateTime.now());
+                if (days < 15) {
+                    return "You can request again after " + (15 - days) + " day(s).";
+                }
             }
         }
 
@@ -130,7 +138,7 @@ public class ReviewerRegistrationService {
             reviewer = new Reviewer();
             reviewer.setUser(user);
         } else if (reviewer.getStatus() != ReviewerStatus.REJECTED) {
-            return "Reviewer account already exists";
+            return "Your reviewer application is already active or pending.";
         }
 
         reviewer.setDepartment(request.getDepartment());
