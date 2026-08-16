@@ -54,7 +54,24 @@ public class ReviewerRegistrationService {
 
         Optional<UserSignUp> existing = userRepo.findByMail(request.getMail());
         if (existing.isPresent() && existing.get().isVerified()) {
-            return "User already exists. Please login.";
+            Reviewer reviewer = reviewerRepo.findByUserMail(request.getMail()).orElse(null);
+
+            if (reviewer == null) {
+                return "User already exists. Please login.";
+            }
+
+            if (reviewer.getStatus() != ReviewerStatus.REJECTED) {
+                return "Your reviewer application is already active or pending.";
+            }
+
+            ReviewerRequest lastRequest = reviewerRequestRepo
+                    .findTopByReviewerReviewerIdOrderByCreatedAtDesc(reviewer.getReviewerId())
+                    .orElse(null);
+
+            if (lastRequest == null || lastRequest.getReviewedAt() == null
+                    || lastRequest.getReviewedAt().plusDays(15).isAfter(LocalDateTime.now())) {
+                return "You can submit another reviewer application after 15 days from rejection.";
+            }
         }
 
         int otp = secureRandom.nextInt(9000) + 1000;
@@ -103,17 +120,19 @@ public class ReviewerRegistrationService {
         }
 
         Reviewer reviewer = reviewerRepo.findByUserMail(user.getMail()).orElse(null);
-        if (reviewer != null) {
-            return "Reviewer account already exists";
-        }
 
         user.setVerified(true);
         user.setOtp(0);
         user.setOtpTimeOut(null);
         userRepo.save(user);
 
-        reviewer = new Reviewer();
-        reviewer.setUser(user);
+        if (reviewer == null) {
+            reviewer = new Reviewer();
+            reviewer.setUser(user);
+        } else if (reviewer.getStatus() != ReviewerStatus.REJECTED) {
+            return "Reviewer account already exists";
+        }
+
         reviewer.setDepartment(request.getDepartment());
         reviewer.setDesignation(request.getDesignation());
         reviewer.setStatus(ReviewerStatus.PENDING);
