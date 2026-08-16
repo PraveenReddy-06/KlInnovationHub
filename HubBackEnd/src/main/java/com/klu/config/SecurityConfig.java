@@ -30,6 +30,7 @@ public class SecurityConfig {
 		http.cors(cors -> {}).csrf(csrf -> csrf.disable())
 			.authorizeHttpRequests(auth -> auth
 					.requestMatchers("/mail/**", "/dashboard/**", "/reviewer/generateOtp", "/reviewer/verifyOtp").permitAll()
+					.requestMatchers("/admin/reviewers/**").hasRole("ADMIN")
 					.requestMatchers(HttpMethod.GET,
 							"/project/all",
 							"/project/latest",
@@ -61,6 +62,7 @@ public class SecurityConfig {
 	    configuration.setAllowedOrigins(List.of("http://localhost:5173", frontendUrl));
 	    configuration.addAllowedHeader("*");
 	    configuration.addAllowedMethod("*");
+	    configuration.setAllowCredentials(true);
 	    configuration.setAllowCredentials(true);
 	    UrlBasedCorsConfigurationSource source = new UrlBasedCorsConfigurationSource();
 	    source.registerCorsConfiguration("/**",configuration);
