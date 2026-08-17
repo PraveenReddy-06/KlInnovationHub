@@ -12,7 +12,6 @@ import com.klu.mail.Login;
 import com.klu.mail.UserSignUp;
 import com.klu.mail.UserSignUpRepository;
 import com.klu.model.Reviewer;
-import com.klu.model.ReviewerStatus;
 import com.klu.repository.ReviewerRepo;
 import com.klu.security.JwtService;
 import com.klu.security.ratelimit.LoginRateLimiterService;
@@ -60,13 +59,9 @@ public class ReviewerLoginService {
             return failure("Please verify your email first");
         }
 
-        Reviewer reviewer = reviewerRepo.findByUserMailAndStatus(mail, ReviewerStatus.ACTIVE).orElse(null);
+        Reviewer reviewer = reviewerRepo.findByUserMail(mail).orElse(null);
         if (reviewer == null) {
-            Reviewer anyReviewer = reviewerRepo.findByUserMail(mail).orElse(null);
-            if (anyReviewer != null && anyReviewer.getStatus() == ReviewerStatus.REJECTED) {
-                return failure("Your reviewer application was rejected");
-            }
-            return failure("Your reviewer application is still pending approval");
+            return failure("Your reviewer application is still pending approval or was rejected");
         }
 
         try {

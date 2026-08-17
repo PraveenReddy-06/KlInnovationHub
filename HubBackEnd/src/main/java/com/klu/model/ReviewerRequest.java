@@ -2,6 +2,8 @@ package com.klu.model;
 
 import java.time.LocalDateTime;
 
+import com.klu.mail.UserSignUp;
+
 import jakarta.persistence.Entity;
 import jakarta.persistence.EnumType;
 import jakarta.persistence.Enumerated;
@@ -27,8 +29,12 @@ public class ReviewerRequest {
     private Integer requestId;
 
     @ManyToOne
-    @JoinColumn(name = "reviewer_id", nullable = false)
-    private Reviewer reviewer;
+    @JoinColumn(name = "user_id", nullable = false)
+    private UserSignUp user;
+
+    private String department;
+
+    private String designation;
 
     private String reason;
 

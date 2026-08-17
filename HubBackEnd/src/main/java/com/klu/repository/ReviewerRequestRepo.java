@@ -11,6 +11,6 @@ import com.klu.model.ReviewerRequestStatus;
 
 @Repository
 public interface ReviewerRequestRepo extends JpaRepository<ReviewerRequest, Integer> {
-    Optional<ReviewerRequest> findTopByReviewerReviewerIdOrderByCreatedAtDesc(Integer reviewerId);
+    Optional<ReviewerRequest> findTopByUserIdOrderByCreatedAtDesc(Integer userId);
     List<ReviewerRequest> findByStatusOrderByCreatedAtDesc(ReviewerRequestStatus status);
 }

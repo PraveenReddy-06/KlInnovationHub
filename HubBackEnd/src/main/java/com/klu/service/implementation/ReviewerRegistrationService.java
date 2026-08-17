@@ -15,10 +15,8 @@ import com.klu.dto.ReviewerSignupDto;
 import com.klu.dto.ReviewerVerifyOtpDto;
 import com.klu.mail.UserSignUp;
 import com.klu.mail.UserSignUpRepository;
-import com.klu.model.Reviewer;
 import com.klu.model.ReviewerRequest;
 import com.klu.model.ReviewerRequestStatus;
-import com.klu.model.ReviewerStatus;
 import com.klu.repository.ReviewerRepo;
 import com.klu.repository.ReviewerRequestRepo;
 
@@ -55,25 +53,25 @@ public class ReviewerRegistrationService {
 
         Optional<UserSignUp> existing = userRepo.findByMail(request.getMail());
         if (existing.isPresent() && existing.get().isVerified()) {
-            Reviewer reviewer = reviewerRepo.findByUserMail(request.getMail()).orElse(null);
-            if (reviewer == null) {
+            UserSignUp user = existing.get();
+
+            if (!"ROLE_REVIEWER".equals(user.getRole())) {
                 return "User already exists. Please login.";
             }
 
-            if (reviewer.getStatus() == ReviewerStatus.ACTIVE) {
+            if (reviewerRepo.findByUserMail(request.getMail()).isPresent()) {
                 return "Reviewer account already active. Please login.";
             }
 
             ReviewerRequest latestRequest = reviewerRequestRepo
-                    .findTopByReviewerReviewerIdOrderByCreatedAtDesc(reviewer.getReviewerId())
+                    .findTopByUserIdOrderByCreatedAtDesc(user.getId())
                     .orElse(null);
 
-            if (reviewer.getStatus() == ReviewerStatus.PENDING
-                    || (latestRequest != null && latestRequest.getStatus() == ReviewerRequestStatus.PENDING)) {
+            if (latestRequest != null && latestRequest.getStatus() == ReviewerRequestStatus.PENDING) {
                 return "Your reviewer application is already pending approval.";
             }
 
-            if (reviewer.getStatus() == ReviewerStatus.REJECTED && latestRequest != null
+            if (latestRequest != null && latestRequest.getStatus() == ReviewerRequestStatus.REJECTED
                     && latestRequest.getReviewedAt() != null) {
                 long days = ChronoUnit.DAYS.between(latestRequest.getReviewedAt(), LocalDateTime.now());
                 if (days < 15) {
@@ -127,27 +125,15 @@ public class ReviewerRegistrationService {
             return "Invalid OTP";
         }
 
-        Reviewer reviewer = reviewerRepo.findByUserMail(user.getMail()).orElse(null);
-
         user.setVerified(true);
         user.setOtp(0);
         user.setOtpTimeOut(null);
         userRepo.save(user);
 
-        if (reviewer == null) {
-            reviewer = new Reviewer();
-            reviewer.setUser(user);
-        } else if (reviewer.getStatus() != ReviewerStatus.REJECTED) {
-            return "Your reviewer application is already active or pending.";
-        }
-
-        reviewer.setDepartment(request.getDepartment());
-        reviewer.setDesignation(request.getDesignation());
-        reviewer.setStatus(ReviewerStatus.PENDING);
-        reviewerRepo.save(reviewer);
-
         ReviewerRequest reviewerRequest = new ReviewerRequest();
-        reviewerRequest.setReviewer(reviewer);
+        reviewerRequest.setUser(user);
+        reviewerRequest.setDepartment(request.getDepartment());
+        reviewerRequest.setDesignation(request.getDesignation());
         reviewerRequest.setReason(request.getReason());
         reviewerRequest.setStatus(ReviewerRequestStatus.PENDING);
         reviewerRequest.setCreatedAt(LocalDateTime.now());

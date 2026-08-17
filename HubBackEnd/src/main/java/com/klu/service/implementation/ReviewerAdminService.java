@@ -9,10 +9,10 @@ import org.springframework.mail.javamail.JavaMailSender;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import com.klu.mail.UserSignUp;
 import com.klu.model.Reviewer;
 import com.klu.model.ReviewerRequest;
 import com.klu.model.ReviewerRequestStatus;
-import com.klu.model.ReviewerStatus;
 import com.klu.repository.ReviewerRepo;
 import com.klu.repository.ReviewerRequestRepo;
 
@@ -41,15 +41,23 @@ public class ReviewerAdminService {
             return "This request has already been processed";
         }
 
-        Reviewer reviewer = request.getReviewer();
-        reviewer.setStatus(ReviewerStatus.ACTIVE);
+        UserSignUp user = request.getUser();
+
+        if (reviewerRepo.findByUserMail(user.getMail()).isPresent()) {
+            return "Reviewer account already exists";
+        }
+
+        Reviewer reviewer = new Reviewer();
+        reviewer.setUser(user);
+        reviewer.setDepartment(request.getDepartment());
+        reviewer.setDesignation(request.getDesignation());
         reviewerRepo.save(reviewer);
 
         request.setStatus(ReviewerRequestStatus.APPROVED);
         request.setReviewedAt(LocalDateTime.now());
         reviewerRequestRepo.save(request);
 
-        sendDecisionMail(reviewer, true);
+        sendDecisionMail(user, true);
         return "Reviewer approved successfully";
     }
 
@@ -62,37 +70,33 @@ public class ReviewerAdminService {
             return "This request has already been processed";
         }
 
-        Reviewer reviewer = request.getReviewer();
-        reviewer.setStatus(ReviewerStatus.REJECTED);
-        reviewerRepo.save(reviewer);
-
         request.setStatus(ReviewerRequestStatus.REJECTED);
         request.setReviewedAt(LocalDateTime.now());
         reviewerRequestRepo.save(request);
 
-        sendDecisionMail(reviewer, false);
+        sendDecisionMail(request.getUser(), false);
         return "Reviewer request rejected";
     }
 
-    private void sendDecisionMail(Reviewer reviewer, boolean approved) {
-        if (reviewer.getUser() == null || reviewer.getUser().getMail() == null) {
+    private void sendDecisionMail(UserSignUp user, boolean approved) {
+        if (user == null || user.getMail() == null) {
             return;
         }
 
         SimpleMailMessage message = new SimpleMailMessage();
-        message.setTo(reviewer.getUser().getMail());
+        message.setTo(user.getMail());
 
         if (approved) {
             message.setSubject("Reviewer Application Approved - KL Innovation Hub");
             message.setText(
-                    "Hello " + reviewer.getUser().getName() + ",\n\n" +
+                    "Hello " + user.getName() + ",\n\n" +
                     "Your application to become a Project Reviewer for KL Innovation Hub has been approved.\n\n" +
                     "You can now use the reviewer login to access your reviewer dashboard.\n\n" +
                     "— KL Innovation Hub");
         } else {
             message.setSubject("Reviewer Application Update - KL Innovation Hub");
             message.setText(
-                    "Hello " + reviewer.getUser().getName() + ",\n\n" +
+                    "Hello " + user.getName() + ",\n\n" +
                     "Your application to become a Project Reviewer for KL Innovation Hub was not approved at this time.\n\n" +
                     "You can submit a new application after 15 days from the rejection date.\n\n" +
                     "— KL Innovation Hub");
