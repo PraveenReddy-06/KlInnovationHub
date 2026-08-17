@@ -113,13 +113,15 @@ const Login = () => {
               className="w-full p-3 rounded-xl bg-white/10 border border-white/20 text-white placeholder-gray-400 outline-none focus:border-tan transition"
             />
 
-            {isStudent && (
-              <div className="text-right">
-                <button type="button" onClick={() => navigate("/forgotPassword")}  className="text-cream text-sm hover:underline">
-                  Forgot Password?
-                </button>
-              </div>
-            )}
+            <div className="text-right">
+              <button type="button"
+                onClick={() => navigate(isStudent ? "/forgotPassword" : "/reviewer/forgot-password")}
+                className="text-cream text-sm hover:underline"
+              >
+                Forgot Password?
+              </button>
+            </div>
+
             {error && (
               <div className="bg-red-500/20 border border-red-500/30 rounded-xl p-3 text-red-300 text-sm">
                 {error}

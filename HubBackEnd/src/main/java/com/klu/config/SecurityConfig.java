@@ -28,7 +28,16 @@ public class SecurityConfig {
     SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
         http.cors(cors -> {}).csrf(csrf -> csrf.disable())
                 .authorizeHttpRequests(auth -> auth
-                        .requestMatchers("/mail/**", "/dashboard/**", "/reviewer/generateOtp", "/reviewer/verifyOtp", "/reviewer/login").permitAll()
+                        .requestMatchers(
+                                "/mail/**",
+                                "/dashboard/**",
+                                "/reviewer/generateOtp",
+                                "/reviewer/verifyOtp",
+                                "/reviewer/login",
+                                "/reviewer/forgotPassword",
+                                "/reviewer/verifyResetOtp",
+                                "/reviewer/resetPassword"
+                        ).permitAll()
                         .requestMatchers("/admin/reviewers/**").hasRole("ADMIN")
                         .requestMatchers(HttpMethod.GET,
                                 "/project/all",
