@@ -10,7 +10,6 @@ const SignupChoice = lazy(() => import("./Pages/SignUpLogin/SignupChoice"));
 const SignUp = lazy(() => import("./Pages/SignUpLogin/SignUp"));
 const TeacherSignup = lazy(() => import("./Pages/SignUpLogin/TeacherSignup"));
 const Login = lazy(() => import("./Pages/SignUpLogin/Login"));
-const ReviewerLogin = lazy(() => import("./Pages/SignUpLogin/ReviewerLogin"));
 const Dashboard = lazy(() => import("./Pages/Main/Dashboard"));
 const SubmitProject = lazy(() => import("./Pages/NavBarPages/SubmitProject"));
 const Leaderboard = lazy(() => import("./Pages/NavBarPages/Leaderboard"));
@@ -43,7 +42,7 @@ function App() {
           <Route path="/signup/student" element={<SignUp />} />
           <Route path="/signup/teacher" element={<TeacherSignup />} />
           <Route path="/login" element={<Login />} />
-          <Route path="/reviewer/login" element={<ReviewerLogin />} />
+          
           <Route path="/dashboard" element={<Dashboard />} />
           <Route path="/navbar" element={<Navbar />} />
           <Route path="/card" element={<Card />} />
