@@ -36,7 +36,8 @@ public class SecurityConfig {
                                 "/reviewer/login",
                                 "/reviewer/forgotPassword",
                                 "/reviewer/verifyResetOtp",
-                                "/reviewer/resetPassword"
+                                "/reviewer/resetPassword",
+                                "/admin/login"
                         ).permitAll()
                         .requestMatchers("/admin/reviewers/**").hasRole("ADMIN")
                         .requestMatchers(HttpMethod.GET,
