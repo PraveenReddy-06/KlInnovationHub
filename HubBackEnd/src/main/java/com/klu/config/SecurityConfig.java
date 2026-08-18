@@ -40,7 +40,7 @@ public class SecurityConfig {
                                 "/admin/login"
                         ).permitAll()
                         .requestMatchers("/admin/reviewers/**").hasRole("ADMIN")
-                        .requestMatchers("/reviewer/projects/**", "/reviewer/groupProjects/**").hasRole("REVIEWER")
+                        .requestMatchers("/reviewer/projects/**", "/reviewer/groupProjects/**", "/reviewer/review/**").hasRole("REVIEWER")
                         .requestMatchers(HttpMethod.GET,
                                 "/project/all",
                                 "/project/latest",
