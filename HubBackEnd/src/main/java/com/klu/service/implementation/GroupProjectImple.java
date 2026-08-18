@@ -14,6 +14,7 @@ import com.klu.repository.StudentRepo;
 import com.klu.service.ActivityService;
 import com.klu.service.CurrentUserService;
 import com.klu.service.GroupProjectService;
+import com.klu.service.NotificationService;
 
 @Service
 public class GroupProjectImple implements GroupProjectService{
@@ -30,6 +31,9 @@ public class GroupProjectImple implements GroupProjectService{
 	@Autowired
 	ActivityService activityService;
 	
+	@Autowired
+	NotificationService notificationService;
+	
 	@Override
 	public String SubmitGroupProject(GroupProject p,Long teamLeadId) {
 		if (p.getStudentList() != null) {
@@ -41,6 +45,8 @@ public class GroupProjectImple implements GroupProjectService{
 		p.setStatus(ProjectStatus.PENDING_REVIEW);
 		groupProjectRepo.save(p);
 		activityService.createActivity(s, "GROUP_PROJECT_CREATED",p.getProject_name());
+		notificationService.createNotification(s, s,
+				"Your project has been submitted for review.", p.getProject_name());
 		return "Group Project Submitted Sucessfully";
 	}
 
@@ -71,7 +77,9 @@ public class GroupProjectImple implements GroupProjectService{
 	
 	@Override
 	public List<GroupProject> getProjectsByid(Long id) {
-		return groupProjectRepo.findByTeamLead_StudentId(id);
+		return groupProjectRepo.findByTeamLead_StudentId(id).stream()
+				.filter(project -> project.getStatus() == ProjectStatus.APPROVED)
+				.collect(Collectors.toList());
 	}
 
 	public List<GroupProject> getPendingGroupProjects() {
