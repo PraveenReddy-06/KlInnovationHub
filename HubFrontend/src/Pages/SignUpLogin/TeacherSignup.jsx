@@ -117,7 +117,7 @@ const TeacherSignup = () => {
             Your email is verified. Your Project Reviewer application is now waiting for administrator approval.
           </p>
           <p className="text-bloodstone mt-2">You can log in only after your application is approved.</p>
-          <button onClick={() => navigate("/reviewer/login")} className="w-full mt-7 bg-primary text-tan font-bold py-3 rounded-xl">
+          <button onClick={() => navigate("/login")} className="w-full mt-7 bg-primary text-tan font-bold py-3 rounded-xl">
             Go to Reviewer Login
           </button>
         </div>
