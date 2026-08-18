@@ -21,4 +21,5 @@ public class AdminAuthController {
     public AdminLoginResponseDto login(@RequestBody Login request) {
         return adminLoginService.login(request);
     }
+    
 }

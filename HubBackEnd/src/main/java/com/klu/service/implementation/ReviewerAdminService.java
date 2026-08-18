@@ -27,6 +27,7 @@ public class ReviewerAdminService {
 
     @Autowired
     private JavaMailSender sender;
+    
 
     public List<ReviewerRequest> getPendingRequests() {
         return reviewerRequestRepo.findByStatusOrderByCreatedAtDesc(ReviewerRequestStatus.PENDING);

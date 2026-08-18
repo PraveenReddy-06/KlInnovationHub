@@ -14,7 +14,6 @@ import com.klu.dto.VerifyResetOtpDto;
 import com.klu.mail.UserSignUp;
 import com.klu.mail.UserSignUpRepository;
 import com.klu.model.Reviewer;
-import com.klu.model.ReviewerStatus;
 import com.klu.repository.ReviewerRepo;
 
 @Service
@@ -45,9 +44,9 @@ public class ReviewerPasswordService {
             return "Please verify your email first";
         }
 
-        Reviewer reviewer = reviewerRepo.findByUserMailAndStatus(mail, ReviewerStatus.ACTIVE).orElse(null);
+        Reviewer reviewer = reviewerRepo.findByUserMail(mail).orElse(null);
         if (reviewer == null) {
-            return "Your reviewer account is not active";
+            return "Your reviewer account is not approved";
         }
 
         int otp = secureRandom.nextInt(9000) + 1000;
@@ -75,9 +74,9 @@ public class ReviewerPasswordService {
             return "Reviewer account not found";
         }
 
-        Reviewer reviewer = reviewerRepo.findByUserMailAndStatus(request.getMail(), ReviewerStatus.ACTIVE).orElse(null);
+        Reviewer reviewer = reviewerRepo.findByUserMail(request.getMail()).orElse(null);
         if (reviewer == null) {
-            return "Your reviewer account is not active";
+            return "Your reviewer account is not approved";
         }
 
         if (user.getOtpTimeOut() == null || user.getOtpTimeOut().plusMinutes(3).isBefore(LocalDateTime.now())) {
@@ -98,9 +97,9 @@ public class ReviewerPasswordService {
             return "Reviewer account not found";
         }
 
-        Reviewer reviewer = reviewerRepo.findByUserMailAndStatus(request.getMail(), ReviewerStatus.ACTIVE).orElse(null);
+        Reviewer reviewer = reviewerRepo.findByUserMail(request.getMail()).orElse(null);
         if (reviewer == null) {
-            return "Your reviewer account is not active";
+            return "Your reviewer account is not approved";
         }
         if (!request.getNewPassword().matches(PASSWORD_REGEX)) {
             return "Password must contain uppercase, lowercase, number, symbol and be at least 10 characters long";

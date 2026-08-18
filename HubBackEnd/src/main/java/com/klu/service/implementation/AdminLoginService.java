@@ -23,6 +23,7 @@ public class AdminLoginService {
 
     @Autowired
     private JwtService jwtService;
+    
 
     public AdminLoginResponseDto login(Login request) {
         String mail = request.getMail();
@@ -62,4 +63,5 @@ public class AdminLoginService {
     private AdminLoginResponseDto failure(String message) {
         return new AdminLoginResponseDto(message, null, null, null);
     }
+    
 }
