@@ -6,6 +6,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.klu.model.Project;
+import com.klu.model.ProjectStatus;
 import com.klu.model.Student;
 import com.klu.repository.ProjectRepo;
 import com.klu.repository.StudentRepo;
@@ -32,6 +33,7 @@ public class ProjectImple implements ProjectService{
 	public String SubmitProject(Project p,Long id) {	
 		Student student = studentRepo.findById(id).orElseThrow(() -> new RuntimeException("Student not found"));
 		p.setStudent(student);
+		p.setStatus(ProjectStatus.PENDING_REVIEW);
 		projectRepo.save(p);
 		activityService.createActivity(student,"PROJECT_CREATED",p.getProjectName());
 		return "Project Submitted Sucessfully";
@@ -43,12 +45,12 @@ public class ProjectImple implements ProjectService{
 	}
 
 	@Override
-	public List<Project> getAllProjects() {	
+	public List<Project> getAllProjects() {
 		return projectRepo.findAll();
 	}
 
 	@Override
-	public List<Project> getProjectsByYear(int year) {	
+	public List<Project> getProjectsByYear(int year) {
 		return projectRepo.findByStudentYear(year);
 	}
 

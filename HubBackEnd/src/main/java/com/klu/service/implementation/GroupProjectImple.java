@@ -7,6 +7,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.klu.model.GroupProject;
+import com.klu.model.ProjectStatus;
 import com.klu.model.Student;
 import com.klu.repository.GroupProjectRepo;
 import com.klu.repository.StudentRepo;
@@ -39,6 +40,7 @@ public class GroupProjectImple implements GroupProjectService{
 		}
 		Student s = studentRepo.findById(teamLeadId).orElseThrow(() -> new RuntimeException("Team Lead Id do not found")) ;
 		p.setTeamLead(s);
+		p.setStatus(ProjectStatus.PENDING_REVIEW);
 		groupProjectRepo.save(p);
 		activityService.createActivity(s, "GROUP_PROJECT_CREATED",p.getProject_name());
 		return "Group Project Submitted Sucessfully";
