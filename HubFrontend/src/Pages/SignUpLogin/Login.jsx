@@ -52,7 +52,7 @@ const Login = () => {
           localStorage.setItem("reviewerToken", response.data.token);
           localStorage.setItem("reviewerId", response.data.reviewerId);
           localStorage.setItem( "reviewer",JSON.stringify(response.data));
-          navigate("/reviewer/dashboard");
+          navigate("/reviewerDashboard");
         } else {
           setError(
             response.data?.message || "Login failed"
@@ -130,7 +130,7 @@ const Login = () => {
             <button type="submit" disabled={loading || !login.mail || !login.password}
               className="w-full bg-tan text-primary font-bold py-3 rounded-xl transition hover:opacity-90 disabled:opacity-50 disabled:cursor-not-allowed"
             >
-              {loading? "Signing in...": isStudent? "Student Login": "Faculty Login"}
+              {loading? "Logging in...": isStudent? "Student Login": "Faculty Login"}
             </button>
           </form>
 

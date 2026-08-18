@@ -4,6 +4,7 @@ import AOS from "aos";
 import "aos/dist/aos.css";
 import Analytics from "./Analytics";
 import ProtectedRoute from "./Pages/SignUpLogin/ProctectedRoute";
+import ReviewerProtectedRoute from "./Components/ReviewerProtectedRoute";
 
 const LandingPage = lazy(() => import("./Pages/Main/LandingPage"));
 const SignupChoice = lazy(() => import("./Pages/SignUpLogin/SignupChoice"));
@@ -15,12 +16,15 @@ const Dashboard = lazy(() => import("./Pages/Main/Dashboard"));
 const SubmitProject = lazy(() => import("./Pages/NavBarPages/SubmitProject"));
 const Leaderboard = lazy(() => import("./Pages/NavBarPages/Leaderboard"));
 const ExploreProjects = lazy(() => import("./Pages/NavBarPages/ExploreProjects"));
+const ReviewerDashboard = lazy(() => import("./Pages/Reviewer/ReviewerDashboard"));
+const ReviewerProjects = lazy(() => import ("./Pages/Reviewer/ReviewerProjects"));
 const Profile = lazy(() => import("./Pages/Main/Profile"));
 const FormATeam = lazy(() => import("./Pages/Main/FormATeam"));
 const TeamApplications = lazy(() => import("./Pages/Main/TeamApplications"));
 const ForgotPassword = lazy(() => import("./Pages/SignUpLogin/ForgotPassword"));
 const Guide = lazy(() => import("./Pages/NavBarPages/Guide"));
-
+const ReviewerProjectDetails = lazy(() => import("./Pages/Reviewer/ReviewerProjectDetails"));
+const ReviewerGroupProjectDetails = lazy(() => import("./Pages/Reviewer/ReviewerGroupProjectDetails"));
 const Navbar = lazy(() => import("./Components/Navbar"));
 const Card = lazy(() => import("./Components/Card"));
 const TopProjectCard = lazy(() => import("./Components/TopProjectCard"));
@@ -44,6 +48,10 @@ function App() {
           <Route path="/signup/teacher" element={<TeacherSignup />} />
           <Route path="/login" element={<Login />} />
           <Route path="/reviewer/forgot-password" element={<ReviewerForgotPassword />} />
+          <Route path="/reviewerDashboard" element={<ReviewerProtectedRoute> <ReviewerDashboard/> </ReviewerProtectedRoute>}/>
+          <Route path="/reviewer/projects" element={<ReviewerProtectedRoute> <ReviewerProjects/> </ReviewerProtectedRoute>}/>
+          <Route path="/reviewer/project/:projectId" element={<ReviewerProtectedRoute>  <ReviewerProjectDetails /></ReviewerProtectedRoute>}/>
+          <Route path="/reviewer/group-project/:groupProjectId" element={ <ReviewerProtectedRoute> <ReviewerGroupProjectDetails /> </ReviewerProtectedRoute>}/>
           <Route path="/dashboard" element={<Dashboard />} />
           <Route path="/navbar" element={<Navbar />} />
           <Route path="/card" element={<Card />} />

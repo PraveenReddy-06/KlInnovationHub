@@ -58,11 +58,7 @@ public class ReviewerReviewImple implements ReviewerReviewService {
 
     @PostConstruct
     public void startRejectedProjectCleanup() {
-        cleanupScheduler.scheduleAtFixedRate(
-                this::deleteExpiredRejectedProjects,
-                1,
-                1,
-                TimeUnit.DAYS);
+        cleanupScheduler.scheduleAtFixedRate(this::deleteExpiredRejectedProjects,1,1,TimeUnit.DAYS);
     }
 
     @PreDestroy

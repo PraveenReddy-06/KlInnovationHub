@@ -23,30 +23,22 @@ public class ReviewerReviewController {
     private ReviewerReviewService reviewService;
 
     @PostMapping("/project/{projectId}/approve")
-    public ResponseEntity<String> approveProject(
-            @PathVariable Integer projectId,
-            @Valid @RequestBody(required = false) ReviewFeedbackDto request) {
+    public ResponseEntity<String> approveProject( @PathVariable Integer projectId,@Valid @RequestBody(required = false) ReviewFeedbackDto request) {
         return ResponseEntity.ok(reviewService.approveProject(projectId, request));
     }
 
     @PostMapping("/project/{projectId}/reject")
-    public ResponseEntity<String> rejectProject(
-            @PathVariable Integer projectId,
-            @Valid @RequestBody ReviewFeedbackDto request) {
+    public ResponseEntity<String> rejectProject( @PathVariable Integer projectId,@Valid @RequestBody ReviewFeedbackDto request) {
         return ResponseEntity.ok(reviewService.rejectProject(projectId, request));
     }
 
     @PostMapping("/groupProject/{groupProjectId}/approve")
-    public ResponseEntity<String> approveGroupProject(
-            @PathVariable Integer groupProjectId,
-            @Valid @RequestBody(required = false) ReviewFeedbackDto request) {
+    public ResponseEntity<String> approveGroupProject(@PathVariable Integer groupProjectId, @Valid @RequestBody(required = false) ReviewFeedbackDto request) {
         return ResponseEntity.ok(reviewService.approveGroupProject(groupProjectId, request));
     }
 
     @PostMapping("/groupProject/{groupProjectId}/reject")
-    public ResponseEntity<String> rejectGroupProject(
-            @PathVariable Integer groupProjectId,
-            @Valid @RequestBody ReviewFeedbackDto request) {
+    public ResponseEntity<String> rejectGroupProject(@PathVariable Integer groupProjectId,@Valid @RequestBody ReviewFeedbackDto request) {
         return ResponseEntity.ok(reviewService.rejectGroupProject(groupProjectId, request));
     }
 }

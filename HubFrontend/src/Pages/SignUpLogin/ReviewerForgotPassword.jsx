@@ -84,7 +84,7 @@ const ReviewerForgotPassword = () => {
       });
       if (res.data === "Password Updated Successfully") {
         setMessage("Password updated successfully. Redirecting to reviewer login...");
-        setTimeout(() => navigate("/reviewer/login"), 1500);
+        setTimeout(() => navigate("/login"), 1500);
       } else {
         setError(res.data);
       }
@@ -163,7 +163,7 @@ const ReviewerForgotPassword = () => {
           </div>
         )}
 
-        <button onClick={() => navigate("/reviewer/login")} className="mt-6 w-full text-tan hover:underline">
+        <button onClick={() => navigate("/login")} className="mt-6 w-full text-tan hover:underline">
           Back to Reviewer Login
         </button>
       </div>
