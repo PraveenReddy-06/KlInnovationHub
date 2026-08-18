@@ -8,6 +8,8 @@ import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import jakarta.persistence.CascadeType;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
+import jakarta.persistence.EnumType;
+import jakarta.persistence.Enumerated;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
@@ -68,5 +70,9 @@ public class GroupProject {
 	private String tech1;
 	private String tech2;
 	private String tech3;
+
+	@Enumerated(EnumType.STRING)
+	@Column(nullable = false, columnDefinition = "enum('PENDING_REVIEW','APPROVED','REJECTED') default 'APPROVED'")
+	private ProjectStatus status;
 
 }
