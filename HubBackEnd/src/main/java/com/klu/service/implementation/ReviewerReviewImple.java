@@ -1,6 +1,9 @@
 package com.klu.service.implementation;
 
 import java.time.LocalDateTime;
+import java.util.concurrent.Executors;
+import java.util.concurrent.ScheduledExecutorService;
+import java.util.concurrent.TimeUnit;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.mail.SimpleMailMessage;
@@ -22,6 +25,9 @@ import com.klu.service.CurrentReviewerService;
 import com.klu.service.NotificationService;
 import com.klu.service.ReviewerReviewService;
 
+import jakarta.annotation.PostConstruct;
+import jakarta.annotation.PreDestroy;
+
 @Service
 public class ReviewerReviewImple implements ReviewerReviewService {
 
@@ -42,6 +48,27 @@ public class ReviewerReviewImple implements ReviewerReviewService {
 
     @Autowired
     private JavaMailSender sender;
+
+    private final ScheduledExecutorService cleanupScheduler =
+            Executors.newSingleThreadScheduledExecutor(r -> {
+                Thread thread = new Thread(r, "rejected-project-cleanup");
+                thread.setDaemon(true);
+                return thread;
+            });
+
+    @PostConstruct
+    public void startRejectedProjectCleanup() {
+        cleanupScheduler.scheduleAtFixedRate(
+                this::deleteExpiredRejectedProjects,
+                1,
+                1,
+                TimeUnit.DAYS);
+    }
+
+    @PreDestroy
+    public void stopRejectedProjectCleanup() {
+        cleanupScheduler.shutdownNow();
+    }
 
     @Override
     @Transactional
@@ -154,5 +181,31 @@ public class ReviewerReviewImple implements ReviewerReviewService {
                 "— KL Innovation Hub"
         );
         sender.send(message);
+    }
+
+    private void deleteExpiredRejectedProjects() {
+        LocalDateTime cutoff = LocalDateTime.now().minusDays(30);
+
+        projectReviewRepo.findAll().stream()
+                .filter(review -> review.getNewStatus() == ProjectStatus.REJECTED)
+                .filter(review -> review.getReviewedAt() != null && review.getReviewedAt().isBefore(cutoff))
+                .forEach(this::deleteExpiredProject);
+    }
+
+    private void deleteExpiredProject(ProjectReview review) {
+        if (review.getProject() != null) {
+            Project project = review.getProject();
+            projectReviewRepo.delete(review);
+            projectReviewRepo.flush();
+            projectRepo.delete(project);
+            return;
+        }
+
+        if (review.getGroupProject() != null) {
+            GroupProject groupProject = review.getGroupProject();
+            projectReviewRepo.delete(review);
+            projectReviewRepo.flush();
+            groupProjectRepo.delete(groupProject);
+        }
     }
 }
