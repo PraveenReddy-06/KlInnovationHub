@@ -41,32 +41,35 @@ public class ProjectImple implements ProjectService{
 
 	@Override
 	public List<Project> getLatestSubmissions() {	
-		return projectRepo.findTop5ByOrderByProjectIdDesc();
+		return projectRepo.findTop5ByStatusOrderByProjectIdDesc(ProjectStatus.APPROVED);
 	}
 
 	@Override
 	public List<Project> getAllProjects() {
-		return projectRepo.findAll();
+		return projectRepo.findByStatus(ProjectStatus.APPROVED);
 	}
 
 	@Override
 	public List<Project> getProjectsByYear(int year) {
-		return projectRepo.findByStudentYear(year);
+		return projectRepo.findByStatusAndStudentYear(ProjectStatus.APPROVED, year);
 	}
 
 	@Override
 	public List<Project> getProjectsByBranch(String bname) {
-		return projectRepo.findByStudentBranch(bname);
+		return projectRepo.findByStatusAndStudentBranch(ProjectStatus.APPROVED, bname);
 	}
 
 	@Override
 	public List<Project> getProjectsByid(long id) {
-		
 		return projectRepo.findByStudentStudentId(id);
 	}
 
 	public List<Project> getProjectsByBranchAndYear(String branch, Integer year) {
-		return projectRepo.findByStudentBranchAndStudentYear(branch,year);
+		return projectRepo.findByStatusAndStudentBranchAndStudentYear(ProjectStatus.APPROVED, branch, year);
+	}
+
+	public List<Project> getPendingProjects() {
+		return projectRepo.findByStatus(ProjectStatus.PENDING_REVIEW);
 	}
 
 	public String deleteProjectsById(int projectId) {

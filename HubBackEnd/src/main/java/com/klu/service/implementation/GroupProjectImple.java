@@ -30,8 +30,6 @@ public class GroupProjectImple implements GroupProjectService{
 	@Autowired
 	ActivityService activityService;
 	
-	
-	
 	@Override
 	public String SubmitGroupProject(GroupProject p,Long teamLeadId) {
 		if (p.getStudentList() != null) {
@@ -48,32 +46,36 @@ public class GroupProjectImple implements GroupProjectService{
 
 	@Override
 	public List<GroupProject> getLatestGroupSubmissions() {
-		return groupProjectRepo.findTop5ByOrderByGroupProjectIdDesc();
+		return groupProjectRepo.findTop5ByStatusOrderByGroupProjectIdDesc(ProjectStatus.APPROVED);
 	}
 
 	@Override
-	public List<GroupProject> getAllProjects() {	
-		return groupProjectRepo.findAll();
+	public List<GroupProject> getAllProjects() {
+		return groupProjectRepo.findByStatus(ProjectStatus.APPROVED);
 	}
 
 	@Override
 	public List<GroupProject> getProjectsByYear(Integer year) {
-		return groupProjectRepo.findByTeamLead_Year(year);
+		return groupProjectRepo.findByStatusAndTeamLead_Year(ProjectStatus.APPROVED, year);
 	}
 
 	@Override
 	public List<GroupProject> getProjectsByBranch(String branch) {
-		return groupProjectRepo.findByTeamLead_Branch(branch);
+		return groupProjectRepo.findByStatusAndTeamLead_Branch(ProjectStatus.APPROVED, branch);
 	}
 
 	@Override
 	public List<GroupProject> getProjectsByBranchAndYear(String branch, Integer year) {
-		return groupProjectRepo.findByTeamLead_BranchAndTeamLead_Year(branch,year);
+		return groupProjectRepo.findByStatusAndTeamLead_BranchAndTeamLead_Year(ProjectStatus.APPROVED, branch, year);
 	}
 	
 	@Override
 	public List<GroupProject> getProjectsByid(Long id) {
 		return groupProjectRepo.findByTeamLead_StudentId(id);
+	}
+
+	public List<GroupProject> getPendingGroupProjects() {
+		return groupProjectRepo.findByStatus(ProjectStatus.PENDING_REVIEW);
 	}
 
 	public String deleteProjectsById(int projectId) {
@@ -85,6 +87,5 @@ public class GroupProjectImple implements GroupProjectService{
 		groupProjectRepo.delete(p);
 		return "Project Deleted Sucessfully";
 	}
-
 
 }
