@@ -3,6 +3,8 @@ package com.klu.service.implementation;
 import java.time.LocalDateTime;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.mail.SimpleMailMessage;
+import org.springframework.mail.javamail.JavaMailSender;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -12,10 +14,12 @@ import com.klu.model.Project;
 import com.klu.model.ProjectReview;
 import com.klu.model.ProjectStatus;
 import com.klu.model.Reviewer;
+import com.klu.model.Student;
 import com.klu.repository.GroupProjectRepo;
 import com.klu.repository.ProjectRepo;
 import com.klu.repository.ProjectReviewRepo;
 import com.klu.service.CurrentReviewerService;
+import com.klu.service.NotificationService;
 import com.klu.service.ReviewerReviewService;
 
 @Service
@@ -32,6 +36,12 @@ public class ReviewerReviewImple implements ReviewerReviewService {
 
     @Autowired
     private CurrentReviewerService currentReviewer;
+
+    @Autowired
+    private NotificationService notificationService;
+
+    @Autowired
+    private JavaMailSender sender;
 
     @Override
     @Transactional
@@ -79,6 +89,7 @@ public class ReviewerReviewImple implements ReviewerReviewService {
 
         saveReview(currentReviewer.getCurrentReviewer(), project, null,
                 ProjectStatus.PENDING_REVIEW, newStatus, feedback);
+        sendDecisionNotification(project.getStudent(), project.getProjectName(), newStatus, feedback);
         return "Project " + newStatus.name().toLowerCase() + " successfully";
     }
 
@@ -95,6 +106,7 @@ public class ReviewerReviewImple implements ReviewerReviewService {
 
         saveReview(currentReviewer.getCurrentReviewer(), null, project,
                 ProjectStatus.PENDING_REVIEW, newStatus, feedback);
+        sendDecisionNotification(project.getTeamLead(), project.getProject_name(), newStatus, feedback);
         return "Group project " + newStatus.name().toLowerCase() + " successfully";
     }
 
@@ -115,5 +127,32 @@ public class ReviewerReviewImple implements ReviewerReviewService {
         review.setFeedback(feedback);
         review.setReviewedAt(LocalDateTime.now());
         projectReviewRepo.save(review);
+    }
+
+    private void sendDecisionNotification(Student student, String projectName,
+            ProjectStatus status, String feedback) {
+        String message = status == ProjectStatus.APPROVED
+                ? "Your project has been approved."
+                : "Your project has been rejected.";
+
+        notificationService.createNotification(student, student, message, projectName);
+
+        if (status == ProjectStatus.REJECTED) {
+            sendRejectionEmail(student, projectName, feedback);
+        }
+    }
+
+    private void sendRejectionEmail(Student student, String projectName, String feedback) {
+        SimpleMailMessage message = new SimpleMailMessage();
+        message.setTo(student.getStudentEmail());
+        message.setSubject("Project Review Update • KL Innovation Hub");
+        message.setText(
+                "Hello " + student.getStudent_name() + ",\n\n" +
+                "Your project \"" + projectName + "\" has been rejected by the KL Innovation Hub project review committee.\n\n" +
+                "Reviewer feedback:\n" + feedback + "\n\n" +
+                "You can improve the project and submit it again according to the project review rules.\n\n" +
+                "— KL Innovation Hub"
+        );
+        sender.send(message);
     }
 }
