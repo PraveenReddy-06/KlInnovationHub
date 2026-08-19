@@ -56,10 +56,7 @@ const Profile = () => {
     setStudentName(student.student_name || "");
     setGithubUrl(student.githubUrl || "");
     setLinkedinUrl(student.linkedinUrl || "");
-    setSelectedAvatar(
-      student.avatarUrl ||
-      `/avatars/Avatar${(student.studentId % 40) + 1}.webp`
-    );}
+    setSelectedAvatar(student.avatarUrl ||`/avatars/Avatar${(student.studentId % 40) + 1}.webp`);}
   }, [student]);
 
     const [showLinksModal, setShowLinksModal] = useState(false);

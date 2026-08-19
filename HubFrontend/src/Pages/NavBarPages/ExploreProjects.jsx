@@ -5,7 +5,8 @@ import {Search,Heart,Users,User,ExternalLink} from "lucide-react";
 import { FaGithub } from "react-icons/fa";
 import { useNavigate } from "react-router-dom";
 import toast, { Toaster } from "react-hot-toast";
-import DashboardFooter from "../../Components/DashboardFooter"
+import DashboardFooter from "../../Components/DashboardFooter";
+import ReviewerNavbar from "../Reviewer/ReviewerNavbar";
 
 const ExploreProjects = () => {
 
@@ -21,10 +22,13 @@ const ExploreProjects = () => {
   const [selectedChoice, setSelectedChoice] = useState("");
 
   const studentId = JSON.parse(localStorage.getItem("studentId"));
+  const isReviewer = !!localStorage.getItem("reviewerToken");
   const navigate = useNavigate();
 
   const requireLogin = () => {
-    if (!localStorage.getItem("token")) {
+    const studentToken = localStorage.getItem("token");
+    const reviewerToken = localStorage.getItem("reviewerToken");
+    if (!studentToken && !reviewerToken) {
       toast.error("Please login to continue");
       navigate("/login");
       return false;
@@ -75,6 +79,10 @@ const ExploreProjects = () => {
   }, [allProjects,search,selectedBranch,selectedYear,selectedType,selectedChoice]);
 
   const handleLike = async (project) => {
+    if (localStorage.getItem("reviewerToken")) {
+      toast("Reviewers cannot like projects.");
+      return;
+    }
     if (!requireLogin()) return;
 
     try {
@@ -113,7 +121,7 @@ const ExploreProjects = () => {
   return (
 
     <div className="min-h-screen bg-gray-100 flex flex-col">
-    <Navbar/>
+    {isReviewer ? <ReviewerNavbar /> : <Navbar />}
     <div className="bg-oxford-blue text-gray-700 shadow-md px-4 sm:px-5 py-5 mb-6">
       <div className="flex flex-col lg:flex-row lg:items-center lg:justify-between gap-5">
         <div>

@@ -112,7 +112,7 @@ const ReviewerProjectDetails = () => {
 
       <main className="max-w-5xl mx-auto px-6 py-8">
         {/* Heading */}
-        <div className="mb-8">
+        <div className="mb-5">
           <div className="flex items-center gap-3">
             <div className="rounded-xl bg-[#5483B3]/20 p-3 text-[#7DA0CA]">
               <FileText size={25} />
@@ -122,11 +122,20 @@ const ReviewerProjectDetails = () => {
               <h1 className="text-3xl font-bold">{project.projectName || "Untitled Project"}</h1>
             </div>
           </div>
-          <div className="mt-4">
-            <span className="rounded-full border border-amber-400/30 bg-amber-400/10 px-3 py-1 text-xs text-amber-300">
+          <div className="mt-4 font-bold flex flex-row gap-5 ">
+            <span className="rounded-full border border-amber-400/30 bg-amber-400/10 px-3 py-1 text-md text-amber-300">
               Pending Review
             </span>
+            <span className="rounded-full border border-amber-400/30 bg-amber-400/10 px-3 py-1 text-md text-amber-300">
+              {project.choice}
+            </span>
           </div>
+        </div>
+
+        <div className="mb-5 font-semibold text-xl">
+          <span>
+            Submitted By {project.student.student_name}
+          </span>
         </div>
 
         {/* Description */}
@@ -138,10 +147,20 @@ const ReviewerProjectDetails = () => {
         {/* Project information */}
         <section className="rounded-2xl border border-white/10 bg-white/[0.03] p-6 mb-6">
           <h2 className="text-lg font-semibold mb-5">Project Information</h2>
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-5">
-            <InfoItem label="Branch" value={project.branch} />
-            <InfoItem label="Year" value={project.year} />
-            <InfoItem label="Technologies" value={project.technologies} />
+          <div className="text-md grid grid-cols-1 md:grid-cols-2 gap-5">
+            
+            <InfoItem label="Branch" value={project.student?.branch} />
+            <InfoItem label="Year" value={project.student?.year} />
+            <div>
+              <p className=" uppercase tracking-wider text-gray-300">  Technologies</p>
+              <div className="mt-2 flex flex-wrap gap-2">
+                {[project.tech1, project.tech2, project.tech3].filter(Boolean).map((tech, index) => (
+                    <span  key={index}  className="rounded-full border border-[#5483B3]/30 bg-[#5483B3]/10 px-3 py-1 text-md text-green-400">
+                      {tech}
+                    </span>
+                  ))}
+              </div>
+            </div>
             <InfoItem label="Status" value={project.status} />
           </div>
         </section>
@@ -151,9 +170,13 @@ const ReviewerProjectDetails = () => {
           <h2 className="text-lg font-semibold mb-5">Project Links</h2>
           <div className="flex flex-wrap gap-4">
             {project.githubUrl && (
-              <a href={project.githubUrl} target="_blank" rel="noopener noreferrer" className="flex items-center gap-2 rounded-lg border border-white/10 px-4 py-2.5 text-sm hover:bg-white/10">
-                <GitBranch size={18} /> GitHub <ExternalLink size={14} />
-              </a>
+              <div>
+                <span>For More details view .README file.</span>
+                <a href={project.githubUrl} target="_blank" rel="noopener noreferrer" className="flex items-center bg-gray-500 text-black gap-2 rounded-lg border border-gray-400 px-4 py-2.5 mt-2 text-sm hover:bg-white/10">
+                  <GitBranch size={18} /> GitHub <ExternalLink size={14} />
+                </a>
+              </div>
+
             )}
             {project.liveUrl && (
               <a href={project.liveUrl} target="_blank" rel="noopener noreferrer" className="flex items-center gap-2 rounded-lg border border-white/10 px-4 py-2.5 text-sm hover:bg-white/10">
@@ -230,7 +253,7 @@ const ReviewerProjectDetails = () => {
 const InfoItem = ({ label, value }) => {
   return (
     <div>
-      <p className="text-xs uppercase tracking-wider text-gray-500">{label}</p>
+      <p className=" uppercase tracking-wider text-gray-500">{label}</p>
       <p className="mt-1 text-sm text-gray-200">{value || "Not provided"}</p>
     </div>
   );

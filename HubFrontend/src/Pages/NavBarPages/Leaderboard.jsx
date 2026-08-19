@@ -8,9 +8,11 @@ import axiosInstance from "../../Api/axiosInstance"
 import { useNavigate } from "react-router-dom";
 import DashboardFooter from "../../Components/DashboardFooter";
 import toast, { Toaster } from "react-hot-toast";
+import ReviewerNavbar from '../Reviewer/ReviewerNavbar';
 
 const Leaderboard = () => {
-
+   const isReviewer = !!localStorage.getItem("reviewerToken");
+   
     const [leaderboard, setLeaderboard] = useState([]);
     const medals = [silver, gold, bronze];
     const order =[1,0,2];
@@ -53,7 +55,7 @@ const Leaderboard = () => {
 
   return (
     <div>
-        < Navbar/>
+        {isReviewer ? <ReviewerNavbar /> : <Navbar />}
 
         <div className="flex flex-col-reverse lg:flex-row px-4 sm:px-8 lg:px-10 gap-8 items-center bg-myLeaderboard text-gray-300 border-t border-t-gray-800">
             <div className="w-full lg:w-1/2 flex flex-col gap-3 px-0 lg:px-25 text-center lg:text-left">

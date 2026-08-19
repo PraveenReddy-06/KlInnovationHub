@@ -3,6 +3,7 @@ import { useNavigate } from "react-router-dom";
 import { ClipboardCheck, FileText, Users, ArrowRight, LogOut } from "lucide-react";
 import toast from "react-hot-toast";
 import reviewerAxiosInstance from "../../Api/reviewerAxiosInstance";
+import ReviewerNavbar from "./ReviewerNavbar";
 
 const ReviewerDashboard = () => {
   const navigate = useNavigate();
@@ -49,19 +50,8 @@ const ReviewerDashboard = () => {
 
   return (
     <div className="min-h-screen bg-[#021024] text-white">
-      <header className="border-b border-white/10">
-        <div className="max-w-7xl mx-auto px-6 py-5 flex justify-between items-center">
-          <div>
-            <p className="text-sm text-[#7DA0CA]">KL Innovation Hub</p>
-            <h1 className="text-2xl font-bold">Reviewer Dashboard</h1>
-          </div>
-
-          <button onClick={handleLogout} className="flex items-center gap-2 px-4 py-2 rounded-lg border border-white/10 hover:bg-white/5">
-            <LogOut size={18} /> Logout
-          </button>
-        </div>
-      </header>
-
+      
+      <ReviewerNavbar/>
       <main className="max-w-7xl mx-auto px-6 py-8">
         <div className="mb-8">
           <h2 className="text-xl font-semibold">Review Center</h2>

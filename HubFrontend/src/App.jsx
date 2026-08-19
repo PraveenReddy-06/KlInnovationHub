@@ -5,6 +5,7 @@ import "aos/dist/aos.css";
 import Analytics from "./Analytics";
 import ProtectedRoute from "./Pages/SignUpLogin/ProctectedRoute";
 import ReviewerProtectedRoute from "./Components/ReviewerProtectedRoute";
+import AuthenticatedRoute from "./Components/AuthenticatedRoute";
 
 const LandingPage = lazy(() => import("./Pages/Main/LandingPage"));
 const SignupChoice = lazy(() => import("./Pages/SignUpLogin/SignupChoice"));
@@ -59,7 +60,7 @@ function App() {
           <Route path="/submitProject" element={<ProtectedRoute><SubmitProject /></ProtectedRoute>} />
           <Route path="/leaderBoard" element={<Leaderboard />} />
           <Route path="/exploreProjects" element={<ExploreProjects />} />
-          <Route path="/profile/:studentId?" element={<ProtectedRoute><Profile /></ProtectedRoute>} />
+          <Route path="/profile/:studentId?" element={<AuthenticatedRoute><Profile /></AuthenticatedRoute>} />
           <Route path="/formATeam" element={<ProtectedRoute><FormATeam /></ProtectedRoute>} />
           <Route path="/teamApplications" element={<ProtectedRoute><TeamApplications /></ProtectedRoute>} />
           <Route path="/landingPage" element={<LandingPage />} />

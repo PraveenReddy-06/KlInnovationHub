@@ -6,8 +6,11 @@ import axiosInstance from "../../Api/axiosInstance"
 import TopProjectCard from '../../Components/TopProjectCard';
 import toast, { Toaster } from "react-hot-toast";
 import DashboardFooter from "../../Components/DashboardFooter";
+import ReviewerNavbar from '../Reviewer/ReviewerNavbar';
 
 const Dashboard = () => {
+  const isReviewer = !!localStorage.getItem("reviewerToken");
+
   const[projects,setProjects] = useState([])
   const[groupProjects,setGroupProjects] = useState([])
   const[topProjects,setTopProjects] = useState([])
@@ -95,7 +98,7 @@ const Dashboard = () => {
 
   return (
     <div className="min-h-screen overflow-y-auto no-scrollbar" style={{background:"linear-gradient(135deg, #FFF9EB 0%, #F8F0E5 50%, #D2B48C 100%)",}}>
-      <Navbar/>
+      {isReviewer ? <ReviewerNavbar /> : <Navbar />}
 
       <div className="flex flex-col-reverse lg:flex-row px-4 sm:px-8 lg:px-20 py-8 gap-8 items-center text-tan bg-dashboard border-b border-b-amber-700">
         <div className="w-full lg:w-1/2 flex flex-col gap-3 text-center lg:text-left">
