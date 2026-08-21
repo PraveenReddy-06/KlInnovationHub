@@ -32,6 +32,7 @@ const TopProjectCard = lazy(() => import("./Components/TopProjectCard"));
 const Footer = lazy(() => import("./Components/Footer"));
 const DashboardFooter = lazy(() => import("./Components/DashboardFooter"));
 const Solution = lazy(() => import("./Pages/Main/LandingPageSections/Solution"));
+const ReviewerReviewHistory = lazy(() => import("./Pages/Reviewer/ReviewerReviewHistory"));
 
 function App() {
   useEffect(() => {
@@ -53,6 +54,7 @@ function App() {
           <Route path="/reviewer/projects" element={<ReviewerProtectedRoute> <ReviewerProjects/> </ReviewerProtectedRoute>}/>
           <Route path="/reviewer/project/:projectId" element={<ReviewerProtectedRoute>  <ReviewerProjectDetails /></ReviewerProtectedRoute>}/>
           <Route path="/reviewer/group-project/:groupProjectId" element={ <ReviewerProtectedRoute> <ReviewerGroupProjectDetails /> </ReviewerProtectedRoute>}/>
+          <Route path="/reviewer/history"element={<ReviewerProtectedRoute><ReviewerReviewHistory /></ReviewerProtectedRoute>}/>
           <Route path="/dashboard" element={<Dashboard />} />
           <Route path="/navbar" element={<Navbar />} />
           <Route path="/card" element={<Card />} />

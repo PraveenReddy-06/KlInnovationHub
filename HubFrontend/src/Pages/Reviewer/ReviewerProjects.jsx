@@ -2,6 +2,7 @@ import { useEffect, useState } from "react";
 import { useNavigate, useSearchParams } from "react-router-dom";
 import { FileText, Users, ExternalLink } from "lucide-react";
 import reviewerAxiosInstance from "../../Api/reviewerAxiosInstance";
+import toast from "react-hot-toast";
 
 const ReviewerProjects = () => {
   const navigate = useNavigate();
@@ -28,6 +29,7 @@ const ReviewerProjects = () => {
       setGroupProjects(groupResponse.data || []);
     } catch (error) {
       console.error(error);
+      toast.error(error.response?.data || "Unable to fetch projects");
     } finally {
       setLoading(false);
     }

@@ -1,8 +1,6 @@
 import axios from "axios";
 
-const reviewerAxiosInstance = axios.create({
-    baseURL: "http://localhost:8080",
-});
+const reviewerAxiosInstance = axios.create({baseURL: import.meta.env.VITE_API_URL});
 
 reviewerAxiosInstance.interceptors.request.use(
     (config) => {

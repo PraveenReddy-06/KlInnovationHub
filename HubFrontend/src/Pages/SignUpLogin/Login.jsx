@@ -130,7 +130,7 @@ const Login = () => {
             <button type="submit" disabled={loading || !login.mail || !login.password}
               className="w-full bg-tan text-primary font-bold py-3 rounded-xl transition hover:opacity-90 disabled:opacity-50 disabled:cursor-not-allowed"
             >
-              {loading? "Logging in...": isStudent? "Student Login": "Faculty Login"}
+              {loading? "Logging in...": isStudent? "Login": "Login"}
             </button>
           </form>
 

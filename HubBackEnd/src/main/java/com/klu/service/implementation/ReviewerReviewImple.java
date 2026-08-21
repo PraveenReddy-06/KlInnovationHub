@@ -1,6 +1,7 @@
 package com.klu.service.implementation;
 
 import java.time.LocalDateTime;
+import java.util.List;
 import java.util.concurrent.Executors;
 import java.util.concurrent.ScheduledExecutorService;
 import java.util.concurrent.TimeUnit;
@@ -12,6 +13,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import com.klu.dto.ReviewFeedbackDto;
+import com.klu.dto.ReviewerReviewHistoryDto;
 import com.klu.model.GroupProject;
 import com.klu.model.Project;
 import com.klu.model.ProjectReview;
@@ -203,5 +205,12 @@ public class ReviewerReviewImple implements ReviewerReviewService {
             projectReviewRepo.flush();
             groupProjectRepo.delete(groupProject);
         }
+    }
+
+    @Override
+    @Transactional(readOnly = true)
+    public List<ReviewerReviewHistoryDto> getReviewHistory() {
+        Reviewer reviewer = currentReviewer.getCurrentReviewer();
+        return projectReviewRepo.findByReviewerOrderByReviewedAtDesc(reviewer).stream().map(ReviewerReviewHistoryDto::fromEntity).toList();
     }
 }

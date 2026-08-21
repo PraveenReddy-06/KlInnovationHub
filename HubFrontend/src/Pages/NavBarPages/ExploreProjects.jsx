@@ -255,7 +255,7 @@ const ExploreProjects = () => {
               </div>
               <div className="flex flex-col sm:flex-row gap-2 mt-4">
                 {project.liveUrl && (
-                  <a href={project.liveUrl} onClick={handleLiveUrlClick} className="flex-1 text-center bg-accent hover:bg-blue-700 text-white px-5 py-2 rounded text-sm">View Project</a>
+                  <a href={project.liveUrl}target="_blank" rel="noopener noreferrer" onClick={handleLiveUrlClick} className="flex-1 text-center bg-accent hover:bg-blue-700 text-white px-5 py-2 rounded text-sm">View Project</a>
                 )}
                 <a href={project.githubUrl} target="_blank" rel="noreferrer" onClick={handleGithubClick} className="w-full sm:w-14 border px-3 py-2 rounded flex items-center justify-center hover:bg-gray-100"><FaGithub size={20} /></a>
               </div>
