@@ -19,7 +19,7 @@ const Leaderboard = () => {
     const navigate = useNavigate();
 
     const requireLogin = () => {
-        if (!localStorage.getItem("token")) {
+        if (!localStorage.getItem("token") && !isReviewer) {
             toast.error("Please login to continue");
             navigate("/login");
             return false;

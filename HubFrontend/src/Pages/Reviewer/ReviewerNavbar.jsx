@@ -96,7 +96,7 @@ const ReviewerNavbar = () => {
 
                 <button
                     onClick={() => navigate("/reviewerDashboard")}
-                    className="flex items-center gap-2 text-vanilla-custard hover:text-light-blue transition-colors"
+                    className="flex items-center gap-2 text-vanilla-custard hover:text-light-blue transition-colors cursor-pointer"
                 >
                     <FaUserCircle size={28} />
 

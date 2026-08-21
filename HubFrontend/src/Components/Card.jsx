@@ -32,7 +32,7 @@ const Card = ({ project }) => {
   const handleLike = async () => {
     
     if (isReviewer) {
-      toast("Reviewers can view project likes but cannot like projects.");
+      toast("Reviewers cannot like projects.");
       return;
     }
 

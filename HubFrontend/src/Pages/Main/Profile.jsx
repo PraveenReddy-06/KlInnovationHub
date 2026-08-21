@@ -1,5 +1,6 @@
 import { memo, useEffect, useState } from "react";
 import axiosInstance from "../../Api/axiosInstance"
+import authenticatedAxiosInstance from "../../Api/AuthenticatedAxiosInstance";
 import Navbar from "../../Components/Navbar";
 import { useNavigate } from "react-router-dom";
 import Card from "../../Components/Card";
@@ -8,8 +9,11 @@ import { useParams } from "react-router-dom";
 import {Users,Handshake,Rocket} from "lucide-react";
 import FollowSection from "../Follow/FollowSection";
 import toast, { Toaster } from "react-hot-toast";
+import ReviewerNavbar from "../Reviewer/ReviewerNavbar";
 
 const Profile = () => {
+  
+  const isReviewer = !!localStorage.getItem("reviewerToken");
   const { studentId: routeStudentId } = useParams();
   const loggedInStudent = JSON.parse(localStorage.getItem("student"));
   const loggedInStudentId = localStorage.getItem("studentId");
@@ -37,7 +41,7 @@ const Profile = () => {
 
         if (routeStudentId) {
         try {
-            const res = await axiosInstance.get(`/student/getById/${routeStudentId}`);
+            const res = await authenticatedAxiosInstance.get(`/student/getById/${routeStudentId}`);
             setStudent(res.data);
         } catch (err) {
             console.error(err);
@@ -69,10 +73,10 @@ const Profile = () => {
         collaborationRes,
         applicationRes,
         ] = await Promise.all([
-        axiosInstance.get(`/project/student/${id}`),
-        axiosInstance.get(`/groupProject/student/${id}`),
-        axiosInstance.get(`/collaboration/student/${id}`),
-        axiosInstance.get(`/collabapplication/student/${id}`),
+        authenticatedAxiosInstance.get(`/project/student/${id}`),
+        authenticatedAxiosInstance.get(`/groupProject/student/${id}`),
+        authenticatedAxiosInstance.get(`/collaboration/student/${id}`),
+        authenticatedAxiosInstance.get(`/collabapplication/student/${id}`),
         ]);
 
         setProjects(projectRes.data);
@@ -128,7 +132,7 @@ return (
 return (
 <div className="min-h-screen bg-linear-to-br from-slate-950 via-blue-950 to-slate-950">
 
-    <Navbar />
+    {isReviewer ? <ReviewerNavbar /> : <Navbar />}
 
     <div className="max-w-7xl mx-auto px-4 sm:px-6 py-6 sm:py-8">
         <div className="relative h-52 sm:h-72 lg:h-96 rounded-2xl lg:rounded-[40px] overflow-hidden shadow-2xl bg-cover"

@@ -1,3 +1,4 @@
+import { Navigate } from "react-router-dom";
 import { memo } from 'react';
 
 const AuthenticatedRoute = ({ children }) => {
