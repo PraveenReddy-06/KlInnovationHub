@@ -50,7 +50,7 @@ const ReviewerDashboard = () => {
 
   return (
     <div className="relative min-h-screen text-white overflow-x-hidden">
-      <div  className="fixed inset-0 bg-cover bg-[center_30%] bg-no-repeat" style={{ backgroundImage: "url('/ReviewerDbg.png')" }}/>
+      <div  className="fixed inset-0 bg-cover bg-position-[center_30%] bg-no-repeat" style={{ backgroundImage: "url('/ReviewerDbg.png')" }}/>
       <div className="fixed inset-0 bg-primary/60 pointer-events-none" />
 
       <div className="relative z-10 min-h-screen">

@@ -3,6 +3,7 @@ import { useNavigate, useSearchParams } from "react-router-dom";
 import { FileText, Users, ExternalLink } from "lucide-react";
 import reviewerAxiosInstance from "../../Api/reviewerAxiosInstance";
 import toast from "react-hot-toast";
+import { ArrowLeft } from "lucide-react";
 
 const ReviewerProjects = () => {
   const navigate = useNavigate();
@@ -48,6 +49,13 @@ const ReviewerProjects = () => {
 
   return (
     <div className="min-h-screen bg-[#021024] text-white">
+
+      <div className="max-w-5xl mx-auto px-6 py-5">
+        <button onClick={() => navigate("/reviewerDashboard")} className="flex items-center gap-2 text-sm text-gray-400 hover:text-white">
+          <ArrowLeft size={17} /> Back to Dashboard
+        </button>
+      </div>
+
       <div className="max-w-7xl mx-auto px-6 py-8">
         <div className="mb-8">
           <p className="text-sm text-[#7DA0CA]">Reviewer Center</p>

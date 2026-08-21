@@ -141,7 +141,7 @@ const Login = () => {
             <button type="button" onClick={() => navigate(isStudent ? "/signup/student" : "/signup/teacher")}
               className="text-tan font-semibold hover:underline"
             >
-              {isStudent ? "Sign Up" : "Apply here"}
+              {isStudent ? "Sign Up" : "Register here"}
             </button>
           </div>
           <div className="mt-6 pt-5 border-t border-white/20 text-center">
