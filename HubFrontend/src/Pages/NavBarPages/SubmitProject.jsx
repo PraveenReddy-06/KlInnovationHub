@@ -272,7 +272,7 @@ const SubmitProject = () => {
                 )}
                 {projectStatus && (
                     <div>
-                        <div className="rounded-lg bg-primary text-white px-4 py-2">Project Submitted Successfully Redirecting...</div>
+                        <div className="rounded-lg bg-green-400 text-gray-900 px-4 py-2">Project Submitted Successfully Redirecting...</div>
                     </div>
                 )}
             </div>
@@ -372,7 +372,7 @@ const SubmitProject = () => {
                 )}
                 {groupProjectStatus && (
                     <div>
-                        <div className="rounded-lg bg-primary text-white px-4 py-2">
+                        <div className="rounded-lg bg-green-400 text-gray-900 px-4 py-2">
                             Group Project Submitted Successfully Redirecting...
                         </div>
                     </div>

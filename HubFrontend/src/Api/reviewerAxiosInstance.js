@@ -12,7 +12,36 @@ reviewerAxiosInstance.interceptors.request.use(
 
         return config;
     },
-    (error) => Promise.reject(error)
+    (error) => {return Promise.reject(error);}
+);
+
+let isLoggingOut = false;
+
+reviewerAxiosInstance.interceptors.response.use(
+    (response) => response,
+    (error) => {
+        const isAuthPage =
+            window.location.pathname === "/login" ||
+            window.location.pathname === "/reviewer/forgot-password";
+        const hadToken =
+            !!localStorage.getItem("reviewerToken");
+        if (
+            !isLoggingOut &&
+            hadToken &&
+            error.response?.status === 401 &&
+            !isAuthPage
+        ) {
+            isLoggingOut = true;
+            alert(
+                "Your session has expired. Please login again to continue."
+            );
+            localStorage.removeItem("reviewerToken");
+            localStorage.removeItem("reviewer");
+            localStorage.removeItem("reviewerId");
+            window.location.href = "/login";
+        }
+        return Promise.reject(error);
+    }
 );
 
 export default reviewerAxiosInstance;

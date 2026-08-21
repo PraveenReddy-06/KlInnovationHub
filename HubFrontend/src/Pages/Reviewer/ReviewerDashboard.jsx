@@ -54,7 +54,7 @@ const ReviewerDashboard = () => {
       <ReviewerNavbar/>
       <main className="max-w-7xl mx-auto px-6 py-8">
         <div className="mb-8">
-          <h2 className="text-xl font-semibold">Review Center</h2>
+          <h2 className="text-xl font-semibold">Faculty Review Center</h2>
           <p className="text-gray-400 mt-2">
             Review submitted student projects before they become visible on the platform.
           </p>

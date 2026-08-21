@@ -10,14 +10,16 @@ import VisionSection from './LandingPageSections/VisionSection';
 import CallToAction from './LandingPageSections/CallToAction';
 import Section123 from './LandingPageSections/Section123';
 import Footer from '../../Components/Footer';
+import ReviewerNavbar from '../Reviewer/ReviewerNavbar';
 
 const LandingPage = () => {
+  const isReviewer = !!localStorage.getItem("reviewerToken");
   return (
     <div>
       <h1 className="sr-only">
         KLU Innovation Hub – KL University Student Project Platform
       </h1>
-      <Navbar />
+      {isReviewer ? <ReviewerNavbar /> : <Navbar />}
       <Section123/>
       <Solution />
       <PlatformShowcase/>
