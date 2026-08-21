@@ -31,6 +31,7 @@ const ReviewerReviewHistory = () => {
       toast.error("Unable to load review history");
     } finally {
       setLoading(false);
+    
     }
   };
 
@@ -43,47 +44,43 @@ const ReviewerReviewHistory = () => {
   const rejectedCount = reviews.filter((review) => review.decision === "REJECTED").length;
 
   return (
-    <div className="min-h-screen bg-[#021024] text-white">
+    <div className="min-h-screen bg-linear-to-b from-cyan-400 to-white text-primary">
       <ReviewerNavbar />
 
-      <main className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
-        {/* PROFILE HEADER */}
-        <section className="rounded-3xl border border-white/10 bg-white/[0.03] overflow-hidden mb-10">
-          <div className="h-32 sm:h-40 bg-linear-to-r from-[#021024] via-[#17365f] to-[#5483B3]" />
-          <div className="px-5 sm:px-8 pb-8">
-            <div className="flex flex-col lg:flex-row lg:items-end lg:justify-between gap-6 -mt-12">
-              <div className="flex flex-col sm:flex-row items-start sm:items-end gap-5">
-                <div className="h-24 w-24 rounded-2xl border border-white/20 bg-[#021024] flex items-center justify-center shadow-2xl">
-                  <span className="text-3xl font-bold text-[#7DA0CA]">
-                    {(reviewer?.name || "R").charAt(0).toUpperCase()}
-                  </span>
-                </div>
-                <div>
-                  <p className="text-sm text-[#7DA0CA] uppercase tracking-[3px]">Reviewer Profile</p>
-                  <h1 className="text-2xl sm:text-3xl font-bold mt-1">{reviewer?.name || "Reviewer"}</h1>
-                  <div className="flex flex-wrap gap-x-5 gap-y-2 mt-3 text-sm text-gray-400">
-                    {reviewer?.email && (
-                      <span className="flex items-center gap-2"><Mail size={15} /> {reviewer.email}</span>
-                    )}
-                    {reviewer?.department && (
-                      <span className="flex items-center gap-2"><Building2 size={15} /> {reviewer.department}</span>
-                    )}
-                    {reviewer?.designation && (
-                      <span className="flex items-center gap-2"><BriefcaseBusiness size={15} /> {reviewer.designation}</span>
-                    )}
+      <main className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-5 sm:py-8">
+
+        <section className="relative rounded-3xl overflow-hidden mb-7 sm:mb-10 border border-white/10 bg-cover bg-center" style={{ backgroundImage: "url('/ReviewerBannerBg2.png')" }}>
+          <div className="relative">
+            <div className="h-24 sm:h-40" />
+            <div className="px-4 sm:px-8 pb-5 sm:pb-8">
+              <div className="flex flex-col lg:flex-row lg:items-end lg:justify-between gap-4 sm:gap-6 -mt-8 sm:-mt-12">
+                <div className="flex flex-col sm:flex-row items-start sm:items-end gap-5">
+                  <div>
+                    <p className="text-sm text-white uppercase tracking-[3px]">Reviewer Profile</p>
+                    <h1 className="text-xl sm:text-3xl font-bold mt-1 text-white">{reviewer?.name || "Reviewer"}</h1>
+                    <div className="flex flex-wrap gap-x-5 gap-y-2 mt-3 text-sm text-white">
+                      {reviewer?.email && (
+                        <span className="flex items-center gap-2"><Mail size={15} /> {reviewer.email}</span>
+                      )}
+                      {reviewer?.department && (
+                        <span className="flex items-center gap-2"><Building2 size={15} /> {reviewer.department}</span>
+                      )}
+                      {reviewer?.designation && (
+                        <span className="flex items-center gap-2"><BriefcaseBusiness size={15} /> {reviewer.designation}</span>
+                      )}
+                    </div>
                   </div>
                 </div>
               </div>
-
             </div>
           </div>
         </section>
 
         {/* REVIEW ACTIVITY HEADER */}
-        <div className="mb-7">
-          <p className="text-sm text-[#7DA0CA]">Reviewer Activity</p>
-          <h2 className="text-2xl sm:text-3xl font-bold mt-1">My Review History</h2>
-          <p className="text-gray-400 mt-2">View your previous project decisions and feedback.</p>
+        <div className="mb-7 sm:mb-7">
+          <p className="text-sm text-black">Reviewer Activity</p>
+          <h2 className="text-xl sm:text-3xl font-bold mt-1">My Review History</h2>
+          <p className="text-sm sm:text-base text-gray-800 mt-2">View your previous project decisions and feedback.</p>
         </div>
 
         {/* STATISTICS */}
@@ -118,17 +115,17 @@ const ReviewerReviewHistory = () => {
 };
 
 const StatCard = ({ icon, label, value }) => (
-  <div className="rounded-2xl border border-white/10 bg-white/[0.03] p-6">
-    <div className="text-[#7DA0CA]">{icon}</div>
-    <p className="text-gray-400 mt-5">{label}</p>
-    <p className="text-4xl font-bold mt-2">{value}</p>
+  <div className="rounded-2xl border border-gray-800 bg-oxford-blue p-4 sm:p-6">
+    <div className="text-white">{icon}</div>
+    <p className="text-white mt-3 sm:mt-5">{label}</p>
+    <p className="text-2xl sm:text-4xl text-white font-bold mt-1 sm:mt-2">{value}</p>
   </div>
 );
 
 const FilterButton = ({ active, onClick, children }) => (
   <button
     onClick={onClick}
-    className={`px-4 py-2 rounded-lg transition ${active ? "bg-white text-black" : "border border-white/10 text-gray-300 hover:bg-white/10"}`}
+    className={`px-3 sm:px-4 py-1.5 sm:py-2 text-sm sm:text-base cursor-pointer rounded-lg transition ${active ? "bg-tan text-black border border-black" : "border border-black text-black hover:cream"}`}
   >
     {children}
   </button>
@@ -139,34 +136,38 @@ const ReviewCard = ({ review }) => {
   const isApproved = review.decision === "APPROVED";
 
   return (
-    <div className="rounded-2xl border border-white/10 bg-white/[0.03] p-5 sm:p-6">
-      <div className="flex flex-col lg:flex-row lg:items-start lg:justify-between gap-5">
-        <div className="flex gap-4">
-          <div className="rounded-xl bg-[#5483B3]/20 p-3 text-[#7DA0CA] shrink-0 h-fit">
-            {isGroup ? <Users size={24} /> : <FileText size={24} />}
+    <div className="rounded-2xl border border-black bg-cream p-4 sm:p-6">
+      <div className="flex flex-col lg:flex-row lg:items-start lg:justify-between gap-4 sm:gap-5">
+        <div className="flex gap-3 sm:gap-4 min-w-0">
+          <div className="rounded-xl bg-[#5483B3]/20 p-2.5 sm:p-3 text-gray-500 shrink-0 h-fit">
+            {isGroup ? <Users size={22} /> : <FileText size={22} />}
           </div>
-          <div>
+
+          <div className="min-w-0">
             <div className="flex flex-wrap items-center gap-2">
-              <p className="text-xs text-[#7DA0CA] uppercase tracking-wider">
+              <p className="text-[11px] sm:text-xs text-gray-700 uppercase tracking-wider">
                 {isGroup ? "Group Project" : "Solo Project"}
               </p>
-              <span className={`rounded-full px-3 py-1 text-xs ${isApproved ? "border border-green-400/30 bg-green-400/10 text-green-300" : "border border-red-400/30 bg-red-400/10 text-red-300"}`}>
+              <span className={`rounded-full px-2.5 sm:px-3 py-1 text-[11px] sm:text-xs ${isApproved ? "border border-black bg-green-400 text-black" : "border border-red-400 bg-red-500 text-white"}`}>
                 {isApproved ? "Approved" : "Rejected"}
               </span>
             </div>
-            <h3 className="text-xl font-semibold mt-2">{review.projectName || "Untitled Project"}</h3>
+
+            <h3 className="text-lg sm:text-xl text-black font-semibold mt-2 break-words">
+              {review.projectName || "Untitled Project"}
+            </h3>
           </div>
         </div>
 
-        <div className="text-sm text-gray-500 lg:text-right">
+        <div className="text-xs sm:text-sm text-gray-600 lg:text-right pl-0 lg:pl-4">
           <p>Reviewed At</p>
-          <p className="text-gray-300 mt-1">{formatDate(review.reviewedAt)}</p>
+          <p className="text-gray-600 mt-1">{formatDate(review.reviewedAt)}</p>
         </div>
       </div>
 
-      <div className="mt-5 rounded-xl border border-white/10 bg-black/10 p-4">
-        <p className="text-xs uppercase tracking-wider text-gray-500">Feedback</p>
-        <p className="mt-2 text-sm text-gray-300 leading-6 whitespace-pre-wrap">
+      <div className="mt-4 sm:mt-5 rounded-xl border border-white/10 bg-black/10 p-3 sm:p-4">
+        <p className="text-xs uppercase tracking-wider text-bloodstone">Feedback</p>
+        <p className="mt-2 text-sm text-bloodstone leading-6 whitespace-pre-wrap break-words">
           {review.feedback?.trim() ? review.feedback : "No feedback was provided."}
         </p>
       </div>
@@ -175,7 +176,7 @@ const ReviewCard = ({ review }) => {
 };
 
 const LoadingState = () => (
-  <div className="rounded-2xl border border-white/10 bg-white/[0.03] p-10 flex items-center justify-center text-gray-400">
+  <div className="rounded-2xl border border-white/10 bg-cream p-6 sm:p-10 flex items-center justify-center text-gray-900">
     <div className="flex items-center gap-3">
       <Loader2 size={20} className="animate-spin" /> Loading review history...
     </div>
@@ -190,8 +191,8 @@ const EmptyState = ({ filter }) => {
       : "You have not reviewed any projects yet.";
 
   return (
-    <div className="rounded-2xl border border-white/10 bg-white/[0.03] p-12 text-center">
-      <Clock3 size={42} className="mx-auto text-gray-500 mb-4" />
+    <div className="rounded-2xl border border-white/10 bg-white/[0.03] p-8 sm:p-12 text-center">
+      <Clock3 size={42} className="mx-auto text-gray-900 mb-4" />
       <h3 className="font-semibold">No review history</h3>
       <p className="text-sm text-gray-500 mt-2">{message}</p>
     </div>
