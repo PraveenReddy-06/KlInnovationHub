@@ -44,7 +44,7 @@ const ReviewerReviewHistory = () => {
   const rejectedCount = reviews.filter((review) => review.decision === "REJECTED").length;
 
   return (
-    <div className="min-h-screen bg-linear-to-b from-cyan-400 to-white text-primary">
+    <div className="min-h-screen bg-linear-to-b from-cyan-600 to-cyan-200 text-primary">
       <ReviewerNavbar />
 
       <main className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-5 sm:py-8">
@@ -125,7 +125,7 @@ const StatCard = ({ icon, label, value }) => (
 const FilterButton = ({ active, onClick, children }) => (
   <button
     onClick={onClick}
-    className={`px-3 sm:px-4 py-1.5 sm:py-2 text-sm sm:text-base cursor-pointer rounded-lg transition ${active ? "bg-tan text-black border border-black" : "border border-black text-black hover:cream"}`}
+    className={`px-3 sm:px-4 py-1.5 sm:py-2 text-sm sm:text-base cursor-pointer rounded-lg transition ${active ? "bg-blue-400 text-black border border-black" : "border border-black text-black hover:cream"}`}
   >
     {children}
   </button>
@@ -136,16 +136,16 @@ const ReviewCard = ({ review }) => {
   const isApproved = review.decision === "APPROVED";
 
   return (
-    <div className="rounded-2xl border border-black bg-cream p-4 sm:p-6">
+    <div className="rounded-2xl border border-white bg-primary p-4 sm:p-6">
       <div className="flex flex-col lg:flex-row lg:items-start lg:justify-between gap-4 sm:gap-5">
         <div className="flex gap-3 sm:gap-4 min-w-0">
-          <div className="rounded-xl bg-[#5483B3]/20 p-2.5 sm:p-3 text-gray-500 shrink-0 h-fit">
+          <div className="rounded-xl bg-[#5483B3]/20 p-2.5 sm:p-3 text-gray-200 shrink-0 h-fit">
             {isGroup ? <Users size={22} /> : <FileText size={22} />}
           </div>
 
           <div className="min-w-0">
             <div className="flex flex-wrap items-center gap-2">
-              <p className="text-[11px] sm:text-xs text-gray-700 uppercase tracking-wider">
+              <p className="text-[11px] sm:text-xs text-gray-200 uppercase tracking-wider">
                 {isGroup ? "Group Project" : "Solo Project"}
               </p>
               <span className={`rounded-full px-2.5 sm:px-3 py-1 text-[11px] sm:text-xs ${isApproved ? "border border-black bg-green-400 text-black" : "border border-red-400 bg-red-500 text-white"}`}>
@@ -153,21 +153,21 @@ const ReviewCard = ({ review }) => {
               </span>
             </div>
 
-            <h3 className="text-lg sm:text-xl text-black font-semibold mt-2 break-words">
+            <h3 className="text-lg sm:text-xl text-white font-semibold mt-2 break-words">
               {review.projectName || "Untitled Project"}
             </h3>
           </div>
         </div>
 
-        <div className="text-xs sm:text-sm text-gray-600 lg:text-right pl-0 lg:pl-4">
+        <div className="text-xs sm:text-sm text-gray-300 lg:text-right pl-0 lg:pl-4">
           <p>Reviewed At</p>
-          <p className="text-gray-600 mt-1">{formatDate(review.reviewedAt)}</p>
+          <p className="text-gray-300 mt-1">{formatDate(review.reviewedAt)}</p>
         </div>
       </div>
 
       <div className="mt-4 sm:mt-5 rounded-xl border border-white/10 bg-black/10 p-3 sm:p-4">
-        <p className="text-xs uppercase tracking-wider text-bloodstone">Feedback</p>
-        <p className="mt-2 text-sm text-bloodstone leading-6 whitespace-pre-wrap break-words">
+        <p className="text-xs uppercase tracking-wider text-gray-500">Feedback</p>
+        <p className="mt-2 text-sm text-blue-400 leading-6 whitespace-pre-wrap break-words">
           {review.feedback?.trim() ? review.feedback : "No feedback was provided."}
         </p>
       </div>

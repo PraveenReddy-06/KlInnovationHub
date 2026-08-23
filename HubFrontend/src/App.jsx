@@ -6,6 +6,7 @@ import Analytics from "./Analytics";
 import ProtectedRoute from "./Pages/SignUpLogin/ProctectedRoute";
 import ReviewerProtectedRoute from "./Components/ReviewerProtectedRoute";
 import AuthenticatedRoute from "./Components/AuthenticatedRoute";
+import AdminProtectedRoute from "./Components/AdminProtectedRoute";
 
 const LandingPage = lazy(() => import("./Pages/Main/LandingPage"));
 const SignupChoice = lazy(() => import("./Pages/SignUpLogin/SignupChoice"));
@@ -33,6 +34,8 @@ const Footer = lazy(() => import("./Components/Footer"));
 const DashboardFooter = lazy(() => import("./Components/DashboardFooter"));
 const Solution = lazy(() => import("./Pages/Main/LandingPageSections/Solution"));
 const ReviewerReviewHistory = lazy(() => import("./Pages/Reviewer/ReviewerReviewHistory"));
+const AdminLogin = lazy(() => import("./Pages/Admin/AdminLogin"));
+const AdminDashboard = lazy(() => import("./Pages/Admin/AdminDashboard"));
 
 function App() {
   useEffect(() => {
@@ -71,6 +74,8 @@ function App() {
           <Route path="/footer" element={<Footer />} />
           <Route path="/dashboardFooter" element={<DashboardFooter />} />
           <Route path="/guide" element={<ProtectedRoute><Guide /></ProtectedRoute>} />
+          <Route path="/admin/login"element={<AdminLogin />}/>
+          <Route path="/admin/dashboard" element={<AdminProtectedRoute><AdminDashboard /></AdminProtectedRoute>}/>
         </Routes>
       </Suspense>
     </BrowserRouter>
