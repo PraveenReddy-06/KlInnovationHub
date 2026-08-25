@@ -139,7 +139,7 @@ const ReviewCard = ({ review }) => {
     <div className="rounded-2xl border border-white bg-primary p-4 sm:p-6">
       <div className="flex flex-col lg:flex-row lg:items-start lg:justify-between gap-4 sm:gap-5">
         <div className="flex gap-3 sm:gap-4 min-w-0">
-          <div className="rounded-xl bg-[#5483B3]/20 p-2.5 sm:p-3 text-gray-200 shrink-0 h-fit">
+          <div className="rounded-xl bg-accent p-2.5 sm:p-3 text-gray-200 shrink-0 h-fit">
             {isGroup ? <Users size={22} /> : <FileText size={22} />}
           </div>
 
@@ -153,7 +153,7 @@ const ReviewCard = ({ review }) => {
               </span>
             </div>
 
-            <h3 className="text-lg sm:text-xl text-white font-semibold mt-2 break-words">
+            <h3 className="text-lg sm:text-xl text-white font-semibold mt-2 wrap-break-word">
               {review.projectName || "Untitled Project"}
             </h3>
           </div>
@@ -167,7 +167,7 @@ const ReviewCard = ({ review }) => {
 
       <div className="mt-4 sm:mt-5 rounded-xl border border-white/10 bg-black/10 p-3 sm:p-4">
         <p className="text-xs uppercase tracking-wider text-gray-500">Feedback</p>
-        <p className="mt-2 text-sm text-blue-400 leading-6 whitespace-pre-wrap break-words">
+        <p className="mt-2 text-sm text-blue-400 leading-6 whitespace-pre-wrap wrap-break-word">
           {review.feedback?.trim() ? review.feedback : "No feedback was provided."}
         </p>
       </div>
@@ -191,7 +191,7 @@ const EmptyState = ({ filter }) => {
       : "You have not reviewed any projects yet.";
 
   return (
-    <div className="rounded-2xl border border-white/10 bg-white/[0.03] p-8 sm:p-12 text-center">
+    <div className="rounded-2xl border border-white/10 bg-white/3 p-8 sm:p-12 text-center">
       <Clock3 size={42} className="mx-auto text-gray-900 mb-4" />
       <h3 className="font-semibold">No review history</h3>
       <p className="text-sm text-gray-500 mt-2">{message}</p>

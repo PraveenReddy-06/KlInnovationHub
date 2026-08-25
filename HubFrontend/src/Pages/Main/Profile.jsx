@@ -6,7 +6,7 @@ import { useNavigate } from "react-router-dom";
 import Card from "../../Components/Card";
 import { FaGithub, FaLinkedin } from "react-icons/fa";
 import { useParams } from "react-router-dom";
-import {Users,Handshake,Rocket} from "lucide-react";
+import {Users,Handshake,Rocket,Pencil} from "lucide-react";
 import FollowSection from "../Follow/FollowSection";
 import toast, { Toaster } from "react-hot-toast";
 import ReviewerNavbar from "../Reviewer/ReviewerNavbar";
@@ -167,11 +167,8 @@ return (
                                         <FaLinkedin size={24} />LinkedIn
                                     </a>
                                     ) : (
-                                        <span className="text-slate-500 text-sm">LinkedIn not added</span>)}
-                                {isOwnProfile && (<button onClick={() => setShowLinksModal(true)} 
-                                    className="px-3 py-1 text-sm bg-white/10 rounded-lg hover:bg-white/20">
-                                    Edit Profile
-                                </button>)}
+                                        <span className="text-slate-500 text-sm">LinkedIn not added</span>
+                                )}
                             </div>
                             <div className="flex flex-wrap gap-3 mt-4">
                                 <span className="bg-cyan-500/20 text-cyan-300 px-4 py-2 rounded-full">    {student.branch}</span>
@@ -181,9 +178,16 @@ return (
                         </div>
                     </div>
                     <div className="flex flex-col gap-10">
-                        <div className="flex items-end justify-end">
-                            <FollowSection studentId={studentId} isOwnProfile={isOwnProfile}/>                            
-                        </div>                       
+                        <div className="flex flex-col gap-5">
+                            {isOwnProfile && (
+                            <button onClick={() => setShowLinksModal(true)} 
+                                className="self-end flex items-center gap-2 text-gray-700 px-3 py-1.5 text-sm bg-gray-300 rounded-lg hover:bg-white/20 transition">
+                            <Pencil size={15} /> Edit Profile </button>
+                            )}
+                            <div className="flex items-end justify-end">
+                                <FollowSection studentId={studentId} isOwnProfile={isOwnProfile}/>                            
+                            </div> 
+                        </div>                      
                         <div className="flex flex-col sm:flex-row gap-3 text-sm w-full lg:w-auto">
                             {isOwnProfile && (<button
                                 onClick={() => navigate("/formATeam")}

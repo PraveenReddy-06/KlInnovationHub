@@ -41,14 +41,14 @@ const ReviewerProjects = () => {
 
   if (loading) {
     return (
-      <div className="min-h-screen bg-[#021024] text-white flex items-center justify-center">
+      <div className="min-h-screen bg-primary text-white flex items-center justify-center">
         Loading...
       </div>
     );
   }
 
   return (
-    <div className="min-h-screen bg-[#021024] text-white">
+    <div className="min-h-screen bg-primary text-white">
 
       <div className="max-w-5xl mx-auto px-6 py-5">
         <button onClick={() => navigate("/reviewerDashboard")} className="flex items-center gap-2 text-sm text-gray-400 hover:text-white">
@@ -58,7 +58,7 @@ const ReviewerProjects = () => {
 
       <div className="max-w-7xl mx-auto px-6 py-8">
         <div className="mb-8">
-          <p className="text-sm text-[#7DA0CA]">Reviewer Center</p>
+          <p className="text-sm text-sky">Reviewer Center</p>
           <h1 className="text-3xl font-bold mt-1">Pending Projects</h1>
           <p className="text-gray-400 mt-2">
             Review projects submitted by KL Innovation Hub students.
@@ -89,7 +89,7 @@ const ReviewerProjects = () => {
         {showSolo && (
           <section className="mb-10">
             <div className="flex items-center gap-2 mb-4">
-              <FileText size={20} className="text-[#7DA0CA]" />
+              <FileText size={20} className="text-sky" />
               <h2 className="text-xl font-semibold">Solo Projects</h2>
             </div>
             <div className="grid md:grid-cols-2 xl:grid-cols-3 gap-5">
@@ -111,7 +111,7 @@ const ReviewerProjects = () => {
         {showGroup && (
           <section>
             <div className="flex items-center gap-2 mb-4">
-              <Users size={20} className="text-[#7DA0CA]" />
+              <Users size={20} className="text-sky" />
               <h2 className="text-xl font-semibold">Group Projects</h2>
             </div>
             <div className="grid md:grid-cols-2 xl:grid-cols-3 gap-5">
@@ -136,10 +136,10 @@ const ReviewerProjects = () => {
 
 const ProjectCard = ({ title, description, githubUrl, liveUrl, type, onReview }) => {
   return (
-    <div className="rounded-2xl border border-white/10 bg-white/[0.03] p-5">
+    <div className="rounded-2xl border border-white/10 bg-white/3 p-5">
       <div className="flex justify-between items-start gap-4">
         <div>
-          <p className="text-xs text-[#7DA0CA] uppercase tracking-wider">{type}</p>
+          <p className="text-xs text-sky uppercase tracking-wider">{type}</p>
           <h3 className="text-lg font-semibold mt-2">{title || "Untitled Project"}</h3>
         </div>
         <span className="rounded-full border border-amber-400/30 bg-amber-400/10 px-3 py-1 text-xs text-amber-300">

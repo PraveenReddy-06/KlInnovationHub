@@ -39,13 +39,7 @@ const AdminLogin = () => {
       }
 
       localStorage.setItem("adminToken", data.token);
-      localStorage.setItem(
-        "admin",
-        JSON.stringify({
-          name: data.name,
-          email: data.email,
-        })
-      );
+      localStorage.setItem("admin",JSON.stringify({name: data.name,email: data.email,}));
 
       toast.success(data.message || "Login successful");
       navigate("/admin/dashboard", { replace: true });

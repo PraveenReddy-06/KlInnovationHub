@@ -69,6 +69,7 @@ public class JwtFilter extends OncePerRequestFilter{
 	            || path.equals("/reviewer/generateOtp")
 	            || path.equals("/reviewer/verifyOtp")
 	            || path.equals("/reviewer/login")
+	            || path.equals("/admin/login")
 	            || path.equals("/reviewer/forgotPassword")
 	            || path.equals("/reviewer/verifyResetOtp")
 	            || path.equals("/reviewer/resetPassword");

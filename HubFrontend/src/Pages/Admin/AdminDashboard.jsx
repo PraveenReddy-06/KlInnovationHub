@@ -166,7 +166,7 @@ const AdminDashboard = () => {
               type="button"
               onClick={() => loadRequests(true)}
               disabled={refreshing}
-              className="self-start lg:self-auto flex items-center gap-2 rounded-xl border border-black/20 bg-white/70 px-4 py-2.5 text-sm font-semibold hover:bg-white transition disabled:opacity-50"
+              className="text-black self-start lg:self-auto flex items-center gap-2 rounded-xl border border-black/20 bg-white/70 px-4 py-2.5 text-sm font-semibold hover:bg-white transition disabled:opacity-50"
             >
               <RefreshCw size={17} className={refreshing ? "animate-spin" : ""} />
               Refresh
