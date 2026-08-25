@@ -7,12 +7,14 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.klu.model.GroupProject;
+import com.klu.model.ProjectStatus;
 import com.klu.model.Student;
 import com.klu.repository.GroupProjectRepo;
 import com.klu.repository.StudentRepo;
 import com.klu.service.ActivityService;
 import com.klu.service.CurrentUserService;
 import com.klu.service.GroupProjectService;
+import com.klu.service.NotificationService;
 
 @Service
 public class GroupProjectImple implements GroupProjectService{
@@ -29,7 +31,8 @@ public class GroupProjectImple implements GroupProjectService{
 	@Autowired
 	ActivityService activityService;
 	
-	
+	@Autowired
+	NotificationService notificationService;
 	
 	@Override
 	public String SubmitGroupProject(GroupProject p,Long teamLeadId) {
@@ -39,39 +42,48 @@ public class GroupProjectImple implements GroupProjectService{
 		}
 		Student s = studentRepo.findById(teamLeadId).orElseThrow(() -> new RuntimeException("Team Lead Id do not found")) ;
 		p.setTeamLead(s);
+		p.setStatus(ProjectStatus.PENDING_REVIEW);
 		groupProjectRepo.save(p);
 		activityService.createActivity(s, "GROUP_PROJECT_CREATED",p.getProject_name());
+		notificationService.createNotification(s, s,
+				"Your project has been submitted for review.", p.getProject_name());
 		return "Group Project Submitted Sucessfully";
 	}
 
 	@Override
 	public List<GroupProject> getLatestGroupSubmissions() {
-		return groupProjectRepo.findTop5ByOrderByGroupProjectIdDesc();
+		return groupProjectRepo.findTop5ByStatusOrderByGroupProjectIdDesc(ProjectStatus.APPROVED);
 	}
 
 	@Override
-	public List<GroupProject> getAllProjects() {	
-		return groupProjectRepo.findAll();
+	public List<GroupProject> getAllProjects() {
+		return groupProjectRepo.findByStatus(ProjectStatus.APPROVED);
 	}
 
 	@Override
 	public List<GroupProject> getProjectsByYear(Integer year) {
-		return groupProjectRepo.findByTeamLead_Year(year);
+		return groupProjectRepo.findByStatusAndTeamLead_Year(ProjectStatus.APPROVED, year);
 	}
 
 	@Override
 	public List<GroupProject> getProjectsByBranch(String branch) {
-		return groupProjectRepo.findByTeamLead_Branch(branch);
+		return groupProjectRepo.findByStatusAndTeamLead_Branch(ProjectStatus.APPROVED, branch);
 	}
 
 	@Override
 	public List<GroupProject> getProjectsByBranchAndYear(String branch, Integer year) {
-		return groupProjectRepo.findByTeamLead_BranchAndTeamLead_Year(branch,year);
+		return groupProjectRepo.findByStatusAndTeamLead_BranchAndTeamLead_Year(ProjectStatus.APPROVED, branch, year);
 	}
 	
 	@Override
 	public List<GroupProject> getProjectsByid(Long id) {
-		return groupProjectRepo.findByTeamLead_StudentId(id);
+		return groupProjectRepo.findByTeamLead_StudentId(id).stream()
+				.filter(project -> project.getStatus() == ProjectStatus.APPROVED)
+				.collect(Collectors.toList());
+	}
+
+	public List<GroupProject> getPendingGroupProjects() {
+		return groupProjectRepo.findByStatus(ProjectStatus.PENDING_REVIEW);
 	}
 
 	public String deleteProjectsById(int projectId) {
@@ -83,6 +95,5 @@ public class GroupProjectImple implements GroupProjectService{
 		groupProjectRepo.delete(p);
 		return "Project Deleted Sucessfully";
 	}
-
 
 }

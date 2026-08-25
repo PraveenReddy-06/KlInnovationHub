@@ -2,6 +2,7 @@ import { useEffect, useState } from "react";
 import axiosInstance from "../../Api/axiosInstance";
 import { useNavigate } from "react-router-dom";
 import toast, { Toaster } from "react-hot-toast";
+import authenticatedAxiosInstance from "../../Api/AuthenticatedAxiosInstance";
 
 const FollowSection = ({ studentId, isOwnProfile }) => {
   const [followersCount, setFollowersCount] = useState(0);
@@ -12,6 +13,8 @@ const FollowSection = ({ studentId, isOwnProfile }) => {
   const [showFollowersModal, setShowFollowersModal] = useState(false);
   const [showFollowingModal, setShowFollowingModal] = useState(false);
 
+  const isReviewer = !!localStorage.getItem("reviewerToken");
+
   const navigate = useNavigate();
 
   useEffect(() => {
@@ -20,13 +23,13 @@ const FollowSection = ({ studentId, isOwnProfile }) => {
 
   const fetchData = async () => {
     try {
-      const followersRes = await axiosInstance.get(`/followers/count/${studentId}`);
-      const followingRes = await axiosInstance.get(`/followers/followingCount/${studentId}`);
+      const followersRes = await authenticatedAxiosInstance.get(`/followers/count/${studentId}`);
+      const followingRes = await authenticatedAxiosInstance.get(`/followers/followingCount/${studentId}`);
 
       setFollowersCount(followersRes.data);
       setFollowingCount(followingRes.data);
 
-      if (!isOwnProfile) {
+      if (!isOwnProfile && !isReviewer) {
         const followRes = await axiosInstance.get(`/followers/isFollowing/${studentId}`);
         setIsFollowing(followRes.data);
       }
@@ -53,7 +56,7 @@ const FollowSection = ({ studentId, isOwnProfile }) => {
 
   const openFollowers = async () => {
     try {
-      const res = await axiosInstance.get(`/followers/list/${studentId}`);
+      const res = await authenticatedAxiosInstance.get(`/followers/list/${studentId}`);
       setFollowers(res.data);
       setShowFollowersModal(true);
     } catch (err) {
@@ -63,7 +66,7 @@ const FollowSection = ({ studentId, isOwnProfile }) => {
 
   const openFollowing = async () => {
     try {
-      const res = await axiosInstance.get(`/followers/following/${studentId}`);
+      const res = await authenticatedAxiosInstance.get(`/followers/following/${studentId}`);
       setFollowing(res.data);
       setShowFollowingModal(true);
     } catch (err) {
@@ -84,7 +87,7 @@ const FollowSection = ({ studentId, isOwnProfile }) => {
           <span className="ml-2">Following</span>
         </button>
 
-        {!isOwnProfile && (
+        {!isReviewer && !isOwnProfile && (
           <button onClick={handleFollow} className={isFollowing ? "w-full sm:w-auto bg-red-500 text-white px-5 py-2 border border-black rounded-xl" : "w-full sm:w-auto bg-green-400 text-black px-5 py-2 border border-black rounded-xl"}>
             {isFollowing ? "Unfollow" : "Follow"}
           </button>

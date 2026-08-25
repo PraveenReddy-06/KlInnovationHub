@@ -4,8 +4,17 @@ import {
   FaInstagram,
   FaEnvelope,
 } from "react-icons/fa";
+import toast, { Toaster } from "react-hot-toast";
 
 export default function Footer() {
+  const isReviewer = !!localStorage.getItem("reviewerToken");
+  const reviewerRestricted = (e) => {
+    if (isReviewer) {
+      e.preventDefault();
+      toast.error("This feature is available only for students.");
+    }
+  };
+
   return (
     <footer className="mt-12 md:mt-20 border-t border-white/10 bg-primary">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 pt-10 md:pt-12">
@@ -45,7 +54,7 @@ export default function Footer() {
               </Link>
 
               <Link
-                to="/submitProject"
+                to="/submitProject" onClick={reviewerRestricted}
                 className="hover:text-accent transition"
               >
                 Submit Project
@@ -67,12 +76,12 @@ export default function Footer() {
             </h3>
 
             <div className="flex flex-col gap-2 text-sky">
-              <Link to="/formATeam" className="hover:text-accent transition">
+              <Link to="/formATeam" onClick={reviewerRestricted} className="hover:text-accent transition">
                 Form a Team
               </Link>
 
               <Link
-                to="/teamApplications"
+                to="/teamApplications" onClick={reviewerRestricted}
                 className="hover:text-accent transition"
               >
                 Team Applications
@@ -82,8 +91,8 @@ export default function Footer() {
                 Solutions
               </Link>
 
-              <Link to="/profile" className="hover:text-accent transition">
-                Profile
+              <Link to={isReviewer ? "/reviewerDashboard" : "/profile"}>
+                  Profile
               </Link>
             </div>
           </div>

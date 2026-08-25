@@ -4,6 +4,7 @@ import axiosInstance from "../../Api/axiosInstance"
 import background from "../../Images/SubmitBg.png";
 import { useNavigate } from "react-router-dom";
 import toast, { Toaster } from "react-hot-toast";
+import { Info } from 'lucide-react';
 
 const SubmitProject = () => {
     const studentId = JSON.parse(localStorage.getItem("studentId"))
@@ -77,7 +78,7 @@ const SubmitProject = () => {
                         project_type: "solo",
                     });
                 }
-                toast.success("Project Submitted Sucessfully");
+                toast.success("Project Submitted For Review");
                 setTimeout(() => { navigate("/dashboard");}, 1500);
             }
         } catch (err) {
@@ -95,7 +96,7 @@ const SubmitProject = () => {
             const res = await axiosInstance.post(`/groupProject/submit/${studentId}`,payload);
             if (res.data === "Group Project Submitted Sucessfully") {
                 setGroupProjectStatus(true);
-                toast.success("Group Project Submitted Sucessfully");
+                toast.success("Project Submitted For Review");
                 if (window.gtag) {
                     window.gtag("event", "project_submit", {
                         project_type: "group",
@@ -258,7 +259,22 @@ const SubmitProject = () => {
             </div>
 
             <div className="w-full lg:w-1/2 flex flex-col gap-4 p-5 bg-vanilla-custard border border-tan rounded-2xl shadow-lg">
-                <h2 className="font-semibold text-lg text-secondary border-b border-tan pb-2">Links & Assets</h2>
+                <div className="flex items-center gap-2 border-b border-tan pb-2">
+                    <h2 className="font-semibold text-lg text-secondary">
+                        Links & Assets
+                    </h2>
+                    <div className="relative group">
+                        <Info size={18} className="text-accent cursor-help"/>
+                        <div className="absolute left-1/2 -translate-x-1/2 top-7 hidden group-hover:block w-64 z-50 bg-secondary text-white text-xsrounded-lg px-3 py-2shadow-lg">
+                            <p>
+                                Your GitHub repository should contain a
+                                <span className="font-semibold"> README.md </span>
+                                file explaining your project. Projects without a
+                                proper README may be rejected during review.
+                            </p>
+                        </div>
+                    </div>
+                </div>                
                 <input onChange={handleChange} name="githubUrl" value={project.githubUrl} type="text" placeholder="GitHub Repository URL *" className="p-3 border border-misty-sage rounded-lg bg-white focus:border-accent focus:outline-none"/>
                 {errors.githubUrl && (<p className="text-red-500 text-sm">{errors.githubUrl}</p>)}
                 <input onChange={handleChange} name="liveUrl"   value={project.liveUrl}   type="text" placeholder="Live Deployement URL" className="p-3 border border-misty-sage rounded-lg bg-white focus:border-accent focus:outline-none"/>
@@ -272,7 +288,7 @@ const SubmitProject = () => {
                 )}
                 {projectStatus && (
                     <div>
-                        <div className="rounded-lg bg-primary text-white px-4 py-2">Project Submitted Successfully Redirecting...</div>
+                        <div className="rounded-lg bg-green-400 text-gray-900 px-4 py-2">Project Submitted Successfully Redirecting...</div>
                     </div>
                 )}
             </div>
@@ -356,7 +372,22 @@ const SubmitProject = () => {
             </div>
 
             <div className="w-full lg:w-1/2 flex flex-col gap-4 p-5 bg-vanilla-custard border border-tan rounded-2xl shadow-lg transition-all duration-300 hover:shadow-2xl hover:-translate-y-1">
-                <h2 className="font-semibold text-lg text-secondary border-b border-tan pb-2">Links & Assets</h2>
+                <div className="flex items-center gap-2 border-b border-tan pb-2">
+                    <h2 className="font-semibold text-lg text-secondary">
+                        Links & Assets
+                    </h2>
+                    <div className="relative group">
+                        <Info size={18} className="text-accent cursor-help"/>
+                        <div className="absolute left-1/2 -translate-x-1/2 top-7 hidden group-hover:block w-64 z-50 bg-secondary text-white text-xsrounded-lg px-3 py-2shadow-lg">
+                            <p>
+                                Your GitHub repository should contain a
+                                <span className="font-semibold"> README.md </span>
+                                file explaining your project. Projects without a
+                                proper README may be rejected during review.
+                            </p>
+                        </div>
+                    </div>
+                </div> 
                 <input onChange={handleGroupChange} name="githubUrl" value={groupProject.githubUrl} type="text" placeholder="GitHub Repository URL *" className="p-3 border border-misty-sage rounded-lg bg-white focus:border-accent focus:outline-none"/>
                 {groupErrors.githubUrl && (
                     <p className="text-red-500 text-sm">{groupErrors.githubUrl}</p>
@@ -372,7 +403,7 @@ const SubmitProject = () => {
                 )}
                 {groupProjectStatus && (
                     <div>
-                        <div className="rounded-lg bg-primary text-white px-4 py-2">
+                        <div className="rounded-lg bg-green-400 text-gray-900 px-4 py-2">
                             Group Project Submitted Successfully Redirecting...
                         </div>
                     </div>

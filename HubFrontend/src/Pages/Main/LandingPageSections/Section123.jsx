@@ -2,8 +2,7 @@ import { memo } from 'react';
 import { Link } from "react-router-dom";
 import { useEffect, useState } from "react";
 import axiosInstance from "../../../Api/axiosInstance";
-import CountUp from "react-countup";
-import {FolderKanban,GraduationCap,Handshake,Heart} from "lucide-react";
+import {FolderKanban,GraduationCap,Handshake,UsersRound} from "lucide-react";
 import AOS from "aos";
 import "aos/dist/aos.css";
 import toast, { Toaster } from "react-hot-toast";
@@ -23,12 +22,8 @@ const Section123 = () => {
       projects: 0,
       students: 0,
       collaborations: 0,
-      likes: 0,
+      faculty: 0,
     });
-  
-    useEffect(() => {
-      fetchStats();
-    }, []);
   
     const fetchStats = async () => {
       try {
@@ -43,7 +38,7 @@ const Section123 = () => {
       { icon: FolderKanban, value: stats.projects, label: "Projects Created" },
       { icon: GraduationCap, value: stats.students, label: "Students Joined" },
       { icon: Handshake, value: stats.collaborations, label: "Collaborations Made" },
-      { icon: Heart, value: stats.likes, label: "Total Likes" },
+      { icon: UsersRound, value: stats.faculty, label: "Faculty Joined" },
     ];
 
     const problems = [

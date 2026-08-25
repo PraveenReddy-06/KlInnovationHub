@@ -6,11 +6,11 @@
 
 ### Building a Culture of Innovation at KL University
 
-*A cloud-based student innovation platform that enables KL University students to showcase projects, collaborate with peers, build technical portfolios, and foster innovation beyond the classroom.*
+*A cloud-based student innovation platform that enables KL University students to discover projects, showcase their work, collaborate with peers, build technical portfolios, and connect with faculty reviewers for project guidance and evaluation.*
 
 <p>
   <a href="https://klinnovationhub.app">
-      <img src="https://img.shields.io/badge/🌐_Live_Demo-klinnovationhub.app-blue?style=for-the-badge">
+    <img src="https://img.shields.io/badge/🌐_Live_Demo-klinnovationhub.app-blue?style=for-the-badge">
   </a>
 
   <a href="https://github.com/PraveenReddy-06/KlInnovationHub">
@@ -31,6 +31,7 @@
 <p>
   <img src="https://img.shields.io/badge/JWT-Secured-success" />
   <img src="https://img.shields.io/badge/OTP-Email_Verification-blue" />
+  <img src="https://img.shields.io/badge/Role--Based_Access-Student_|_Reviewer_|_Admin-informational" />
   <img src="https://img.shields.io/badge/Responsive-Desktop_&_Mobile-success" />
   <img src="https://img.shields.io/badge/Google_Analytics-GA4-E37400" />
 </p>
@@ -39,33 +40,58 @@
 
 ---
 
-## 🌐 Live Website
+# 🌐 Live Website
 
 **Live Application:** https://klinnovationhub.app
 
 **GitHub Repository:** https://github.com/PraveenReddy-06/KlInnovationHub
 
+**Email:** praveenmaramreddy2028@gmail.com
+
 **LinkedIn:** https://www.linkedin.com/in/praveen-maramreddy/
 
-**Email:** praveenmaramreddy2028@gmail.com
+**Instagram:** https://www.instagram.com/kl_innovationhub/?hl=en
 
 ---
 
 # About The Project
 
-Every semester, hundreds of innovative student projects are built across universities. Unfortunately, many of these projects disappear once evaluations are complete, receiving little recognition and leaving future students unaware of the ideas, solutions, and innovations created by their peers.
+Student projects are often created for academic evaluation and then become difficult for others to discover, learn from, or build upon.
 
-**KL Innovation Hub** was created to solve this problem.
+Another important gap is the absence of a centralized workflow where students can receive project guidance and structured review from faculty.
 
-It is a cloud-based innovation platform designed specifically for **KL University** students to discover projects, showcase their work, collaborate with peers, build technical portfolios, and create a lasting ecosystem of innovation beyond classroom submissions.
+**KL Innovation Hub** was created to address both problems.
 
-Instead of projects existing only for grades, KL Innovation Hub encourages students to build meaningful solutions, gain recognition across campus, and inspire future innovators.
+It is a cloud-based innovation platform designed specifically for **KL University** students to discover projects, showcase their work, form teams, collaborate with peers, build technical portfolios, and get guidance from faculty through a dedicated project-review workflow.
+
+Instead of projects existing only for grades, KL Innovation Hub helps turn academic project work into a visible campus innovation ecosystem where students can learn from one another, receive feedback, improve their work, and gain recognition.
+
+---
+
+# Problem Statement
+
+Many student projects are evaluated only within the immediate academic process.
+
+Once an evaluation is completed, the project may no longer have a structured path for visibility, collaboration, improvement, or future learning.
+
+The problem is not only project visibility.
+
+Students can also lack an accessible and centralized way to:
+
+- Discover innovative projects created by other students
+- Find teammates for future projects
+- Know the projects of your Juniors and Seniors
+- Receive guidance from faculty on project quality and direction
+- Recruit Students for you project
+- Compete with other Innovators across the platform
+
+KL Innovation Hub addresses these gaps through a single student-focused innovation and project-review ecosystem.
 
 ---
 
 # Vision
 
-> **To build a collaborative ecosystem where innovation is visible, collaboration is effortless, and every student project has the opportunity to inspire others.**
+> **To build a collaborative university ecosystem where innovation is visible, collaboration is effortless, faculty guidance is accessible, and every student project has the opportunity to improve and inspire others.**
 
 ---
 
@@ -75,19 +101,21 @@ Most existing platforms solve only one part of the problem.
 
 | Platform | Limitation |
 |-----------|------------|
-| GitHub | Excellent for code, but not designed for discovering university innovations or connecting with campus collaborators. |
-| LinkedIn | Professional networking platform, but lacks project-centric collaboration among students. |
-| Devpost | Focused mainly on hackathons and competitions rather than continuous campus innovation. |
+| GitHub | Excellent for code, but not designed for discovering university innovations, campus collaboration, or faculty project review. |
+| LinkedIn | Professional networking platform, but lacks a project-centric university collaboration and review workflow. |
+| Devpost | Focused mainly on hackathons and competitions rather than continuous campus innovation and project development. |
 
-**KL Innovation Hub combines the strengths of these platforms into one centralized ecosystem designed specifically for KL University students.**
+**KL Innovation Hub combines project discovery, collaboration, student portfolios, social engagement, and faculty project review into one centralized ecosystem for KL University.**
 
 Students can:
 
-- Showcase their projects
+- Showcase projects
 - Discover innovations across campus
 - Build technical portfolios
 - Form project teams
 - Collaborate with peers
+- Get guidance from faculty reviewers
+- Receive project feedback
 - Gain recognition
 - Inspire future students
 
@@ -97,11 +125,18 @@ Students can:
 
 - Built completely from scratch
 - Fully deployed on AWS Cloud
+- Role-based access for Students, Project Reviewers, and Administrators
 - JWT-based secure authentication
 - OTP email verification
+- Student and faculty/reviewer onboarding flows
+- Faculty reviewer application and admin approval workflow
+- Structured review workflow for solo and group projects
+- Approve or reject projects with reviewer feedback
+- Reviewer review history and project decision tracking
+- Email and in-app notifications for project review decisions
 - Team collaboration system
 - Project likes & engagement
-- Real-time notification system
+- Follow system
 - Activity feed
 - Leaderboard
 - Student profiles
@@ -114,43 +149,61 @@ Students can:
 
 # Project at a Glance
 
-| Metric | Value |
-|---------|------:|
+| Metric | Current Implementation |
+|--------|-----------------------:|
 | Frontend | React 19 + Vite 8 |
 | Backend | Spring Boot 3.5.16 |
 | Programming Language | Java 17 |
-| Database | MySQL (AWS RDS) |
+| Database | MySQL |
 | Cloud Provider | AWS |
-| Database Tables | 12 |
-| Controllers | 14+ |
-| DTOs | 15+ |
-| React Pages | 12+ |
+| User Roles | 3 — Student, Reviewer, Admin |
+| Database Tables | 15+ |
+| React Pages | 21+ |
+| Rest Api | 35+ |
+| Controllers | 20+ |
+| DTOs | 23+ |
+| Model | 15+ |
+| Service | 18+ |
 | Authentication | JWT + OTP |
 | Deployment | AWS Amplify + Elastic Beanstalk |
+| Database | AWS RDS MySQL |
+
+> These values represent the current `feature/project-reviewer` implementation and may change as the platform evolves.
 
 ---
 
 # Table of Contents
 
-- About the Project
-- Features
-- Tech Stack
-- System Architecture
-- Application Workflow
-- Project Structure
-- Getting Started
-- Environment Variables
-- Deployment
-- Security
-- Analytics & SEO
-- Screenshots
-- Roadmap
-- Current Limitations
-- Contributing
-- Contact
-- Acknowledgements
+- [About The Project](#about-the-project)
+- [Problem Statement](#problem-statement)
+- [Vision](#vision)
+- [Why KL Innovation Hub?](#why-kl-innovation-hub)
+- [Key Highlights](#key-highlights)
+- [Project at a Glance](#project-at-a-glance)
+- [Features](#features)
+- [Roles & Access](#roles--access)
+- [Project Review Workflow](#project-review-workflow)
+- [Platform Modules](#platform-modules)
+- [Technology Stack](#technology-stack)
+- [System Architecture](#system-architecture)
+- [Authentication & Authorization](#authentication--authorization)
+- [Project Structure](#project-structure)
+- [Backend Architecture](#backend-architecture)
+- [Security](#security)
+- [Deployment](#deployment)
+- [Getting Started](#getting-started)
+- [Environment Variables](#environment-variables)
+- [API Overview](#api-overview)
+- [Database Overview](#database-overview)
+- [Performance Considerations](#performance-considerations)
+- [Challenges & Engineering Journey](#challenges--engineering-journey)
+- [Roadmap](#roadmap)
+- [Current Limitations](#current-limitations)
+- [Contributing](#contributing)
+- [Contact](#contact)
 
 ---
+
 # 📸 Platform Preview
 
 | Dashboard | Explore Projects |
@@ -161,264 +214,498 @@ Students can:
 |-------------------|-----------------|
 | ![](images/collabhub.png) | ![](images/profile.png) |
 
-| Notifications | Leaderboard |
+| Leaderboard | Admin Dashboard |
 |---------------|-------------|
-| ![](images/notification.png) | ![](images/leaderboard.png) |
+| ![](images/leaderboard.png) | ![](images/admindashboard.png) |
+
+| Reviewer Dashboard | Reviewer Profile |
+|---------------|-------------|
+| ![](images/reviewerdashboard.png) | ![](images/reviewerprofile.png) |
+
+| Project Review Page |
+|---------------|
+| ![](images/projectreview.png) |
 
 ---
 
 # Features
 
-KL Innovation Hub is more than a project showcase platform. It provides a complete ecosystem that enables students to build, collaborate, and gain recognition for their technical work.
+KL Innovation Hub provides an ecosystem for students, faculty reviewers, and administrators to support project creation, collaboration, review, improvement, and recognition.
 
 ---
 
 ## Authentication & Security
 
-Secure authentication is the foundation of the platform. Every account is protected using industry-standard security practices to ensure safe access and user data protection.
+Secure authentication is the foundation of the platform.
 
-### Features
+### Student Authentication
 
-- JWT-based Authentication
-- Email OTP Verification
-- Forgot Password with OTP
-- BCrypt Password Encryption
-- Login Rate Limiting
-- Protected API Endpoints
-- Backend Input Validation
-- Secure CORS Configuration
-- Environment Variable Based Configuration
-- Stateless Authentication
+- Student registration
+- University email verification through OTP
+- Login with JWT authentication
+- Forgot password with OTP
+- BCrypt password hashing
+- Login rate limiting
+- Protected API endpoints
+- Backend validation
+- Secure CORS configuration
+- Stateless authentication
+
+### Reviewer Authentication
+
+Faculty members can apply for a Project Reviewer account through a dedicated onboarding flow.
+
+- Reviewer account selection
+- University email verification
+- OTP verification
+- Department capture
+- Designation capture
+- Reviewer application
+- Reviewer approval requirement
+- Reviewer forgot-password flow
+- JWT-based authentication
+- Protected reviewer routes
+
+### Admin Authentication
+
+Administrators have a separate authentication boundary for reviewer-management operations.
+
+- Dedicated admin login
+- JWT authentication
+- Protected admin routes
+- Admin-specific API client
+- Reviewer application management
 
 ---
 
-## Student Profiles
+# Roles & Access
+
+The platform currently supports three roles.
+
+| Role | Responsibility |
+|------|----------------|
+| **Student** | Create, submit, discover, collaborate, and showcase projects |
+| **Reviewer** | Review pending projects, provide feedback, and approve/reject submissions |
+| **Admin** | Manage reviewer applications and approve/reject reviewer access |
+
+### Student
+
+Students can:
+
+- Create projects
+- Submit solo projects
+- Submit group projects
+- Explore approved projects
+- Like projects
+- Follow students
+- Create teams
+- Join teams
+- Manage collaboration requests
+- View notifications
+- View activity
+- Build their profile
+- View leaderboard rankings
+
+### Reviewer
+
+Approved faculty reviewers can:
+
+- Access reviewer dashboard
+- View pending projects
+- Review solo projects
+- Review group projects
+- View project details
+- View technologies
+- Open GitHub links
+- Open live project links
+- Approve projects
+- Reject projects
+- Provide rejection feedback
+- View review history
+
+### Admin
+
+Administrators can:
+
+- Login through the admin portal
+- View pending reviewer applications
+- Search reviewer applications
+- Review faculty information
+- Approve reviewer applications
+- Reject reviewer applications
+- Manage reviewer access
+
+---
+
+# Student Profiles
 
 Every student has a personalized profile that acts as their technical portfolio within the university.
 
 ### Students can
 
 - View their personal profile
-- Upload profile information
 - Add GitHub profile
 - Add LinkedIn profile
 - Add portfolio or personal website
-- Showcase published projects
-- View followers & following
+- Showcase approved projects
+- View followers
+- View following
 - Track project statistics
 - Build a visible campus presence
 
 ---
 
-## Project Showcase
+# Project Showcase
 
-Students can publish projects with detailed information, making innovation discoverable across the university.
+Students can publish projects with detailed information.
 
-### Each project supports
+### Project information includes
 
-- Project Title
+- Project title
 - Description
-- Tech Stack
-- GitHub Repository
-- Live Demo URL
-- Images
-- Tags
-- Author Details
-- Like System
-- Search Visibility
+- Project category
+- Technologies
+- GitHub repository
+- Live demo URL
+- Author information
+- Project status
+- Engagement information
 
----
+### Project Visibility
 
-## Group Projects
+New projects are submitted with:
+PENDING_REVIEW
+
+# Group Projects
 
 Innovation is rarely built alone.
 
-KL Innovation Hub provides first-class support for collaborative student projects.
+KL Innovation Hub provides support for collaborative student projects.
 
 ### Features
 
-- Create Team Projects
-- Multiple Team Members
-- Shared Project Ownership
-- Team Visibility
-- Group Project Likes
-- Collaboration Support
+- Create team projects
+- Multiple team members
+- Team lead
+- Shared project information
+- Team visibility
+- Group project likes
+- Collaboration support
+- Faculty review for group submissions
 
 ---
 
-## Team Formation & Collaboration
+# Team Formation & Collaboration
 
 Finding the right teammates is often difficult.
 
-The platform simplifies collaboration by allowing students to discover projects and request to join teams.
+The platform allows students to discover projects, form teams, and manage collaboration requests.
 
-### Collaboration Features
+### Features
 
-- Form New Teams
-- Collaboration Requests
-- Team Applications
-- Application Management
-- Request Approval Workflow
+- Form new teams
+- Add team members
+- Collaboration requests
+- Team applications
+- Application management
+- Request approval workflow
 
 ---
 
-## Social Engagement
+# Social Engagement
 
-Learning becomes more engaging when innovation is visible.
-
-Students can interact with each other's work and build meaningful connections.
+Students can interact with projects and build connections across the university.
 
 ### Available Features
 
-- Like Projects
-- Like Group Projects
-- Follow Students
-- Followers & Following Lists
-- Student Discovery
+- Like projects
+- Like group projects
+- Follow students
+- Followers & following
+- Student discovery
+- Project engagement
+- Leaderboard participation
 
 ---
 
-## Notifications & Activity Feed
+# Notifications & Activity Feed
 
-The platform keeps students informed about interactions and recent campus activities.
+The platform keeps students informed about important project and community activity.
 
-### Notification System
+### Notifications
 
-- Follow Notifications
-- Like Notifications
-- Collaboration Updates
-- Team Activities
+- Follow notifications
+- Like notifications
+- Collaboration updates
+- Project submission updates
+- Project approval notifications
+- Project rejection notifications
+- Review-related updates
 
 ### Activity Feed
 
-- Recent Platform Activities
-- Community Updates
-- Student Engagement Timeline
+- Recent platform activities
+- Project creation activities
+- Group project activities
+- Community engagement timeline
 
 ---
 
-## Leaderboard
+# Leaderboard
 
 Healthy competition encourages innovation.
 
-The leaderboard highlights active students and outstanding projects within the community.
+The leaderboard highlights active students and outstanding approved projects.
 
 ### Highlights
 
-- Student Rankings
-- Top Projects
-- Recognition System
-- Campus Visibility
+- Student rankings
+- Top projects
+- Recognition
+- Campus visibility
 
 ---
 
-## Dashboard
+# Dashboard
 
-A personalized dashboard provides quick insights into user activity.
+The student dashboard provides a personalized overview of activity.
 
-Students can monitor
+Students can monitor:
 
-- Total Projects
-- Likes Received
+- Total projects
+- Likes received
 - Followers
 - Following
-- Team Projects
-- Platform Statistics
-- Recent Activities
+- Team projects
+- Platform statistics
+- Recent activities
 
 ---
 
-## User Guide
+# Explore Projects
 
-New users can quickly understand how the platform works through a dedicated guide section.
+Students can discover approved projects across the university.
+
+### Discovery Features
+
+- Solo projects
+- Group projects
+- Project search
+- Project filtering
+- Branch filtering
+- Year filtering
+- Technology information
+- GitHub links
+- Live project links
+
+Only approved projects are exposed through the public project discovery flow.
+
+---
+
+# User Guide
+
+The platform includes a dedicated guide section for new users.
 
 The guide introduces:
 
-- Platform Overview
+- Platform overview
 - Navigation
-- Feature Walkthrough
-- Collaboration Process
-- Best Practices
+- Feature walkthrough
+- Collaboration process
+- Best practices
+
+---
+
+# Faculty Project Review
+
+One of the major additions in the new version is the **Faculty Project Reviewer system**.
+
+The reviewer workflow provides students with a structured way to receive faculty evaluation and feedback on their projects.
+
+Reviewer applications contain information such as:
+
+- Name
+- Email
+- Department
+- Designation
+- Reason for becoming a reviewer
+- Application status
+- Created time
+- Reviewed time
+
+---
+
+# Reviewer Workspace
+
+Approved reviewers have a dedicated reviewer experience.
+
+### Reviewer pages include
+
+- Reviewer Dashboard
+- Pending Projects
+- Solo Project Review
+- Group Project Review
+- Review History
+- Reviewer Profile
+- Reviewer Navigation
+
+---
+
+# Reviewing Projects
+
+Reviewers can inspect pending project submissions.
+
+### Reviewers can view
+
+- Project name
+- Description
+- Team lead
+- Team members
+- Branch
+- Year
+- Technologies
+- Project status
+- GitHub repository
+- Live project
+
+---
+
+
+# Review History
+
+Reviewer decisions are stored and displayed through a dedicated history page.
+
+The history includes:
+
+- Project name
+- Project type
+- Decision
+- Feedback
+- Review timestamp
+- Solo/group classification
+
+Reviewers can also see summary information such as:
+
+- Total reviews
+- Approved projects
+- Rejected projects
+
+---
+
+# Admin Reviewer Management
+
+Administrators manage faculty reviewer applications.
+
+### Admin Pages
+
+- Admin Login
+- Admin Dashboard
+
+### Admin capabilities
+
+- View pending reviewer applications
+- Search applications
+- View faculty information
+- Approve reviewer applications
+- Reject reviewer applications
+- Control reviewer access
+
+Reviewer accounts cannot directly access the reviewer platform until the application has been approved.
+
+---
+
+# Project Review Workflow
+
+The project lifecycle now includes faculty review.
+
+```mermaid
+flowchart LR
+
+A[Student Creates Project]
+
+A --> B[Submit Solo / Group Project]
+
+B --> C[PENDING_REVIEW]
+
+C --> D[Reviewer Dashboard]
+
+D --> E{Reviewer Decision}
+
+E -->|Approve| F[APPROVED]
+
+E -->|Reject| G[REJECTED]
+
+F --> H[Public Project Discovery]
+
+G --> I[Feedback]
+
+I --> J[Student Notification]
+
+I --> K[Email Notification]
+
+E --> L[Review History]
+```
+
+---
+
+# Reviewer Application Workflow
+
+```mermaid
+flowchart LR
+
+A[Faculty Selects Reviewer Role]
+
+A --> B[Enter Details]
+
+B --> C[OTP Verification]
+
+C --> D[Reviewer Request]
+
+D --> E[PENDING]
+
+E --> F[Admin Dashboard]
+
+F --> G{Admin Decision}
+
+G -->|Approve| H[Reviewer Access]
+
+G -->|Reject| I[Application Rejected]
+
+H --> J[Reviewer Login]
+
+I --> k[ReApply after 15 Days]
+```
 
 ---
 
 # Platform Modules
 
 | Module | Description |
-|---------|-------------|
-| Authentication | Secure login, registration, OTP verification, JWT authentication |
-| Dashboard | Personalized overview and platform insights |
-| Student Profiles | Public student portfolio and social links |
-| Project Showcase | Publish and explore individual projects |
-| Group Projects | Collaborative team-based project management |
-| Team Formation | Discover teammates and manage collaboration |
-| Leaderboard | Student recognition and rankings |
-| Notifications | In-app notification system |
-| Activity Feed | Community-wide activity tracking |
-| Follow System | Build connections across the university |
-| Search & Discovery | Easily discover projects and students |
-| Guide | Onboarding and platform walkthrough |
+|--------|-------------|
+| Authentication | Login, registration, OTP, password reset, JWT authentication |
+| Student Profiles | Student portfolio and social information |
+| Dashboard | Personalized student statistics |
+| Project Showcase | Solo project submission and discovery |
+| Group Projects | Team-based project management |
+| Team Formation | Collaboration and team applications |
+| Leaderboard | Rankings and recognition |
+| Notifications | In-app notifications |
+| Activity Feed | Community activity |
+| Follow System | Student connections |
+| Search & Discovery | Project and student discovery |
+| Guide | Platform onboarding |
+| Reviewer Onboarding | Faculty reviewer registration |
+| Reviewer Authentication | Reviewer login and password recovery |
+| Reviewer Workspace | Pending project review |
+| Review History | Review decisions and feedback |
+| Admin Authentication | Admin login |
+| Admin Reviewer Management | Reviewer approval and rejection |
 
 ---
 
-# Real-World Engineering Highlights
+# Technology Stack
 
-This project was built to simulate many concepts commonly found in production-grade applications.
-
-### Security
-
-- JWT Authentication
-- BCrypt Password Hashing
-- Email OTP Verification
-- Login Rate Limiting
-- Secure Backend Validation
-- Protected REST APIs
-
-### Cloud Infrastructure
-
-- AWS Amplify Hosting
-- AWS Elastic Beanstalk Deployment
-- AWS RDS Database
-- AWS Security Groups
-- HTTPS with SSL Certificate
-- Custom Domain Integration
-
-### User Experience
-
-- Responsive Design
-- Scroll Animations
-- Interactive UI Components
-- Toast Notifications
-- Fast Client-side Routing
-- Optimized API Communication
-
-### Discoverability
-
-- Google Analytics 4
-- Google Search Console
-- robots.txt
-- sitemap.xml
-- SEO Metadata
-
----
-
-# Why This Project Stands Out
-
-KL Innovation Hub was not developed after mastering full-stack development—it was developed while learning it.
-
-Every major component, from React and Spring Boot to JWT authentication, cloud deployment, and AWS networking, was researched, implemented, tested, and refined throughout the development journey.
-
-Many modules were rewritten as new concepts were learned, making this repository not only the final product but also a reflection of continuous learning, problem-solving, and engineering growth.
-
-Rather than relying on ready-made templates or low-code solutions, the platform was designed and built from scratch with the goal of solving a real problem faced by students at KL University.
-
-This project represents both a technical achievement and a personal learning journey.
-
----
-
-# 🛠️ Technology Stack
-
-KL Innovation Hub is built using a modern full-stack architecture with a strong emphasis on scalability, security, maintainability, and cloud deployment.
+KL Innovation Hub uses a modern full-stack architecture.
 
 ---
 
@@ -427,17 +714,17 @@ KL Innovation Hub is built using a modern full-stack architecture with a strong 
 | Technology | Purpose |
 |------------|---------|
 | **React 19** | Component-based UI development |
-| **Vite 8** | Lightning-fast development server and optimized production builds |
-| **Tailwind CSS 4** | Utility-first responsive UI styling |
-| **React Router DOM 7** | Client-side routing and navigation |
-| **Axios** | Secure communication with backend REST APIs |
-| **React Hot Toast** | User-friendly toast notifications |
-| **React Icons** | Consistent icon library |
-| **Lucide React** | Modern UI icons |
+| **Vite 8** | Development server and production builds |
+| **Tailwind CSS 4** | Responsive UI styling |
+| **React Router DOM 7** | Client-side routing |
+| **Axios** | REST API communication |
+| **React Hot Toast** | Toast notifications |
+| **React Icons** | Icon library |
+| **Lucide React** | Modern icons |
 | **Swiper** | Interactive carousels |
-| **AOS** | Smooth scroll-based animations |
-| **React CountUp** | Animated dashboard statistics |
-| **React Flow** | Interactive flow-based visualizations |
+| **AOS** | Scroll animations |
+| **React CountUp** | Animated statistics |
+| **React Flow** | Flow-based visualizations |
 
 ---
 
@@ -447,12 +734,12 @@ KL Innovation Hub is built using a modern full-stack architecture with a strong 
 |------------|---------|
 | **Java 17** | Primary programming language |
 | **Spring Boot 3.5.16** | REST API development |
-| **Spring Security** | Authentication & authorization |
+| **Spring Security** | Authentication and authorization |
 | **JWT** | Stateless authentication |
-| **Spring Data JPA** | Database abstraction layer |
-| **Hibernate** | ORM framework |
-| **Spring Mail** | OTP email verification and password reset |
-| **Lombok** | Reduces boilerplate code |
+| **Spring Data JPA** | Database abstraction |
+| **Hibernate** | ORM |
+| **Spring Mail** | OTP and email communication |
+| **Lombok** | Boilerplate reduction |
 | **Maven** | Dependency and build management |
 
 ---
@@ -462,7 +749,7 @@ KL Innovation Hub is built using a modern full-stack architecture with a strong 
 | Technology | Purpose |
 |------------|---------|
 | **MySQL** | Relational database |
-| **AWS RDS** | Managed cloud database service |
+| **AWS RDS** | Managed MySQL database |
 
 ---
 
@@ -470,12 +757,12 @@ KL Innovation Hub is built using a modern full-stack architecture with a strong 
 
 | AWS Service | Purpose |
 |-------------|---------|
-| **AWS Amplify** | Frontend hosting with automatic deployments |
-| **Elastic Beanstalk** | Spring Boot application hosting |
-| **AWS RDS** | Managed MySQL database |
-| **AWS Certificate Manager** | SSL certificate management |
-| **AWS Security Groups** | Network-level access control |
-| **Name.com** | Custom domain management |
+| **AWS Amplify** | Frontend hosting |
+| **AWS Elastic Beanstalk** | Backend hosting |
+| **AWS RDS** | MySQL database |
+| **AWS Certificate Manager** | SSL certificate |
+| **AWS Security Groups** | Network access control |
+| **Name.com** | Custom domain |
 
 ---
 
@@ -484,38 +771,43 @@ KL Innovation Hub is built using a modern full-stack architecture with a strong 
 ```mermaid
 flowchart LR
 
-A[👤 Student]
+S[Student]
+R[Reviewer]
+A[Admin]
 
-A --> B[React 19 + Vite Frontend]
-B -->|HTTPS + JWT| C[Spring Boot REST API]
+S --> F[React 19 + Vite]
+R --> F
+A --> F
 
-C --> D[Authentication Module]
-C --> E[Project Module]
-C --> F[Collaboration Module]
-C --> G[Notification Module]
-C --> H[Leaderboard Module]
+F -->|HTTPS + JWT| B[Spring Boot REST API]
 
-D --> I[(AWS RDS MySQL)]
-E --> I
-F --> I
-G --> I
-H --> I
+B --> AU[Authentication]
+B --> P[Projects]
+B --> C[Collaboration]
+B --> N[Notifications]
+B --> L[Leaderboard]
+B --> RV[Reviewer Module]
+B --> AD[Admin Module]
 
-D --> J[Spring Mail SMTP]
+AU --> DB[(AWS RDS MySQL)]
+P --> DB
+C --> DB
+N --> DB
+L --> DB
+RV --> DB
+AD --> DB
 
-B --> K[Google Analytics]
-B --> L[Google Search Console]
+B --> M[Spring Mail SMTP]
 
-subgraph AWS Cloud
-B
-C
-I
-end
+F --> GA[Google Analytics]
+F --> SC[Google Search Console]
 ```
 
 ---
 
-# Authentication Flow
+# Authentication & Authorization
+
+The application uses JWT-based authentication with role-specific access control.
 
 ```mermaid
 sequenceDiagram
@@ -525,24 +817,91 @@ participant React
 participant SpringBoot
 participant Database
 
-User->>React: Login Request
-
+User->>React: Login
 React->>SpringBoot: Email + Password
 
 SpringBoot->>Database: Validate Credentials
 
-Database-->>SpringBoot: User Details
+Database-->>SpringBoot: User + Role
 
 SpringBoot-->>React: JWT Token
 
-React->>React: Store JWT
+React->>React: Store Token
 
-React->>SpringBoot: Future Requests + JWT
+React->>SpringBoot: Future Request + JWT
+
+SpringBoot->>SpringBoot: JWT Filter
+
+SpringBoot->>SpringBoot: Role Authorization
 
 SpringBoot-->>React: Authorized Response
 ```
+---
+---
+
+# Current Project Flow
+
+```text
+STUDENT
+   │
+   ├── Create Account
+   │
+   ├── Explore Projects
+   │
+   ├── Form / Join Teams
+   │
+   └── Submit Project
+           │
+           ▼
+     PENDING_REVIEW
+           │
+           ▼
+      REVIEWER
+           │
+      ┌────┴────┐
+      │         │
+      ▼         ▼
+  APPROVED   REJECTED
+      │         │
+      │         ├── Feedback
+      │         ├── Notification
+      │         └── Email
+      │
+      ▼
+PUBLIC PROJECT DISCOVERY
+```
+
+### Faculty Reviewer Flow
+
+```text
+FACULTY
+   │
+   ▼
+Reviewer Registration
+   │
+   ▼
+OTP Verification
+   │
+   ▼
+Reviewer Request
+   │
+   ▼
+PENDING
+   │
+   ▼
+ADMIN
+   │
+   ├── Approve
+   │      ↓
+   │   REVIEWER ACCESS
+   │
+   └── Reject
+          ↓
+      APPLICATION REJECTED
+```
 
 ---
+
 
 # Deployment Architecture
 
@@ -570,6 +929,19 @@ AWSAmplify --> ElasticBeanstalk
 
 ---
 
+
+### Role authorization
+
+```text
+ROLE_STUDENT
+ROLE_REVIEWER
+ROLE_ADMIN
+```
+
+Reviewer and admin APIs are protected separately.
+
+---
+
 # Project Structure
 
 ```text
@@ -579,14 +951,18 @@ KLInnovationHub
 │   ├── public
 │   ├── src
 │   │   ├── Api
+│   │   │   ├── axiosInstance
+│   │   │   ├── reviewerAxiosInstance
+│   │   │   └── adminAxiosInstance
+│   │   │
 │   │   ├── Components
 │   │   ├── Data
 │   │   ├── Images
 │   │   ├── Main
 │   │   ├── NavBarPages
 │   │   ├── Pages
-│   │   ├── Follow
-│   │   └── SignUpLogin
+│   │   │
+│   │   └── Analytics.jsx
 │   │
 │   ├── package.json
 │   └── vite.config.js
@@ -599,7 +975,6 @@ KLInnovationHub
 │   ├── model
 │   ├── repository
 │   ├── security
-│   │   └── ratelimit
 │   ├── service
 │   └── InnovationHubApplication.java
 │
@@ -610,7 +985,7 @@ KLInnovationHub
 
 # Backend Architecture
 
-The backend follows a layered architecture to promote separation of concerns and maintainability.
+The backend follows a layered architecture.
 
 ```text
 Client Request
@@ -628,88 +1003,65 @@ Repository Layer
 MySQL Database
 ```
 
-Each layer has a clearly defined responsibility:
+# Real-World Engineering Highlights
 
-| Layer | Responsibility |
-|--------|---------------|
-| **Controller** | Handles HTTP requests and responses |
-| **DTO** | Transfers validated data between client and server |
-| **Service** | Contains business logic |
-| **Repository** | Database interaction using Spring Data JPA |
-| **Model** | Entity mapping to database tables |
-| **Security** | JWT authentication, authorization, rate limiting |
-| **Configuration** | Spring Security, CORS, password encoding |
+## Security
 
----
+- JWT authentication
+- BCrypt password hashing
+- Email OTP verification
+- Login rate limiting
+- Role-based authorization
+- Protected APIs
+- Backend validation
+- Secure CORS
+- Token Validation
 
-# Why These Technologies?
+## Cloud Infrastructure
 
-Every major technology in this project was selected for a specific reason.
+- AWS Amplify
+- AWS Elastic Beanstalk
+- AWS RDS
+- AWS Security Groups
+- AWS Certificate Manager
+- HTTPS
+- Custom domain
 
-| Technology | Why It Was Chosen |
-|------------|-------------------|
-| **React** | Modular component architecture and excellent ecosystem |
-| **Vite** | Faster builds and improved developer experience |
-| **Tailwind CSS** | Rapid UI development with responsive utilities |
-| **Spring Boot** | Robust, production-ready backend framework |
-| **JWT** | Stateless authentication suitable for REST APIs |
-| **AWS Amplify** | Automatic frontend deployments directly from GitHub |
-| **Elastic Beanstalk** | Simplifies Spring Boot deployment without managing servers |
-| **AWS RDS** | Reliable, managed relational database service |
-| **Spring Mail** | Seamless OTP verification through SMTP |
-| **Axios** | Simplified and centralized API communication |
-| **MySQL** | Reliable relational database with strong Spring ecosystem support |
+## User Experience
 
----
+- Responsive design
+- Interactive components
+- Toast notifications
+- Client-side routing
+- Lazy-loaded pages
+- Role-specific interfaces
+- Centralized API communication
 
-# Project Scale
+## Discoverability
 
-| Component | Count |
-|-----------|------:|
-| React Pages | 12+ |
-| Backend Controllers | 14+ |
-| DTOs | 15+ |
-| Database Tables | 12 |
-| Service Classes | 12+ |
-| Repository Classes | 10+ |
-| REST APIs | 35+ |
-| Cloud Services | 6 |
+- Google Analytics 4
+- Google Search Console
+- robots.txt
+- sitemap.xml
+- SEO metadata
+- Semantic HTML
 
 ---
 
-# Engineering Philosophy
-
-Throughout development, the focus was not only on implementing features but also on building software that follows good engineering practices.
-
-Core principles included:
-
-- Separation of concerns
-- Secure-by-default architecture
-- Responsive user experience
-- Clean project organization
-- Environment-based configuration
-- Cloud-native deployment
-- Continuous improvement through iterative development
-
-The result is a platform that balances functionality, maintainability, and real-world deployment practices while remaining approachable for future enhancements.
-
----
 
 # Getting Started
 
-Follow the steps below to set up **KL Innovation Hub** on your local machine for development and testing.
+Follow the steps below to run KL Innovation Hub locally.
 
 ---
 
 # Prerequisites
 
-Ensure the following software is installed before starting.
-
 | Software | Version |
-|-----------|---------|
-| Java | 17 or later |
+|----------|---------|
+| Java | 17+ |
 | Maven | Latest |
-| Node.js | 20+ Recommended |
+| Node.js | 20+ recommended |
 | npm | Latest |
 | MySQL | 8.0+ |
 | Git | Latest |
@@ -728,39 +1080,37 @@ cd KlInnovationHub
 
 # Frontend Setup
 
-Navigate to the frontend project.
-
 ```bash
 cd HubFrontend
 ```
 
-Install dependencies.
+Install dependencies:
 
 ```bash
 npm install
 ```
 
-Create your environment file.
+Create:
 
 ```text
 .env
 ```
 
-Example
+Example:
 
 ```env
-VITE_API_BASE_URL=http://localhost:8080
+VITE_API_URL=http://localhost:8080
 ```
 
-Start the development server.
+Start the frontend:
 
 ```bash
 npm run dev
 ```
 
-Frontend runs on
+Frontend:
 
-```
+```text
 http://localhost:5173
 ```
 
@@ -768,39 +1118,39 @@ http://localhost:5173
 
 # Backend Setup
 
-Navigate to the backend.
+Navigate to:
 
 ```bash
 cd HubBackEnd
 ```
 
-Install Maven dependencies.
+Install dependencies:
 
 ```bash
 mvn clean install
 ```
 
-or
+or:
 
 ```bash
 ./mvnw clean install
 ```
 
-Run the Spring Boot application.
+Run the backend:
 
 ```bash
 mvn spring-boot:run
 ```
 
-or
+or:
 
 ```bash
 ./mvnw spring-boot:run
 ```
 
-Backend runs on
+Backend:
 
-```
+```text
 http://localhost:8080
 ```
 
@@ -808,21 +1158,17 @@ http://localhost:8080
 
 # Database Configuration
 
-Create a MySQL database.
+Create the database:
 
 ```sql
 CREATE DATABASE InnovationHub;
 ```
 
-Update your environment variables.
-
-Example
+Example configuration:
 
 ```env
 DB_URL=jdbc:mysql://localhost:3306/InnovationHub
-
 DB_USERNAME=your_username
-
 DB_PASSWORD=your_password
 ```
 
@@ -830,230 +1176,146 @@ DB_PASSWORD=your_password
 
 # Environment Variables
 
-The backend is fully environment-variable driven.
-
-No sensitive credentials are hardcoded into the project.
+Sensitive credentials should not be committed to GitHub.
 
 ## Database
 
 ```env
 DB_URL=
-
 DB_USERNAME=
-
 DB_PASSWORD=
 ```
-
----
 
 ## JWT
 
 ```env
 JWT_SECRET=
-
 JWT_EXPIRATION=
 ```
 
----
-
-## Mail Configuration
+## Mail
 
 ```env
 MAIL_USERNAME=
-
 MAIL_PASSWORD=
 ```
-
----
 
 ## Frontend
 
 ```env
-VITE_API_BASE_URL=
+VITE_API_URL=
 ```
 
 ---
 
-# Security Features
-
-Security was considered from the beginning of development.
-
-### Authentication
-
-- JWT-based Authentication
-- Stateless Sessions
-- Protected REST APIs
-
----
-
-### Password Protection
-
-- BCrypt Password Hashing
-- Passwords are never stored in plain text
-
----
-
-### Account Verification
-
-- Email OTP Verification
-- Password Reset OTP
-- Secure Verification Flow
-
----
-
-### Login Protection
-
-A custom login rate limiter helps reduce brute-force attacks by temporarily restricting repeated failed login attempts.
-
----
-
-### Backend Validation
-
-The backend validates incoming requests instead of relying solely on frontend validation.
-
-Examples include
-
-- URL validation
-- Input validation
-- Authentication checks
-- Authorization checks
-
----
-
-### Network Security
-
-AWS Security Groups restrict database access, allowing only authorized services to communicate with the database.
-
----
-
-### Configuration Security
-
-Sensitive configuration is managed using environment variables.
-
-Examples include
-
-- Database credentials
-- JWT secret
-- Mail credentials
-
-This prevents confidential information from being committed to source control.
-
----
 
 # Deployment
 
-The application is deployed entirely on AWS.
+The application is deployed using AWS.
 
 ```mermaid
 flowchart LR
 
-Developer
-
 Developer --> GitHub
 
-GitHub --> AWSAmplify
+GitHub --> Amplify
 
-AWSAmplify --> Frontend
+Amplify --> Frontend
 
-Frontend --> SpringBoot
+Frontend --> ElasticBeanstalk
 
-SpringBoot --> AWSRDS
+ElasticBeanstalk --> RDS
 
-SpringBoot --> GmailSMTP
+ElasticBeanstalk --> GmailSMTP
+
+User --> Amplify
 ```
 
 ---
 
-## Frontend
+# Frontend Deployment
 
-Hosted on
+Hosted on:
 
 - AWS Amplify
 
-Features
+Features:
 
-- Automatic deployment
+- GitHub integration
 - Production builds
 - HTTPS
-- GitHub integration
+- Automatic deployments
 
 ---
 
-## Backend
+# Backend Deployment
 
-Hosted on
+Hosted on:
 
 - AWS Elastic Beanstalk
 
-Features
+Features:
 
-- Managed Spring Boot deployment
-- Automatic application management
-- Easy updates
-- Environment variable configuration
+- Spring Boot hosting
+- Environment variables
+- HTTPS
+- Scalable infrastructure
 
 ---
 
-## Database
+# Database Deployment
 
-Hosted on
+Hosted on:
 
 - AWS RDS MySQL
 
-Benefits
+Benefits:
 
-- Managed backups
+- Managed database
+- Backups
 - Reliability
 - Scalability
 - Secure networking
 
 ---
 
-## Domain
+# Domain
 
-Custom Domain
-
-```
+```text
 klinnovationhub.app
 ```
 
-Configured using
+Configured using:
 
-- name.com
+- Name.com
 - AWS Certificate Manager
 
-HTTPS is enabled using SSL certificates.
+HTTPS is enabled through SSL certificates.
 
 ---
 
 # Analytics & SEO
 
-To improve discoverability and understand user engagement, the platform includes several SEO and analytics integrations.
-
 ## Google Analytics 4
 
-Tracks
+Tracks:
 
-- Visitor count
-- User sessions
+- Visitors
+- Sessions
 - Popular pages
 - Engagement metrics
 
----
-
 ## Google Search Console
 
-Used for
+Used for:
 
 - Search indexing
 - Search performance
 - Crawl monitoring
 
----
+## SEO
 
-## SEO Optimizations
-
-Implemented
+Implemented:
 
 - robots.txt
 - sitemap.xml
@@ -1068,25 +1330,33 @@ Implemented
 The backend exposes REST APIs organized into dedicated modules.
 
 | Module | Responsibility |
-|---------|---------------|
-| Authentication | Login, Signup, OTP, Password Reset |
-| Student | Student Profile Management |
-| Projects | Individual Projects |
-| Group Projects | Team-based Projects |
-| Collaboration | Team Formation |
-| Followers | Social Connections |
-| Notifications | User Notifications |
-| Activity | Platform Activity Feed |
+|--------|----------------|
+| Authentication | Login, signup, OTP, password reset |
+| Reviewer Authentication | Reviewer login, OTP, password recovery |
+| Admin Authentication | Admin login |
+| Student | Student profile operations |
+| Projects | Solo project operations |
+| Group Projects | Group project operations |
+| Collaboration | Team formation |
+| Followers | Social connections |
+| Notifications | Notifications |
+| Activity | Activity feed |
 | Leaderboard | Rankings |
-| Likes | Project Engagement |
+| Likes | Project engagement |
+| Reviewer Projects | Pending project retrieval |
+| Reviewer Review | Approve/reject projects |
+| Reviewer History | Review history |
+| Admin Reviewers | Reviewer application management |
 
 ---
 
 # Database Overview
 
-The platform currently uses **12 relational tables**.
+The platform uses MySQL with separate entities for authentication, students, projects, collaboration, social features, notifications, and project reviews.
 
-```
+### Existing core tables
+
+```text
 student
 
 user_sign_up
@@ -1112,59 +1382,127 @@ notification
 activity
 ```
 
-The database design separates authentication, user profiles, collaboration, notifications, and engagement features into independent tables to improve maintainability and normalization.
+### Reviewer-related tables
+
+```text
+reviewer
+
+reviewer_request
+
+project_review
+```
+
+### Project status
+
+```text
+PENDING_REVIEW
+APPROVED
+REJECTED
+```
+
+### Reviewer request status
+
+```text
+PENDING
+APPROVED
+REJECTED
+```
 
 ---
 
+
 # Performance Considerations
 
-Several engineering decisions were made to improve performance and maintainability.
+Several engineering decisions improve performance and maintainability.
 
-- Optimized API communication using Axios
-- Stateless JWT authentication
-- Component-based React architecture
-- Environment-based configuration
+- Lazy-loaded React pages
+- Component-based architecture
 - Modular Spring Boot services
+- Stateless JWT authentication
+- Centralized Axios communication
+- Environment-based configuration
+- Public APIs return approved projects
+- Protected APIs for privileged operations
 - Responsive Tailwind UI
 - Cloud-hosted infrastructure
-- Production-ready deployment pipeline
 
 ---
 
 # Challenges & Engineering Journey
 
-KL Innovation Hub was not built after mastering full-stack development—it was built **while learning it**.
+KL Innovation Hub was not built after mastering full-stack development.
 
-Every major concept, from React components and Spring Boot APIs to JWT authentication, AWS deployment, and cloud networking, was researched, implemented, tested, and often rewritten as my understanding evolved.
+It was built **while learning it**.
 
-This repository represents not only the final application but also the engineering journey behind it.
+Every major concept, from React components and Spring Boot APIs to JWT authentication, AWS deployment, cloud networking, and role-based authorization, was researched, implemented, tested, and refined throughout development.
+
+The reviewer feature introduced another architectural challenge by connecting:
+
+```text
+Students
+   ↓
+Project Submission
+   ↓
+Reviewer
+   ↓
+Review Decision
+   ↓
+Feedback
+   ↓
+Notifications
+   ↓
+Project Visibility
+```
+
+At the same time, faculty access needed to be controlled through an administrator approval workflow.
 
 ---
 
-## Major Challenges
+# Major Challenges
 
-### Implementing JWT Authentication
+## JWT Authentication
 
-JWT authentication was one of the most challenging parts of the project because it was never covered in my university coursework.
-
-Building a secure authentication system required understanding:
+JWT authentication required understanding:
 
 - Stateless authentication
-- Token generation and validation
-- Spring Security filter chains
+- Token generation
+- Token validation
+- Spring Security filters
 - Protected routes
-- Request authorization
-- Secure password storage using BCrypt
-
-Implementing these concepts significantly improved my understanding of backend security and modern web application architecture.
+- Authorization
+- BCrypt password hashing
 
 ---
 
-### ☁️ Deploying to AWS
+## Role-Based Access
 
-Deploying a full-stack application to AWS introduced a completely different set of challenges compared to local development.
+The platform originally focused primarily on students.
 
-The project was deployed using:
+The reviewer feature introduced:
+
+```text
+STUDENT
+REVIEWER
+ADMIN
+```
+
+Each role now has its own protected functionality.
+
+This required:
+
+- Spring Security role checks
+- JWT handling
+- Protected React routes
+- Dedicated Axios clients
+- Separate reviewer/admin login flows
+
+---
+
+## AWS Deployment
+
+Deploying the full-stack application introduced challenges that do not appear during local development.
+
+The application uses:
 
 - AWS Amplify
 - AWS Elastic Beanstalk
@@ -1172,103 +1510,57 @@ The project was deployed using:
 - AWS Security Groups
 - AWS Certificate Manager
 
-Learning how these services interact provided valuable hands-on experience with real cloud infrastructure.
+---
+
+## HTTPS Communication
+
+During deployment, the frontend was served over HTTPS while the backend initially used HTTP.
+
+Modern browsers block mixed-content requests for security reasons.
+
+The deployment required configuring HTTPS correctly between the frontend, backend, and custom domain.
 
 ---
 
-### Solving HTTPS Communication Issues
+## Continuous Refactoring
 
-After deployment, the frontend was served over **HTTPS**, while the backend was still accessible only through **HTTP**.
+The application has continuously evolved as new concepts and requirements were introduced.
 
-Modern browsers block this type of mixed-content communication for security reasons, preventing the application from functioning correctly.
+The reviewer feature is an example of that evolution:
 
-Initially, I explored using CloudFront to solve the issue and even contacted AWS Support. However, my request could not be accommodated under the limitations of my account.
+```text
+Student Platform
+       ↓
+Social Platform
+       ↓
+Collaboration Platform
+       ↓
+Multi-Role Platform
+       ↓
+Faculty Project Review
+       ↓
+Admin Review Management
+```
 
-Rather than treating this as a blocker, I explored alternative solutions over several days. Through the GitHub Student Developer Pack, I discovered a discounted custom domain from **Name.com**. I registered the domain, configured **AWS Certificate Manager**, enabled HTTPS for the backend, and completed the deployment successfully.
-
-This experience taught me that software engineering often involves understanding infrastructure and solving deployment challenges—not just writing code.
-
----
-
-### Continuous Refactoring
-
-Because the project was developed alongside my full-stack learning journey, many components were redesigned and rewritten as I gained deeper knowledge.
-
-Instead of accepting the first working solution, I continuously improved the codebase by applying better practices related to:
-
-- Project architecture
-- Component organization
-- Backend design
-- Security
-- Performance
-- Cloud deployment
-
-This iterative approach significantly improved the overall quality and maintainability of the platform.
-
----
-
-# Lessons Learned
-
-Developing KL Innovation Hub strengthened both my technical knowledge and engineering mindset.
-
-Some of the key lessons include:
-
-- Designing scalable full-stack architectures
-- Building secure REST APIs
-- Implementing JWT authentication with Spring Security
-- Deploying production-ready applications on AWS
-- Working with managed cloud databases
-- Configuring HTTPS and SSL certificates
-- Managing environment variables securely
-- Improving user experience through responsive UI design
-- Building applications with maintainability in mind
-- Solving real-world deployment and infrastructure issues
-
----
 
 # Roadmap
 
-KL Innovation Hub will continue evolving with the goal of becoming the primary innovation platform for students at KL University.
+Potential future improvements include:
 
-### Short-Term Goals
-
-- Reach **1,000+ active student users**
-- Improve overall user experience
-- Expand project discovery features
-- Enhance collaboration workflows
-- Improve search and filtering capabilities
-
----
-
-### Future Enhancements
-
-- AI-powered project recommendations
-- Smart teammate recommendations
-- Faculty and mentor profiles
-- Organization and club pages
-- Internship and opportunity listings
-- Project bookmarking
-- Advanced analytics dashboard
-- Achievement badges
-- Enhanced notification preferences
-- Progressive Web App (PWA) support
-
----
-
-### Long-Term Vision
-
-The long-term vision is to build a sustainable ecosystem where students can:
-
-- Showcase innovation
-- Discover opportunities
-- Build meaningful collaborations
-- Learn from peers
-- Gain recognition
-- Continue improving projects beyond academic evaluations
+- Reviewer analytics
+- Review scoring system
+- Detailed review criteria
+- Student review feedback history
+- Project resubmission workflow
+- Advanced admin management
+- Richer faculty-student guidance
+- Project analytics
+- Reviewer performance insights
 
 ---
 
 # Current Limitations
+
 
 At present, KL Innovation Hub is designed specifically for students from the following departments at KL University:
 
@@ -1282,65 +1574,41 @@ Support for additional departments is planned for future releases as the platfor
 
 # Contributing
 
-Contributions, suggestions, and feedback are always welcome.
+Contributions, suggestions, and issue reports are welcome.
 
-If you have ideas to improve KL Innovation Hub:
+Before submitting changes:
 
-1. Fork the repository.
-2. Create a feature branch.
-3. Commit your changes.
-4. Open a Pull Request.
-
-Constructive discussions and issue reports are equally appreciated.
+1. Fork the repository
+2. Create a feature branch
+3. Make your changes
+4. Test the affected frontend and backend flows
+5. Submit a pull request with a clear description
 
 ---
 
 # Contact
 
-**Developer:** Praveen Maramreddy
+## Praveen Maramreddy
 
-**LinkedIn:**  
-https://www.linkedin.com/in/praveen-maramreddy/
+**GitHub**
 
-**Email:**  
+https://github.com/PraveenReddy-06
+
+**Email**
+
 praveenmaramreddy2028@gmail.com
 
-**Repository:**  
-https://github.com/PraveenReddy-06/KlInnovationHub
+**LinkedIn**
+
+https://www.linkedin.com/in/praveen-maramreddy/
+
+**Instagram**
+
+https://www.instagram.com/kl_innovationhub/?hl=en
+
 
 ---
 
-# Acknowledgements
-
-This project would not have reached its current state without the technologies, communities, and resources that supported its development.
-
-Special thanks to:
-
-- React Community
-- Spring Boot Community
-- Tailwind CSS
-- AWS
-- MySQL
-- GitHub
-- Vite
-- Open Source Contributors
-
-Their tools and documentation made it possible to transform an idea into a production-ready application.
-
----
-
-# Support the Project
-
-If you found this project interesting or inspiring:
-
--  Star the repository
--  Fork the project
--  Share your feedback
--  Connect with me on LinkedIn
-
-Every star, suggestion, and contribution helps the project continue to grow.
-
----
 
 <div align="center">
 

@@ -11,12 +11,17 @@ import toast, { Toaster } from "react-hot-toast";
 const Card = ({ project }) => {
 
   const studentId = Number(localStorage.getItem("studentId"))
+  const isReviewer = !!localStorage.getItem("reviewerToken");
+  const isStudent = !!localStorage.getItem("token");
+
   const [liked, setLiked] = useState(project.likes?.some((like) =>Number(like.likedStudentId) === Number(studentId)) || false);
   const [like, setLike] = useState(project.likeCount || 0);
   const navigate = useNavigate();
 
   const requireLogin = () => {
-    if (!localStorage.getItem("token")) {
+    const studentToken = localStorage.getItem("token");
+    const reviewerToken = localStorage.getItem("reviewerToken");
+    if (!studentToken && !reviewerToken) {
       toast.error("Please login to continue");
       navigate("/login");
       return false;
@@ -25,7 +30,17 @@ const Card = ({ project }) => {
   };
 
   const handleLike = async () => {
-    if (!requireLogin()) return;
+    
+    if (isReviewer) {
+      toast("Reviewers cannot like projects.");
+      return;
+    }
+
+    if (!isStudent) {
+      toast.error("Please login to continue");
+      navigate("/login");
+      return;
+    }
 
     try {
       const isGroup = project.type === "GROUP";
@@ -101,7 +116,7 @@ const Card = ({ project }) => {
         </div>
 
         <div className="flex flex-wrap justify-between sm:justify-end gap-3 sm:gap-6 items-center text-xs mt-3">
-          <button onClick={handleLike} className="flex items-center gap-1 active:scale-95">
+          <button onClick={handleLike} className={`flex items-center gap-1 ${ isReviewer ? "cursor-default opacity-80" : "active:scale-95"}`}>
             Likes<FaHeart className={liked ? "text-red-500" : "text-gray-300"} />
             <span>{like}</span>
           </button>

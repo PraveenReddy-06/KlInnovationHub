@@ -70,7 +70,7 @@ const TopProjectCard = ({project}) => {
   };
 
   return (
-    <div className="flex flex-col w-full p-3 sm:p-4 bg-white border border-slate-400 rounded-2xl shadow-sm transition-all duration-300 hover:bg-tan/50 hover:shadow-xl hover:border-amber-800">
+    <div className="flex flex-col w-full p-3 sm:p-4 bg-white border border-slate-400 rounded-2xl shadow-sm transition-all duration-300 hover:bg-cream hover:shadow-xl hover:border-amber-800">
       <h2 className="font-bold text-base sm:text-lg pb-3 text-bloodstone group-hover:text-accent transition-colors">{project.title}</h2>
 
       <div className="flex gap-3 sm:gap-4 items-start hover:bg-tan/40 rounded-lg p-2 transition-all duration-200 cursor-pointer"

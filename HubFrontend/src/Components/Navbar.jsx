@@ -1,6 +1,6 @@
 import { memo, useState } from 'react';
 import { FaUserCircle, FaBars, FaTimes } from "react-icons/fa";
-import {useNavigate, Link } from 'react-router-dom';
+import { Link, NavLink, useNavigate } from "react-router-dom";
 import {useRef, useEffect } from "react";
 import { FaBell } from "react-icons/fa";
 import axiosInstance from "../Api/axiosInstance";
@@ -14,6 +14,8 @@ const Navbar = () => {
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
   const [showNotifications,setShowNotifications] = useState(false);
   const [notifications,setNotifications] = useState([]);
+  const [notificationTab, setNotificationTab] = useState("forYou");
+  const [notificationsLoading, setNotificationsLoading] = useState(false);
   const [activities,setActivities] = useState([]);
   const isLoggedIn = !!localStorage.getItem("token");
   const [unreadCount,setUnreadCount] = useState(0);
@@ -43,17 +45,27 @@ const Navbar = () => {
 
   const openNotifications = async () => {
     if (!studentId) return;
+    
+    if (showNotifications) {
+      setShowNotifications(false);
+      return;
+    }
     try{
       setShowDropdown(false);
+      setNotificationsLoading(true);
+      setShowNotifications(true);
       await axiosInstance.put("/notification/readAll");
-      setShowNotifications(prev => !prev);
-      const notificationRes =await axiosInstance.get("/notification");
-      const activityRes =await axiosInstance.get("/activity/recent");
+    const [notificationRes, activityRes] =await 
+    Promise.all ([axiosInstance.get("/notification")
+                  ,axiosInstance.get("/activity/recent"), 
+    ]);
       setNotifications(notificationRes.data);
       setActivities(activityRes.data);
       setUnreadCount(0);
     } catch(err) {
       toast.error("Something went wrong. Please try again.");
+    }finally {
+      setNotificationsLoading(false);
     }
   };
 
@@ -138,22 +150,29 @@ const getActivityText = (a) => {
 
       <ul className="hidden lg:flex items-center text-xs uppercase tracking-[2px] gap-8 text-cream">
         <li>
-          <Link to="/dashboard" className="transition-colors duration-200 hover:text-light-blue"onClick={() => setMobileMenuOpen(false)}>  Dashboard </Link>
+          <NavLink to="/dashboard" className={({ isActive }) => `relative transition-colors duration-200 hover:text-light-blue after:absolute after:-bottom-2 after:left-0 after:h-0.5 after:bg-gray-800 after:transition-all after:duration-300 ${isActive ? "text-light-blue after:w-full" : "after:w-0"}`}>
+            Dashboard
+          </NavLink>
         </li>
         <li>
-          <Link to="/exploreProjects" className="transition-colors duration-200 hover:text-light-blue"onClick={() => setMobileMenuOpen(false)}>  Explore Projects</Link>
+          <NavLink to="/exploreProjects" className={({ isActive }) => `relative transition-colors duration-200 hover:text-light-blue after:absolute after:-bottom-2 after:left-0 after:h-0.5 after:bg-gray-800 after:transition-all after:duration-300 ${isActive ? "text-light-blue after:w-full" : "after:w-0"}`}>
+            Explore Projects
+          </NavLink>
         </li>
         <li>
-          <Link to="/leaderBoard" className="transition-colors duration-200 hover:text-light-blue" onClick={() => setMobileMenuOpen(false)}>  LeaderBoard
-          </Link>
+          <NavLink to="/leaderBoard" className={({ isActive }) => `relative transition-colors duration-200 hover:text-light-blue after:absolute after:-bottom-2 after:left-0 after:h-0.5 after:bg-gray-800 after:transition-all after:duration-300 ${isActive ? "text-light-blue after:w-full" : "after:w-0"}`}>
+            LeaderBoard
+          </NavLink>
         </li>
         <li>
-          <Link to={isLoggedIn ? "/submitProject" : "/login"} className="transition-colors duration-200 hover:text-light-blue" onClick={() => setMobileMenuOpen(false)}>  Submit Project </Link>
+          <NavLink to={isLoggedIn ? "/submitProject" : "/login"} className={({ isActive }) => `relative transition-colors duration-200 hover:text-light-blue after:absolute after:-bottom-2 after:left-0 after:h-0.5 after:bg-gray-800 after:transition-all after:duration-300 ${isActive ? "text-light-blue after:w-full" : "after:w-0"}`}>
+            Submit Project
+          </NavLink>
         </li>
         <li>
-          <Link to={isLoggedIn ? "/guide" : "/login"} className="transition-colors duration-200 hover:text-light-blue" onClick={() => setMobileMenuOpen(false)}>
+          <NavLink to={isLoggedIn ? "/guide" : "/login"} className={({ isActive }) => `relative transition-colors duration-200 hover:text-light-blue after:absolute after:-bottom-2 after:left-0 after:h-0.5 after:bg-gray-800 after:transition-all after:duration-300 ${isActive ? "text-light-blue after:w-full" : "after:w-0"}`}>
             Guide
-          </Link>
+          </NavLink>
         </li>
       </ul>
       {
@@ -168,34 +187,57 @@ const getActivityText = (a) => {
                 </span>
               )}
             </button>
+            
             {showNotifications && (
-              <div className="    fixed left-1/2 top-20 -translate-x-1/2  w-[95vw] max-w-137.5  sm:absolute sm:right-0 sm:left-auto sm:top-14 sm:translate-x-0  max-h-[70vh] overflow-y-auto no-scrollbar bg-primary border border-sky-800 rounded-2xl shadow-2xl z-9999">
+              <div className="fixed left-1/2 top-20 -translate-x-1/2 w-[95vw] max-w-137.5 sm:absolute sm:right-0 sm:left-auto sm:top-14 sm:translate-x-0 max-h-[70vh] overflow-hidden bg-primary border border-sky-800 rounded-2xl shadow-2xl z-9999">
                 <div className="p-4 border-b border-sky-800">
                   <h2 className="text-white font-bold">Notifications</h2>
                 </div>
 
-                <div className="p-4">
-                  <h3 className="text-cyan-300 font-semibold mb-3">FOR YOU</h3>
-                  {notifications.length === 0 ? (
-                    <p className="text-slate-400 text-sm">No notifications</p>
-                  ) : (
-                    notifications.slice(0, 10).map((n) => (
-                      <div key={n.id} className="bg-white/5 p-3 rounded-xl mb-2">
-                        <p className="text-white text-sm">
-                          {getNotificationText(n)}
-                        </p>
-                      </div>
-                    ))
-                  )}
+                <div className="flex border-b border-sky-800">
+                  <button  onClick={() => setNotificationTab("forYou")}  className={`flex-1 py-3 text-sm font-semibold transition-colors relative ${notificationTab === "forYou" ? "text-cyan-300" : "text-slate-400 hover:text-white"}`}>
+                    For You
+                    {notificationTab === "forYou" && <span className="absolute bottom-0 left-0 w-full h-0.5 bg-cyan-300" />}
+                  </button>
+                  <button onClick={() => setNotificationTab("campus")} className={`flex-1 py-3 text-sm font-semibold transition-colors relative ${notificationTab === "campus" ? "text-cyan-300" : "text-slate-400 hover:text-white"}`}>
+                    Campus Buzz
+                    {notificationTab === "campus" && <span className="absolute bottom-0 left-0 w-full h-0.5 bg-cyan-300" />}
+                  </button>
+                </div>
 
-                  <h3 className="text-cyan-300 font-semibold mt-6 mb-3">CAMPUS BUZZ</h3>
-                  {activities.slice(0, 10).map((a, index) => (
-                    <div key={index} className="bg-white/5 p-3 rounded-xl mb-2">
-                      <p className="text-white text-sm">
-                        {getActivityText(a)}
-                      </p>
+                <div className="p-4 max-h-[55vh] overflow-y-auto no-scrollbar">
+                  {notificationsLoading ? (
+                    <div className="flex flex-col items-center justify-center py-14">
+                      <div className="w-8 h-8 border-2 border-cyan-300/30 border-t-cyan-300 rounded-full animate-spin" />
+                      <p className="text-slate-400 text-sm mt-4">Loading notifications...</p>
                     </div>
-                  ))}
+                  ) : notificationTab === "forYou" ? (
+                    notifications.length === 0 ? (
+                      <div className="flex flex-col items-center justify-center py-14">
+                        <p className="text-slate-400 text-sm">No notifications</p>
+                      </div>
+                    ) : (
+                      <div className="space-y-2">
+                        {notifications.slice(0, 10).map((n) => (
+                          <div key={n.id} className="bg-white/5 hover:bg-white/10 border border-white/5 p-3 rounded-xl transition-colors">
+                            <p className="text-white text-sm">{getNotificationText(n)}</p>
+                          </div>
+                        ))}
+                      </div>
+                    )
+                  ) : activities.length === 0 ? (
+                    <div className="flex flex-col items-center justify-center py-14">
+                      <p className="text-slate-400 text-sm">No campus activity</p>
+                    </div>
+                  ) : (
+                    <div className="space-y-2">
+                      {activities.slice(0, 10).map((a, index) => (
+                        <div key={index} className="bg-white/5 hover:bg-white/10 border border-white/5 p-3 rounded-xl transition-colors">
+                          <p className="text-white text-sm">{getActivityText(a)}</p>
+                        </div>
+                      ))}
+                    </div>
+                  )}
                 </div>
               </div>
             )}
@@ -229,8 +271,8 @@ const getActivityText = (a) => {
         </div>
         ) : (
           <div className="flex items-center gap-1 sm:gap-2 text-sm lg:text-base text-vanilla-custard">
-            <a href="/login" className="hover:text-light-blue">Login /</a>
-            <a href="/signup" className="hover:font-bold text-black rounded-sm bg-tan p-1">SignUp</a>
+            <a href="/login" className="hover:text-light-blue">Login</a>
+            <a href="/signup" className="hover:text-light-blue">/ SignUp</a>
           </div>
         )
       }

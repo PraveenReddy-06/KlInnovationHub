@@ -5,10 +5,9 @@ import org.springframework.stereotype.Service;
 
 import com.klu.dto.DashboardStatsDTO;
 import com.klu.repository.CollaborationRepo;
-import com.klu.repository.GroupProjectLikesRepo;
 import com.klu.repository.GroupProjectRepo;
-import com.klu.repository.ProjectLikesRepo;
 import com.klu.repository.ProjectRepo;
+import com.klu.repository.ReviewerRepo;
 import com.klu.repository.StudentRepo;
 
 @Service
@@ -27,22 +26,20 @@ public class DashboardStatsDtoService {
 	private CollaborationRepo collaborationRepo;
 
 	@Autowired
-	private ProjectLikesRepo projectLikeRepo;
+	private ReviewerRepo reviewerRepo;
 
-	@Autowired
-	private GroupProjectLikesRepo groupProjectLikeRepo;
 	
 	public DashboardStatsDTO getDashboardStats() {
 
 	    long projects =projectRepo.count() +groupProjectRepo.count();
 	    long students = studentRepo.count();
 	    long collaborations = collaborationRepo.count();
-	    long likes =projectLikeRepo.count() +groupProjectLikeRepo.count();
+	    long faculty = reviewerRepo.count();
 	    return new DashboardStatsDTO(
 	            projects,
 	            students,
 	            collaborations,
-	            likes
+	            faculty
 	    );
 	}
 }

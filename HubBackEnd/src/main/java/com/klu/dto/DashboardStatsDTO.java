@@ -11,5 +11,5 @@ public class DashboardStatsDTO {
     private long projects;
     private long students;
     private long collaborations;
-    private long likes;
+    private long faculty;
 }

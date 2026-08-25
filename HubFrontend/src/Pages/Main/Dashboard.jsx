@@ -6,8 +6,11 @@ import axiosInstance from "../../Api/axiosInstance"
 import TopProjectCard from '../../Components/TopProjectCard';
 import toast, { Toaster } from "react-hot-toast";
 import DashboardFooter from "../../Components/DashboardFooter";
+import ReviewerNavbar from '../Reviewer/ReviewerNavbar';
 
 const Dashboard = () => {
+  const isReviewer = !!localStorage.getItem("reviewerToken");
+
   const[projects,setProjects] = useState([])
   const[groupProjects,setGroupProjects] = useState([])
   const[topProjects,setTopProjects] = useState([])
@@ -94,11 +97,11 @@ const Dashboard = () => {
   /*<div className="flex-1 h-px bg-gray-300"></div> for line*/
 
   return (
-    <div className="min-h-screen overflow-y-auto no-scrollbar" style={{background:"linear-gradient(135deg, #FFF9EB 0%, #F8F0E5 50%, #D2B48C 100%)",}}>
-      <Navbar/>
+    <div className="min-h-screen overflow-y-auto no-scrollbar bg-linear-to-b from-sky-500 to-blue-950">
+      {isReviewer ? <ReviewerNavbar /> : <Navbar />}
 
-      <div className="flex flex-col-reverse lg:flex-row px-4 sm:px-8 lg:px-20 py-8 gap-8 items-center text-tan bg-dashboard border-b border-b-amber-700">
-        <div className="w-full lg:w-1/2 flex flex-col gap-3 text-center lg:text-left">
+      <div className="flex flex-col-reverse lg:flex-row px-4 sm:px-8 lg:px-20 py-3 gap-8 items-center text-tan bg-dashboard border-b border-black">
+        <div className="w-full lg:w-1/2 flex flex-col gap-3 text-center lg:text-left ">
           <h1 className="text-2xl sm:text-3xl lg:text-4xl font-bold text-gray-200">Give Life to Your Projects!</h1>
           <p className="text-base sm:text-lg opacity-90">Share your innovative solutions with the hub and inspire the community.</p>
           <div className="w-full max-w-md mx-auto lg:mx-0">
@@ -108,7 +111,7 @@ const Dashboard = () => {
             </div>
         </div>
         </div>
-        <div className="w-full lg:w-1/2 flex justify-center items-center">
+        <div className="w-full lg:w-1/2 flex justify-end items-center">
           <img src={background} className="w-full max-w-md lg:max-w-lg h-auto"/>
         </div>
       </div>
@@ -117,7 +120,7 @@ const Dashboard = () => {
         <div className="relative overflow-hidden py-2">
           <div className="flex gap-5 w-max animate-scroll">
             {[...filteredProjects, ...filteredProjects].map((project, index) => (
-              <div key={`${project.type}-${project.projectKey}-${index}`} className="w-[320px] sm:w-[380px] lg:w-[380px] h-auto flex-shrink-0">
+              <div key={`${project.type}-${project.projectKey}-${index}`} className="w-[320px] sm:w-95 lg:w-95 h-auto shrink-0">
                 <Card project={project} />
               </div>
             ))}
@@ -130,7 +133,7 @@ const Dashboard = () => {
         </div>
       )}
       <div className="pb-3 px-4 sm:px-6 lg:px-10">
-        <div className="flex items-center gap-3 pb-2">
+        <div className="flex items-center justify-center gap-3 pb-2">
           <div className="text-2xl font-bold  text-primary whitespace-nowrap">Top Projects</div>
         </div>
         <div className="grid grid-cols-1 md:grid-cols-2 gap-12">

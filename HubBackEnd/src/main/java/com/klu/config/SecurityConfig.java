@@ -1,6 +1,5 @@
 package com.klu.config;
 
-
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -22,49 +21,57 @@ import com.klu.security.JwtFilter;
 @Configuration
 public class SecurityConfig {
 
-	@Autowired
-	private JwtFilter jwtFilter;
-	
-	@Bean
-	SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
-		http.cors(cors -> {}).csrf(csrf -> csrf.disable())
-			.authorizeHttpRequests(auth -> auth
-					.requestMatchers("/mail/**", "/dashboard/**").permitAll()
-					.requestMatchers(HttpMethod.GET,
-							"/project/all",
-							"/project/latest",
-							"/groupProject/all",
-							"/groupProject/latest",
-							"/leaderboard",
-							"/likes/top",
-							"/grouplikes/top"
-					).permitAll()
-					.anyRequest().authenticated())
-		    .addFilterBefore(jwtFilter,UsernamePasswordAuthenticationFilter.class);
-		return http.build();
-	}
-	
-	
-	@Bean
-	AuthenticationManager authenticationManager(AuthenticationConfiguration config )throws Exception {
+    @Autowired
+    private JwtFilter jwtFilter;
+
+    @Bean
+    SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
+        http.cors(cors -> {}).csrf(csrf -> csrf.disable())
+                .authorizeHttpRequests(auth -> auth
+                        .requestMatchers(
+                                "/mail/**",
+                                "/dashboard/**",
+                                "/reviewer/generateOtp",
+                                "/reviewer/verifyOtp",
+                                "/reviewer/login",
+                                "/reviewer/forgotPassword",
+                                "/reviewer/verifyResetOtp",
+                                "/reviewer/resetPassword",
+                                "/admin/login"
+                        ).permitAll()
+                        .requestMatchers("/admin/reviewers/**").hasRole("ADMIN")
+                        .requestMatchers("/reviewer/projects/**", "/reviewer/groupProjects/**", "/reviewer/review/**").hasRole("REVIEWER")
+                        .requestMatchers(HttpMethod.GET,
+                                "/project/all",
+                                "/project/latest",
+                                "/groupProject/all",
+                                "/groupProject/latest",
+                                "/leaderboard",
+                                "/likes/top",
+                                "/grouplikes/top"
+                        ).permitAll()
+                        .anyRequest().authenticated())
+                .addFilterBefore(jwtFilter, UsernamePasswordAuthenticationFilter.class);
+        return http.build();
+    }
+
+    @Bean
+    AuthenticationManager authenticationManager(AuthenticationConfiguration config) throws Exception {
         return config.getAuthenticationManager();
     }
-	
-	@Value("${frontend.url}")
-	private String frontendUrl;
-	
-	@Bean
-	CorsConfigurationSource corsConfigurationSource() {
 
-	    CorsConfiguration configuration =new CorsConfiguration();
+    @Value("${frontend.url}")
+    private String frontendUrl;
 
-	    configuration.setAllowedOrigins(List.of("http://localhost:5173", frontendUrl));
-	    configuration.addAllowedHeader("*");
-	    configuration.addAllowedMethod("*");
-	    configuration.setAllowCredentials(true);
-	    UrlBasedCorsConfigurationSource source = new UrlBasedCorsConfigurationSource();
-	    source.registerCorsConfiguration("/**",configuration);
-
-	    return source;
-	}
+    @Bean
+    CorsConfigurationSource corsConfigurationSource() {
+        CorsConfiguration configuration = new CorsConfiguration();
+        configuration.setAllowedOrigins(List.of("http://localhost:5173", frontendUrl));
+        configuration.addAllowedHeader("*");
+        configuration.addAllowedMethod("*");
+        configuration.setAllowCredentials(true);
+        UrlBasedCorsConfigurationSource source = new UrlBasedCorsConfigurationSource();
+        source.registerCorsConfiguration("/**", configuration);
+        return source;
+    }
 }

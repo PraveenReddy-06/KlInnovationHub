@@ -25,7 +25,7 @@ const CallToAction = () => {
           </p>
 
           <div className="flex flex-col sm:flex-row justify-center gap-6 mt-12">
-            <button onClick={() => navigate("/login")} className="px-8 py-4 border border-accent/40 bg-secondary/60 backdrop-blur-xl text-white font-semibold transition-all duration-500 hover:border-sky hover:bg-secondary hover:scale-105">
+            <button onClick={() => navigate("/signup")} className="px-8 py-4 border border-accent/40 bg-secondary/60 backdrop-blur-xl text-white font-semibold transition-all duration-500 hover:border-sky hover:bg-secondary hover:scale-105">
               Create Profile
             </button >
           </div>

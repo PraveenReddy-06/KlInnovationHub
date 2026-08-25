@@ -1,15 +1,19 @@
 import { memo, useEffect, useState } from "react";
 import axiosInstance from "../../Api/axiosInstance"
+import authenticatedAxiosInstance from "../../Api/AuthenticatedAxiosInstance";
 import Navbar from "../../Components/Navbar";
 import { useNavigate } from "react-router-dom";
 import Card from "../../Components/Card";
 import { FaGithub, FaLinkedin } from "react-icons/fa";
 import { useParams } from "react-router-dom";
-import {Users,Handshake,Rocket} from "lucide-react";
+import {Users,Handshake,Rocket,Pencil} from "lucide-react";
 import FollowSection from "../Follow/FollowSection";
 import toast, { Toaster } from "react-hot-toast";
+import ReviewerNavbar from "../Reviewer/ReviewerNavbar";
 
 const Profile = () => {
+  
+  const isReviewer = !!localStorage.getItem("reviewerToken");
   const { studentId: routeStudentId } = useParams();
   const loggedInStudent = JSON.parse(localStorage.getItem("student"));
   const loggedInStudentId = localStorage.getItem("studentId");
@@ -37,7 +41,7 @@ const Profile = () => {
 
         if (routeStudentId) {
         try {
-            const res = await axiosInstance.get(`/student/getById/${routeStudentId}`);
+            const res = await authenticatedAxiosInstance.get(`/student/getById/${routeStudentId}`);
             setStudent(res.data);
         } catch (err) {
             console.error(err);
@@ -56,10 +60,7 @@ const Profile = () => {
     setStudentName(student.student_name || "");
     setGithubUrl(student.githubUrl || "");
     setLinkedinUrl(student.linkedinUrl || "");
-    setSelectedAvatar(
-      student.avatarUrl ||
-      `/avatars/Avatar${(student.studentId % 40) + 1}.webp`
-    );}
+    setSelectedAvatar(student.avatarUrl ||`/avatars/Avatar${(student.studentId % 40) + 1}.webp`);}
   }, [student]);
 
     const [showLinksModal, setShowLinksModal] = useState(false);
@@ -72,10 +73,10 @@ const Profile = () => {
         collaborationRes,
         applicationRes,
         ] = await Promise.all([
-        axiosInstance.get(`/project/student/${id}`),
-        axiosInstance.get(`/groupProject/student/${id}`),
-        axiosInstance.get(`/collaboration/student/${id}`),
-        axiosInstance.get(`/collabapplication/student/${id}`),
+        authenticatedAxiosInstance.get(`/project/student/${id}`),
+        authenticatedAxiosInstance.get(`/groupProject/student/${id}`),
+        authenticatedAxiosInstance.get(`/collaboration/student/${id}`),
+        authenticatedAxiosInstance.get(`/collabapplication/student/${id}`),
         ]);
 
         setProjects(projectRes.data);
@@ -131,7 +132,7 @@ return (
 return (
 <div className="min-h-screen bg-linear-to-br from-slate-950 via-blue-950 to-slate-950">
 
-    <Navbar />
+    {isReviewer ? <ReviewerNavbar /> : <Navbar />}
 
     <div className="max-w-7xl mx-auto px-4 sm:px-6 py-6 sm:py-8">
         <div className="relative h-52 sm:h-72 lg:h-96 rounded-2xl lg:rounded-[40px] overflow-hidden shadow-2xl bg-cover"
@@ -166,11 +167,8 @@ return (
                                         <FaLinkedin size={24} />LinkedIn
                                     </a>
                                     ) : (
-                                        <span className="text-slate-500 text-sm">LinkedIn not added</span>)}
-                                {isOwnProfile && (<button onClick={() => setShowLinksModal(true)} 
-                                    className="px-3 py-1 text-sm bg-white/10 rounded-lg hover:bg-white/20">
-                                    Edit Profile
-                                </button>)}
+                                        <span className="text-slate-500 text-sm">LinkedIn not added</span>
+                                )}
                             </div>
                             <div className="flex flex-wrap gap-3 mt-4">
                                 <span className="bg-cyan-500/20 text-cyan-300 px-4 py-2 rounded-full">    {student.branch}</span>
@@ -180,9 +178,16 @@ return (
                         </div>
                     </div>
                     <div className="flex flex-col gap-10">
-                        <div className="flex items-end justify-end">
-                            <FollowSection studentId={studentId} isOwnProfile={isOwnProfile}/>                            
-                        </div>                       
+                        <div className="flex flex-col gap-5">
+                            {isOwnProfile && (
+                            <button onClick={() => setShowLinksModal(true)} 
+                                className="self-end flex items-center gap-2 text-gray-700 px-3 py-1.5 text-sm bg-gray-300 rounded-lg hover:bg-white/20 transition">
+                            <Pencil size={15} /> Edit Profile </button>
+                            )}
+                            <div className="flex items-end justify-end">
+                                <FollowSection studentId={studentId} isOwnProfile={isOwnProfile}/>                            
+                            </div> 
+                        </div>                      
                         <div className="flex flex-col sm:flex-row gap-3 text-sm w-full lg:w-auto">
                             {isOwnProfile && (<button
                                 onClick={() => navigate("/formATeam")}
