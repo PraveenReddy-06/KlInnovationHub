@@ -63,9 +63,9 @@ const Section123 = () => {
           "Great projects remain unseen. Most students don't know what their seniors, juniors, or peers are building.",
       },
       {
-        title: "No Recognition",
+        title: "No Guidance",
         description:
-          "Students put months of effort into projects, but receive little appreciation, feedback, or motivation to continue.",
+          "Students lack guidance from faculty to improve their projects",
       },
     ];
 

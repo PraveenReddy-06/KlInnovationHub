@@ -25,12 +25,12 @@ const Solution = () => {
   {
     image: "/SolutionBg/2.png",
     title: "Recruit Members",
-    desc: "Find talented teammates and build stronger project teams."
+    desc: "Find talented teammates to complete your project or Apply to join in a Team."
   },
   {
     image: "/SolutionBg/3.png",
-    title: "Join Teams",
-    desc: "Collaborate on exciting ideas and gain hands-on experience."
+    title: "Faculty Guidance",
+    desc: "Get your projects reviewed and receive feedback on your work."
   },
   {
     image: "/SolutionBg/4.png",

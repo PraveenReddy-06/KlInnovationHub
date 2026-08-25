@@ -158,6 +158,8 @@ return (
               <option value="">Department *</option>
               <option value="CSE">CSE</option>
               <option value="ECE">ECE</option>
+              <option value="CSIT">CSIT</option>
+              <option value="PHYSICS">PHYSICS</option>
               <option value="EEE">EEE</option>
               <option value="MECH">MECH</option>
               <option value="CIVIL">CIVIL</option>
