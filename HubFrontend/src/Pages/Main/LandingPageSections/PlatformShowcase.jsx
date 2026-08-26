@@ -63,14 +63,14 @@ const PlatformShowcase = () => {
 
             <div className="grid lg:grid-cols-2 gap-8 lg:gap-16 items-center mb-32">
                 <div data-aos="fade-right" className="order-2 lg:order-1">
-                    <span className="text-sky font-semibold">LATEST PROJECTS</span>
-                    <h3 className="text-2xl sm:text-3xl lg:text-4xl font-bold text-white mt-4 mb-6">Stay Updated With New Innovations</h3>
+                    <span className="text-sky font-semibold">Project Review System</span>
+                    <h3 className="text-2xl sm:text-3xl lg:text-4xl font-bold text-white mt-4 mb-6">Submit your projects for official review by KL faculty members.</h3>
                     <p className="text-gray-400 tracking-wide text-base sm:text-lg leading-relaxed">
-                        Stay updated with the newest innovations on campus while exploring the most popular projects. Top projects are highlighted based on community likes, helping you discover trending ideas, emerging technologies, and impactful student work.
+                        When you submit a project, it undergoes a faculty evaluation before going live on the KL Innovation Hub. If accepted, your project is instantly showcased on the main dashboard for the community to see. If adjustments are needed, faculty will provide constructive feedback detailing required changes, additional features to implement, or improvements to make, helping you refine your work before it goes public.
                     </p>
                 </div>
                 <div data-aos="fade-left" className="relative group order-1 lg:order-2">
-                    <img src="/PlatformShow4.png" alt="Latest Projects" className="h-65 w-max border border-accent/20 shadow-2xl transition-all duration-500 group-hover:scale-110" />
+                    <img src="/PlatformShow8.png" alt="Latest Projects" className="h-65 w-max border border-accent/20 shadow-2xl transition-all duration-500 group-hover:scale-110" />
                  </div>
             </div>
 

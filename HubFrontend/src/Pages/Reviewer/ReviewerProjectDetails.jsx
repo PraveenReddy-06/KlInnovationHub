@@ -90,7 +90,7 @@ const ReviewerProjectDetails = () => {
 
   if (loading) {
     return (
-      <div className="min-h-screen bg-[#021024] text-white flex items-center justify-center">
+      <div className="min-h-screen bg-primary text-white flex items-center justify-center">
         <div className="flex items-center gap-3 text-gray-400">
           <Loader2 className="animate-spin" size={20} /> Loading project...
         </div>
@@ -101,10 +101,10 @@ const ReviewerProjectDetails = () => {
   if (!project) return null;
 
   return (
-    <div className="min-h-screen bg-[#021024] text-white">
+    <div className="min-h-screen bg-primary text-white">
       <header className="border-b border-white/10">
         <div className="max-w-5xl mx-auto px-6 py-5">
-          <button onClick={() => navigate("/reviewer/projects")} className="flex items-center gap-2 text-sm text-gray-400 hover:text-white">
+          <button onClick={() => navigate("/reviewerDashboard")} className="flex items-center gap-2 text-sm text-gray-400 hover:text-white">
             <ArrowLeft size={17} /> Back to Projects
           </button>
         </div>
@@ -114,11 +114,11 @@ const ReviewerProjectDetails = () => {
         {/* Heading */}
         <div className="mb-5">
           <div className="flex items-center gap-3">
-            <div className="rounded-xl bg-[#5483B3]/20 p-3 text-[#7DA0CA]">
+            <div className="rounded-xl bg-accent/20 p-3 text-sky">
               <FileText size={25} />
             </div>
             <div>
-              <p className="text-sm text-[#7DA0CA]">Solo Project</p>
+              <p className="text-sm text-sky">Solo Project</p>
               <h1 className="text-3xl font-bold">{project.projectName || "Untitled Project"}</h1>
             </div>
           </div>
@@ -139,13 +139,13 @@ const ReviewerProjectDetails = () => {
         </div>
 
         {/* Description */}
-        <section className="rounded-2xl border border-white/10 bg-white/[0.03] p-6 mb-6">
+        <section className="rounded-2xl border border-white/10 bg-white/3 p-6 mb-6">
           <h2 className="text-lg font-semibold mb-4">Project Description</h2>
           <p className="text-gray-300 leading-7 whitespace-pre-wrap">{project.description || "No description provided."}</p>
         </section>
 
         {/* Project information */}
-        <section className="rounded-2xl border border-white/10 bg-white/[0.03] p-6 mb-6">
+        <section className="rounded-2xl border border-white/10 bg-white/3 p-6 mb-6">
           <h2 className="text-lg font-semibold mb-5">Project Information</h2>
           <div className="text-md grid grid-cols-1 md:grid-cols-2 gap-5">
             
@@ -155,7 +155,7 @@ const ReviewerProjectDetails = () => {
               <p className=" uppercase tracking-wider text-gray-300">  Technologies</p>
               <div className="mt-2 flex flex-wrap gap-2">
                 {[project.tech1, project.tech2, project.tech3].filter(Boolean).map((tech, index) => (
-                    <span  key={index}  className="rounded-full border border-[#5483B3]/30 bg-[#5483B3]/10 px-3 py-1 text-md text-green-400">
+                    <span  key={index}  className="rounded-full border border-accent/30 bg-accent/10 px-3 py-1 text-md text-green-400">
                       {tech}
                     </span>
                   ))}
@@ -166,7 +166,7 @@ const ReviewerProjectDetails = () => {
         </section>
 
         {/* Links */}
-        <section className="rounded-2xl border border-white/10 bg-white/[0.03] p-6 mb-6">
+        <section className="rounded-2xl border border-white/10 bg-white/3 p-6 mb-6">
           <h2 className="text-lg font-semibold mb-5">Project Links</h2>
           <div className="flex flex-wrap gap-4">
             {project.githubUrl && (
@@ -188,7 +188,7 @@ const ReviewerProjectDetails = () => {
 
         {/* Rejection feedback */}
         {showRejectBox && (
-          <section className="rounded-2xl border border-red-400/20 bg-red-400/[0.03] p-6 mb-6">
+          <section className="rounded-2xl border border-red-400/20 bg-red-400/3 p-6 mb-6">
             <h2 className="text-lg font-semibold">Rejection Feedback</h2>
             <p className="text-sm text-gray-400 mt-1 mb-4">
               Explain what the student should improve. This feedback will also be sent by email.
@@ -209,7 +209,7 @@ const ReviewerProjectDetails = () => {
         )}
 
         {/* Actions */}
-        <section className="rounded-2xl border border-white/10 bg-white/[0.03] p-6">
+        <section className="rounded-2xl border border-white/10 bg-white/3 p-6">
           <h2 className="text-lg font-semibold mb-2">Review Decision</h2>
           <p className="text-sm text-gray-400 mb-6">
             This decision will determine whether the project becomes visible on KL Innovation Hub.

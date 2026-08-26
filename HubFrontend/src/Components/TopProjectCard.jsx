@@ -7,6 +7,8 @@ import toast, { Toaster } from "react-hot-toast";
 const TopProjectCard = ({project}) => {
 
   const studentId = Number(localStorage.getItem("studentId"))
+  const isReviewer = !!localStorage.getItem("reviewerToken");
+  const isStudent = !!localStorage.getItem("token");
 
   const [liked, setLiked] = useState(project.likes?.some((like) => like.likedStudentId === studentId));
   const [like, setLike] = useState(project.likeCount);
@@ -14,7 +16,9 @@ const TopProjectCard = ({project}) => {
   const navigate = useNavigate();
 
   const requireLogin = () => {
-    if (!localStorage.getItem("token")) {
+    const studentToken = localStorage.getItem("token");
+    const reviewerToken = localStorage.getItem("reviewerToken");
+    if (!studentToken && !reviewerToken) {
       toast.error("Please login to continue");
       navigate("/login");
       return false;
@@ -23,7 +27,17 @@ const TopProjectCard = ({project}) => {
   };
 
   const handleLike = async () => {
-    if (!requireLogin()) return;
+
+    if (isReviewer) {
+      toast("Reviewers cannot like projects.");
+      return;
+    }
+
+    if (!isStudent) {
+      toast.error("Please login to continue");
+      navigate("/login");
+      return;
+    }
 
     try {
       const isGroup =project.type === "GROUP";
@@ -104,7 +118,7 @@ const TopProjectCard = ({project}) => {
       </p>      
 
       <div className="flex flex-wrap justify-between sm:justify-end gap-3 sm:gap-5 items-center text-xs text-slate-500 mt-4">
-        <button onClick={handleLike} className="flex items-center gap-1 hover:text-red-500 transition">
+        <button onClick={handleLike} className={`flex items-center gap-1 transition ${isReviewer ? "cursor-default opacity-80" : "hover:text-red-500"}`}>
           <FaHeart className={liked ? "text-red-500" : "text-slate-400"} size={18} />
           <span className="font-semibold text-slate-700"> {like}</span>
           Likes
