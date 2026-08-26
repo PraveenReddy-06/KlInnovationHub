@@ -70,7 +70,7 @@ const PlatformShowcase = () => {
                     </p>
                 </div>
                 <div data-aos="fade-left" className="relative group order-1 lg:order-2">
-                    <img src="/PlatformShow4.png" alt="Latest Projects" className="h-65 w-max border border-accent/20 shadow-2xl transition-all duration-500 group-hover:scale-110" />
+                    <img src="/PlatformShow8.png" alt="Latest Projects" className="h-65 w-max border border-accent/20 shadow-2xl transition-all duration-500 group-hover:scale-110" />
                  </div>
             </div>
 
