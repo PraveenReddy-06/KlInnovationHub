@@ -22,6 +22,7 @@ public interface ProjectLikesRepo extends JpaRepository<ProjectLikes, Integer> {
     		FROM project p
     		LEFT JOIN project_likes pl
     		ON p.project_id = pl.project_id
+    		WHERE p.status = 'APPROVED'
     		GROUP BY p.project_id
     		ORDER BY COUNT(pl.student_id) DESC
     		""", nativeQuery = true)

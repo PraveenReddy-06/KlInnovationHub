@@ -141,6 +141,7 @@ const ExploreProjects = () => {
             <option value="CSE">CSE</option>
             <option value="CSIT">CSIT</option>
             <option value="ECE">ECE</option>
+            <option value="AIDS">AIDS</option>
           </select>
           
           <select value={selectedChoice}  onChange={(e) => setSelectedChoice(e.target.value)}

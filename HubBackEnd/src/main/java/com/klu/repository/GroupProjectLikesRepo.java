@@ -37,6 +37,7 @@ public interface GroupProjectLikesRepo extends JpaRepository<GroupProjectLikes,I
 			 FROM group_project gp
 			 LEFT JOIN group_project_likes gpl
 			 ON gp.group_project_id = gpl.project_id
+			 WHERE gp.status = 'APPROVED'
 			 GROUP BY gp.group_project_id
 			 ORDER BY COUNT(gpl.student_id) DESC
 			 """, nativeQuery = true)

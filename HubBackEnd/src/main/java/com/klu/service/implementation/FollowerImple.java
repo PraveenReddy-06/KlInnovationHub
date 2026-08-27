@@ -56,6 +56,9 @@ public class FollowerImple implements FollowerService {
     @Override
     public String unfollow(Long followingId) {
         Student follower = currentUser.getCurrentStudent();
+        if (follower.getStudentId().equals(followingId)) {
+            throw new RuntimeException("You cannot unfollow yourself");
+        }
         Student following = studentRepo.findById(followingId).orElseThrow(() -> new RuntimeException("Student not found"));
         followerRepo.deleteByFollowerAndFollowing(follower,following);
         return "Unfollowed successfully";

@@ -56,7 +56,7 @@ const PlatformShowcase = () => {
                     <span className="text-sky font-semibold">EXPLORE PROJECTS</span>
                     <h3 className="text-2xl sm:text-3xl lg:text-4xl font-bold text-white mt-4 mb-6">Discover What Students Are Building</h3>
                     <p className="text-gray-400 tracking-wide text-base sm:text-lg leading-relaxed">
-                        Browse innovative projects from every department and discover what students are building across campus. Search projects by branch such as CSE, CSIT, ECE, year groups like Y21, Y22, Y23, Y24, student ID, or project name to quickly find ideas that match your interests.                    </p>
+                        Browse innovative projects from every department and discover what students are building across campus. Search projects by branch such as CSE, CSIT, ECE and AIDS. Year like Y21, Y22, Y23, Y24, student ID, or project name to quickly find ideas that match your interests.                    </p>
                 </div>
             </div>
 
@@ -66,7 +66,7 @@ const PlatformShowcase = () => {
                     <span className="text-sky font-semibold">Project Review System</span>
                     <h3 className="text-2xl sm:text-3xl lg:text-4xl font-bold text-white mt-4 mb-6">Submit your projects for official review by KL faculty members.</h3>
                     <p className="text-gray-400 tracking-wide text-base sm:text-lg leading-relaxed">
-                        When you submit a project, it undergoes a faculty evaluation before going live on the KL Innovation Hub. If accepted, your project is instantly showcased on the main dashboard for the community to see. If adjustments are needed, faculty will provide constructive feedback detailing required changes, additional features to implement, or improvements to make, helping you refine your work before it goes public.
+                        When you submit a project, it undergoes a faculty evaluation. If accepted, your project is instantly showcased on the main dashboard for the community to see. If adjustments are needed, faculty will provide feedback detailing required changes, additional features to implement, or improvements to make, helping you refine your work before it goes public.
                     </p>
                 </div>
                 <div data-aos="fade-left" className="relative group order-1 lg:order-2">

@@ -33,8 +33,10 @@ public class StudentImple implements StudentService{
 			s.setBranch("CSIT");
 		}else if((email.substring(2,6)).equals("0004")) {
 			s.setBranch("ECE");
+		} else if ((email.substring(2,6)).equals("0008")) {
+		    s.setBranch("AIDS");
 		}else {
-			throw new RuntimeException("Only CSE, CSIT and ECE students are allowed");
+			throw new RuntimeException("Only CSE, AIDS, CSIT and ECE students are allowed");
 		}
 		studentRepo.save(s);
 		

@@ -23,7 +23,7 @@ import com.klu.repository.ReviewerRequestRepo;
 @Service
 public class ReviewerRegistrationService {
 
-    private static final String PASSWORD_REGEX = "^(?=.*[A-Z])(?=.*[a-z])(?=.*\\d).{8,}$";
+    private static final String PASSWORD_REGEX = "^(?=.*[A-Z])(?=.*[a-z])(?=.*\\d).{8,64}$";
 
     @Autowired
     private JavaMailSender sender;

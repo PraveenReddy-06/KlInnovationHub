@@ -46,7 +46,7 @@ public class MailService {
 	@Autowired JwtService jwtService;
 	
 	private final SecureRandom secureRandom = new SecureRandom();
-	private static final String PASSWORD_REGEX ="^(?=.*[A-Z])(?=.*[a-z])(?=.*\\d).{8,}$";
+	private static final String PASSWORD_REGEX ="^(?=.*[A-Z])(?=.*[a-z])(?=.*\\d).{8,64}$";
 
     MailService(AuthenticationManager authenticationManager) {
         this.authenticationManager = authenticationManager;

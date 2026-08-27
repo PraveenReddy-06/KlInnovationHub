@@ -14,7 +14,7 @@ const ReviewerForgotPassword = () => {
   const [error, setError] = useState("");
   const [loading, setLoading] = useState(false);
 
-  const passwordRegex = /^(?=.*[A-Z])(?=.*[a-z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]{10,}$/;
+  const passwordRegex = /^(?=.*[A-Z])(?=.*[a-z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]{10,64}$/;
 
   const sendOtp = async () => {
     setError("");
@@ -144,7 +144,7 @@ const ReviewerForgotPassword = () => {
             <label className="text-tan font-medium">New Password</label>
             <input
               type="password"
-              value={newPassword}
+              value={newPassword} maxLength={64}
               onChange={(e) => setNewPassword(e.target.value)}
               placeholder="New Password"
               className="w-full p-3 rounded-xl bg-white/10 border border-white/20 text-white outline-none"

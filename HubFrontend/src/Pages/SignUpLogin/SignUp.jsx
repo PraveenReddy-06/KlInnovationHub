@@ -6,7 +6,7 @@ import toast from "react-hot-toast";
 
 const SignUp = () => {
 
-    const passwordRegex =/^(?=.*[A-Z])(?=.*[a-z])(?=.*\d).{8,}$/;
+    const passwordRegex =/^(?=.*[A-Z])(?=.*[a-z])(?=.*\d).{8,64}$/;
     const [timer,setTimer] = useState(0);
     const [form,setForm] = useState({name:"",mail:"",password:""})
     const [loading,setLoading] = useState(false);
@@ -158,7 +158,7 @@ return (
         <div className="flex flex-col md:flex-row gap-4">
           <div className="flex-1 relative min-w-0">
             <input className="w-full p-3 rounded-xl border border-gray-400 text-white placeholder-gray-400 outline-none pr-10 disabled:bg-gray-100 disabled:cursor-not-allowed"
-              onChange={handleForm} name="password" value={form.password} type={showPassword ? "text" : "password"} placeholder="Password" disabled={otpSent}
+              onChange={handleForm} name="password" value={form.password} type={showPassword ? "text" : "password"} placeholder="Password" disabled={otpSent} maxLength={64}
             />
             <button type="button" onClick={() => setShowPassword(!showPassword)} className="absolute right-3 inset-y-0 flex items-center text-white hover:text-black">
               {showPassword ? <EyeOff size={20} /> : <Eye size={20} />}

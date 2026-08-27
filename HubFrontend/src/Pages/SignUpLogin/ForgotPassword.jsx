@@ -16,7 +16,7 @@ const ForgotPassword = () => {
   const [loading, setLoading] = useState(false);
   const [resetSuccess, setResetSuccess] = useState(false);
 
-  const passwordRegex = /^(?=.*[A-Z])(?=.*[a-z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]{10,}$/;
+  const passwordRegex = /^(?=.*[A-Z])(?=.*[a-z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]{10,64}$/;
 
   const sendOtp = async () => {
     setError("");
@@ -132,7 +132,7 @@ const ForgotPassword = () => {
           <div className="flex flex-col gap-3">
             <label className="text-tan font-medium">New Password</label>
             <input  type="password" value={newPassword} onChange={(e) => setNewPassword(e.target.value)} placeholder="New Password"
-              className="w-full p-3 rounded-xl bg-white/10 border border-white/20 text-white outline-none"
+              className="w-full p-3 rounded-xl bg-white/10 border border-white/20 text-white outline-none" maxLength={64}
             />
             <label className="text-tan font-medium">Confirm Password</label>
             <input type="password" value={confirmPassword} onChange={(e) => setConfirmPassword(e.target.value)} placeholder="Confirm Password"

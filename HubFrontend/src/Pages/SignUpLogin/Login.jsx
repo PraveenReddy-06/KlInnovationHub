@@ -93,7 +93,7 @@ const Login = () => {
                   : "text-tan/60 hover:text-tan"
               }`}
             >
-              Teacher
+              Faculty
             </button>
           </div>
 

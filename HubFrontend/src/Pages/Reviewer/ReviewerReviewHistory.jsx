@@ -44,7 +44,7 @@ const ReviewerReviewHistory = () => {
   const rejectedCount = reviews.filter((review) => review.decision === "REJECTED").length;
 
   return (
-    <div className="min-h-screen bg-linear-to-b from-cyan-600 to-cyan-200 text-primary">
+    <div className="min-h-screen bg-blue-400 text-primary">
       <ReviewerNavbar />
 
       <main className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-5 sm:py-8">
