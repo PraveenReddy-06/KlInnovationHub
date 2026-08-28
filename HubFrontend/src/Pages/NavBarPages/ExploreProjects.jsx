@@ -49,7 +49,7 @@ const ExploreProjects = () => {
         return {...item,  type: "INDIVIDUAL", isLiked: isLiked || false,};
       });
       const formattedGroupProjects = groupProjectRes.data.map((item) => {
-        const isLiked = item.likes?.some((like) =>  Number(like.likedStudentId) === Number(studentId));
+        const isLiked = item.likes?.some((like) => Number(like.likedStudentId) === Number(studentId));
         return { ...item,type: "GROUP",isLiked: isLiked || false,};
       });
       setProjects(formattedProjects);
@@ -178,7 +178,7 @@ const ExploreProjects = () => {
        
           <div className="col-span-3 lg:col-span-1 flex items-center border rounded-xl px-3 py-2 bg-gray-50 w-full lg:w-90">
             <span className="text-primary ml-2">🔍</span>
-            <input  type="text"  placeholder="Search projects, tech, student, id..."  value={search}  onChange={(e) => setSearch(e.target.value)}
+            <input  type="text"  placeholder="Search projects, tech, student, id..."  value={search} onChange={(e) => setSearch(e.target.value)}
               className="w-full bg-transparent outline-none px-2"/>
           </div>
         </div>
