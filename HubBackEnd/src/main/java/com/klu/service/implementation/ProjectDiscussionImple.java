@@ -89,6 +89,7 @@ public class ProjectDiscussionImple implements ProjectDiscussionService {
     public ProjectDiscussionDto updateDiscussion(Long discussionId, DiscussionContentDto request) {
         ProjectDiscussion discussion = discussionRepo.findById(discussionId)
                 .orElseThrow(() -> new RuntimeException("Discussion not found"));
+        ensureDiscussionProjectIsApproved(discussion);
         ensureAuthor(discussion.getAuthor());
         discussion.setContent(request.getContent().trim());
         discussion.setUpdatedAt(LocalDateTime.now());
@@ -99,7 +100,9 @@ public class ProjectDiscussionImple implements ProjectDiscussionService {
     public void deleteDiscussion(Long discussionId) {
         ProjectDiscussion discussion = discussionRepo.findById(discussionId)
                 .orElseThrow(() -> new RuntimeException("Discussion not found"));
+        ensureDiscussionProjectIsApproved(discussion);
         ensureAuthor(discussion.getAuthor());
+        replyRepo.deleteAll(replyRepo.findByDiscussion_DiscussionIdOrderByCreatedAtAsc(discussionId));
         discussionRepo.delete(discussion);
     }
 
@@ -122,6 +125,7 @@ public class ProjectDiscussionImple implements ProjectDiscussionService {
     public DiscussionReplyDto updateReply(Long replyId, DiscussionContentDto request) {
         DiscussionReply reply = replyRepo.findById(replyId)
                 .orElseThrow(() -> new RuntimeException("Reply not found"));
+        ensureDiscussionProjectIsApproved(reply.getDiscussion());
         ensureAuthor(reply.getAuthor());
         reply.setContent(request.getContent().trim());
         reply.setUpdatedAt(LocalDateTime.now());
@@ -132,6 +136,7 @@ public class ProjectDiscussionImple implements ProjectDiscussionService {
     public void deleteReply(Long replyId) {
         DiscussionReply reply = replyRepo.findById(replyId)
                 .orElseThrow(() -> new RuntimeException("Reply not found"));
+        ensureDiscussionProjectIsApproved(reply.getDiscussion());
         ensureAuthor(reply.getAuthor());
         replyRepo.delete(reply);
     }

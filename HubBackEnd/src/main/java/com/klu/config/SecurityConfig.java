@@ -48,7 +48,9 @@ public class SecurityConfig {
                                 "/groupProject/latest",
                                 "/leaderboard",
                                 "/likes/top",
-                                "/grouplikes/top"
+                                "/grouplikes/top",
+                                "/discussions/project/**",
+                                "/discussions/group-project/**"
                         ).permitAll()
                         .anyRequest().authenticated())
                 .addFilterBefore(jwtFilter, UsernamePasswordAuthenticationFilter.class);
