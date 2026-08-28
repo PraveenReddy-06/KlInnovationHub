@@ -12,5 +12,7 @@ public interface DiscussionLikeRepo extends JpaRepository<DiscussionLike, Long> 
 
     void deleteByDiscussion_DiscussionIdAndAuthor_Id(Long discussionId, Integer authorId);
 
+    void deleteByDiscussion_DiscussionId(Long discussionId);
+
     long countByDiscussion_DiscussionId(Long discussionId);
 }

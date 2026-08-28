@@ -11,4 +11,8 @@ public interface DiscussionReportRepo extends JpaRepository<DiscussionReport, Lo
     boolean existsByDiscussion_DiscussionIdAndReporter_Id(Long discussionId, Integer reporterId);
 
     boolean existsByReply_ReplyIdAndReporter_Id(Long replyId, Integer reporterId);
+
+    void deleteByDiscussion_DiscussionId(Long discussionId);
+
+    void deleteByReply_ReplyId(Long replyId);
 }

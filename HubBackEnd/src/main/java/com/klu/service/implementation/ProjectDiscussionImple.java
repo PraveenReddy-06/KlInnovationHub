@@ -97,9 +97,9 @@ public class ProjectDiscussionImple implements ProjectDiscussionService {
         ensureDiscussionProjectIsApproved(discussion);
         ensureAuthor(discussion.getAuthor());
         replyLikeRepo.deleteAll(replyLikeRepo.findAll().stream().filter(like -> like.getReply().getDiscussion().getDiscussionId().equals(discussionId)).toList());
-        replyRepo.deleteAll(replyRepo.findByDiscussion_DiscussionIdOrderByCreatedAtAsc(discussionId));
-        discussionLikeRepo.deleteAll(discussionLikeRepo.findAll().stream().filter(like -> like.getDiscussion().getDiscussionId().equals(discussionId)).toList());
-        reportRepo.deleteAll(reportRepo.findAll().stream().filter(report -> report.getDiscussion() != null && report.getDiscussion().getDiscussionId().equals(discussionId)).toList());
+        replyRepo.deleteByDiscussion_DiscussionId(discussionId);
+        discussionLikeRepo.deleteByDiscussion_DiscussionId(discussionId);
+        reportRepo.deleteByDiscussion_DiscussionId(discussionId);
         discussionRepo.delete(discussion);
     }
 
@@ -108,9 +108,7 @@ public class ProjectDiscussionImple implements ProjectDiscussionService {
     public Page<DiscussionReplyDto> getReplies(Long discussionId, Pageable pageable) {
         ProjectDiscussion discussion = getDiscussion(discussionId);
         ensureDiscussionProjectIsApproved(discussion);
-        var replies = replyRepo.findByDiscussion_DiscussionIdOrderByCreatedAtAsc(discussionId);
-        var page = replies.stream().skip(pageable.getOffset()).limit(pageable.getPageSize()).map(this::toReplyDto).toList();
-        return new org.springframework.data.domain.PageImpl<>(page, pageable, replies.size());
+        return replyRepo.findByDiscussion_DiscussionIdOrderByCreatedAtAsc(discussionId, pageable).map(this::toReplyDto);
     }
 
     @Override
@@ -141,8 +139,8 @@ public class ProjectDiscussionImple implements ProjectDiscussionService {
         DiscussionReply reply = replyRepo.findById(replyId).orElseThrow(() -> new RuntimeException("Reply not found"));
         ensureDiscussionProjectIsApproved(reply.getDiscussion());
         ensureAuthor(reply.getAuthor());
-        replyLikeRepo.deleteAll(replyLikeRepo.findAll().stream().filter(like -> like.getReply().getReplyId().equals(replyId)).toList());
-        reportRepo.deleteAll(reportRepo.findAll().stream().filter(report -> report.getReply() != null && report.getReply().getReplyId().equals(replyId)).toList());
+        replyLikeRepo.deleteByReply_ReplyId(replyId);
+        reportRepo.deleteByReply_ReplyId(replyId);
         replyRepo.delete(reply);
     }
 
@@ -223,14 +221,8 @@ public class ProjectDiscussionImple implements ProjectDiscussionService {
     }
 
     private void ensureDiscussionProjectIsApproved(ProjectDiscussion discussion) {
-        if (discussion.getProject() != null) {
-            ensureApprovedProject(discussion.getProject().getProjectId());
-            return;
-        }
-        if (discussion.getGroupProject() != null) {
-            ensureApprovedGroupProject(discussion.getGroupProject().getGroupProjectId());
-            return;
-        }
+        if (discussion.getProject() != null) { ensureApprovedProject(discussion.getProject().getProjectId()); return; }
+        if (discussion.getGroupProject() != null) { ensureApprovedGroupProject(discussion.getGroupProject().getGroupProjectId()); return; }
         throw new RuntimeException("Discussion is not linked to a project");
     }
 
@@ -258,31 +250,12 @@ public class ProjectDiscussionImple implements ProjectDiscussionService {
     private ProjectDiscussionDto toDto(ProjectDiscussion discussion) {
         UserSignUp current = getCurrentAccountOrNull();
         Integer currentId = current == null ? null : current.getId();
-        return new ProjectDiscussionDto(
-                discussion.getDiscussionId(),
-                discussion.getAuthor().getName(),
-                discussion.getAuthor().getRole(),
-                discussion.getContent(),
-                discussion.getCreatedAt(),
-                discussion.getUpdatedAt(),
-                replyRepo.countByDiscussion_DiscussionId(discussion.getDiscussionId()),
-                discussionLikeRepo.countByDiscussion_DiscussionId(discussion.getDiscussionId()),
-                currentId != null && discussionLikeRepo.existsByDiscussion_DiscussionIdAndAuthor_Id(discussion.getDiscussionId(), currentId),
-                isCurrentAuthor(discussion.getAuthor()));
+        return new ProjectDiscussionDto(discussion.getDiscussionId(), discussion.getAuthor().getName(), discussion.getAuthor().getRole(), discussion.getContent(), discussion.getCreatedAt(), discussion.getUpdatedAt(), replyRepo.countByDiscussion_DiscussionId(discussion.getDiscussionId()), discussionLikeRepo.countByDiscussion_DiscussionId(discussion.getDiscussionId()), currentId != null && discussionLikeRepo.existsByDiscussion_DiscussionIdAndAuthor_Id(discussion.getDiscussionId(), currentId), isCurrentAuthor(discussion.getAuthor()));
     }
 
     private DiscussionReplyDto toReplyDto(DiscussionReply reply) {
         UserSignUp current = getCurrentAccountOrNull();
         Integer currentId = current == null ? null : current.getId();
-        return new DiscussionReplyDto(
-                reply.getReplyId(),
-                reply.getAuthor().getName(),
-                reply.getAuthor().getRole(),
-                reply.getContent(),
-                reply.getCreatedAt(),
-                reply.getUpdatedAt(),
-                replyLikeRepo.countByReply_ReplyId(reply.getReplyId()),
-                currentId != null && replyLikeRepo.existsByReply_ReplyIdAndAuthor_Id(reply.getReplyId(), currentId),
-                isCurrentAuthor(reply.getAuthor()));
+        return new DiscussionReplyDto(reply.getReplyId(), reply.getAuthor().getName(), reply.getAuthor().getRole(), reply.getContent(), reply.getCreatedAt(), reply.getUpdatedAt(), replyLikeRepo.countByReply_ReplyId(reply.getReplyId()), currentId != null && replyLikeRepo.existsByReply_ReplyIdAndAuthor_Id(reply.getReplyId(), currentId), isCurrentAuthor(reply.getAuthor()));
     }
 }
