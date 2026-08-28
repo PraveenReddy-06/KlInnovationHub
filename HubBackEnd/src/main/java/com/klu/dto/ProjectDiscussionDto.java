@@ -18,4 +18,5 @@ public class ProjectDiscussionDto {
     private LocalDateTime createdAt;
     private LocalDateTime updatedAt;
     private long replyCount;
+    private long likeCount;
 }

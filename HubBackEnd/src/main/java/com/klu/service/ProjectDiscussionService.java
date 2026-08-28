@@ -4,8 +4,9 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 
 import com.klu.dto.DiscussionContentDto;
-import com.klu.dto.ProjectDiscussionDto;
 import com.klu.dto.DiscussionReplyDto;
+import com.klu.dto.DiscussionReportDto;
+import com.klu.dto.ProjectDiscussionDto;
 
 public interface ProjectDiscussionService {
 
@@ -21,9 +22,19 @@ public interface ProjectDiscussionService {
 
     void deleteDiscussion(Long discussionId);
 
+    Page<DiscussionReplyDto> getReplies(Long discussionId, Pageable pageable);
+
     DiscussionReplyDto createReply(Long discussionId, DiscussionContentDto request);
 
     DiscussionReplyDto updateReply(Long replyId, DiscussionContentDto request);
 
     void deleteReply(Long replyId);
+
+    long toggleDiscussionLike(Long discussionId);
+
+    long toggleReplyLike(Long replyId);
+
+    void reportDiscussion(Long discussionId, DiscussionReportDto request);
+
+    void reportReply(Long replyId, DiscussionReportDto request);
 }
