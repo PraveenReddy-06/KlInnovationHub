@@ -61,8 +61,7 @@ public class GroupProject {
     @Transient
     public int getLikeCount() { return likes == null ? 0 : likes.size(); }
 
-    @Formula("(select count(*) from project_discussion pd where pd.group_project_id = groupProjectId)")
-    private long discussionCount;
+
 
     @ManyToOne
     @JoinColumn(name="teamLead")

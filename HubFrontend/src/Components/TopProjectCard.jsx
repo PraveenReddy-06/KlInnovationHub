@@ -3,6 +3,8 @@ import { FaGithub, FaHeart } from "react-icons/fa";
 import axiosInstance from "../Api/axiosInstance"
 import { useNavigate } from "react-router-dom";
 import toast, { Toaster } from "react-hot-toast";
+import { MessageCircle } from "lucide-react";
+import ProjectDiscussion from "./ProjectDiscussion/ProjectDiscussion";
 
 const TopProjectCard = ({project}) => {
 
@@ -12,6 +14,8 @@ const TopProjectCard = ({project}) => {
 
   const [liked, setLiked] = useState(project.likes?.some((like) => like.likedStudentId === studentId));
   const [like, setLike] = useState(project.likeCount);
+  const [discussionOpen, setDiscussionOpen] = useState(false);
+  const [discussionCount, setDiscussionCount] = useState(project.discussionCount || 0);
 
   const navigate = useNavigate();
 
@@ -84,6 +88,7 @@ const TopProjectCard = ({project}) => {
   };
 
   return (
+    <>
     <div className="flex flex-col w-full p-3 sm:p-4 bg-white border border-slate-400 rounded-2xl shadow-sm transition-all duration-300 hover:bg-cream hover:shadow-xl hover:border-amber-800">
       <h2 className="font-bold text-base sm:text-lg pb-3 text-bloodstone group-hover:text-accent transition-colors">{project.title}</h2>
 
@@ -124,6 +129,11 @@ const TopProjectCard = ({project}) => {
           Likes
         </button>
 
+        <button onClick={(e) => { e.stopPropagation(); setDiscussionOpen(true); }} className="flex items-center gap-1 text-slate-600 hover:text-blue-600 transition">
+          <MessageCircle size={18} />
+          <span className="font-semibold text-slate-700">{discussionCount}</span>
+        </button>
+
         <a className="hover:text-black transition" href={project.githubUrl} target="_blank" rel="noopener noreferrer" onClick={handleGithubClick}>
           <FaGithub className="text-2xl sm:text-3xl" />
         </a>
@@ -134,6 +144,8 @@ const TopProjectCard = ({project}) => {
         )}
       </div>
     </div>
+      <ProjectDiscussion  project={project}  isOpen={discussionOpen}  onClose={() => setDiscussionOpen(false)}  onDiscussionCreated={(change) => setDiscussionCount((current) => current + change)}/>
+    </>
   );
 };
 

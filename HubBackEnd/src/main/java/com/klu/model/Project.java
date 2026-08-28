@@ -49,8 +49,7 @@ public class Project {
     @Transient
     public int getLikeCount() { return likes == null ? 0 : likes.size(); }
 
-    @Formula("(select count(*) from project_discussion pd where pd.project_id = projectId)")
-    private long discussionCount;
+
 
     private String projectName;
 

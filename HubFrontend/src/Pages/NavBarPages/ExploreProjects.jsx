@@ -1,12 +1,14 @@
 import {memo,useEffect,useMemo,useState} from "react";
 import axiosInstance from "../../Api/axiosInstance"
 import Navbar from "../../Components/Navbar";
-import {Search,Heart,Users,User,ExternalLink} from "lucide-react";
+import {Search,Heart,Users,User,ExternalLink,MessageCircle} from "lucide-react";
 import { FaGithub } from "react-icons/fa";
 import { useNavigate } from "react-router-dom";
 import toast, { Toaster } from "react-hot-toast";
 import DashboardFooter from "../../Components/DashboardFooter";
 import ReviewerNavbar from "../Reviewer/ReviewerNavbar";
+import ProjectDiscussion from "../../Components/ProjectDiscussion/ProjectDiscussion";
+
 
 const ExploreProjects = () => {
 
@@ -20,7 +22,8 @@ const ExploreProjects = () => {
   const [selectedType,setSelectedType] = useState("ALL");
   const allProjects = [...projects,...groupProjects];
   const [selectedChoice, setSelectedChoice] = useState("");
-
+  
+  const [selectedDiscussionProject, setSelectedDiscussionProject] = useState(null);
   const studentId = JSON.parse(localStorage.getItem("studentId"));
   const isReviewer = !!localStorage.getItem("reviewerToken");
   const navigate = useNavigate();
@@ -245,7 +248,12 @@ const ExploreProjects = () => {
               <p className="text-sm leading-relaxed text-gray-600 mt-3 line-clamp-3">{project.description}</p>
               <div className="flex justify-between items-center mt-5">
                 <button onClick={() => handleLike(project)} className="flex items-center gap-1 text-sm">
-                <Heart size={18}  fill={project.isLiked ? "red" : "transparent"}  className={`transition ${project.isLiked? "text-red-500" : "text-gray-400"  }`}/>{likes} Likes
+                  <Heart size={18}  fill={project.isLiked ? "red" : "transparent"}  className={`transition ${project.isLiked? "text-red-500" : "text-gray-400"  }`}/>{likes} Likes
+                </button>
+                <button onClick={() => setSelectedDiscussionProject(project)}
+                  className="flex items-center gap-1 text-sm text-gray-600 hover:text-blue-600 transition">
+                  <MessageCircle size={18} />
+                  {project.discussionCount || 0}
                 </button>
                 {isGroup ? (
                   <div className="flex items-center gap-1 text-sm text-gray-600"><Users size={16}/>Team</div>
@@ -265,7 +273,11 @@ const ExploreProjects = () => {
         );
       })}
     </div>
-
+    {selectedDiscussionProject && (
+      <ProjectDiscussion project={selectedDiscussionProject} isOpen={true}
+        onClose={() => setSelectedDiscussionProject(null)}
+      />
+    )}
     {filteredProjects.length === 0 && (<div className="bg-white rounded-lg p-10 text-center mt-10">No Projects Found</div>)}
     </>)}
     </div>
