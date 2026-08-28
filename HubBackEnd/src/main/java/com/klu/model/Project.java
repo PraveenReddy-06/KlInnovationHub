@@ -2,6 +2,7 @@ package com.klu.model;
 import jakarta.persistence.Transient;
 import java.util.List;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 
 import jakarta.persistence.CascadeType;
@@ -29,38 +30,37 @@ import org.hibernate.annotations.Formula;
 @Entity
 @Table(name="project")
 public class Project {
-    
-    @Id        
+    @Id
     @GeneratedValue(strategy= GenerationType.IDENTITY)
     private Integer projectId;
-    
+
     @JsonIgnoreProperties({"projects"})
     @ManyToOne
     @JoinColumn(name="studentId", nullable = false)
     private Student student;
-    
+
     @OneToMany(mappedBy = "project", cascade = CascadeType.ALL, orphanRemoval = true)
     private List<ProjectLikes> likes;
-    
+
+    @JsonIgnore
+    @OneToMany(mappedBy = "project", cascade = CascadeType.ALL, orphanRemoval = true)
+    private List<ProjectDiscussion> discussions;
+
     @Transient
-    public int getLikeCount() {
-        return likes == null ? 0 : likes.size();
-    }
+    public int getLikeCount() { return likes == null ? 0 : likes.size(); }
 
     @Formula("(select count(*) from project_discussion pd where pd.project_id = projectId)")
     private long discussionCount;
-    
+
     private String projectName;
-    
+
     @Pattern(regexp = "^(https://)?(www\\.)?github\\.com/.*$",message = "Must be a valid GitHub URL")
     @Column(length=100, nullable = false)
     private String githubUrl;
-    
     private String liveUrl;
-    
+
     @Column(columnDefinition = "TEXT")
     private String description;
-    
     private String choice;
     private String tech1;
     private String tech2;

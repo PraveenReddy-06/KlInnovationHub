@@ -20,47 +20,23 @@ import com.klu.security.JwtFilter;
 
 @Configuration
 public class SecurityConfig {
-
-    @Autowired
-    private JwtFilter jwtFilter;
+    @Autowired private JwtFilter jwtFilter;
 
     @Bean
     SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
         http.cors(cors -> {}).csrf(csrf -> csrf.disable())
                 .authorizeHttpRequests(auth -> auth
-                        .requestMatchers(
-                                "/mail/**",
-                                "/dashboard/**",
-                                "/reviewer/generateOtp",
-                                "/reviewer/verifyOtp",
-                                "/reviewer/login",
-                                "/reviewer/forgotPassword",
-                                "/reviewer/verifyResetOtp",
-                                "/reviewer/resetPassword",
-                                "/admin/login"
-                        ).permitAll()
+                        .requestMatchers("/mail/**", "/dashboard/**", "/reviewer/generateOtp", "/reviewer/verifyOtp", "/reviewer/login", "/reviewer/forgotPassword", "/reviewer/verifyResetOtp", "/reviewer/resetPassword", "/admin/login").permitAll()
                         .requestMatchers("/admin/reviewers/**").hasRole("ADMIN")
                         .requestMatchers("/reviewer/projects/**", "/reviewer/groupProjects/**", "/reviewer/review/**").hasRole("REVIEWER")
-                        .requestMatchers(HttpMethod.GET,
-                                "/project/all",
-                                "/project/latest",
-                                "/groupProject/all",
-                                "/groupProject/latest",
-                                "/leaderboard",
-                                "/likes/top",
-                                "/grouplikes/top",
-                                "/discussions/project/**",
-                                "/discussions/group-project/**"
-                        ).permitAll()
+                        .requestMatchers(HttpMethod.GET, "/project/all", "/project/latest", "/groupProject/all", "/groupProject/latest", "/leaderboard", "/likes/top", "/grouplikes/top", "/discussions/project/**", "/discussions/group-project/**", "/discussions/*/replies").permitAll()
                         .anyRequest().authenticated())
                 .addFilterBefore(jwtFilter, UsernamePasswordAuthenticationFilter.class);
         return http.build();
     }
 
     @Bean
-    AuthenticationManager authenticationManager(AuthenticationConfiguration config) throws Exception {
-        return config.getAuthenticationManager();
-    }
+    AuthenticationManager authenticationManager(AuthenticationConfiguration config) throws Exception { return config.getAuthenticationManager(); }
 
     @Value("${frontend.url}")
     private String frontendUrl;

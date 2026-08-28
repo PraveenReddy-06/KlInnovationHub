@@ -3,6 +3,7 @@ package com.klu.model;
 import jakarta.persistence.JoinColumn;
 import java.util.List;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 
 import jakarta.persistence.CascadeType;
@@ -32,41 +33,41 @@ import org.hibernate.annotations.Formula;
 @Entity
 @Table(name="groupProject")
 public class GroupProject {
-    
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer groupProjectId;
-    
+
     private String project_name;
-    
+
     @ManyToMany
     @JoinTable(name = "group_project_students",joinColumns = @JoinColumn(name = "group_project_id"),inverseJoinColumns = @JoinColumn(name = "student_id"))
     List<Student> studentList;
-    
+
     @Column(columnDefinition = "TEXT")
     private String description;
-    
+
     @Pattern(regexp = "^(https://)?(www\\.)?github\\.com/.*$", message = "Must be a valid GitHub URL")
     @Column(length=100, nullable = false)
     private String githubUrl;
-    
     private String liveUrl;
 
     @OneToMany(mappedBy = "groupProject", cascade = CascadeType.ALL)
     private List<GroupProjectLikes> likes;
-    
+
+    @JsonIgnore
+    @OneToMany(mappedBy = "groupProject", cascade = CascadeType.ALL, orphanRemoval = true)
+    private List<ProjectDiscussion> discussions;
+
     @Transient
-    public int getLikeCount() {
-        return likes == null ? 0 : likes.size();
-    }
+    public int getLikeCount() { return likes == null ? 0 : likes.size(); }
 
     @Formula("(select count(*) from project_discussion pd where pd.group_project_id = groupProjectId)")
     private long discussionCount;
-    
+
     @ManyToOne
     @JoinColumn(name="teamLead")
     private Student teamLead;
-    
+
     private String choice;
     private String tech1;
     private String tech2;
