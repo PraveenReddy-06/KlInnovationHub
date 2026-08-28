@@ -20,7 +20,7 @@ import jakarta.validation.constraints.Pattern;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
-
+import org.hibernate.annotations.Formula;
 
 @JsonIgnoreProperties(ignoreUnknown = true)
 @Data
@@ -29,44 +29,44 @@ import lombok.NoArgsConstructor;
 @Entity
 @Table(name="project")
 public class Project {
-	
-	@Id		
-	@GeneratedValue(strategy= GenerationType.IDENTITY)
-	private Integer projectId;
-	
-	@JsonIgnoreProperties({"projects"})
-	@ManyToOne
-	@JoinColumn(name="studentId", nullable = false)
-	private Student student;
-	
-	@OneToMany(mappedBy = "project", cascade = CascadeType.ALL, orphanRemoval = true)
-	private List<ProjectLikes> likes;
-	
-	@Transient
-	public int getLikeCount() {
-	    return likes == null ? 0 : likes.size();
-	}
-	
-	private String projectName;
-	/*private LocalDateTime submittedAt;*/
-	
-	@Pattern(regexp = "^(https://)?(www\\.)?github\\.com/.*$",message = "Must be a valid GitHub URL")
-	@Column(length=100, nullable = false)
-	private String githubUrl;
-	
-	private String liveUrl;
-	
-	 @Column(columnDefinition = "TEXT")
-	private String description;
-	
-	private String choice;
-	private String tech1;
-	private String tech2;
-	private String tech3;
+    
+    @Id        
+    @GeneratedValue(strategy= GenerationType.IDENTITY)
+    private Integer projectId;
+    
+    @JsonIgnoreProperties({"projects"})
+    @ManyToOne
+    @JoinColumn(name="studentId", nullable = false)
+    private Student student;
+    
+    @OneToMany(mappedBy = "project", cascade = CascadeType.ALL, orphanRemoval = true)
+    private List<ProjectLikes> likes;
+    
+    @Transient
+    public int getLikeCount() {
+        return likes == null ? 0 : likes.size();
+    }
 
-	@Enumerated(EnumType.STRING)
-	@Column(nullable = false, columnDefinition = "enum('PENDING_REVIEW','APPROVED','REJECTED') default 'APPROVED'")
-	private ProjectStatus status;
-	
-	
+    @Formula("(select count(*) from project_discussion pd where pd.project_id = projectId)")
+    private long discussionCount;
+    
+    private String projectName;
+    
+    @Pattern(regexp = "^(https://)?(www\\.)?github\\.com/.*$",message = "Must be a valid GitHub URL")
+    @Column(length=100, nullable = false)
+    private String githubUrl;
+    
+    private String liveUrl;
+    
+    @Column(columnDefinition = "TEXT")
+    private String description;
+    
+    private String choice;
+    private String tech1;
+    private String tech2;
+    private String tech3;
+
+    @Enumerated(EnumType.STRING)
+    @Column(nullable = false, columnDefinition = "enum('PENDING_REVIEW','APPROVED','REJECTED') default 'APPROVED'")
+    private ProjectStatus status;
 }

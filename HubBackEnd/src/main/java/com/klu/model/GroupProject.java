@@ -23,6 +23,7 @@ import jakarta.validation.constraints.Pattern;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
+import org.hibernate.annotations.Formula;
 
 @JsonIgnoreProperties(ignoreUnknown = true)
 @Data
@@ -31,48 +32,47 @@ import lombok.NoArgsConstructor;
 @Entity
 @Table(name="groupProject")
 public class GroupProject {
-	
-	@Id
-	@GeneratedValue(strategy = GenerationType.IDENTITY)
-	private Integer groupProjectId;
-	
-	private String project_name;
-	/*private LocalDateTime submittedAt;*/
-	
-	@ManyToMany
-	@JoinTable(name = "group_project_students",joinColumns = @JoinColumn(name = "group_project_id"),inverseJoinColumns = @JoinColumn(name = "student_id"))
-	List<Student> studentList;
-	
-	 @Column(columnDefinition = "TEXT")
-	private String description;
-	
-	@Pattern(regexp = "^(https://)?(www\\.)?github\\.com/.*$", message = "Must be a valid GitHub URL")
-	@Column(length=100, nullable = false)
-	private String githubUrl;
-	
-	private String liveUrl;
-	
+    
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private Integer groupProjectId;
+    
+    private String project_name;
+    
+    @ManyToMany
+    @JoinTable(name = "group_project_students",joinColumns = @JoinColumn(name = "group_project_id"),inverseJoinColumns = @JoinColumn(name = "student_id"))
+    List<Student> studentList;
+    
+    @Column(columnDefinition = "TEXT")
+    private String description;
+    
+    @Pattern(regexp = "^(https://)?(www\\.)?github\\.com/.*$", message = "Must be a valid GitHub URL")
+    @Column(length=100, nullable = false)
+    private String githubUrl;
+    
+    private String liveUrl;
 
-	@OneToMany(mappedBy = "groupProject", cascade = CascadeType.ALL)
-	private List<GroupProjectLikes> likes;
-	
-	@Transient
-	public int getLikeCount() {
-	    return likes == null ? 0 : likes.size();
-	}
-	
+    @OneToMany(mappedBy = "groupProject", cascade = CascadeType.ALL)
+    private List<GroupProjectLikes> likes;
+    
+    @Transient
+    public int getLikeCount() {
+        return likes == null ? 0 : likes.size();
+    }
 
-	@ManyToOne
-	@JoinColumn(name="teamLead")
-	private Student teamLead;
-	
-	private String choice;
-	private String tech1;
-	private String tech2;
-	private String tech3;
+    @Formula("(select count(*) from project_discussion pd where pd.group_project_id = groupProjectId)")
+    private long discussionCount;
+    
+    @ManyToOne
+    @JoinColumn(name="teamLead")
+    private Student teamLead;
+    
+    private String choice;
+    private String tech1;
+    private String tech2;
+    private String tech3;
 
-	@Enumerated(EnumType.STRING)
-	@Column(nullable = false, columnDefinition = "enum('PENDING_REVIEW','APPROVED','REJECTED') default 'APPROVED'")
-	private ProjectStatus status;
-
+    @Enumerated(EnumType.STRING)
+    @Column(nullable = false, columnDefinition = "enum('PENDING_REVIEW','APPROVED','REJECTED') default 'APPROVED'")
+    private ProjectStatus status;
 }
