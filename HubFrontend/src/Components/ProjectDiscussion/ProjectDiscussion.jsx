@@ -1,4 +1,5 @@
 import { useEffect, useState } from "react";
+import { createPortal } from "react-dom";
 import { X, MessageCircle, Send } from "lucide-react";
 import toast from "react-hot-toast";
 import { createDiscussion, getDiscussions } from "../../Api/discussionApi";
@@ -40,7 +41,7 @@ const ProjectDiscussion = ({ project, isOpen, onClose, onDiscussionCreated }) =>
     }
   }, [isOpen, projectId, projectType]);
 
-  if (!isOpen) return null;
+  if (!isOpen || !projectId) return null;
 
   const requireLogin = () => {
     if (localStorage.getItem("token") || localStorage.getItem("reviewerToken")) return true;
@@ -55,7 +56,7 @@ const ProjectDiscussion = ({ project, isOpen, onClose, onDiscussionCreated }) =>
       const response = await createDiscussion(projectType, projectId, content.trim());
       setDiscussions((current) => [response.data, ...current]);
       setContent("");
-      onDiscussionCreated?.();
+      onDiscussionCreated?.(1);
     } catch (error) {
       toast.error(error.response?.data?.message || "Unable to start discussion.");
     } finally {
@@ -72,16 +73,12 @@ const ProjectDiscussion = ({ project, isOpen, onClose, onDiscussionCreated }) =>
     onDiscussionCreated?.(-1);
   };
 
-  return (
+  return createPortal(
     <div className="fixed inset-0 z-[100] flex items-stretch justify-end bg-black/40" onMouseDown={(e) => { if (e.target === e.currentTarget) onClose(); }}>
       <aside className="flex h-full w-full max-w-xl flex-col bg-white shadow-2xl">
         <div className="border-b border-slate-200 bg-white px-4 py-4 sm:px-6">
           <div className="flex items-start justify-between gap-4">
-            <div className="min-w-0">
-              <p className="text-xs font-semibold uppercase tracking-wide text-slate-500">Project discussion</p>
-              <h2 className="mt-1 truncate text-lg font-bold text-slate-900">{title}</h2>
-              <p className="text-xs text-slate-500">{owner}</p>
-            </div>
+            <div className="min-w-0"><p className="text-xs font-semibold uppercase tracking-wide text-slate-500">Project discussion</p><h2 className="mt-1 truncate text-lg font-bold text-slate-900">{title}</h2><p className="text-xs text-slate-500">{owner}</p></div>
             <button onClick={onClose} className="rounded-full p-2 text-slate-500 hover:bg-slate-100"><X size={20} /></button>
           </div>
           {description && <p className="mt-3 line-clamp-2 text-sm leading-5 text-slate-600">{description}</p>}
@@ -97,19 +94,11 @@ const ProjectDiscussion = ({ project, isOpen, onClose, onDiscussionCreated }) =>
 
         <div className="flex-1 overflow-y-auto px-4 sm:px-6">
           <div className="flex items-center gap-2 py-4 text-sm font-semibold text-slate-800"><MessageCircle size={17} /> Discussions <span className="font-normal text-slate-400">{project?.discussionCount ?? discussions.length}</span></div>
-          {loading && discussions.length === 0 ? (
-            <p className="py-10 text-center text-sm text-slate-500">Loading discussions...</p>
-          ) : discussions.length === 0 ? (
-            <div className="py-12 text-center"><MessageCircle className="mx-auto text-slate-300" size={34} /><p className="mt-3 text-sm font-medium text-slate-600">No discussions yet.</p><p className="mt-1 text-xs text-slate-400">Start the first conversation about this project.</p></div>
-          ) : (
-            <>
-              {discussions.map((discussion) => <DiscussionItem key={discussion.discussionId} discussion={discussion} onUpdated={updateDiscussion} onDeleted={removeDiscussion} />)}
-              {hasMore && <button disabled={loading} onClick={() => loadDiscussions(page + 1, true)} className="my-5 w-full rounded-lg border border-slate-200 py-2 text-sm font-medium text-slate-600 hover:bg-slate-50 disabled:opacity-50">{loading ? "Loading..." : "Load more"}</button>}
-            </>
-          )}
+          {loading && discussions.length === 0 ? <p className="py-10 text-center text-sm text-slate-500">Loading discussions...</p> : discussions.length === 0 ? <div className="py-12 text-center"><MessageCircle className="mx-auto text-slate-300" size={34} /><p className="mt-3 text-sm font-medium text-slate-600">No discussions yet.</p><p className="mt-1 text-xs text-slate-400">Start the first conversation about this project.</p></div> : <><>{discussions.map((discussion) => <DiscussionItem key={discussion.discussionId} discussion={discussion} onUpdated={updateDiscussion} onDeleted={removeDiscussion} />)}</>{hasMore && <button disabled={loading} onClick={() => loadDiscussions(page + 1, true)} className="my-5 w-full rounded-lg border border-slate-200 py-2 text-sm font-medium text-slate-600 hover:bg-slate-50 disabled:opacity-50">{loading ? "Loading..." : "Load more"}</button>}</>}
         </div>
       </aside>
-    </div>
+    </div>,
+    document.body
   );
 };
 
