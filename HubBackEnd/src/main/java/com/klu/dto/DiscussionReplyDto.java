@@ -18,4 +18,6 @@ public class DiscussionReplyDto {
     private LocalDateTime createdAt;
     private LocalDateTime updatedAt;
     private long likeCount;
+    private boolean likedByCurrentUser;
+    private boolean editableByCurrentUser;
 }

@@ -37,56 +37,37 @@ import com.klu.service.ProjectDiscussionService;
 @Transactional
 public class ProjectDiscussionImple implements ProjectDiscussionService {
 
-    @Autowired
-    private ProjectDiscussionRepo discussionRepo;
-
-    @Autowired
-    private DiscussionReplyRepo replyRepo;
-
-    @Autowired
-    private DiscussionLikeRepo discussionLikeRepo;
-
-    @Autowired
-    private ReplyLikeRepo replyLikeRepo;
-
-    @Autowired
-    private DiscussionReportRepo reportRepo;
-
-    @Autowired
-    private ProjectRepo projectRepo;
-
-    @Autowired
-    private GroupProjectRepo groupProjectRepo;
-
-    @Autowired
-    private UserSignUpRepository userSignUpRepo;
+    @Autowired private ProjectDiscussionRepo discussionRepo;
+    @Autowired private DiscussionReplyRepo replyRepo;
+    @Autowired private DiscussionLikeRepo discussionLikeRepo;
+    @Autowired private ReplyLikeRepo replyLikeRepo;
+    @Autowired private DiscussionReportRepo reportRepo;
+    @Autowired private ProjectRepo projectRepo;
+    @Autowired private GroupProjectRepo groupProjectRepo;
+    @Autowired private UserSignUpRepository userSignUpRepo;
 
     @Override
     @Transactional(readOnly = true)
     public Page<ProjectDiscussionDto> getProjectDiscussions(Integer projectId, Pageable pageable) {
         ensureApprovedProject(projectId);
-        return discussionRepo.findByProject_ProjectIdOrderByCreatedAtDesc(projectId, pageable)
-                .map(this::toDto);
+        return discussionRepo.findByProject_ProjectIdOrderByCreatedAtDesc(projectId, pageable).map(this::toDto);
     }
 
     @Override
     @Transactional(readOnly = true)
     public Page<ProjectDiscussionDto> getGroupProjectDiscussions(Integer groupProjectId, Pageable pageable) {
         ensureApprovedGroupProject(groupProjectId);
-        return discussionRepo.findByGroupProject_GroupProjectIdOrderByCreatedAtDesc(groupProjectId, pageable)
-                .map(this::toDto);
+        return discussionRepo.findByGroupProject_GroupProjectIdOrderByCreatedAtDesc(groupProjectId, pageable).map(this::toDto);
     }
 
     @Override
     public ProjectDiscussionDto createProjectDiscussion(Integer projectId, DiscussionContentDto request) {
-        Project project = ensureApprovedProject(projectId);
-        return saveDiscussion(project, null, request);
+        return saveDiscussion(ensureApprovedProject(projectId), null, request);
     }
 
     @Override
     public ProjectDiscussionDto createGroupProjectDiscussion(Integer groupProjectId, DiscussionContentDto request) {
-        GroupProject project = ensureApprovedGroupProject(groupProjectId);
-        return saveDiscussion(null, project, request);
+        return saveDiscussion(null, ensureApprovedGroupProject(groupProjectId), request);
     }
 
     private ProjectDiscussionDto saveDiscussion(Project project, GroupProject groupProject, DiscussionContentDto request) {
@@ -115,15 +96,10 @@ public class ProjectDiscussionImple implements ProjectDiscussionService {
         ProjectDiscussion discussion = getDiscussion(discussionId);
         ensureDiscussionProjectIsApproved(discussion);
         ensureAuthor(discussion.getAuthor());
-
-        replyLikeRepo.deleteAll(replyLikeRepo.findAll().stream()
-                .filter(like -> like.getReply().getDiscussion().getDiscussionId().equals(discussionId)).toList());
+        replyLikeRepo.deleteAll(replyLikeRepo.findAll().stream().filter(like -> like.getReply().getDiscussion().getDiscussionId().equals(discussionId)).toList());
         replyRepo.deleteAll(replyRepo.findByDiscussion_DiscussionIdOrderByCreatedAtAsc(discussionId));
-        discussionLikeRepo.deleteAll(discussionLikeRepo.findAll().stream()
-                .filter(like -> like.getDiscussion().getDiscussionId().equals(discussionId)).toList());
-        reportRepo.deleteAll(reportRepo.findAll().stream()
-                .filter(report -> report.getDiscussion() != null
-                        && report.getDiscussion().getDiscussionId().equals(discussionId)).toList());
+        discussionLikeRepo.deleteAll(discussionLikeRepo.findAll().stream().filter(like -> like.getDiscussion().getDiscussionId().equals(discussionId)).toList());
+        reportRepo.deleteAll(reportRepo.findAll().stream().filter(report -> report.getDiscussion() != null && report.getDiscussion().getDiscussionId().equals(discussionId)).toList());
         discussionRepo.delete(discussion);
     }
 
@@ -132,20 +108,15 @@ public class ProjectDiscussionImple implements ProjectDiscussionService {
     public Page<DiscussionReplyDto> getReplies(Long discussionId, Pageable pageable) {
         ProjectDiscussion discussion = getDiscussion(discussionId);
         ensureDiscussionProjectIsApproved(discussion);
-        return replyRepo.findByDiscussion_DiscussionIdOrderByCreatedAtAsc(discussionId).stream()
-                .skip(pageable.getOffset())
-                .limit(pageable.getPageSize())
-                .map(this::toReplyDto)
-                .collect(java.util.stream.Collectors.collectingAndThen(java.util.stream.Collectors.toList(),
-                        list -> new org.springframework.data.domain.PageImpl<>(list, pageable,
-                                replyRepo.countByDiscussion_DiscussionId(discussionId))));
+        var replies = replyRepo.findByDiscussion_DiscussionIdOrderByCreatedAtAsc(discussionId);
+        var page = replies.stream().skip(pageable.getOffset()).limit(pageable.getPageSize()).map(this::toReplyDto).toList();
+        return new org.springframework.data.domain.PageImpl<>(page, pageable, replies.size());
     }
 
     @Override
     public DiscussionReplyDto createReply(Long discussionId, DiscussionContentDto request) {
         ProjectDiscussion discussion = getDiscussion(discussionId);
         ensureDiscussionProjectIsApproved(discussion);
-
         DiscussionReply reply = new DiscussionReply();
         reply.setDiscussion(discussion);
         reply.setAuthor(getCurrentAccount());
@@ -157,8 +128,7 @@ public class ProjectDiscussionImple implements ProjectDiscussionService {
 
     @Override
     public DiscussionReplyDto updateReply(Long replyId, DiscussionContentDto request) {
-        DiscussionReply reply = replyRepo.findById(replyId)
-                .orElseThrow(() -> new RuntimeException("Reply not found"));
+        DiscussionReply reply = replyRepo.findById(replyId).orElseThrow(() -> new RuntimeException("Reply not found"));
         ensureDiscussionProjectIsApproved(reply.getDiscussion());
         ensureAuthor(reply.getAuthor());
         reply.setContent(request.getContent().trim());
@@ -168,14 +138,11 @@ public class ProjectDiscussionImple implements ProjectDiscussionService {
 
     @Override
     public void deleteReply(Long replyId) {
-        DiscussionReply reply = replyRepo.findById(replyId)
-                .orElseThrow(() -> new RuntimeException("Reply not found"));
+        DiscussionReply reply = replyRepo.findById(replyId).orElseThrow(() -> new RuntimeException("Reply not found"));
         ensureDiscussionProjectIsApproved(reply.getDiscussion());
         ensureAuthor(reply.getAuthor());
-        replyLikeRepo.deleteAll(replyLikeRepo.findAll().stream()
-                .filter(like -> like.getReply().getReplyId().equals(replyId)).toList());
-        reportRepo.deleteAll(reportRepo.findAll().stream()
-                .filter(report -> report.getReply() != null && report.getReply().getReplyId().equals(replyId)).toList());
+        replyLikeRepo.deleteAll(replyLikeRepo.findAll().stream().filter(like -> like.getReply().getReplyId().equals(replyId)).toList());
+        reportRepo.deleteAll(reportRepo.findAll().stream().filter(report -> report.getReply() != null && report.getReply().getReplyId().equals(replyId)).toList());
         replyRepo.delete(reply);
     }
 
@@ -197,8 +164,7 @@ public class ProjectDiscussionImple implements ProjectDiscussionService {
 
     @Override
     public long toggleReplyLike(Long replyId) {
-        DiscussionReply reply = replyRepo.findById(replyId)
-                .orElseThrow(() -> new RuntimeException("Reply not found"));
+        DiscussionReply reply = replyRepo.findById(replyId).orElseThrow(() -> new RuntimeException("Reply not found"));
         ensureDiscussionProjectIsApproved(reply.getDiscussion());
         UserSignUp current = getCurrentAccount();
         if (replyLikeRepo.existsByReply_ReplyIdAndAuthor_Id(replyId, current.getId())) {
@@ -217,9 +183,7 @@ public class ProjectDiscussionImple implements ProjectDiscussionService {
         ProjectDiscussion discussion = getDiscussion(discussionId);
         ensureDiscussionProjectIsApproved(discussion);
         UserSignUp current = getCurrentAccount();
-        if (reportRepo.existsByDiscussion_DiscussionIdAndReporter_Id(discussionId, current.getId())) {
-            throw new RuntimeException("You have already reported this discussion");
-        }
+        if (reportRepo.existsByDiscussion_DiscussionIdAndReporter_Id(discussionId, current.getId())) throw new RuntimeException("You have already reported this discussion");
         DiscussionReport report = new DiscussionReport();
         report.setDiscussion(discussion);
         report.setReporter(current);
@@ -230,13 +194,10 @@ public class ProjectDiscussionImple implements ProjectDiscussionService {
 
     @Override
     public void reportReply(Long replyId, DiscussionReportDto request) {
-        DiscussionReply reply = replyRepo.findById(replyId)
-                .orElseThrow(() -> new RuntimeException("Reply not found"));
+        DiscussionReply reply = replyRepo.findById(replyId).orElseThrow(() -> new RuntimeException("Reply not found"));
         ensureDiscussionProjectIsApproved(reply.getDiscussion());
         UserSignUp current = getCurrentAccount();
-        if (reportRepo.existsByReply_ReplyIdAndReporter_Id(replyId, current.getId())) {
-            throw new RuntimeException("You have already reported this reply");
-        }
+        if (reportRepo.existsByReply_ReplyIdAndReporter_Id(replyId, current.getId())) throw new RuntimeException("You have already reported this reply");
         DiscussionReport report = new DiscussionReport();
         report.setReply(reply);
         report.setReporter(current);
@@ -246,25 +207,18 @@ public class ProjectDiscussionImple implements ProjectDiscussionService {
     }
 
     private ProjectDiscussion getDiscussion(Long discussionId) {
-        return discussionRepo.findById(discussionId)
-                .orElseThrow(() -> new RuntimeException("Discussion not found"));
+        return discussionRepo.findById(discussionId).orElseThrow(() -> new RuntimeException("Discussion not found"));
     }
 
     private Project ensureApprovedProject(Integer projectId) {
-        Project project = projectRepo.findById(projectId)
-                .orElseThrow(() -> new RuntimeException("Project not found"));
-        if (project.getStatus() != ProjectStatus.APPROVED) {
-            throw new RuntimeException("Discussion is available only for approved projects");
-        }
+        Project project = projectRepo.findById(projectId).orElseThrow(() -> new RuntimeException("Project not found"));
+        if (project.getStatus() != ProjectStatus.APPROVED) throw new RuntimeException("Discussion is available only for approved projects");
         return project;
     }
 
     private GroupProject ensureApprovedGroupProject(Integer groupProjectId) {
-        GroupProject project = groupProjectRepo.findById(groupProjectId)
-                .orElseThrow(() -> new RuntimeException("Group project not found"));
-        if (project.getStatus() != ProjectStatus.APPROVED) {
-            throw new RuntimeException("Discussion is available only for approved projects");
-        }
+        GroupProject project = groupProjectRepo.findById(groupProjectId).orElseThrow(() -> new RuntimeException("Group project not found"));
+        if (project.getStatus() != ProjectStatus.APPROVED) throw new RuntimeException("Discussion is available only for approved projects");
         return project;
     }
 
@@ -281,23 +235,29 @@ public class ProjectDiscussionImple implements ProjectDiscussionService {
     }
 
     private UserSignUp getCurrentAccount() {
+        UserSignUp account = getCurrentAccountOrNull();
+        if (account == null) throw new RuntimeException("User is not authenticated");
+        return account;
+    }
+
+    private UserSignUp getCurrentAccountOrNull() {
         Authentication auth = SecurityContextHolder.getContext().getAuthentication();
-        if (auth == null || auth.getName() == null || auth.getName().isBlank()
-                || "anonymousUser".equals(auth.getName())) {
-            throw new RuntimeException("User is not authenticated");
-        }
-        return userSignUpRepo.findByMail(auth.getName())
-                .orElseThrow(() -> new RuntimeException("User account not found"));
+        if (auth == null || auth.getName() == null || auth.getName().isBlank() || "anonymousUser".equals(auth.getName())) return null;
+        return userSignUpRepo.findByMail(auth.getName()).orElse(null);
+    }
+
+    private boolean isCurrentAuthor(UserSignUp author) {
+        UserSignUp current = getCurrentAccountOrNull();
+        return current != null && author.getId().equals(current.getId());
     }
 
     private void ensureAuthor(UserSignUp author) {
-        UserSignUp current = getCurrentAccount();
-        if (!author.getId().equals(current.getId())) {
-            throw new RuntimeException("Not authorized");
-        }
+        if (!isCurrentAuthor(author)) throw new RuntimeException("Not authorized");
     }
 
     private ProjectDiscussionDto toDto(ProjectDiscussion discussion) {
+        UserSignUp current = getCurrentAccountOrNull();
+        Integer currentId = current == null ? null : current.getId();
         return new ProjectDiscussionDto(
                 discussion.getDiscussionId(),
                 discussion.getAuthor().getName(),
@@ -306,10 +266,14 @@ public class ProjectDiscussionImple implements ProjectDiscussionService {
                 discussion.getCreatedAt(),
                 discussion.getUpdatedAt(),
                 replyRepo.countByDiscussion_DiscussionId(discussion.getDiscussionId()),
-                discussionLikeRepo.countByDiscussion_DiscussionId(discussion.getDiscussionId()));
+                discussionLikeRepo.countByDiscussion_DiscussionId(discussion.getDiscussionId()),
+                currentId != null && discussionLikeRepo.existsByDiscussion_DiscussionIdAndAuthor_Id(discussion.getDiscussionId(), currentId),
+                isCurrentAuthor(discussion.getAuthor()));
     }
 
     private DiscussionReplyDto toReplyDto(DiscussionReply reply) {
+        UserSignUp current = getCurrentAccountOrNull();
+        Integer currentId = current == null ? null : current.getId();
         return new DiscussionReplyDto(
                 reply.getReplyId(),
                 reply.getAuthor().getName(),
@@ -317,6 +281,8 @@ public class ProjectDiscussionImple implements ProjectDiscussionService {
                 reply.getContent(),
                 reply.getCreatedAt(),
                 reply.getUpdatedAt(),
-                replyLikeRepo.countByReply_ReplyId(reply.getReplyId()));
+                replyLikeRepo.countByReply_ReplyId(reply.getReplyId()),
+                currentId != null && replyLikeRepo.existsByReply_ReplyIdAndAuthor_Id(reply.getReplyId(), currentId),
+                isCurrentAuthor(reply.getAuthor()));
     }
 }

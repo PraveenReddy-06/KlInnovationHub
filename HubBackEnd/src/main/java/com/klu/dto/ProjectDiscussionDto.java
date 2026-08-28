@@ -19,4 +19,6 @@ public class ProjectDiscussionDto {
     private LocalDateTime updatedAt;
     private long replyCount;
     private long likeCount;
+    private boolean likedByCurrentUser;
+    private boolean editableByCurrentUser;
 }
