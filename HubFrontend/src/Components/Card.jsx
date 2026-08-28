@@ -5,8 +5,9 @@ import CSECard from "../Images/CSECard.png";
 import ECECard from "../Images/ECECard.png";
 import CSITCard from "../Images/CSITCard.png";
 import { useNavigate } from "react-router-dom";
-import { Globe } from "lucide-react";
+import { Globe, MessageCircle } from "lucide-react";
 import toast, { Toaster } from "react-hot-toast";
+import ProjectDiscussion from "./ProjectDiscussion/ProjectDiscussion"
 
 const Card = ({ project }) => {
 
@@ -14,6 +15,8 @@ const Card = ({ project }) => {
   const isReviewer = !!localStorage.getItem("reviewerToken");
   const isStudent = !!localStorage.getItem("token");
 
+  const [discussionOpen, setDiscussionOpen] = useState(false);
+  const [discussionCount, setDiscussionCount] = useState(project.discussionCount || 0);
   const [liked, setLiked] = useState(project.likes?.some((like) =>Number(like.likedStudentId) === Number(studentId)) || false);
   const [like, setLike] = useState(project.likeCount || 0);
   const navigate = useNavigate();
@@ -120,6 +123,11 @@ const Card = ({ project }) => {
             Likes<FaHeart className={liked ? "text-red-500" : "text-gray-300"} />
             <span>{like}</span>
           </button>
+          
+          <button onClick={(e) => { e.stopPropagation(); setDiscussionOpen(true); }} className="flex items-center gap-1 text-vanilla-custard hover:text-light-blue transition">
+            <MessageCircle size={20} />
+            <span>{discussionCount}</span>
+          </button>
 
           <a className="hover:scale-110 transition" href={project.githubUrl} target="_blank" rel="noopener noreferrer" onClick={handleGithubClick}>
             <div className="text-vanilla-custard hover:text-light-blue transition">
@@ -135,7 +143,9 @@ const Card = ({ project }) => {
           </a>)}        
         </div>
       </div>
+      <ProjectDiscussion project={project} isOpen={discussionOpen} onClose={() => setDiscussionOpen(false)} onDiscussionCreated={(change) => setDiscussionCount((current) => current + change)} />
     </div>
+    
   );
 };
 
