@@ -83,6 +83,7 @@ Students can also lack an accessible and centralized way to:
 - Know the projects of your Juniors and Seniors
 - Receive guidance from faculty on project quality and direction
 - Recruit Students for you project
+- Discuss and share ideas about projects
 - Compete with other Innovators across the platform
 
 KL Innovation Hub addresses these gaps through a single student-focused innovation and project-review ecosystem.
@@ -115,6 +116,7 @@ Students can:
 - Form project teams
 - Collaborate with peers
 - Get guidance from faculty reviewers
+- Join Discussions
 - Receive project feedback
 - Gain recognition
 - Inspire future students
@@ -157,18 +159,18 @@ Students can:
 | Database | MySQL |
 | Cloud Provider | AWS |
 | User Roles | 3 — Student, Reviewer, Admin |
-| Database Tables | 15+ |
+| Database Tables | 19+ |
 | React Pages | 21+ |
-| Rest Api | 35+ |
-| Controllers | 20+ |
-| DTOs | 23+ |
-| Model | 15+ |
-| Service | 18+ |
+| Rest Api | 50+ |
+| Controllers | 21+ |
+| DTOs | 26+ |
+| Model | 19+ |
+| Service | 19+ |
 | Authentication | JWT + OTP |
 | Deployment | AWS Amplify + Elastic Beanstalk |
 | Database | AWS RDS MySQL |
 
-> These values represent the current `feature/project-reviewer` implementation and may change as the platform evolves.
+> These values represent the current `feature/project-discussion` implementation and may change as the platform evolves.
 
 ---
 
@@ -222,9 +224,9 @@ Students can:
 |---------------|-------------|
 | ![](images/reviewerdashboard.png) | ![](images/reviewerprofile.png) |
 
-| Project Review Page |
-|---------------|
-| ![](images/projectreview.png) |
+| Project Review Page | Discussion Forum |
+|---------------|-------------|
+| ![](images/projectreview.png) | ![](images/discussion.png) |
 
 ---
 
@@ -284,8 +286,8 @@ The platform currently supports three roles.
 
 | Role | Responsibility |
 |------|----------------|
-| **Student** | Create, submit, discover, collaborate, and showcase projects |
-| **Reviewer** | Review pending projects, provide feedback, and approve/reject submissions |
+| **Student** | Create, submit, discover, collaborate, discuss, and showcase projects |
+| **Reviewer** | Review pending projects, provide feedback, discuss, and approve/reject submissions |
 | **Admin** | Manage reviewer applications and approve/reject reviewer access |
 
 ### Student
@@ -296,6 +298,7 @@ Students can:
 - Submit solo projects
 - Submit group projects
 - Explore approved projects
+- Involve in a Project discussion
 - Like projects
 - Follow students
 - Create teams
@@ -314,6 +317,7 @@ Approved faculty reviewers can:
 - View pending projects
 - Review solo projects
 - Review group projects
+- Involve in a project discussion
 - View project details
 - View technologies
 - Open GitHub links
@@ -367,6 +371,7 @@ Students can publish projects with detailed information.
 - Technologies
 - GitHub repository
 - Live demo URL
+- Comments
 - Author information
 - Project status
 - Engagement information
@@ -418,6 +423,7 @@ Students can interact with projects and build connections across the university.
 
 ### Available Features
 
+- Comment On other projects
 - Like projects
 - Like group projects
 - Follow students
