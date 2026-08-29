@@ -8,6 +8,7 @@ import toast, { Toaster } from "react-hot-toast";
 import DashboardFooter from "../../Components/DashboardFooter";
 import ReviewerNavbar from "../Reviewer/ReviewerNavbar";
 import ProjectDiscussion from "../../Components/ProjectDiscussion/ProjectDiscussion";
+import { getDiscussionCounts } from "../../Api/discussionApi";
 
 
 const ExploreProjects = () => {
@@ -55,8 +56,14 @@ const ExploreProjects = () => {
         const isLiked = item.likes?.some((like) => Number(like.likedStudentId) === Number(studentId));
         return { ...item,type: "GROUP",isLiked: isLiked || false,};
       });
-      setProjects(formattedProjects);
-      setGroupProjects(formattedGroupProjects);
+      const projectIds = formattedProjects.map((project) => project.projectId);
+      const groupProjectIds = formattedGroupProjects.map((project) => project.groupProjectId);
+      const discussionCountRes = await getDiscussionCounts(projectIds,groupProjectIds);
+      const counts = discussionCountRes.data;
+      const projectsWithCounts = formattedProjects.map((project) => ({...project, discussionCount:counts[`INDIVIDUAL:${project.projectId}`] || 0,}));
+      const groupProjectsWithCounts = formattedGroupProjects.map((project) => ({...project,discussionCount:counts[`GROUP:${project.groupProjectId}`] || 0,}));
+      setProjects(projectsWithCounts);
+      setGroupProjects(groupProjectsWithCounts);
     }catch (err) {toast.error("Something went wrong. Please try again.");} 
     finally {setLoading(false);}
   };

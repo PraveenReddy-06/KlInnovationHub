@@ -1,6 +1,9 @@
 package com.klu.service.implementation;
 
 import java.time.LocalDateTime;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
@@ -326,5 +329,22 @@ public class ProjectDiscussionImple implements ProjectDiscussionService {
             currentId != null && replyLikeRepo.existsByReply_ReplyIdAndAuthor_Id(reply.getReplyId(), currentId),
             isCurrentAuthor(reply.getAuthor())
         );
+    }
+    
+    @Override
+    @Transactional(readOnly = true)
+    public Map<String, Long> getDiscussionCounts(List<Integer> projectIds, List<Integer> groupProjectIds) {
+        Map<String, Long> counts = new HashMap<>();
+        if (projectIds != null && !projectIds.isEmpty()) {
+            discussionRepo.countProjectDiscussions(projectIds).forEach(row ->
+                counts.put("INDIVIDUAL:" + row[0], ((Number) row[1]).longValue())
+            );
+        }
+        if (groupProjectIds != null && !groupProjectIds.isEmpty()) {
+            discussionRepo.countGroupProjectDiscussions(groupProjectIds).forEach(row ->
+                counts.put("GROUP:" + row[0], ((Number) row[1]).longValue())
+            );
+        }
+        return counts;
     }
 }

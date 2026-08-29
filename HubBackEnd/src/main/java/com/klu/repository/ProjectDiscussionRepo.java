@@ -24,4 +24,18 @@ public interface ProjectDiscussionRepo extends JpaRepository<ProjectDiscussion, 
 
     @Query("select d from ProjectDiscussion d where d.discussionId = :discussionId")
     ProjectDiscussion findDiscussion(@Param("discussionId") Long discussionId);
+    
+    @Query("""
+    	    select pd.project.projectId, count(pd)
+    	    from ProjectDiscussion pd
+    	    where pd.project.projectId in :projectIds
+    	    group by pd.project.projectId""")
+    List<Object[]> countProjectDiscussions(@Param("projectIds") List<Integer> projectIds);
+
+	@Query("""
+	    select pd.groupProject.groupProjectId, count(pd)
+	    from ProjectDiscussion pd
+	    where pd.groupProject.groupProjectId in :groupProjectIds
+	    group by pd.groupProject.groupProjectId""")
+	List<Object[]> countGroupProjectDiscussions(@Param("groupProjectIds") List<Integer> groupProjectIds);
 }

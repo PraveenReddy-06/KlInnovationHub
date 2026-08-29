@@ -1,5 +1,8 @@
 package com.klu.controller;
 
+import java.util.List;
+import java.util.Map;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
@@ -132,6 +135,13 @@ public class ProjectDiscussionController {
             @PathVariable Long replyId,
             @Valid @RequestBody DiscussionReportDto request) {
         discussionService.reportReply(replyId, request);
+    }
+    
+    @GetMapping("/counts")
+    public Map<String, Long> getDiscussionCounts(
+            @RequestParam(required = false) List<Integer> projectIds,
+            @RequestParam(required = false) List<Integer> groupProjectIds) {
+        return discussionService.getDiscussionCounts(projectIds, groupProjectIds);
     }
 
     private Pageable buildPageable(int page, int size, Sort.Direction direction) {

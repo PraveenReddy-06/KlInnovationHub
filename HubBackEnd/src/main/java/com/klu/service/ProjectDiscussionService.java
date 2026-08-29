@@ -1,5 +1,8 @@
 package com.klu.service;
 
+import java.util.List;
+import java.util.Map;
+
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 
@@ -37,4 +40,6 @@ public interface ProjectDiscussionService {
     void reportDiscussion(Long discussionId, DiscussionReportDto request);
 
     void reportReply(Long replyId, DiscussionReportDto request);
+    
+    Map<String, Long> getDiscussionCounts(List<Integer> projectIds, List<Integer> groupProjectIds);
 }

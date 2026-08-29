@@ -47,3 +47,11 @@ export const reportDiscussion = (discussionId, reason) =>
 
 export const reportReply = (replyId, reason) =>
   discussionAxiosInstance.post(`/discussions/replies/${replyId}/report`, { reason });
+
+export const getDiscussionCounts = (projectIds = [], groupProjectIds = []) =>
+  discussionAxiosInstance.get("/discussions/counts", {
+    params: {
+      projectIds: projectIds.length ? projectIds.join(",") : undefined,
+      groupProjectIds: groupProjectIds.length ? groupProjectIds.join(",") : undefined,
+    },
+  });

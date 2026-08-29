@@ -7,6 +7,7 @@ import TopProjectCard from '../../Components/TopProjectCard';
 import toast, { Toaster } from "react-hot-toast";
 import DashboardFooter from "../../Components/DashboardFooter";
 import ReviewerNavbar from '../Reviewer/ReviewerNavbar';
+import { getDiscussionCounts } from "../../Api/discussionApi";
 
 const Dashboard = () => {
   const isReviewer = !!localStorage.getItem("reviewerToken");
@@ -77,6 +78,31 @@ const Dashboard = () => {
     }
     projectCard();
     TopProject();
+
+    const loadDiscussionCounts = async (formattedProjects,formattedGroupProjects,formattedTopProjects,formattedTopGroupProjects) => {
+      const projectIds = [...formattedProjects.map((project) => project.projectId),...formattedTopProjects.map((project) => project.projectId),];
+      const groupProjectIds = [...formattedGroupProjects.map((project) => project.groupProjectId),...formattedTopGroupProjects.map((project) => project.groupProjectId),];
+      const response = await getDiscussionCounts([...new Set(projectIds)],[...new Set(groupProjectIds)]);
+      const counts = response.data;
+      return {
+        projects: formattedProjects.map((project) => ({
+          ...project,
+          discussionCount: counts[`INDIVIDUAL:${project.projectId}`] || 0,
+        })),
+        groupProjects: formattedGroupProjects.map((project) => ({
+          ...project,
+          discussionCount: counts[`GROUP:${project.groupProjectId}`] || 0,
+        })),
+        topProjects: formattedTopProjects.map((project) => ({
+          ...project,
+          discussionCount: counts[`INDIVIDUAL:${project.projectId}`] || 0,
+        })),
+        topGroupProjects: formattedTopGroupProjects.map((project) => ({
+          ...project,
+          discussionCount: counts[`GROUP:${project.groupProjectId}`] || 0,
+        })),
+      };
+  };
   },[])
 
   const filterFn = (p) => {
