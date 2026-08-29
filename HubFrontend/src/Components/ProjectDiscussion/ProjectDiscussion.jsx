@@ -102,7 +102,7 @@ const ProjectDiscussion = ({ project, isOpen, onClose, onDiscussionCreated }) =>
             <textarea
               value={content}
               onChange={(e) => setContent(e.target.value)}
-              maxLength={2000}
+              maxLength={300}
               rows={2}
               placeholder="Start a discussion..."
               className="min-w-0 flex-1 resize-none bg-transparent px-2 py-1 text-sm outline-none"
@@ -116,7 +116,7 @@ const ProjectDiscussion = ({ project, isOpen, onClose, onDiscussionCreated }) =>
               <Send size={17} />
             </button>
           </div>
-          <div className="mt-1 text-right text-[10px] text-slate-400">{content.length}/2000</div>
+          <div className="mt-1 text-right text-[10px] text-slate-400">{content.length}/300</div>
         </div>
 
         <div className="flex-1 overflow-y-auto px-4 sm:px-6">

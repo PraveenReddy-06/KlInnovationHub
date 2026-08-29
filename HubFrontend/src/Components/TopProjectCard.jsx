@@ -124,14 +124,18 @@ const TopProjectCard = ({project}) => {
 
       <div className="flex flex-wrap justify-between sm:justify-end gap-3 sm:gap-5 items-center text-xs text-slate-500 mt-4">
         <button onClick={handleLike} className={`flex items-center gap-1 transition ${isReviewer ? "cursor-default opacity-80" : "hover:text-red-500"}`}>
-          <FaHeart className={liked ? "text-red-500" : "text-slate-400"} size={18} />
+          <FaHeart className={liked ? "text-red-500" : "text-slate-400"} size={23} />
           <span className="font-semibold text-slate-700"> {like}</span>
           Likes
         </button>
 
-        <button onClick={(e) => { e.stopPropagation(); setDiscussionOpen(true); }} className="flex items-center gap-1 text-slate-600 hover:text-blue-600 transition">
-          <MessageCircle size={18} />
-          <span className="font-semibold text-slate-700">{discussionCount}</span>
+        <button onClick={(e) => {
+            e.stopPropagation();
+            if (!requireLogin()) return; 
+            setDiscussionOpen(true);}}
+          className="flex items-center gap-1 text-slate-600 hover:text-blue-600 transition">
+          <MessageCircle size={25} />
+          <span>{discussionCount}</span>
         </button>
 
         <a className="hover:text-black transition" href={project.githubUrl} target="_blank" rel="noopener noreferrer" onClick={handleGithubClick}>

@@ -120,18 +120,21 @@ const Card = ({ project }) => {
 
         <div className="flex flex-wrap justify-between sm:justify-end gap-3 sm:gap-6 items-center text-xs mt-3">
           <button onClick={handleLike} className={`flex items-center gap-1 ${ isReviewer ? "cursor-default opacity-80" : "active:scale-95"}`}>
-            Likes<FaHeart className={liked ? "text-red-500" : "text-gray-300"} />
+            <FaHeart className={liked ? "text-red-500" : "text-gray-300"} size={20}/>
             <span>{like}</span>
           </button>
           
-          <button onClick={(e) => { e.stopPropagation(); setDiscussionOpen(true); }} className="flex items-center gap-1 text-vanilla-custard hover:text-light-blue transition">
+          <button onClick={(e) => { 
+            e.stopPropagation();
+            if (!requireLogin()) return; setDiscussionOpen(true); }}
+            className="flex items-center gap-1 text-vanilla-custard hover:text-light-blue transition">
             <MessageCircle size={20} />
             <span>{discussionCount}</span>
           </button>
 
           <a className="hover:scale-110 transition" href={project.githubUrl} target="_blank" rel="noopener noreferrer" onClick={handleGithubClick}>
             <div className="text-vanilla-custard hover:text-light-blue transition">
-              <FaGithub size={22} />
+              <FaGithub size={24} />
             </div>
           </a>
           {project.liveUrl && (
@@ -139,7 +142,7 @@ const Card = ({ project }) => {
               className="rounded-2xl px-2 sm:px-3 py-1 text-xs sm:text-sm text-vanilla-custard bg-sky-500 hover:bg-sky-700 transition flex items-center gap-1"
               onClick={handleLiveDemoClick}
             >
-              Try It <Globe size={16} />
+              Try It <Globe size={20} />
           </a>)}        
         </div>
       </div>

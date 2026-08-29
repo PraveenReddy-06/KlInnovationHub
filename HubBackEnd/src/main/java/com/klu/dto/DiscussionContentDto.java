@@ -12,6 +12,6 @@ import lombok.NoArgsConstructor;
 public class DiscussionContentDto {
 
     @NotBlank(message = "Content is required")
-    @Size(max = 2000, message = "Content must not exceed 2000 characters")
+    @Size(max = 300, message = "Content must not exceed 300 characters")
     private String content;
 }

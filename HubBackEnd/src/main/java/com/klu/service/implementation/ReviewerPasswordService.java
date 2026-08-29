@@ -19,7 +19,7 @@ import com.klu.repository.ReviewerRepo;
 @Service
 public class ReviewerPasswordService {
 
-    private static final String PASSWORD_REGEX = "^(?=.*[A-Z])(?=.*[a-z])(?=.*\\d)(?=.*[@$!%*?&])[A-Za-z\\d@$!%*?&]{10,}$";
+    private static final String PASSWORD_REGEX = "^(?=.*[A-Z])(?=.*[a-z])(?=.*\\d)(?=.*[@$!%*?&])[A-Za-z\\d@$!%*?&]{10,64}$";
 
     @Autowired
     private UserSignUpRepository userRepo;

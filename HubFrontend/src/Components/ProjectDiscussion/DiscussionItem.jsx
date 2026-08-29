@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import { Heart, MessageCircle, MoreVertical, Pencil, Trash2, Flag } from "lucide-react";
 import toast from "react-hot-toast";
 import {
@@ -21,10 +21,23 @@ const DiscussionItem = ({ discussion, onUpdated, onDeleted }) => {
   const [editing, setEditing] = useState(false);
   const [content, setContent] = useState(discussion.content);
   const [menuOpen, setMenuOpen] = useState(false);
+  const menuRef = useRef(null);
   const [loadingReplies, setLoadingReplies] = useState(false);
   const [submitting, setSubmitting] = useState(false);
   const [liked, setLiked] = useState(discussion.likedByCurrentUser);
   const [likeCount, setLikeCount] = useState(discussion.likeCount);
+
+  useEffect(() => {
+  const handleClickOutside = (event) => {
+    if (!menuRef.current?.contains(event.target)) {
+      setMenuOpen(false);
+    }
+  };
+  document.addEventListener("click", handleClickOutside);
+  return () => {
+    document.removeEventListener("click", handleClickOutside);
+  };
+}, []);
 
   const loadReplies = async () => {
     try {
@@ -136,7 +149,7 @@ const DiscussionItem = ({ discussion, onUpdated, onDeleted }) => {
               <input
                 value={content}
                 onChange={(e) => setContent(e.target.value)}
-                maxLength={2000}
+                maxLength={300}
                 className="min-w-0 flex-1 rounded-lg border border-slate-300 px-3 py-2 text-sm outline-none focus:border-blue-500"
               />
               <button disabled={submitting} onClick={saveEdit} className="rounded-lg bg-blue-600 px-3 text-xs font-semibold text-white">
@@ -167,7 +180,7 @@ const DiscussionItem = ({ discussion, onUpdated, onDeleted }) => {
                   value={replyText}
                   onChange={(e) => setReplyText(e.target.value)}
                   onKeyDown={(e) => { if (e.key === "Enter") submitReply(); }}
-                  maxLength={2000}
+                  maxLength={300}
                   placeholder="Reply..."
                   className="min-w-0 flex-1 rounded-lg border border-slate-200 px-3 py-2 text-sm outline-none focus:border-blue-500"
                 />
@@ -189,9 +202,15 @@ const DiscussionItem = ({ discussion, onUpdated, onDeleted }) => {
           )}
         </div>
 
-        <div className="relative">
-          <button onClick={() => setMenuOpen((value) => !value)} className="p-1 text-slate-400">
-            <MoreVertical size={17} />
+        <div ref={menuRef} className="relative">
+          <button
+            onClick={(e) => {
+              e.stopPropagation();
+              setMenuOpen((value) => !value);
+            }}
+            className="p-1 text-slate-400"
+          >
+            <MoreVertical size={16} />
           </button>
           {menuOpen && (
             <div className="absolute right-0 z-20 mt-1 w-32 rounded-lg border bg-white p-1 shadow-lg">

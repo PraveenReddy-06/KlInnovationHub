@@ -254,20 +254,19 @@ const ExploreProjects = () => {
               </div>
               <p className="text-sm leading-relaxed text-gray-600 mt-3 line-clamp-3">{project.description}</p>
               <div className="flex justify-between items-center mt-5">
-                <button onClick={() => handleLike(project)} className="flex items-center gap-1 text-sm">
-                  <Heart size={18}  fill={project.isLiked ? "red" : "transparent"}  className={`transition ${project.isLiked? "text-red-500" : "text-gray-400"  }`}/>{likes} Likes
-                </button>
-                <button onClick={() => setSelectedDiscussionProject(project)}
-                  className="flex items-center gap-1 text-sm text-gray-600 hover:text-blue-600 transition">
-                  <MessageCircle size={18} />
-                  {project.discussionCount || 0}
-                </button>
                 {isGroup ? (
                   <div className="flex items-center gap-1 text-sm text-gray-600"><Users size={16}/>Team</div>
                 ) : (
                   <div className="flex items-center gap-1 text-sm text-gray-600"><User size={16}/>Solo</div>
                 )}
-
+                <button onClick={() => setSelectedDiscussionProject(project)}
+                  className="flex items-center gap-1 text-sm text-gray-600 hover:text-blue-600 transition">
+                  <MessageCircle size={20} />
+                  {project.discussionCount || 0}
+                </button>
+                <button onClick={() => handleLike(project)} className="flex items-center gap-1 text-sm">
+                  <Heart size={22}  fill={project.isLiked ? "red" : "transparent"}  className={`transition ${project.isLiked? "text-red-500" : "text-gray-400"  }`}/>{likes} Likes
+                </button>                
               </div>
               <div className="flex flex-col sm:flex-row gap-2 mt-4">
                 {project.liveUrl && (
