@@ -100,10 +100,10 @@ const Card = ({ project }) => {
             src={project.type === "GROUP"? (project.teamLead?.avatarUrl ||`/avatars/Avatar${(project.teamLead?.studentId % 40) + 1}.webp`
             ) : (project.student?.avatarUrl ||`/avatars/Avatar${(project.student?.studentId % 40) + 1}.webp`)}
             
-            className="w-12 h-12 sm:w-14 sm:h-14 rounded-full object-cover border-2 border-white/30 flex-shrink-0"
+            className="w-12 h-12 sm:w-14 sm:h-14 rounded-full object-cover border-2 border-white/30 shrink-0"
           />
           <div className="flex-1">
-            <p className="text-white text-sm sm:text-base break-words">{project.ownerName} . {project.ownerId}</p>
+            <p className="text-white text-sm sm:text-base wrap-break-word">{project.ownerName} . {project.ownerId}</p>
             {project.type === "GROUP" && project.studentList?.length > 0 && (
               <div className="flex flex-wrap gap-1">{
                 project.studentList?.filter((student) =>student.studentId !== project.ownerId).map((student) => 

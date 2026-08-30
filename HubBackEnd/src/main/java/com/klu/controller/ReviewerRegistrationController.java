@@ -1,7 +1,6 @@
 package com.klu.controller;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -11,7 +10,6 @@ import com.klu.dto.ReviewerSignupDto;
 import com.klu.dto.ReviewerVerifyOtpDto;
 import com.klu.service.implementation.ReviewerRegistrationService;
 
-@CrossOrigin(origins = "http://localhost:5173")
 @RestController
 @RequestMapping("/reviewer")
 public class ReviewerRegistrationController {

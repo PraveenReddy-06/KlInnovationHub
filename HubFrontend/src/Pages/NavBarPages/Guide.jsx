@@ -71,7 +71,7 @@ export default function Guide() {
       {/* DOMAINS */}
       <section className="max-w-7xl mx-auto px-6 py-20">
 
-        <h2 className="text-3xl md:text-3xl md:text-4xl font-bold text-vanilla-custard mb-12">
+        <h2 className="text-3xl md:text-3xl font-bold text-vanilla-custard mb-12">
           Choose Your Domain
         </h2>
 

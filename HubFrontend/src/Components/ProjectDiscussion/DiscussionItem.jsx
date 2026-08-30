@@ -158,7 +158,7 @@ const DiscussionItem = ({ discussion, onUpdated, onDeleted }) => {
               <button onClick={() => setEditing(false)} className="text-xs text-slate-500">Cancel</button>
             </div>
           ) : (
-            <p className="mt-1 whitespace-pre-wrap break-words text-sm leading-6 text-slate-700">{discussion.content}</p>
+            <p className="mt-1 whitespace-pre-wrap wrap-break-word text-sm leading-6 text-slate-700">{discussion.content}</p>
           )}
 
           <div className="mt-2 flex flex-wrap items-center gap-4 text-xs text-slate-500">

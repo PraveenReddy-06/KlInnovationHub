@@ -10,7 +10,6 @@ import com.klu.service.FollowerService;
 
 @RestController
 @RequestMapping("/followers")
-@CrossOrigin(origins = "http://localhost:5173")
 public class FollowerController {
 
     @Autowired

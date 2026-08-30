@@ -10,7 +10,6 @@ import com.klu.service.ActivityService;
 
 @RestController
 @RequestMapping("/activity")
-@CrossOrigin(origins = "http://localhost:5173")
 public class ActivityController {
 
     @Autowired

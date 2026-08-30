@@ -102,7 +102,7 @@ const TopProjectCard = ({project}) => {
           className="w-14 h-14 sm:w-20 sm:h-20 rounded-full object-cover border border-slate-200 shrink-0"
         />
         <div className="flex-1">
-          <p className="text-sm sm:text-base font-semibold leading-none break-words" >{project.ownerName}</p>
+          <p className="text-sm sm:text-base font-semibold leading-none wrap-break-word" >{project.ownerName}</p>
           <p className="text-xs sm:text-sm text-slate-500 mt-1">#{project.ownerId}</p>
           {project.type === "GROUP" && project.studentList?.length > 0 && (
             <div className="flex flex-wrap gap-2 m-2">{
