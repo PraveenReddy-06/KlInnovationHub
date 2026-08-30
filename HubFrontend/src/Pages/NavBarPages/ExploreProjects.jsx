@@ -1,12 +1,15 @@
 import {memo,useEffect,useMemo,useState} from "react";
 import axiosInstance from "../../Api/axiosInstance"
 import Navbar from "../../Components/Navbar";
-import {Search,Heart,Users,User,ExternalLink} from "lucide-react";
+import {Search,Heart,Users,User,ExternalLink,MessageCircle} from "lucide-react";
 import { FaGithub } from "react-icons/fa";
 import { useNavigate } from "react-router-dom";
 import toast, { Toaster } from "react-hot-toast";
 import DashboardFooter from "../../Components/DashboardFooter";
 import ReviewerNavbar from "../Reviewer/ReviewerNavbar";
+import ProjectDiscussion from "../../Components/ProjectDiscussion/ProjectDiscussion";
+import { getDiscussionCounts } from "../../Api/discussionApi";
+
 
 const ExploreProjects = () => {
 
@@ -20,7 +23,8 @@ const ExploreProjects = () => {
   const [selectedType,setSelectedType] = useState("ALL");
   const allProjects = [...projects,...groupProjects];
   const [selectedChoice, setSelectedChoice] = useState("");
-
+  
+  const [selectedDiscussionProject, setSelectedDiscussionProject] = useState(null);
   const studentId = JSON.parse(localStorage.getItem("studentId"));
   const isReviewer = !!localStorage.getItem("reviewerToken");
   const navigate = useNavigate();
@@ -49,11 +53,17 @@ const ExploreProjects = () => {
         return {...item,  type: "INDIVIDUAL", isLiked: isLiked || false,};
       });
       const formattedGroupProjects = groupProjectRes.data.map((item) => {
-        const isLiked = item.likes?.some((like) =>  Number(like.likedStudentId) === Number(studentId));
+        const isLiked = item.likes?.some((like) => Number(like.likedStudentId) === Number(studentId));
         return { ...item,type: "GROUP",isLiked: isLiked || false,};
       });
-      setProjects(formattedProjects);
-      setGroupProjects(formattedGroupProjects);
+      const projectIds = formattedProjects.map((project) => project.projectId);
+      const groupProjectIds = formattedGroupProjects.map((project) => project.groupProjectId);
+      const discussionCountRes = await getDiscussionCounts(projectIds,groupProjectIds);
+      const counts = discussionCountRes.data;
+      const projectsWithCounts = formattedProjects.map((project) => ({...project, discussionCount:counts[`INDIVIDUAL:${project.projectId}`] || 0,}));
+      const groupProjectsWithCounts = formattedGroupProjects.map((project) => ({...project,discussionCount:counts[`GROUP:${project.groupProjectId}`] || 0,}));
+      setProjects(projectsWithCounts);
+      setGroupProjects(groupProjectsWithCounts);
     }catch (err) {toast.error("Something went wrong. Please try again.");} 
     finally {setLoading(false);}
   };
@@ -178,7 +188,7 @@ const ExploreProjects = () => {
        
           <div className="col-span-3 lg:col-span-1 flex items-center border rounded-xl px-3 py-2 bg-gray-50 w-full lg:w-90">
             <span className="text-primary ml-2">🔍</span>
-            <input  type="text"  placeholder="Search projects, tech, student, id..."  value={search}  onChange={(e) => setSearch(e.target.value)}
+            <input  type="text"  placeholder="Search projects, tech, student, id..."  value={search} onChange={(e) => setSearch(e.target.value)}
               className="w-full bg-transparent outline-none px-2"/>
           </div>
         </div>
@@ -244,15 +254,19 @@ const ExploreProjects = () => {
               </div>
               <p className="text-sm leading-relaxed text-gray-600 mt-3 line-clamp-3">{project.description}</p>
               <div className="flex justify-between items-center mt-5">
-                <button onClick={() => handleLike(project)} className="flex items-center gap-1 text-sm">
-                <Heart size={18}  fill={project.isLiked ? "red" : "transparent"}  className={`transition ${project.isLiked? "text-red-500" : "text-gray-400"  }`}/>{likes} Likes
-                </button>
                 {isGroup ? (
                   <div className="flex items-center gap-1 text-sm text-gray-600"><Users size={16}/>Team</div>
                 ) : (
                   <div className="flex items-center gap-1 text-sm text-gray-600"><User size={16}/>Solo</div>
                 )}
-
+                <button onClick={() => setSelectedDiscussionProject(project)}
+                  className="flex items-center gap-1 text-sm text-gray-600 hover:text-blue-600 transition">
+                  <MessageCircle size={20} />
+                  {project.discussionCount || 0}
+                </button>
+                <button onClick={() => handleLike(project)} className="flex items-center gap-1 text-sm">
+                  <Heart size={22}  fill={project.isLiked ? "red" : "transparent"}  className={`transition ${project.isLiked? "text-red-500" : "text-gray-400"  }`}/>{likes} Likes
+                </button>                
               </div>
               <div className="flex flex-col sm:flex-row gap-2 mt-4">
                 {project.liveUrl && (
@@ -265,7 +279,11 @@ const ExploreProjects = () => {
         );
       })}
     </div>
-
+    {selectedDiscussionProject && (
+      <ProjectDiscussion project={selectedDiscussionProject} isOpen={true}
+        onClose={() => setSelectedDiscussionProject(null)}
+      />
+    )}
     {filteredProjects.length === 0 && (<div className="bg-white rounded-lg p-10 text-center mt-10">No Projects Found</div>)}
     </>)}
     </div>

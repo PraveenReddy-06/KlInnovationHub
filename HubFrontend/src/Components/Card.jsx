@@ -5,8 +5,9 @@ import CSECard from "../Images/CSECard.png";
 import ECECard from "../Images/ECECard.png";
 import CSITCard from "../Images/CSITCard.png";
 import { useNavigate } from "react-router-dom";
-import { Globe } from "lucide-react";
+import { Globe, MessageCircle } from "lucide-react";
 import toast, { Toaster } from "react-hot-toast";
+import ProjectDiscussion from "./ProjectDiscussion/ProjectDiscussion"
 
 const Card = ({ project }) => {
 
@@ -14,6 +15,8 @@ const Card = ({ project }) => {
   const isReviewer = !!localStorage.getItem("reviewerToken");
   const isStudent = !!localStorage.getItem("token");
 
+  const [discussionOpen, setDiscussionOpen] = useState(false);
+  const [discussionCount, setDiscussionCount] = useState(project.discussionCount || 0);
   const [liked, setLiked] = useState(project.likes?.some((like) =>Number(like.likedStudentId) === Number(studentId)) || false);
   const [like, setLike] = useState(project.likeCount || 0);
   const navigate = useNavigate();
@@ -97,10 +100,10 @@ const Card = ({ project }) => {
             src={project.type === "GROUP"? (project.teamLead?.avatarUrl ||`/avatars/Avatar${(project.teamLead?.studentId % 40) + 1}.webp`
             ) : (project.student?.avatarUrl ||`/avatars/Avatar${(project.student?.studentId % 40) + 1}.webp`)}
             
-            className="w-12 h-12 sm:w-14 sm:h-14 rounded-full object-cover border-2 border-white/30 flex-shrink-0"
+            className="w-12 h-12 sm:w-14 sm:h-14 rounded-full object-cover border-2 border-white/30 shrink-0"
           />
           <div className="flex-1">
-            <p className="text-white text-sm sm:text-base break-words">{project.ownerName} . {project.ownerId}</p>
+            <p className="text-white text-sm sm:text-base wrap-break-word">{project.ownerName} . {project.ownerId}</p>
             {project.type === "GROUP" && project.studentList?.length > 0 && (
               <div className="flex flex-wrap gap-1">{
                 project.studentList?.filter((student) =>student.studentId !== project.ownerId).map((student) => 
@@ -117,13 +120,21 @@ const Card = ({ project }) => {
 
         <div className="flex flex-wrap justify-between sm:justify-end gap-3 sm:gap-6 items-center text-xs mt-3">
           <button onClick={handleLike} className={`flex items-center gap-1 ${ isReviewer ? "cursor-default opacity-80" : "active:scale-95"}`}>
-            Likes<FaHeart className={liked ? "text-red-500" : "text-gray-300"} />
+            <FaHeart className={liked ? "text-red-500" : "text-gray-300"} size={20}/>
             <span>{like}</span>
+          </button>
+          
+          <button onClick={(e) => { 
+            e.stopPropagation();
+            if (!requireLogin()) return; setDiscussionOpen(true); }}
+            className="flex items-center gap-1 text-vanilla-custard hover:text-light-blue transition">
+            <MessageCircle size={20} />
+            <span>{discussionCount}</span>
           </button>
 
           <a className="hover:scale-110 transition" href={project.githubUrl} target="_blank" rel="noopener noreferrer" onClick={handleGithubClick}>
             <div className="text-vanilla-custard hover:text-light-blue transition">
-              <FaGithub size={22} />
+              <FaGithub size={24} />
             </div>
           </a>
           {project.liveUrl && (
@@ -131,11 +142,13 @@ const Card = ({ project }) => {
               className="rounded-2xl px-2 sm:px-3 py-1 text-xs sm:text-sm text-vanilla-custard bg-sky-500 hover:bg-sky-700 transition flex items-center gap-1"
               onClick={handleLiveDemoClick}
             >
-              Try It <Globe size={16} />
+              Try It <Globe size={20} />
           </a>)}        
         </div>
       </div>
+      <ProjectDiscussion project={project} isOpen={discussionOpen} onClose={() => setDiscussionOpen(false)} onDiscussionCreated={(change) => setDiscussionCount((current) => current + change)} />
     </div>
+    
   );
 };
 

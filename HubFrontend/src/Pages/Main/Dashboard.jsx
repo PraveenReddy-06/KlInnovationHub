@@ -7,6 +7,7 @@ import TopProjectCard from '../../Components/TopProjectCard';
 import toast, { Toaster } from "react-hot-toast";
 import DashboardFooter from "../../Components/DashboardFooter";
 import ReviewerNavbar from '../Reviewer/ReviewerNavbar';
+import { getDiscussionCounts } from "../../Api/discussionApi";
 
 const Dashboard = () => {
   const isReviewer = !!localStorage.getItem("reviewerToken");
@@ -18,66 +19,52 @@ const Dashboard = () => {
   const [search, setSearch] = useState("");
   const [error, setError] = useState("");
 
-  useEffect(() => {
-    const projectCard = async () => {
-      try{
-        const[projectsRes,groupProjectsRes] = await Promise.all([axiosInstance.get("/project/latest")
-        ,axiosInstance.get("/groupProject/latest"),]);
-        const formattedProjects = projectsRes.data.map((item) => {
-          return {...item,type: "INDIVIDUAL",title: item.projectName,
-            ownerName: item.student?.student_name,
-            ownerId: item.student?.studentId,
-            branch: item.student?.branch,
-            year: item.student?.year,
-            projectKey: item.projectId};
-          });
-        const formattedGroupProjects = groupProjectsRes.data.map((item) => {
-          return {...item,type: "GROUP",
-            title: item.project_name,
-            ownerName: item.teamLead?.student_name,
-            ownerId: item.teamLead?.studentId,
-            branch: item.teamLead?.branch,
-            year: item.teamLead?.year,
-            projectKey: item.groupProjectId};
-          });
+useEffect(() => {
+  const loadDashboard = async () => {
+    try {
+      const [projectsRes, groupProjectsRes, topProjectsRes, topGroupProjectsRes] = await Promise.all([
+        axiosInstance.get("/project/latest"),
+        axiosInstance.get("/groupProject/latest"),
+        axiosInstance.get("/likes/top"),
+        axiosInstance.get("/grouplikes/top"),
+      ]);
+      const formatProject = (item, type) => ({
+        ...item,
+        type,
+        title: type === "INDIVIDUAL" ? item.projectName : item.project_name,
+        ownerName: type === "INDIVIDUAL" ? item.student?.student_name : item.teamLead?.student_name,
+        ownerId: type === "INDIVIDUAL" ? item.student?.studentId : item.teamLead?.studentId,
+        branch: type === "INDIVIDUAL" ? item.student?.branch : item.teamLead?.branch,
+        year: type === "INDIVIDUAL" ? item.student?.year : item.teamLead?.year,
+        projectKey: type === "INDIVIDUAL" ? item.projectId : item.groupProjectId,
+      });
 
-        setProjects(formattedProjects);
-        setGroupProjects(formattedGroupProjects);
-        } catch (error) {
-            setError("Failed to load projects");
-        }
+      const formattedProjects = projectsRes.data.map((item) => formatProject(item, "INDIVIDUAL"));
+      const formattedGroupProjects = groupProjectsRes.data.map((item) => formatProject(item, "GROUP"));
+      const formattedTopProjects = topProjectsRes.data.map((item) => formatProject(item, "INDIVIDUAL"));
+      const formattedTopGroupProjects = topGroupProjectsRes.data.map((item) => formatProject(item, "GROUP"));
+      const projectIds = [...formattedProjects, ...formattedTopProjects].map((p) => p.projectId);
+      const groupProjectIds = [...formattedGroupProjects, ...formattedTopGroupProjects].map((p) => p.groupProjectId);
+      const discussionCountRes = await getDiscussionCounts(
+        [...new Set(projectIds)],
+        [...new Set(groupProjectIds)]
+      );
+      const counts = discussionCountRes.data;
+      const addCounts = (list, type) =>
+        list.map((item) => ({
+          ...item,
+          discussionCount: counts[`${type}:${item.projectKey}`] || 0,
+        }));
+      setProjects(addCounts(formattedProjects, "INDIVIDUAL"));
+      setGroupProjects(addCounts(formattedGroupProjects, "GROUP"));
+      setTopProjects(addCounts(formattedTopProjects, "INDIVIDUAL"));
+      setTopGroupProjects(addCounts(formattedTopGroupProjects, "GROUP"));
+    } catch (error) {
+      setError("Failed to load projects");
     }
-
-    const TopProject = async () => {
-      try{  
-        const[topProjectsRes,topGroupProjectsRes] = await Promise.all([axiosInstance.get("/likes/top")
-              ,axiosInstance.get("/grouplikes/top")])
-        const formattedTopProjects = topProjectsRes.data.map((item) => {
-          return {...item,type: "INDIVIDUAL",title: item.projectName,
-            ownerName: item.student?.student_name,
-            ownerId: item.student?.studentId,
-            branch: item.student?.branch,
-            year: item.student?.year,
-            projectKey: item.projectId};
-          });
-        const formattedTopGroupProjects = topGroupProjectsRes.data.map((item) => {
-          return {...item,type: "GROUP",
-            title: item.project_name,
-            ownerName: item.teamLead?.student_name,
-            ownerId: item.teamLead?.studentId,
-            branch: item.teamLead?.branch,
-            year: item.teamLead?.year,
-            projectKey: item.groupProjectId};
-          });        
-        setTopProjects(formattedTopProjects);
-        setTopGroupProjects(formattedTopGroupProjects);
-      } catch (error) {
-            setError("Failed to load projects");
-      }
-    }
-    projectCard();
-    TopProject();
-  },[])
+  };
+  loadDashboard();
+}, []);
 
   const filterFn = (p) => {
     const query = search.toLowerCase();
@@ -97,7 +84,7 @@ const Dashboard = () => {
   /*<div className="flex-1 h-px bg-gray-300"></div> for line*/
 
   return (
-    <div className="min-h-screen overflow-y-auto no-scrollbar bg-linear-to-b from-sky-500 to-blue-950">
+    <div className="min-h-screen overflow-y-auto no-scrollbar bg-linear-to-b from-tan/80 to-cream">
       {isReviewer ? <ReviewerNavbar /> : <Navbar />}
 
       <div className="flex flex-col-reverse lg:flex-row px-4 sm:px-8 lg:px-20 py-3 gap-8 items-center text-tan bg-dashboard border-b border-black">

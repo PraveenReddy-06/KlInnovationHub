@@ -3,6 +3,8 @@ import { FaGithub, FaHeart } from "react-icons/fa";
 import axiosInstance from "../Api/axiosInstance"
 import { useNavigate } from "react-router-dom";
 import toast, { Toaster } from "react-hot-toast";
+import { MessageCircle } from "lucide-react";
+import ProjectDiscussion from "./ProjectDiscussion/ProjectDiscussion";
 
 const TopProjectCard = ({project}) => {
 
@@ -12,6 +14,8 @@ const TopProjectCard = ({project}) => {
 
   const [liked, setLiked] = useState(project.likes?.some((like) => like.likedStudentId === studentId));
   const [like, setLike] = useState(project.likeCount);
+  const [discussionOpen, setDiscussionOpen] = useState(false);
+  const [discussionCount, setDiscussionCount] = useState(project.discussionCount || 0);
 
   const navigate = useNavigate();
 
@@ -84,6 +88,7 @@ const TopProjectCard = ({project}) => {
   };
 
   return (
+    <>
     <div className="flex flex-col w-full p-3 sm:p-4 bg-white border border-slate-400 rounded-2xl shadow-sm transition-all duration-300 hover:bg-cream hover:shadow-xl hover:border-amber-800">
       <h2 className="font-bold text-base sm:text-lg pb-3 text-bloodstone group-hover:text-accent transition-colors">{project.title}</h2>
 
@@ -97,7 +102,7 @@ const TopProjectCard = ({project}) => {
           className="w-14 h-14 sm:w-20 sm:h-20 rounded-full object-cover border border-slate-200 shrink-0"
         />
         <div className="flex-1">
-          <p className="text-sm sm:text-base font-semibold leading-none break-words" >{project.ownerName}</p>
+          <p className="text-sm sm:text-base font-semibold leading-none wrap-break-word" >{project.ownerName}</p>
           <p className="text-xs sm:text-sm text-slate-500 mt-1">#{project.ownerId}</p>
           {project.type === "GROUP" && project.studentList?.length > 0 && (
             <div className="flex flex-wrap gap-2 m-2">{
@@ -119,9 +124,18 @@ const TopProjectCard = ({project}) => {
 
       <div className="flex flex-wrap justify-between sm:justify-end gap-3 sm:gap-5 items-center text-xs text-slate-500 mt-4">
         <button onClick={handleLike} className={`flex items-center gap-1 transition ${isReviewer ? "cursor-default opacity-80" : "hover:text-red-500"}`}>
-          <FaHeart className={liked ? "text-red-500" : "text-slate-400"} size={18} />
+          <FaHeart className={liked ? "text-red-500" : "text-slate-400"} size={23} />
           <span className="font-semibold text-slate-700"> {like}</span>
           Likes
+        </button>
+
+        <button onClick={(e) => {
+            e.stopPropagation();
+            if (!requireLogin()) return; 
+            setDiscussionOpen(true);}}
+          className="flex items-center gap-1 text-slate-600 hover:text-blue-600 transition">
+          <MessageCircle size={25} />
+          <span>{discussionCount}</span>
         </button>
 
         <a className="hover:text-black transition" href={project.githubUrl} target="_blank" rel="noopener noreferrer" onClick={handleGithubClick}>
@@ -134,6 +148,8 @@ const TopProjectCard = ({project}) => {
         )}
       </div>
     </div>
+      <ProjectDiscussion  project={project}  isOpen={discussionOpen}  onClose={() => setDiscussionOpen(false)}  onDiscussionCreated={(change) => setDiscussionCount((current) => current + change)}/>
+    </>
   );
 };
 

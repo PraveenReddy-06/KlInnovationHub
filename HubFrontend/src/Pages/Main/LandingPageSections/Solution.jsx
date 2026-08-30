@@ -50,6 +50,11 @@ const Solution = () => {
     image: "/SolutionBg/7.png",
     title: "Student Network",
     desc: "Follow students, stay updated on their projects, activities, and achievements through real-time notifications."
+  },{
+    image: "/SolutionBg/8.png",
+    title: "Discussion Forum",
+    desc: "Users can ask questions, share updates, and conduct open-ended conversations about decisions affecting the community or project workflow."
+ 
   }
 ];
 
