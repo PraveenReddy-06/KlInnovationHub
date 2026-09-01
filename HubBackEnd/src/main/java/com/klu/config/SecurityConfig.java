@@ -37,7 +37,7 @@ public class SecurityConfig {
                         		"/reviewer/resetPassword",
                         		"/discussions/counts",
                         		"/admin/login").permitAll()
-                        .requestMatchers("/admin/reviewers/**").hasRole("ADMIN")
+                        .requestMatchers("/admin/reviewers/**","/admin/reports/**").hasRole("ADMIN")
                         .requestMatchers("/reviewer/projects/**", "/reviewer/groupProjects/**", "/reviewer/review/**").hasRole("REVIEWER")
                         .requestMatchers(HttpMethod.GET, 
                         		"/project/all", 

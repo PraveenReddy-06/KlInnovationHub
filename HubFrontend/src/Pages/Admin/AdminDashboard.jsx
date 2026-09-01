@@ -1,25 +1,11 @@
 import { useEffect, useMemo, useState } from "react";
 import { useNavigate } from "react-router-dom";
-import {
-  ShieldCheck,
-  Users,
-  Clock3,
-  RefreshCw,
-  Search,
-  Inbox,
-  Loader2,
-  Mail,
-  Building2,
-  BriefcaseBusiness,
-  CalendarDays,
-  UserRound,
-  MessageSquareText,
-  CheckCircle2,
-  XCircle,
-  LogOut,
+import { ShieldCheck,Users,Clock3,RefreshCw,Search,Inbox,Loader2,Mail,Building2,BriefcaseBusiness,CalendarDays,
+  Flag,Trash2,Ban,UserRound,MessageSquareText,CheckCircle2, XCircle,LogOut,
 } from "lucide-react";
 import toast from "react-hot-toast";
 import adminAxiosInstance from "../../Api/adminAxiosInstance";
+import {getPendingReports,ignoreReport,deleteReportedContent,} from "../../Api/adminReportApi";
 
 const AdminDashboard = () => {
   const navigate = useNavigate();
@@ -28,12 +14,32 @@ const AdminDashboard = () => {
   const [refreshing, setRefreshing] = useState(false);
   const [search, setSearch] = useState("");
   const [actionLoading, setActionLoading] = useState(null);
+  const [reports, setReports] = useState([]);
+  const [reportsLoading, setReportsLoading] = useState(true);
+  const [reportActionLoading, setReportActionLoading] = useState(null);
 
   const admin = JSON.parse(localStorage.getItem("admin") || "null");
 
   useEffect(() => {
     loadRequests();
   }, []);
+  useEffect(() => {
+    loadReports();
+  }, []);
+
+  const loadReports = async () => {
+    try {
+      setReportsLoading(true);
+      const data = await getPendingReports();
+      setReports(data || []);
+    } catch (error) {
+      console.error("Failed to load reports:", error);
+      toast.error( error.response?.data ||"Unable to load reported content"
+      );
+    } finally {
+      setReportsLoading(false);
+    }
+  };
 
   const loadRequests = async (isRefresh = false) => {
     try {
@@ -111,11 +117,55 @@ const AdminDashboard = () => {
     });
   }, [requests, search]);
 
+  const handleIgnoreReport = async (report) => {
+    if (!window.confirm("Ignore this report?")) {
+      return;
+    }
+    try {
+      setReportActionLoading(report.reportId);
+      const message = await ignoreReport(report.reportId);
+      toast.success(message || "Report ignored successfully");
+      setReports((previous) =>previous.filter((item) => item.reportId !== report.reportId)
+      );
+    } catch (error) {
+      console.error("Failed to ignore report:", error);
+      toast.error(error.response?.data ||"Unable to ignore report");
+    } finally {
+      setReportActionLoading(null);
+    }
+  };
+
+  const handleDeleteReportedContent = async (report) => {
+  const contentType =report.type === "DISCUSSION"? "discussion": "reply";
+  if (!window.confirm(`Delete this reported ${contentType}? This action cannot be undone.`)) {
+    return;
+  }
+  try {
+    setReportActionLoading(report.reportId);
+    const message =await deleteReportedContent(report.reportId);
+    toast.success(message || "Reported content deleted successfully");
+    setReports((previous) =>
+      previous.filter(
+        (item) => item.reportId !== report.reportId
+      )
+    );
+  } catch (error) {
+    console.error("Failed to delete reported content:",error);
+    toast.error(
+      error.response?.data ||
+      "Unable to delete reported content"
+    );
+  } finally {
+    setReportActionLoading(null);
+  }
+};
+
   const handleLogout = () => {
     localStorage.removeItem("adminToken");
     localStorage.removeItem("admin");
     navigate("/admin/login", { replace: true });
   };
+
 
   return (
     <div className="min-h-screen bg-gray-600 text-white">
@@ -186,23 +236,18 @@ const AdminDashboard = () => {
           <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4">
             <div>
               <h2 className="text-xl sm:text-2xl font-bold">Pending Requests</h2>
-              <p className="text-sm text-gray-700 mt-1">Applications waiting for your review.</p>
+              <p className="text-sm text-gray-300 mt-1">Applications waiting for your review.</p>
             </div>
 
             <div className="relative w-full sm:w-80">
               <Search size={18} className="absolute left-3 top-1/2 -translate-y-1/2 text-gray-500" />
-              <input
-                type="text"
-                value={search}
-                onChange={(event) => setSearch(event.target.value)}
-                placeholder="Search applicants..."
+              <input  type="text"   value={search}  onChange={(event) => setSearch(event.target.value)}  placeholder="Search applicants..."
                 className="w-full rounded-xl border border-black/20 bg-white/70 pl-10 pr-4 py-3 text-sm text-black outline-none focus:bg-white"
               />
             </div>
           </div>
         </section>
-
-        {/* CONTENT */}
+                {/* CONTENT */}
         {loading ? (
           <LoadingState />
         ) : filteredRequests.length === 0 ? (
@@ -210,16 +255,129 @@ const AdminDashboard = () => {
         ) : (
           <div className="space-y-5">
             {filteredRequests.map((request) => (
-              <ReviewerRequest
-                key={request.requestId}
-                request={request}
-                loading={actionLoading === request.requestId}
-                onApprove={() => handleApprove(request)}
-                onReject={() => handleReject(request)}
+              <ReviewerRequest   key={request.requestId}  request={request} loading={actionLoading === request.requestId}  
+              onApprove={() => handleApprove(request)}  onReject={() => handleReject(request)}
               />
             ))}
           </div>
         )}
+
+        <section className="mt-12">
+          <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4 mb-6">
+            <div>
+              <div className="flex items-center gap-2">
+                <Flag size={21} />
+                <h2 className="text-xl sm:text-2xl font-bold">Reported Content</h2>
+              </div>
+              <p className="text-sm text-gray-300 mt-1">Review discussions and replies reported by users.</p>
+            </div>
+
+            <div className="rounded-full bg-red-100 border border-red-300 px-3 py-1.5 text-sm font-semibold text-red-800">
+              {reports.length} Pending
+            </div>
+          </div>
+
+
+          {reportsLoading ? (
+            <div className="rounded-2xl border border-black/10 bg-cream p-12 flex items-center justify-center">
+              <div className="flex items-center gap-3 text-gray-700">
+                <Loader2 size={20} className="animate-spin" /> Loading reports...
+              </div>
+            </div>
+          ) : reports.length === 0 ? (
+            <div className="rounded-2xl border border-black/10 bg-cream p-10 text-center">
+              <div className="w-14 h-14 mx-auto rounded-2xl bg-primary text-tan flex items-center justify-center">
+                <Flag size={25} />
+              </div>
+              <h3 className="mt-5 text-lg font-bold text-primary">No pending reports</h3>
+              <p className="mt-2 text-sm text-gray-600">Reported discussions and replies will appear here.</p>
+            </div>
+          ) : (
+            <div className="space-y-5">
+              {reports.map((report) => {
+                const loading = reportActionLoading === report.reportId;
+
+                return (
+                  <article key={report.reportId} className="rounded-2xl border border-black/10 bg-cream overflow-hidden shadow-sm">
+                    <div className="p-5 sm:p-6 border-b border-black/10">
+                      <div className="flex flex-col lg:flex-row lg:items-start lg:justify-between gap-4">
+                        <div className="flex items-start gap-4">
+                          <div className="w-11 h-11 shrink-0 rounded-xl bg-red-100 text-red-700 flex items-center justify-center">
+                            <Flag size={20} />
+                          </div>
+                          <div>
+                            <div className="flex flex-wrap items-center gap-2">
+                              <h3 className="text-lg font-bold text-primary">
+                                {report.type === "DISCUSSION" ? "Discussion Report" : "Reply Report"}
+                              </h3>
+                              <span className="rounded-full bg-amber-100 border border-amber-300 px-2.5 py-1 text-xs font-semibold text-amber-800">
+                                Pending
+                              </span>
+                            </div>
+                            <p className="mt-1 text-xs text-gray-500">Report #{report.reportId}</p>
+                          </div>
+                        </div>
+
+                        <p className="text-xs text-gray-600">
+                          {report.createdAt ? new Date(report.createdAt).toLocaleString("en-IN", { dateStyle: "medium", timeStyle: "short" }) : "Unknown date"}
+                        </p>
+                      </div>
+                    </div>
+
+                    <div className="p-5 sm:p-6">
+                      <div className="grid lg:grid-cols-2 gap-5">
+                        <div>
+                          <p className="text-xs uppercase tracking-wider text-gray-500 font-semibold">Reported Content</p>
+                          <div className="mt-2 rounded-xl border border-black/10 bg-white/60 p-4">
+                            <p className="text-sm text-gray-800 leading-6 whitespace-pre-wrap">{report.content}</p>
+                          </div>
+                        </div>
+
+                        <div>
+                          <p className="text-xs uppercase tracking-wider text-gray-500 font-semibold">Report Reason</p>
+                          <div className="mt-2 rounded-xl border border-red-200 bg-red-50/60 p-4">
+                            <p className="text-sm text-gray-800 leading-6 whitespace-pre-wrap">{report.reason}</p>
+                          </div>
+                        </div>
+                      </div>
+
+                      <div className="mt-5 grid sm:grid-cols-2 gap-4">
+                        <div className="rounded-xl border border-black/10 bg-white/50 p-4">
+                          <p className="text-xs uppercase tracking-wider text-gray-500 font-semibold">Content Author</p>
+                          <p className="mt-2 text-sm font-semibold text-primary">{report.authorName || "Unknown"}</p>
+                          <p className="mt-1 text-xs text-gray-600 break-all">{report.authorEmail || "Email unavailable"}</p>
+                        </div>
+
+                        <div className="rounded-xl border border-black/10 bg-white/50 p-4">
+                          <p className="text-xs uppercase tracking-wider text-gray-500 font-semibold">Reported By</p>
+                          <p className="mt-2 text-sm font-semibold text-primary">{report.reporterName || "Unknown"}</p>
+                          <p className="mt-1 text-xs text-gray-600 break-all">{report.reporterEmail || "Email unavailable"}</p>
+                        </div>
+                      </div>
+
+                      <div className="mt-6 flex flex-col sm:flex-row gap-3">
+                        <button  type="button"  disabled={loading} onClick={() => handleDeleteReportedContent(report)}
+                          className="flex-1 flex items-center justify-center gap-2 rounded-xl bg-red-600 text-white py-3 font-semibold hover:bg-red-500 transition disabled:opacity-50"
+                        >
+                          {loading ? <Loader2 size={18} className="animate-spin" /> : <Trash2 size={18} />}
+                          Delete {report.type === "DISCUSSION" ? "Discussion" : "Reply"}
+                        </button>
+
+                        <button type="button" disabled={loading} onClick={() => handleIgnoreReport(report)}
+                          className="flex-1 flex items-center justify-center gap-2 rounded-xl border border-black/20 bg-white/70 text-primary py-3 font-semibold hover:bg-white transition disabled:opacity-50"
+                        >
+                          {loading ? <Loader2 size={18} className="animate-spin" /> : <Ban size={18} />}
+                          Ignore Report
+                        </button>
+                      </div>
+                    </div>
+                  </article>
+                );
+              })}
+            </div>
+          )}
+        </section>
+
       </main>
     </div>
   );

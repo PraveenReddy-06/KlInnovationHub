@@ -22,6 +22,7 @@ import com.klu.mail.UserSignUpRepository;
 import com.klu.model.DiscussionLike;
 import com.klu.model.DiscussionReply;
 import com.klu.model.DiscussionReport;
+import com.klu.model.DiscussionReportStatus;
 import com.klu.model.GroupProject;
 import com.klu.model.Project;
 import com.klu.model.ProjectDiscussion;
@@ -190,12 +191,16 @@ public class ProjectDiscussionImple implements ProjectDiscussionService {
         if (reportRepo.existsByDiscussion_DiscussionIdAndReporter_Id(discussionId, current.getId())) {
             throw new RuntimeException("You have already reported this discussion");
         }
+        if (discussion.getAuthor().getId()==current.getId()) {
+            throw new RuntimeException("You cannot report your own discussion");
+        }
         
         DiscussionReport report = new DiscussionReport();
         report.setDiscussion(discussion);
         report.setReporter(current);
         report.setReason(request.getReason().trim());
         report.setCreatedAt(LocalDateTime.now());
+        report.setStatus(DiscussionReportStatus.PENDING);
         reportRepo.save(report);
     }
 
@@ -210,11 +215,16 @@ public class ProjectDiscussionImple implements ProjectDiscussionService {
             throw new RuntimeException("You have already reported this reply");
         }
         
+        if (reply.getAuthor().getId()==current.getId()) {
+            throw new RuntimeException("You cannot report your own reply");
+        }
+        
         DiscussionReport report = new DiscussionReport();
         report.setReply(reply);
         report.setReporter(current);
         report.setReason(request.getReason().trim());
         report.setCreatedAt(LocalDateTime.now());
+        report.setStatus(DiscussionReportStatus.PENDING);
         reportRepo.save(report);
     }
 

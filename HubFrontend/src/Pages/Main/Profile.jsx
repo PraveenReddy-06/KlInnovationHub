@@ -181,7 +181,7 @@ return (
                         <div className="flex flex-col gap-5">
                             {isOwnProfile && (
                             <button onClick={() => setShowLinksModal(true)} 
-                                className="self-end flex items-center gap-2 text-gray-700 px-3 py-1.5 text-sm bg-gray-300 rounded-lg hover:bg-white/20 transition">
+                                className="cursor-pointer self-end flex items-center gap-2 text-gray-700 px-3 py-1.5 text-sm bg-gray-300 rounded-lg hover:bg-white/20 transition">
                             <Pencil size={15} /> Edit Profile </button>
                             )}
                             <div className="flex items-end justify-end">
@@ -261,6 +261,14 @@ return (
 
         <div className="mt-14">
             <h2 className="text-white text-3xl font-bold mb-6"> Project Showcase</h2>
+            {projects.length === 0 ? (
+                <div className="bg-white/5 border border-white/10 p-10 text-center text-slate-400">
+                    You haven't submitted any project yet.{" "}
+                    <a  href="/submitProject"  className="text-cyan-400 underline">
+                        Submit now
+                    </a>.
+                </div>
+            ) : (
             <div className="grid md:grid-cols-2 xl:grid-cols-3 gap-6">
                 {projects.map((project) => (
                     <div key={project.projectId} className="relative">
@@ -272,11 +280,19 @@ return (
                         </button>)}
                     </div>
                 ))}
-            </div>
+            </div>)}
         </div>
 
         <div className="mt-14">
             <h2 className="text-white text-3xl font-bold mb-6">Group Projects</h2>
+            {groupProjects.length === 0 ? (
+                <div className="bg-white/5 border border-white/10 p-10 text-center text-slate-400">
+                    You haven't submitted any group project yet.{" "}
+                    <a href="/submitProject" className="text-cyan-400 underline">
+                        Submit now
+                    </a>.
+                </div>
+            ) : (
             <div className="grid md:grid-cols-2 xl:grid-cols-3 gap-6">              
                 {groupProjects.map((project) => (
                     <div key={project.groupProjectId} className="relative">
@@ -290,7 +306,7 @@ return (
                         </button>)}
                     </div>
                 ))}            
-            </div>
+            </div>)}
         </div>
     </div>
     {showDeleteModal && (

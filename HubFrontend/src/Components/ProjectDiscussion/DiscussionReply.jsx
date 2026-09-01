@@ -1,12 +1,8 @@
 import { useEffect, useRef, useState } from "react";
 import { Heart, MoreVertical, Pencil, Trash2, Flag } from "lucide-react";
 import toast from "react-hot-toast";
-import {
-  deleteReply,
-  reportReply,
-  toggleReplyLike,
-  updateReply,
-} from "../../Api/discussionApi";
+import ReportModal from "./ReportModal";
+import {deleteReply,reportReply, toggleReplyLike, updateReply,} from "../../Api/discussionApi";
 
 const roleLabel = (role) =>
   role === "ROLE_REVIEWER" ? "FACULTY" : "STUDENT";
@@ -16,6 +12,8 @@ const DiscussionReply = ({ reply, onUpdated, onDeleted }) => {
   const [content, setContent] = useState(reply.content);
   const [menuOpen, setMenuOpen] = useState(false);
   const menuRef = useRef(null);
+  const [reportModalOpen, setReportModalOpen] = useState(false);
+  const [reportSubmitting, setReportSubmitting] = useState(false);
   const [submitting, setSubmitting] = useState(false);
   const [liked, setLiked] = useState(reply.likedByCurrentUser);
   const [likeCount, setLikeCount] = useState(reply.likeCount);
@@ -72,14 +70,21 @@ useEffect(() => {
     }
   };
 
-  const handleReport = async () => {
-    const reason = window.prompt("Why are you reporting this reply?");
-    if (!reason?.trim()) return;
+  const handleReport = () => {
+    setMenuOpen(false);
+    setReportModalOpen(true);
+  };
+
+  const submitReport = async (reason) => {
     try {
-      await reportReply(reply.replyId, reason.trim());
-      toast.success("Reply reported.");
+      setReportSubmitting(true);
+      await reportReply(reply.replyId, reason);
+      setReportModalOpen(false);
+      toast.success("Reply reported successfully.");
     } catch (error) {
-      toast.error(error.response?.data?.message || "Unable to report reply.");
+      toast.error(error.response?.data?.message ||"Unable to report reply.");
+    } finally {
+      setReportSubmitting(false);
     }
   };
 
@@ -119,7 +124,12 @@ useEffect(() => {
               {likeCount}
             </button>
             <span>{new Date(reply.createdAt).toLocaleString()}</span>
-            <button onClick={handleReport}>Report</button>
+            {!reply.editableByCurrentUser && (
+              <button onClick={handleReport} className="flex items-center gap-1">
+                <Flag size={14} />
+                Report
+              </button>
+            )}
           </div>
         </div>
 
@@ -145,13 +155,24 @@ useEffect(() => {
                   <Trash2 size={13} /> Delete
                 </button>
               )}
+              {!reply.editableByCurrentUser && (
               <button onClick={() => { setMenuOpen(false); handleReport(); }} className="flex w-full items-center gap-2 rounded px-2 py-1.5 text-left text-xs hover:bg-slate-100">
                 <Flag size={13} /> Report
               </button>
+              )}
             </div>
           )}
         </div>
       </div>
+      <ReportModal open={reportModalOpen} type="reply"
+        onClose={() => {
+          if (!reportSubmitting) {
+            setReportModalOpen(false);
+          }
+        }}
+        onSubmit={submitReport}
+        submitting={reportSubmitting}
+      />
     </div>
   );
 };

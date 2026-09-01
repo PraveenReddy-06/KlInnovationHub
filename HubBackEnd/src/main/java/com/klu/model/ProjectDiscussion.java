@@ -60,6 +60,6 @@ public class ProjectDiscussion {
     private List<DiscussionLike> likes;
 
     @JsonIgnore
-    @OneToMany(mappedBy = "discussion", cascade = CascadeType.ALL, orphanRemoval = true)
+    @OneToMany(mappedBy = "discussion")
     private List<DiscussionReport> reports;
 }

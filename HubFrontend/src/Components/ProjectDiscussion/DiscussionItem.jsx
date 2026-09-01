@@ -1,14 +1,8 @@
 import { useEffect, useRef, useState } from "react";
 import { Heart, MessageCircle, MoreVertical, Pencil, Trash2, Flag } from "lucide-react";
 import toast from "react-hot-toast";
-import {
-  createReply,
-  deleteDiscussion,
-  getReplies,
-  reportDiscussion,
-  toggleDiscussionLike,
-  updateDiscussion,
-} from "../../Api/discussionApi";
+import ReportModal from "./ReportModal";
+import {createReply,deleteDiscussion,getReplies,reportDiscussion,toggleDiscussionLike,updateDiscussion,} from "../../Api/discussionApi";
 import DiscussionReply from "./DiscussionReply";
 
 const roleLabel = (role) =>
@@ -25,6 +19,8 @@ const DiscussionItem = ({ discussion, onUpdated, onDeleted }) => {
   const [loadingReplies, setLoadingReplies] = useState(false);
   const [submitting, setSubmitting] = useState(false);
   const [liked, setLiked] = useState(discussion.likedByCurrentUser);
+  const [reportModalOpen, setReportModalOpen] = useState(false);
+  const [reportSubmitting, setReportSubmitting] = useState(false);
   const [likeCount, setLikeCount] = useState(discussion.likeCount);
 
   useEffect(() => {
@@ -113,14 +109,21 @@ const DiscussionItem = ({ discussion, onUpdated, onDeleted }) => {
     }
   };
 
-  const handleReport = async () => {
-    const reason = window.prompt("Why are you reporting this discussion?");
-    if (!reason?.trim()) return;
+  const handleReport = () => {
+    setMenuOpen(false);
+    setReportModalOpen(true);
+  };
+
+  const submitReport = async (reason) => {
     try {
-      await reportDiscussion(discussion.discussionId, reason.trim());
-      toast.success("Discussion reported.");
+      setReportSubmitting(true);
+      await reportDiscussion(discussion.discussionId, reason);
+      setReportModalOpen(false);
+      toast.success("Discussion reported successfully.");
     } catch (error) {
-      toast.error(error.response?.data?.message || "Unable to report discussion.");
+      toast.error( error.response?.data?.message ||"Unable to report discussion.");
+    } finally {
+      setReportSubmitting(false);
     }
   };
 
@@ -170,7 +173,12 @@ const DiscussionItem = ({ discussion, onUpdated, onDeleted }) => {
               <MessageCircle size={15} /> {discussion.replyCount} {discussion.replyCount === 1 ? "Reply" : "Replies"}
             </button>
             <span>{new Date(discussion.createdAt).toLocaleString()}</span>
-            <button onClick={handleReport}>Report</button>
+            {!discussion.editableByCurrentUser && (
+              <button onClick={handleReport} className="flex items-center gap-1">
+                <Flag size={15} />
+                Report
+              </button>
+            )}
           </div>
 
           {showReplies && (
@@ -224,13 +232,24 @@ const DiscussionItem = ({ discussion, onUpdated, onDeleted }) => {
                   <Trash2 size={13} /> Delete
                 </button>
               )}
+              {!discussion.editableByCurrentUser && (
               <button onClick={() => { setMenuOpen(false); handleReport(); }} className="flex w-full items-center gap-2 rounded px-2 py-1.5 text-left text-xs hover:bg-slate-100">
                 <Flag size={13} /> Report
               </button>
+              )}
             </div>
           )}
         </div>
       </div>
+      <ReportModal open={reportModalOpen} type="discussion" 
+        onClose={() => {
+          if (!reportSubmitting) {
+            setReportModalOpen(false);
+          }
+        }}
+        onSubmit={submitReport}
+        submitting={reportSubmitting}
+      />
     </article>
   );
 };

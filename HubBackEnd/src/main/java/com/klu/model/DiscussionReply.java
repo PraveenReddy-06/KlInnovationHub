@@ -52,6 +52,6 @@ public class DiscussionReply {
     private List<ReplyLike> likes;
 
     @JsonIgnore
-    @OneToMany(mappedBy = "reply", cascade = CascadeType.ALL, orphanRemoval = true)
+    @OneToMany(mappedBy = "reply")
     private List<DiscussionReport> reports;
 }

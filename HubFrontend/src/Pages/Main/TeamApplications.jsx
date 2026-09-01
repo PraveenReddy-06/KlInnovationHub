@@ -128,13 +128,13 @@ const TeamApplications = () => {
       <Navbar />
 
       <div className="max-w-7xl mx-auto px-4 sm:px-6 py-6 sm:py-8">
-        <div className="relative min-h-[260px] md:h-65 rounded-b-[30px] md:rounded-b-[50px] rounded-tr-[30px] md:rounded-tr-[50px] overflow-hidden shadow-2xl">
+        <div className="relative min-h-65 md:h-65 rounded-b-[30px] md:rounded-b-[50px] rounded-tr-[30px] md:rounded-tr-[50px] overflow-hidden shadow-2xl">
             <img src="/KlProfile.png"className="absolute inset-0 w-full h-full object-cover blur-xs scale-110"/>
           <div className="absolute inset-0 bg-black/40" />
           <div className="absolute inset-0 flex flex-col lg:flex-row justify-end lg:justify-between items-start lg:items-end px-5 sm:px-8 lg:px-10 pb-6 lg:pb-10 gap-4">
             <div className=" text-white">
               <p className="uppercase tracking-[6px] text-sm opacity-80">KL Innovation Hub</p>
-              <h1 className="text-3xl sm:text-4xl lg:text-5xl font-black mt-2 break-words">{student?.student_name}</h1>
+              <h1 className="text-3xl sm:text-4xl lg:text-5xl font-black mt-2 wrap-break-word">{student?.student_name}</h1>
               <p className="mt-3 text-lg text-blue-100">Manage Your Teams • Review Applications • Join New Teams</p>
             </div>
             <button onClick={() => navigate("/formATeam")}
