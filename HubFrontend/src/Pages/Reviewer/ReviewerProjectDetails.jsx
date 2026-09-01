@@ -168,10 +168,10 @@ const ReviewerProjectDetails = () => {
         {/* Links */}
         <section className="rounded-2xl border border-white/10 bg-white/3 p-6 mb-6">
           <h2 className="text-lg font-semibold mb-5">Project Links</h2>
+          <span>Verify that the student-submitted project corresponds to the GitHub account.</span>
           <div className="flex flex-wrap gap-4">
             {project.githubUrl && (
               <div>
-                <span>For More details view .README file.</span>
                 <a href={project.githubUrl} target="_blank" rel="noopener noreferrer" className="flex items-center bg-gray-500 text-black gap-2 rounded-lg border border-gray-400 px-4 py-2.5 mt-2 text-sm hover:bg-white/10">
                   <GitBranch size={18} /> GitHub <ExternalLink size={14} />
                 </a>
@@ -179,7 +179,7 @@ const ReviewerProjectDetails = () => {
 
             )}
             {project.liveUrl && (
-              <a href={project.liveUrl} target="_blank" rel="noopener noreferrer" className="flex items-center gap-2 rounded-lg border border-white/10 px-4 py-2.5 text-sm hover:bg-white/10">
+              <a href={project.liveUrl} target="_blank" rel="noopener noreferrer" className="mt-2 flex items-center gap-2 rounded-lg border border-gray-300 px-4 py-2.5 text-sm hover:bg-white/10">
                 <ExternalLink size={18} /> Live Project
               </a>
             )}

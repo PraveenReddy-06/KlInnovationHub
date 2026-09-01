@@ -102,7 +102,7 @@ const ReviewerGroupProjectDetails = () => {
 
   return (
     <div className="min-h-screen bg-primary text-white">
-      <header className="border-b border-white/10">
+      <header className="border-b border-gray-200">
         <div className="max-w-5xl mx-auto px-6 py-5">
           <button onClick={() => navigate("/reviewerDashboard")} className="flex items-center gap-2 text-sm text-gray-400 hover:text-white">
             <ArrowLeft size={17} /> Back to Projects
@@ -205,10 +205,10 @@ const ReviewerGroupProjectDetails = () => {
 
         <section className="rounded-2xl border border-white/10 bg-white/3 p-6 mb-6">
           <h2 className="text-lg font-semibold mb-5">Project Links</h2>
+          <span>Verify that the student-submitted project corresponds to the GitHub account.</span>          
           <div className="flex flex-wrap gap-4">
             {project.githubUrl && (
               <div>
-                <span>For More details view .README file.</span>
                 <a href={project.githubUrl} target="_blank" rel="noopener noreferrer" className="flex items-center bg-gray-500 text-black gap-2 rounded-lg border border-gray-400 px-4 py-2.5 mt-2 text-sm hover:bg-white/10">
                   <GitBranch size={18} /> GitHub <ExternalLink size={14} />
                 </a>

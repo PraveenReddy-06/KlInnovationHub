@@ -42,9 +42,9 @@ public class ReviewerRegistrationService {
 
     private final SecureRandom secureRandom = new SecureRandom();
 
-    /** for faculty use "^[A-Za-z0-9]+(?:[._][A-Za-z0-9]+)*@kluniversity\\.in$" ,,, ^\\d{10}@kluniversity\\.in$*/
+    /** for faculty i used this "^[A-Za-z0-9]+(?:[._][A-Za-z0-9]+)*@kluniversity\\.in$" ,,,for student at starting i used this ^\\d{10}@kluniversity\\.in$*/
     public String generateOtp(ReviewerSignupDto request) {
-        if (request.getMail() == null || !request.getMail().matches("^[A-Za-z0-9]+(?:[._][A-Za-z0-9]+)*@kluniversity\\\\.in$")) { 
+        if (request.getMail() == null || !request.getMail().matches("^[A-Za-z0-9]+(?:[._][A-Za-z0-9]+)*@kluniversity\\.in$")) { 
             return "Use a valid KL University email";
         }
 
