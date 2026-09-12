@@ -6,6 +6,7 @@ import axiosInstance from "../../Api/axiosInstance";
 
 const TeacherSignup = () => {
   const navigate = useNavigate();
+  const nameRegex = /^[A-Za-z]+(?:[.\s]+[A-Za-z]+)*\.?$/;
   const passwordRegex = /^(?=.*[A-Z])(?=.*[a-z])(?=.*\d).{8,}$/;
 
   const [form, setForm] = useState({
@@ -41,8 +42,8 @@ const TeacherSignup = () => {
       toast.error("Please fill all required details");
       return;
     }
-    if (!/^[A-Za-z]+(?:\s+[A-Za-z]+)*$/.test(form.name.trim())) {
-      toast.error("Name can contain only letters and spaces");
+    if (!nameRegex.test(form.name.trim())) {
+      toast.error("Name can contain only letters, spaces and periods");
       return;
     }
     if (!passwordRegex.test(form.password)) {
