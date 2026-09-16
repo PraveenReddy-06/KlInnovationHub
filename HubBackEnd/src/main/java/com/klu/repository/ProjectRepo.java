@@ -15,24 +15,16 @@ import com.klu.model.ProjectStatus;
 public interface ProjectRepo extends JpaRepository<Project,Integer>{
 
 	List<Project> findByStudentYear(int year);
-
 	List<Project> findByStudentBranch(String bname);
-
 	List<Project> findByStudentStudentId(long id);
-
 	List<Project> findTop5ByOrderByProjectIdDesc();
-
 	List<Project> findByStudentBranchAndStudentYear(String branch, Integer year);
-
 	List<Project> findByStatus(ProjectStatus status);
-
 	List<Project> findTop5ByStatusOrderByProjectIdDesc(ProjectStatus status);
-
 	List<Project> findByStatusAndStudentYear(ProjectStatus status, int year);
-
 	List<Project> findByStatusAndStudentBranch(ProjectStatus status, String bname);
-
 	List<Project> findByStatusAndStudentBranchAndStudentYear(ProjectStatus status, String branch, Integer year);
+	List<Project> findByStatusAndChoice(ProjectStatus status, String choice);
 
 	@Modifying
 	@Query("update Project p set p.status = :newStatus where p.projectId = :projectId and p.status = :expectedStatus")

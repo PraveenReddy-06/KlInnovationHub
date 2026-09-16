@@ -38,6 +38,12 @@ public class ReviewerRequest {
 
     private String reason;
 
+    private String choice1;
+
+    private String choice2;
+
+    private String choice3;
+
     @Enumerated(EnumType.STRING)
     private ReviewerRequestStatus status;
 

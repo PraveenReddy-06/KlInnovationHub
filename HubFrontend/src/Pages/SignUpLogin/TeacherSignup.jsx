@@ -4,18 +4,21 @@ import { Eye, EyeOff, ArrowLeft } from "lucide-react";
 import toast from "react-hot-toast";
 import axiosInstance from "../../Api/axiosInstance";
 
+const PROJECT_CHOICES = [
+  "AI/ML", "Data Science", "Web Development", "Mobile App Development",
+  "Cloud Computing", "Cybersecurity", "Internet of Things (IoT)", "Robotics",
+  "Embedded Systems", "Blockchain", "Computer Vision",
+  "Natural Language Processing (NLP)", "DevOps", "AR/VR", "Other"
+];
+
 const TeacherSignup = () => {
   const navigate = useNavigate();
   const nameRegex = /^[A-Za-z]+(?:[.\s]+[A-Za-z]+)*\.?$/;
   const passwordRegex = /^(?=.*[A-Z])(?=.*[a-z])(?=.*\d).{8,}$/;
 
   const [form, setForm] = useState({
-    name: "",
-    mail: "",
-    password: "",
-    department: "",
-    designation: "",
-    reason: ""
+    name: "", mail: "", password: "", department: "", designation: "", reason: "",
+    choice1: "", choice2: "", choice3: ""
   });
   const [confirmPassword, setConfirmPassword] = useState("");
   const [otp, setOtp] = useState("");
@@ -38,8 +41,12 @@ const TeacherSignup = () => {
 
   const sendOtp = async (event) => {
     event.preventDefault();
-    if (!form.name.trim() || !form.mail.trim() || !form.department || !form.designation) {
+    if (!form.name.trim() || !form.mail.trim() || !form.department || !form.designation || !form.choice1 || !form.choice2 || !form.choice3) {
       toast.error("Please fill all required details");
+      return;
+    }
+    if (new Set([form.choice1, form.choice2, form.choice3]).size !== 3) {
+      toast.error("Please select three different project categories");
       return;
     }
     if (!nameRegex.test(form.name.trim())) {
@@ -58,48 +65,33 @@ const TeacherSignup = () => {
     setLoading(true);
     try {
       const response = await axiosInstance.post("/reviewer/generateOtp", {
-        name: form.name.trim(),
-        mail: form.mail.trim(),
-        password: form.password
+        name: form.name.trim(), mail: form.mail.trim(), password: form.password,
+        choice1: form.choice1, choice2: form.choice2, choice3: form.choice3
       });
       if (response.data === "OTP sent successfully") {
-        setOtpSent(true);
-        setTimer(180);
-        toast.success("OTP sent successfully");
-      } else {
-        toast.error(response.data);
-      }
+        setOtpSent(true); setTimer(180); toast.success("OTP sent successfully");
+      } else toast.error(response.data);
     } catch (error) {
       toast.error(error.response?.data || "Unable to send OTP");
-    } finally {
-      setLoading(false);
-    }
+    } finally { setLoading(false); }
   };
 
   const verifyOtp = async (event) => {
     event.preventDefault();
     if (otp.length !== 4) return;
-
     setLoading(true);
     try {
       const response = await axiosInstance.post("/reviewer/verifyOtp", {
-        mail: form.mail.trim(),
-        otp: Number(otp),
-        department: form.department,
-        designation: form.designation,
-        reason: form.reason.trim()
+        mail: form.mail.trim(), otp: Number(otp), department: form.department,
+        designation: form.designation, reason: form.reason.trim(),
+        choice1: form.choice1, choice2: form.choice2, choice3: form.choice3
       });
       if (response.data === "Email verified. Your reviewer application is pending admin approval.") {
-        setVerified(true);
-        toast.success("Application submitted successfully");
-      } else {
-        toast.error(response.data);
-      }
+        setVerified(true); toast.success("Application submitted successfully");
+      } else toast.error(response.data);
     } catch (error) {
       toast.error(error.response?.data || "Verification failed");
-    } finally {
-      setLoading(false);
-    }
+    } finally { setLoading(false); }
   };
 
   const resendOtp = async (event) => {
@@ -114,201 +106,65 @@ const TeacherSignup = () => {
         <div className="max-w-lg w-full bg-white rounded-3xl border border-gray-800 shadow-2xl p-8 text-center">
           <div className="w-16 h-16 mx-auto rounded-full bg-primary text-tan flex items-center justify-center text-2xl font-black">✓</div>
           <h1 className="text-3xl font-black text-primary mt-6">Application submitted</h1>
-          <p className="text-bloodstone mt-4 leading-7">
-            Your email is verified. Your Project Reviewer application is now waiting for administrator approval.
-          </p>
+          <p className="text-bloodstone mt-4 leading-7">Your email is verified. Your Project Reviewer application is now waiting for administrator approval.</p>
           <p className="text-bloodstone mt-2">You can log in only after your application is approved.</p>
-          <button onClick={() => navigate("/login")} className="w-full mt-7 bg-primary text-tan font-bold py-3 rounded-xl">
-            Go to Reviewer Login
-          </button>
+          <button onClick={() => navigate("/login")} className="w-full mt-7 bg-primary text-tan font-bold py-3 rounded-xl">Go to Reviewer Login</button>
         </div>
       </div>
     );
   }
 
-return (
-  <div className="min-h-screen bg-primary flex items-center justify-center px-6 py-10">
-
-    <div className="w-full max-w-7xl grid lg:grid-cols-2 gap-12 items-center">
-
-      {/* LEFT — FORM */}
-      <div className="w-full max-w-2xl mx-auto bg-tan rounded-3xl border border-black shadow-2xl p-6 sm:p-9">
-
-        <button
-          onClick={() => navigate("/signup")}
-          className="inline-flex items-center gap-2 text-gray-800 font-semibold hover:underline mb-6"
-        >
-          <ArrowLeft size={18} />
-          Back
-        </button>
-
-        <h1 className="text-3xl sm:text-4xl font-black text-primary">
-          Become a Project Reviewer
-        </h1>
-
-        <p className="text-primary mt-2">
-          Verify your university email and submit your application
-          for admin approval.
-        </p>
-
-        <form className="mt-8 space-y-5">
-          <div className="grid md:grid-cols-2 gap-4">
-            <input name="name" value={form.name} onChange={handleChange} disabled={otpSent} maxLength={50} placeholder="Full Name *" className="w-full p-3 rounded-xl border border-gray-800 text-black outline-none disabled:bg-gray-100" />
-            <input name="mail" value={form.mail} onChange={handleChange} disabled={otpSent} type="email" placeholder="University Email *" className="w-full p-3 rounded-xl border border-gray-800 text-black outline-none disabled:bg-gray-100" />
-            <select name="department" value={form.department} onChange={handleChange} disabled={otpSent} className="w-full p-3 rounded-xl border border-gray-800 text-black outline-none disabled:bg-gray-100">
-              <option value="">Department *</option>
-              <option value="CSE">CSE</option>
-              <option value="ECE">ECE</option>
-              <option value="CSIT">CSIT</option>
-              <option value="PHYSICS">PHYSICS</option>
-              <option value="EEE">EEE</option>
-              <option value="MECH">MECH</option>
-              <option value="CIVIL">CIVIL</option>
-              <option value="Other">Other</option>
-            </select>
-            <input name="designation" value={form.designation} onChange={handleChange} disabled={otpSent} placeholder="Designation *" className="w-full p-3 rounded-xl border border-gray-800 text-black outline-none disabled:bg-gray-100" />
-          </div>
-
-          <div className="grid md:grid-cols-2 gap-4">
-            <div className="relative">
-              <input name="password" value={form.password} onChange={handleChange} disabled={otpSent} type={showPassword ? "text" : "password"} placeholder="Password *" className="w-full p-3 pr-11 rounded-xl border border-gray-800 text-black outline-none disabled:bg-gray-100" />
-              <button type="button" onClick={() => setShowPassword(value => !value)} className="absolute right-3 inset-y-0 text-gray-700">
-                {showPassword ? <EyeOff size={20} /> : <Eye size={20} />}
-              </button>
+  return (
+    <div className="min-h-screen bg-primary flex items-center justify-center px-6 py-10">
+      <div className="w-full max-w-7xl grid lg:grid-cols-2 gap-12 items-center">
+        <div className="w-full max-w-2xl mx-auto bg-tan rounded-3xl border border-black shadow-2xl p-6 sm:p-9">
+          <button onClick={() => navigate("/signup")} className="inline-flex items-center gap-2 text-gray-800 font-semibold hover:underline mb-6"><ArrowLeft size={18} />Back</button>
+          <h1 className="text-3xl sm:text-4xl font-black text-primary">Become a Project Reviewer</h1>
+          <p className="text-primary mt-2">Verify your university email and submit your application for admin approval.</p>
+          <form className="mt-8 space-y-5">
+            <div className="grid md:grid-cols-2 gap-4">
+              <input name="name" value={form.name} onChange={handleChange} disabled={otpSent} maxLength={50} placeholder="Full Name *" className="w-full p-3 rounded-xl border border-gray-800 text-black outline-none disabled:bg-gray-100" />
+              <input name="mail" value={form.mail} onChange={handleChange} disabled={otpSent} type="email" placeholder="University Email *" className="w-full p-3 rounded-xl border border-gray-800 text-black outline-none disabled:bg-gray-100" />
+              <select name="department" value={form.department} onChange={handleChange} disabled={otpSent} className="w-full p-3 rounded-xl border border-gray-800 text-black outline-none disabled:bg-gray-100">
+                <option value="">Department *</option><option value="CSE">CSE</option><option value="ECE">ECE</option><option value="CSIT">CSIT</option><option value="PHYSICS">PHYSICS</option><option value="EEE">EEE</option><option value="MECH">MECH</option><option value="CIVIL">CIVIL</option><option value="Other">Other</option>
+              </select>
+              <input name="designation" value={form.designation} onChange={handleChange} disabled={otpSent} placeholder="Designation *" className="w-full p-3 rounded-xl border border-gray-800 text-black outline-none disabled:bg-gray-100" />
             </div>
-            <div className="relative">
-              <input value={confirmPassword} onChange={event => setConfirmPassword(event.target.value)} disabled={otpSent} type={showConfirmPassword ? "text" : "password"} placeholder="Confirm Password *" className="w-full p-3 pr-11 rounded-xl border border-gray-800 text-black outline-none disabled:bg-gray-100" />
-              <button type="button" onClick={() => setShowConfirmPassword(value => !value)} className="absolute right-3 inset-y-0 text-gray-700">
-                {showConfirmPassword ? <EyeOff size={20} /> : <Eye size={20} />}
-              </button>
-            </div>
-          </div>
 
-          <textarea name="reason" value={form.reason} onChange={handleChange} disabled={otpSent} rows="3" maxLength={500} placeholder="Why would you like to review student projects? (Optional)" className="w-full p-3 rounded-xl border border-gray-800 text-black outline-none disabled:bg-gray-100 resize-none" />
-
-          {form.password && !otpSent && (
-            <div className="text-sm text-red-600 space-y-1">
-              {form.password.length < 8 && <p>• At least 8 characters</p>}
-              {!/[A-Z]/.test(form.password) && <p>• One uppercase letter</p>}
-              {!/[a-z]/.test(form.password) && <p>• One lowercase letter</p>}
-              {!/\d/.test(form.password) && <p>• One number</p>}
-              {passwordRegex.test(form.password) && <p className="text-emerald-700">✓ Strong password</p>}
-            </div>
-          )}
-
-          {!otpSent ? (
-            <button onClick={sendOtp} type="button" disabled={loading} className="w-full bg-primary text-white font-bold py-3 rounded-xl disabled:opacity-50">
-              {loading ? "Sending OTP..." : "Send OTP"}
-            </button>
-          ) : (
-            <>
-              <div className="flex gap-3">
-                <input value={otp} onChange={event => setOtp(event.target.value.replace(/\D/g, "").slice(0, 4))} inputMode="numeric" placeholder="Enter 4-digit OTP" className="flex-1 p-3 rounded-xl border border-gray-800 text-black outline-none" />
-                <button onClick={verifyOtp} type="button" disabled={loading || otp.length !== 4} className="bg-primary text-tan font-bold px-6 rounded-xl disabled:opacity-50">
-                  Verify
-                </button>
+            <div>
+              <p className="text-sm font-bold text-primary mb-2">Project Categories You Can Review *</p>
+              <div className="grid md:grid-cols-3 gap-3">
+                {[1, 2, 3].map(number => (
+                  <select key={number} name={`choice${number}`} value={form[`choice${number}`]} onChange={handleChange} disabled={otpSent} className="w-full p-3 rounded-xl border border-gray-800 text-black outline-none disabled:bg-gray-100">
+                    <option value="">Category {number} *</option>
+                    {PROJECT_CHOICES.map(choice => <option key={choice} value={choice}>{choice}</option>)}
+                  </select>
+                ))}
               </div>
-              <button onClick={resendOtp} type="button" disabled={timer > 0 || loading} className="w-full text-fuchsia-950 font-semibold disabled:opacity-50">
-                {timer > 0 ? `Resend OTP in ${timer}s` : "Resend OTP"}
-              </button>
-            </>
-          )}
-        </form>
+            </div>
 
-        <div className="mt-6 pt-5 border-t border-gray-800 text-center">
-          <button
-            onClick={() => navigate("/login")}
-            className="text-primary font-semibold hover:underline"
-          >
-            Already approved? Login
-          </button>
+            <div className="grid md:grid-cols-2 gap-4">
+              <div className="relative"><input name="password" value={form.password} onChange={handleChange} disabled={otpSent} type={showPassword ? "text" : "password"} placeholder="Password *" className="w-full p-3 pr-11 rounded-xl border border-gray-800 text-black outline-none disabled:bg-gray-100" /><button type="button" onClick={() => setShowPassword(value => !value)} className="absolute right-3 inset-y-0 text-gray-700">{showPassword ? <EyeOff size={20} /> : <Eye size={20} />}</button></div>
+              <div className="relative"><input value={confirmPassword} onChange={event => setConfirmPassword(event.target.value)} disabled={otpSent} type={showConfirmPassword ? "text" : "password"} placeholder="Confirm Password *" className="w-full p-3 pr-11 rounded-xl border border-gray-800 text-black outline-none disabled:bg-gray-100" /><button type="button" onClick={() => setShowConfirmPassword(value => !value)} className="absolute right-3 inset-y-0 text-gray-700">{showConfirmPassword ? <EyeOff size={20} /> : <Eye size={20} />}</button></div>
+            </div>
+            <textarea name="reason" value={form.reason} onChange={handleChange} disabled={otpSent} rows="3" maxLength={500} placeholder="Why would you like to review student projects? (Optional)" className="w-full p-3 rounded-xl border border-gray-800 text-black outline-none disabled:bg-gray-100 resize-none" />
+            {form.password && !otpSent && <div className="text-sm text-red-600 space-y-1">{form.password.length < 8 && <p>• At least 8 characters</p>}{!/[A-Z]/.test(form.password) && <p>• One uppercase letter</p>}{!/[a-z]/.test(form.password) && <p>• One lowercase letter</p>}{!/\d/.test(form.password) && <p>• One number</p>}{passwordRegex.test(form.password) && <p className="text-emerald-700">✓ Strong password</p>}</div>}
+            {!otpSent ? <button onClick={sendOtp} type="button" disabled={loading} className="w-full bg-primary text-white font-bold py-3 rounded-xl disabled:opacity-50">{loading ? "Sending OTP..." : "Send OTP"}</button> : <><div className="flex gap-3"><input value={otp} onChange={event => setOtp(event.target.value.replace(/\D/g, "").slice(0, 4))} inputMode="numeric" placeholder="Enter 4-digit OTP" className="flex-1 p-3 rounded-xl border border-gray-800 text-black outline-none" /><button onClick={verifyOtp} type="button" disabled={loading || otp.length !== 4} className="bg-primary text-tan font-bold px-6 rounded-xl disabled:opacity-50">Verify</button></div><button onClick={resendOtp} type="button" disabled={timer > 0 || loading} className="w-full text-fuchsia-950 font-semibold disabled:opacity-50">{timer > 0 ? `Resend OTP in ${timer}s` : "Resend OTP"}</button></>}
+          </form>
+          <div className="mt-6 pt-5 border-t border-gray-800 text-center"><button onClick={() => navigate("/login")} className="text-primary font-semibold hover:underline">Already approved? Login</button></div>
         </div>
 
-      </div>
-
-      <div className="flex flex-col justify-center px-6 lg:px-12">
-
-        <span className="w-fit bg-light-blue text-primary px-5 py-2 rounded-full text-sm font-bold tracking-wider">
-          FACULTY
-        </span>
-
-        <h2 className="mt-6 text-5xl lg:text-6xl font-bold text-light-blue leading-tight">
-          Shape the
-          <br />
-          <span className="italic">next generation</span>
-          <br />
-          of innovators.
-        </h2>
-
-        <p className="mt-7 text-lg leading-8 text-sky max-w-xl">
-          Become a Project Reviewer at KL Innovation Hub and
-          help students turn their ideas into meaningful,
-          real-world projects.
-        </p>
-
-        <div className="mt-10 space-y-5">
-
-          <div className="flex gap-4 items-start">
-            <div className="w-10 h-10 shrink-0 rounded-full bg-secondary flex items-center justify-center text-light-blue font-bold">
-              01
-            </div>
-
-            <div>
-              <h3 className="text-lg font-bold text-light-blue">
-                Review Student Projects
-              </h3>
-
-              <p className="mt-1 text-sky">
-                Evaluate innovative ideas and provide valuable
-                feedback to students.
-              </p>
-            </div>
+        <div className="flex flex-col justify-center px-6 lg:px-12">
+          <span className="w-fit bg-light-blue text-primary px-5 py-2 rounded-full text-sm font-bold tracking-wider">FACULTY</span>
+          <h2 className="mt-6 text-5xl lg:text-6xl font-bold text-light-blue leading-tight">Shape the<br /><span className="italic">next generation</span><br />of innovators.</h2>
+          <p className="mt-7 text-lg leading-8 text-sky max-w-xl">Become a Project Reviewer at KL Innovation Hub and help students turn their ideas into meaningful, real-world projects.</p>
+          <div className="mt-10 space-y-5">
+            {["Review Student Projects|Evaluate innovative ideas and provide valuable feedback to students.", "Guide Innovation|Help students improve their projects and transform ideas into practical solutions.", "Build the Community|Connect with students and contribute to the innovation ecosystem at KL Innovation Hub."].map((item, index) => { const [title, text] = item.split("|"); return <div key={title} className="flex gap-4 items-start"><div className="w-10 h-10 shrink-0 rounded-full bg-secondary flex items-center justify-center text-light-blue font-bold">0{index + 1}</div><div><h3 className="text-lg font-bold text-light-blue">{title}</h3><p className="mt-1 text-sky">{text}</p></div></div>; })}
           </div>
-
-
-          <div className="flex gap-4 items-start">
-            <div className="w-10 h-10 shrink-0 rounded-full bg-secondary flex items-center justify-center text-light-blue font-bold">
-              02
-            </div>
-
-            <div>
-              <h3 className="text-lg font-bold text-light-blue">
-                Guide Innovation
-              </h3>
-
-              <p className="mt-1 text-sky">
-                Help students improve their projects and
-                transform ideas into practical solutions.
-              </p>
-            </div>
-          </div>
-
-
-          <div className="flex gap-4 items-start">
-            <div className="w-10 h-10 shrink-0 rounded-full bg-secondary flex items-center justify-center text-light-blue font-bold">
-              03
-            </div>
-
-            <div>
-              <h3 className="text-lg font-bold text-light-blue">
-                Build the Community
-              </h3>
-
-              <p className="mt-1 text-sky">
-                Connect with students and contribute to the
-                innovation ecosystem at KL Innovation Hub.
-              </p>
-            </div>
-          </div>
-
         </div>
-
       </div>
-
     </div>
-
-  </div>
-);
+  );
 };
 
 export default memo(TeacherSignup);
