@@ -27,6 +27,14 @@ const Leaderboard = () => {
         return true;
     };
 
+    const [topFaculty, setTopFaculty] = useState([]);
+
+    useEffect(() => {
+        axiosInstance.get("/reviewer/review/top-three")
+        .then((res) => setTopFaculty(res.data))
+        .catch((err) => console.error(err));
+    }, []);
+
     useEffect(() => {
         const top = async () => {
             try {
@@ -59,7 +67,7 @@ const Leaderboard = () => {
 
         <div className="flex flex-col-reverse lg:flex-row px-4 sm:px-8 lg:px-10 gap-8 items-center bg-myLeaderboard text-gray-300 border-t border-t-gray-800">
             <div className="w-full lg:w-1/2 flex flex-col gap-3 px-0 lg:px-25 text-center lg:text-left">
-                <h1 className="text-2xl sm:text-3xl lg:text-4xl font-bold">Celebrating Our Innovators</h1>
+                <h1 className="text-2xl sm:text-3xl lg:text-4xl font-bold ">Celebrating Our Innovators</h1>
                 <p className="font-serif">Impact Recognizing the top students and most impactful projects.</p>
             </div>
             <div className="w-full lg:w-1/2 flex justify-center items-center bg-myLeaderboard">
@@ -68,7 +76,7 @@ const Leaderboard = () => {
         </div>
 
       <div className="p-4 sm:p-6 lg:p-10">
-        <h1 className ="text-xl pb-5 font-bold">Overall Top Innovators</h1>
+        <h1 className ="text-2xl pb-5 font-bold px-5">Overall Top Innovators</h1>
         <div className="grid grid-cols-1 md:grid-cols-3 gap-6 lg:gap-10">
             {order.map((pos, index) => {
                 const p = leaderboard[pos];
@@ -91,12 +99,61 @@ const Leaderboard = () => {
                         </>
                     )}
                         <span className="font-medium">⭐ {p.likeCount} Likes</span>
-                        <h3 className="mt-1">{p.projectName}</h3>
+                        <h3 className="mt-1 w-full max-w-full text-sm font-medium break-all overflow-hidden">{p.projectName}</h3>
                     </div>
                 );
             })}
         </div>
       </div>
+
+        <div className="px-4 sm:px-6 lg:px-15 mt-12 pb-10">
+            <h2 className="text-xl sm:text-2xl font-bold mb-6">
+                Our Top Faculty Reviewers
+            </h2>
+
+            <div className="grid grid-cols-1 md:grid-cols-3 gap-6 lg:gap-10 items-end">
+
+                {/* 2nd */}
+                {topFaculty[1] && (
+                    <div className="md:order-1 flex flex-col justify-center min-h-15 px-6 py-5 rounded-xl text-center border shadow-md bg-slate-100 border-slate-400">
+                        <p className="text-2xl font-bold">🥈 #2</p>
+                        <h3 className="text-lg sm:text-xl font-bold mt-2 text-black">
+                            {topFaculty[1][0]}
+                        </h3>
+                        <p className="text-sm sm:text-base text-gray-700 mt-2">
+                            {topFaculty[1][1]} projects reviewed
+                        </p>
+                    </div>
+                )}
+
+                {/* 1st */}
+                {topFaculty[0] && (
+                    <div className="md:order-2 flex flex-col justify-center min-h-20 px-6 py-6 rounded-xl text-center border-2 shadow-lg bg-yellow-100 border-yellow-500">
+                        <p className="text-3xl font-bold">🏆 #1</p>
+                        <h3 className="text-xl sm:text-2xl font-bold mt-2 text-black">
+                            {topFaculty[0][0]}
+                        </h3>
+                        <p className="text-sm sm:text-base text-gray-700 mt-2">
+                            {topFaculty[0][1]} projects reviewed
+                        </p>
+                    </div>
+                )}
+
+                {/* 3rd */}
+                {topFaculty[2] && (
+                    <div className="md:order-3 flex flex-col justify-center min-h-15 px-6 py-5 rounded-xl text-center border shadow-md bg-orange-100 border-orange-400">
+                        <p className="text-2xl font-bold">🥉 #3</p>
+                        <h3 className="text-lg sm:text-xl font-bold mt-2 text-black">
+                            {topFaculty[2][0]}
+                        </h3>
+                        <p className="text-sm sm:text-base text-gray-700 mt-2">
+                            {topFaculty[2][1]} projects reviewed
+                        </p>
+                    </div>
+                )}
+
+            </div>
+        </div>
 
 <div className="px-4 sm:px-6 lg:px-15 pb-10">
     <h2 className="text-xl sm:text-2xl font-bold mb-6">

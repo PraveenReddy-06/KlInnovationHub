@@ -77,6 +77,9 @@ public class ReviewerLoginService {
                     user.getMail(),
                     reviewer.getDepartment(),
                     reviewer.getDesignation(),
+                    reviewer.getChoice1(),
+                    reviewer.getChoice2(),
+                    reviewer.getChoice3(),
                     token);
         } catch (BadCredentialsException e) {
             loginRateLimiterService.loginFailed(mail);
@@ -85,6 +88,6 @@ public class ReviewerLoginService {
     }
 
     private ReviewerLoginResponseDto failure(String message) {
-        return new ReviewerLoginResponseDto(message, null, null, null, null, null, null);
+        return new ReviewerLoginResponseDto(message, null, null, null, null, null, null, null, null, null);
     }
 }

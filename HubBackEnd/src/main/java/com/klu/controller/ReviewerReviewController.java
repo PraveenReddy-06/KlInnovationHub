@@ -48,4 +48,9 @@ public class ReviewerReviewController {
     public ResponseEntity<List<ReviewerReviewHistoryDto>> getReviewHistory() {
         return ResponseEntity.ok(reviewService.getReviewHistory());
     }
+    
+    @GetMapping("/top-three")
+    public List<Object[]> getTopFacultyReviewers() {
+        return reviewService.getTopFacultyReviewers();
+    }
 }

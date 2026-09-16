@@ -72,7 +72,8 @@ public class JwtFilter extends OncePerRequestFilter{
 	            || path.equals("/admin/login")
 	            || path.equals("/reviewer/forgotPassword")
 	            || path.equals("/reviewer/verifyResetOtp")
-	            || path.equals("/reviewer/resetPassword");
+	            || path.equals("/reviewer/resetPassword")
+	            || path.equals("/reviewer/review/top-three");
 	    }
 	
 }
