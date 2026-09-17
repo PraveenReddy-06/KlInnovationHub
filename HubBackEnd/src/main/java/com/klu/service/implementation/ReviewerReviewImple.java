@@ -163,9 +163,27 @@ public class ReviewerReviewImple implements ReviewerReviewService {
 
         notificationService.createNotification(student, student, message, projectName);
 
-        if (status == ProjectStatus.REJECTED) {
+        if (status == ProjectStatus.APPROVED) {
+            sendApprovalEmail(student, projectName);
+        } else {
             sendRejectionEmail(student, projectName, feedback);
         }
+    }
+    
+    private void sendApprovalEmail(Student student, String projectName) {
+        SimpleMailMessage message = new SimpleMailMessage();
+        message.setTo(student.getStudentEmail());
+        message.setSubject("Project Approved • KL Innovation Hub");
+        message.setText(
+                "Hello " + student.getStudent_name() + ",\n\n" +
+                "Your project \"" + projectName + "\" has been approved " +
+                "by the KL Innovation Hub project review committee.\n\n" +
+                "Your project is now approved and can be showcased on KL Innovation Hub.\n\n" +
+                "Share the win! Ask friends to like your project and climb the leaderboard with you.\n"+
+                "Thank you for contributing to the Innovation Hub.\n\n" +
+                "— KL Innovation Hub"
+        );
+        sender.send(message);
     }
 
     private void sendRejectionEmail(Student student, String projectName, String feedback) {

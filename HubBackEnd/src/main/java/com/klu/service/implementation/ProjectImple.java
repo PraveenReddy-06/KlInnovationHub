@@ -9,7 +9,6 @@ import org.springframework.stereotype.Service;
 
 import com.klu.model.Project;
 import com.klu.model.ProjectStatus;
-import com.klu.model.Reviewer;
 import com.klu.model.Student;
 import com.klu.repository.ProjectRepo;
 import com.klu.repository.ReviewerRepo;

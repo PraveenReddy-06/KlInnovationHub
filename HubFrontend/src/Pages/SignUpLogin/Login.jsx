@@ -75,7 +75,7 @@ const Login = () => {
       />
       <div className="relative z-10 flex min-h-screen items-center justify-start px-6 lg:px-16">
         <div className="w-full max-w-md ml-0 lg:ml-40 bg-primary/90 backdrop-blur-xl border border-white/20 rounded-3xl p-6 sm:p-8 shadow-2xl">
-          <div className="flex p-1 rounded-xl bg-black/30 border border-white/10 mb-8">
+          <div className="flex p-1 rounded-xl bg-black/30 border border-tan/30 mb-8">
             <button type="button" onClick={() => handleTypeChange("student")}
               className={`flex-1 py-2.5 rounded-lg font-semibold text-sm transition-all duration-300 ${
                 isStudent
@@ -90,7 +90,7 @@ const Login = () => {
               className={`flex-1 py-2.5 rounded-lg font-semibold text-sm transition-all duration-300 ${
                 !isStudent
                   ? "bg-tan text-primary shadow-md"
-                  : "text-tan/60 hover:text-tan"
+                  : "text-tan hover:text-tan"
               }`}
             >
               Faculty
