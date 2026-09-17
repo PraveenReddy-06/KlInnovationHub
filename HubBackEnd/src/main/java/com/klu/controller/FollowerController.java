@@ -6,6 +6,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
 import com.klu.dto.FollowUserDto;
+import com.klu.dto.FollowingProjectsDto;
 import com.klu.service.FollowerService;
 
 @RestController
@@ -26,7 +27,7 @@ public class FollowerController {
     }
 
     @GetMapping("/count/{studentId}")
-    public long followersCount( @PathVariable Long studentId) {
+    public long followersCount(@PathVariable Long studentId) {
         return followerService.followersCount(studentId);
     }
 
@@ -36,7 +37,7 @@ public class FollowerController {
     }
 
     @GetMapping("/list/{studentId}")
-    public List<FollowUserDto> followers(@PathVariable Long studentId ) {
+    public List<FollowUserDto> followers(@PathVariable Long studentId) {
         return followerService.followers(studentId);
     }
 
@@ -46,7 +47,12 @@ public class FollowerController {
     }
 
     @GetMapping("/isFollowing/{studentId}")
-    public boolean isFollowing( @PathVariable Long studentId) {
+    public boolean isFollowing(@PathVariable Long studentId) {
         return followerService.isFollowing(studentId);
+    }
+
+    @GetMapping("/followingProjects")
+    public FollowingProjectsDto getFollowingProjects() {
+        return followerService.getFollowingProjects();
     }
 }

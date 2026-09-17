@@ -1,4 +1,4 @@
-import { memo, useEffect,useState } from 'react';
+import { memo, useEffect, useState } from 'react';
 import Navbar from "../../Components/Navbar";
 import background from "../../Images/dashboardBg.png";
 import Card from '../../Components/Card';
@@ -12,59 +12,82 @@ import { getDiscussionCounts } from "../../Api/discussionApi";
 const Dashboard = () => {
   const isReviewer = !!localStorage.getItem("reviewerToken");
 
-  const[projects,setProjects] = useState([])
-  const[groupProjects,setGroupProjects] = useState([])
-  const[topProjects,setTopProjects] = useState([])
-  const[topGroupProjects,setTopGroupProjects] = useState([])
+  const [projects, setProjects] = useState([])
+  const [groupProjects, setGroupProjects] = useState([])
+  const [topProjects, setTopProjects] = useState([])
+  const [topGroupProjects, setTopGroupProjects] = useState([])
+  const [followingProjects, setFollowingProjects] = useState([])
+  const [followingGroupProjects, setFollowingGroupProjects] = useState([])
   const [search, setSearch] = useState("");
   const [error, setError] = useState("");
 
-useEffect(() => {
-  const loadDashboard = async () => {
-    try {
-      const [projectsRes, groupProjectsRes, topProjectsRes, topGroupProjectsRes] = await Promise.all([
-        axiosInstance.get("/project/latest"),
-        axiosInstance.get("/groupProject/latest"),
-        axiosInstance.get("/likes/top"),
-        axiosInstance.get("/grouplikes/top"),
-      ]);
-      const formatProject = (item, type) => ({
-        ...item,
-        type,
-        title: type === "INDIVIDUAL" ? item.projectName : item.project_name,
-        ownerName: type === "INDIVIDUAL" ? item.student?.student_name : item.teamLead?.student_name,
-        ownerId: type === "INDIVIDUAL" ? item.student?.studentId : item.teamLead?.studentId,
-        branch: type === "INDIVIDUAL" ? item.student?.branch : item.teamLead?.branch,
-        year: type === "INDIVIDUAL" ? item.student?.year : item.teamLead?.year,
-        projectKey: type === "INDIVIDUAL" ? item.projectId : item.groupProjectId,
-      });
+  useEffect(() => {
+    const loadDashboard = async () => {
+      try {
+        const [projectsRes, groupProjectsRes, topProjectsRes, topGroupProjectsRes] = await Promise.all([
+          axiosInstance.get("/project/latest"),
+          axiosInstance.get("/groupProject/latest"),
+          axiosInstance.get("/likes/top"),
+          axiosInstance.get("/grouplikes/top"),
+        ]);
 
-      const formattedProjects = projectsRes.data.map((item) => formatProject(item, "INDIVIDUAL"));
-      const formattedGroupProjects = groupProjectsRes.data.map((item) => formatProject(item, "GROUP"));
-      const formattedTopProjects = topProjectsRes.data.map((item) => formatProject(item, "INDIVIDUAL"));
-      const formattedTopGroupProjects = topGroupProjectsRes.data.map((item) => formatProject(item, "GROUP"));
-      const projectIds = [...formattedProjects, ...formattedTopProjects].map((p) => p.projectId);
-      const groupProjectIds = [...formattedGroupProjects, ...formattedTopGroupProjects].map((p) => p.groupProjectId);
-      const discussionCountRes = await getDiscussionCounts(
-        [...new Set(projectIds)],
-        [...new Set(groupProjectIds)]
-      );
-      const counts = discussionCountRes.data;
-      const addCounts = (list, type) =>
-        list.map((item) => ({
+        let followingRes = { data: { projects: [], groupProjects: [] } };
+        if (!isReviewer && localStorage.getItem("token")) {
+          followingRes = await axiosInstance.get("/followers/followingProjects");
+        }
+
+        const formatProject = (item, type) => ({
           ...item,
-          discussionCount: counts[`${type}:${item.projectKey}`] || 0,
-        }));
-      setProjects(addCounts(formattedProjects, "INDIVIDUAL"));
-      setGroupProjects(addCounts(formattedGroupProjects, "GROUP"));
-      setTopProjects(addCounts(formattedTopProjects, "INDIVIDUAL"));
-      setTopGroupProjects(addCounts(formattedTopGroupProjects, "GROUP"));
-    } catch (error) {
-      setError("Failed to load projects");
-    }
-  };
-  loadDashboard();
-}, []);
+          type,
+          title: type === "INDIVIDUAL" ? item.projectName : item.project_name,
+          ownerName: type === "INDIVIDUAL" ? item.student?.student_name : item.teamLead?.student_name,
+          ownerId: type === "INDIVIDUAL" ? item.student?.studentId : item.teamLead?.studentId,
+          branch: type === "INDIVIDUAL" ? item.student?.branch : item.teamLead?.branch,
+          year: type === "INDIVIDUAL" ? item.student?.year : item.teamLead?.year,
+          projectKey: type === "INDIVIDUAL" ? item.projectId : item.groupProjectId,
+        });
+
+        const formattedProjects = projectsRes.data.map((item) => formatProject(item, "INDIVIDUAL"));
+        const formattedGroupProjects = groupProjectsRes.data.map((item) => formatProject(item, "GROUP"));
+        const formattedTopProjects = topProjectsRes.data.map((item) => formatProject(item, "INDIVIDUAL"));
+        const formattedTopGroupProjects = topGroupProjectsRes.data.map((item) => formatProject(item, "GROUP"));
+        const formattedFollowingProjects = (followingRes.data?.projects || []).map((item) => formatProject(item, "INDIVIDUAL"));
+        const formattedFollowingGroupProjects = (followingRes.data?.groupProjects || []).map((item) => formatProject(item, "GROUP"));
+
+        const projectIds = [
+          ...formattedProjects,
+          ...formattedTopProjects,
+          ...formattedFollowingProjects,
+        ].map((p) => p.projectId);
+        const groupProjectIds = [
+          ...formattedGroupProjects,
+          ...formattedTopGroupProjects,
+          ...formattedFollowingGroupProjects,
+        ].map((p) => p.groupProjectId);
+
+        const discussionCountRes = await getDiscussionCounts(
+          [...new Set(projectIds)],
+          [...new Set(groupProjectIds)]
+        );
+        const counts = discussionCountRes.data;
+        const addCounts = (list, type) =>
+          list.map((item) => ({
+            ...item,
+            discussionCount: counts[`${type}:${item.projectKey}`] || 0,
+          }));
+
+        setProjects(addCounts(formattedProjects, "INDIVIDUAL"));
+        setGroupProjects(addCounts(formattedGroupProjects, "GROUP"));
+        setTopProjects(addCounts(formattedTopProjects, "INDIVIDUAL"));
+        setTopGroupProjects(addCounts(formattedTopGroupProjects, "GROUP"));
+        setFollowingProjects(addCounts(formattedFollowingProjects, "INDIVIDUAL"));
+        setFollowingGroupProjects(addCounts(formattedFollowingGroupProjects, "GROUP"));
+      } catch (error) {
+        setError("Failed to load projects");
+      }
+    };
+    loadDashboard();
+  }, [isReviewer]);
 
   const filterFn = (p) => {
     const query = search.toLowerCase();
@@ -79,9 +102,9 @@ useEffect(() => {
     );
   };
 
-  const filteredProjects = [...projects,...groupProjects].filter(filterFn);
+  const filteredProjects = [...projects, ...groupProjects].filter(filterFn);
   const filteredTopProjects = topProjects.filter(filterFn);
-  /*<div className="flex-1 h-px bg-gray-300"></div> for line*/
+  const filteredFollowingProjects = [...followingProjects, ...followingGroupProjects].filter(filterFn);
 
   return (
     <div className="min-h-screen overflow-y-auto no-scrollbar bg-linear-to-b from-tan/80 to-cream">
@@ -92,16 +115,17 @@ useEffect(() => {
           <h1 className="text-2xl sm:text-3xl lg:text-4xl font-bold text-gray-200">Give Life to Your Projects!</h1>
           <p className="text-base sm:text-lg opacity-90">Share your innovative solutions with the hub and inspire the community.</p>
           <div className="w-full max-w-md mx-auto lg:mx-0">
-            <div className="flex items-center rounded-xl px-4 py-3 shadow-sm focus-within:ring-2 bg-white "  style={{border: "1px solid #D2B48C",}}>
-              <input type="text" placeholder="Search projects, tech, student, id..." value={search} onChange={(e) => setSearch(e.target.value)} className="w-full outline-none text-black text-sm"/>
+            <div className="flex items-center rounded-xl px-4 py-3 shadow-sm focus-within:ring-2 bg-white " style={{ border: "1px solid #D2B48C", }}>
+              <input type="text" placeholder="Search projects, tech, student, id..." value={search} onChange={(e) => setSearch(e.target.value)} className="w-full outline-none text-black text-sm" />
               <span className="text-primary ml-2">🔍</span>
             </div>
-        </div>
+          </div>
         </div>
         <div className="w-full lg:w-1/2 flex justify-end items-center">
-          <img src={background} className="w-full max-w-md lg:max-w-lg h-auto"/>
+          <img src={background} className="w-full max-w-md lg:max-w-lg h-auto" />
         </div>
       </div>
+
       <div className="py-3 px-4 sm:px-6 lg:px-10 overflow-hidden">
         <h2 className="text-xl sm:text-2xl font-bold text-primary">Latest Projects</h2>
         <div className="relative overflow-hidden py-2">
@@ -114,14 +138,16 @@ useEffect(() => {
           </div>
         </div>
       </div>
+
       {error && (
         <div className="mx-4 sm:mx-6 mt-4 p-3 bg-red-100 text-bloodstone rounded-lg">
           {error}
         </div>
       )}
+
       <div className="pb-3 px-4 sm:px-6 lg:px-10">
         <div className="flex items-center justify-center gap-3 pb-2">
-          <div className="text-2xl font-bold  text-primary whitespace-nowrap">Top Projects</div>
+          <div className="text-2xl font-bold text-primary whitespace-nowrap">Top Projects</div>
         </div>
         <div className="grid grid-cols-1 md:grid-cols-2 gap-12">
           <div>
@@ -146,9 +172,46 @@ useEffect(() => {
           </div>
         </div>
       </div>
-      
-      <DashboardFooter/>
 
+      {!isReviewer && (
+        <div className="pb-10 px-4 sm:px-6 lg:px-10">
+          <div className="flex items-center justify-center gap-3 pb-2">
+            <div className="text-2xl font-bold text-primary whitespace-nowrap">Projects From People You Follow</div>
+          </div>
+
+          {filteredFollowingProjects.length === 0 ? (
+            <p className="text-center text-secondary py-6">
+              Follow students to see their approved projects here.
+            </p>
+          ) : (
+            <div className="grid grid-cols-1 md:grid-cols-2 gap-12">
+              <div>
+                <div className="font-medium text-secondary mb-3 flex items-center justify-center">Solo Projects</div>
+                <div className="flex flex-col gap-4">
+                  {followingProjects.filter(filterFn).map((project) => (
+                    <div key={`${project.type}-${project.projectKey}`}>
+                      <TopProjectCard project={project} />
+                    </div>
+                  ))}
+                </div>
+              </div>
+
+              <div>
+                <div className="font-medium text-secondary mb-3 flex items-center justify-center">Group Projects</div>
+                <div className="flex flex-col gap-5">
+                  {followingGroupProjects.filter(filterFn).map((project) => (
+                    <div key={`${project.type}-${project.projectKey}`}>
+                      <TopProjectCard project={project} />
+                    </div>
+                  ))}
+                </div>
+              </div>
+            </div>
+          )}
+        </div>
+      )}
+
+      <DashboardFooter />
     </div>
   );
 };
