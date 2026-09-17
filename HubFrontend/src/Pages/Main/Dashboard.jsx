@@ -8,6 +8,7 @@ import toast, { Toaster } from "react-hot-toast";
 import DashboardFooter from "../../Components/DashboardFooter";
 import ReviewerNavbar from '../Reviewer/ReviewerNavbar';
 import { getDiscussionCounts } from "../../Api/discussionApi";
+import { useNavigate } from 'react-router-dom';
 
 const Dashboard = () => {
   const isReviewer = !!localStorage.getItem("reviewerToken");
@@ -18,9 +19,10 @@ const Dashboard = () => {
   const [topGroupProjects, setTopGroupProjects] = useState([])
   const [followingProjects, setFollowingProjects] = useState([])
   const [followingGroupProjects, setFollowingGroupProjects] = useState([])
+  const [followingCollaborations, setFollowingCollaborations] = useState([]);
   const [search, setSearch] = useState("");
   const [error, setError] = useState("");
-
+  const navigate = useNavigate();
   useEffect(() => {
     const loadDashboard = async () => {
       try {
@@ -32,8 +34,12 @@ const Dashboard = () => {
         ]);
 
         let followingRes = { data: { projects: [], groupProjects: [] } };
+        let followingCollaborationRes = { data: [] };
         if (!isReviewer && localStorage.getItem("token")) {
-          followingRes = await axiosInstance.get("/followers/followingProjects");
+            [followingRes, followingCollaborationRes] = await Promise.all([
+            axiosInstance.get("/followers/followingProjects"),
+            axiosInstance.get("/collaboration/following"),
+          ]);
         }
 
         const formatProject = (item, type) => ({
@@ -82,6 +88,7 @@ const Dashboard = () => {
         setTopGroupProjects(addCounts(formattedTopGroupProjects, "GROUP"));
         setFollowingProjects(addCounts(formattedFollowingProjects, "INDIVIDUAL"));
         setFollowingGroupProjects(addCounts(formattedFollowingGroupProjects, "GROUP"));
+        setFollowingCollaborations(followingCollaborationRes.data || []);
       } catch (error) {
         setError("Failed to load projects");
       }
@@ -105,6 +112,7 @@ const Dashboard = () => {
   const filteredProjects = [...projects, ...groupProjects].filter(filterFn);
   const filteredTopProjects = topProjects.filter(filterFn);
   const filteredFollowingProjects = [...followingProjects, ...followingGroupProjects].filter(filterFn);
+  const hasFollowingContent =followingCollaborations.length > 0 || filteredFollowingProjects.length > 0;
 
   return (
     <div className="min-h-screen overflow-y-auto no-scrollbar bg-linear-to-b from-tan/80 to-cream">
@@ -147,7 +155,7 @@ const Dashboard = () => {
 
 <div className="pb-10 px-4 sm:px-6 lg:px-10">
 
-  {isReviewer ? (
+  {isReviewer || !hasFollowingContent ? (
     /* FACULTY / REVIEWER - OLD STYLE */
     <div>
       <div className="flex items-center justify-center gap-3 pb-2">
@@ -226,10 +234,82 @@ const Dashboard = () => {
             ))}
           </div>
         </div>
+
+                <div className="mb-10 mt-10">
+          <div className="flex items-center justify-center gap-3 pb-4">
+            <div className="text-2xl font-bold text-primary text-center">
+              Collaboration Posts
+            </div>
+          </div>
+
+          {followingCollaborations.length === 0 ? (
+            <p className="text-center text-secondary py-6">
+              No Team Recruitments from students you follow.
+            </p>
+          ) : (
+            <div className="flex flex-col gap-4 mt-10">
+              {followingCollaborations
+                .filter((post) => {
+                  const query = search.toLowerCase();
+                  return (
+                    post.name?.toLowerCase().includes(query) ||
+                    post.problemStatement?.toLowerCase().includes(query) ||
+                    post.description?.toLowerCase().includes(query) ||
+                    post.skill1?.toLowerCase().includes(query) ||
+                    post.skill2?.toLowerCase().includes(query) ||
+                    post.skill3?.toLowerCase().includes(query) ||
+                    post.student?.student_name?.toLowerCase().includes(query)
+                  );
+                })
+                .map((post) => (
+                  <div key={post.collaboration_id} className="rounded-2xl border border-white bg-cream p-5">
+                    <div className="flex items-center gap-3">
+                      <img src={ post.student?.avatarUrl ||`/avatars/Avatar${(post.student?.studentId % 40) + 1}.webp`}
+                        alt="avatar" className="h-20 w-20 rounded-full object-cover border border-accent"/>
+                      <div className="min-w-0">
+                        <p className="text-xl font-semibold text-black">
+                          {post.student?.student_name}
+                        </p>
+                        <p className="text-sm text-gray-600">
+                          {post.student?.branch} • Year {post.student?.year}
+                        </p>
+                      </div>
+                    </div>
+                    <h3 className="text-lg font-bold text-black mt-4">
+                      {post.name}
+                    </h3>
+                    <p className="font-medium text-gray-800 mt-2">
+                      {post.problemStatement}
+                    </p>
+                    <p className=" text-gray-600 mt-2 line-clamp-3">
+                      {post.description}
+                    </p>
+                    <div className="flex flex-wrap gap-2 mt-4">
+                      {[post.skill1, post.skill2, post.skill3].filter(Boolean).map((skill) => (
+                          <span  key={skill}  className=" bg-accent/20 text-gray-800 border border-accent px-3 py-1 rounded-full">
+                            {skill}
+                          </span>
+                        ))}
+                    </div>
+                    <div className="flex items-center justify-between mt-4">
+                      <span className="text-sm text-gray-700">
+                        <strong>{post.teamSize}</strong> members needed
+                      </span>
+                      <button onClick={() => navigate(`/teamApplications`)}
+                        className="px-4 py-2 rounded-xl bg-secondary text-white text-sm font-semibold hover:bg-accent transition">
+                        View Collaboration
+                      </button>
+                    </div>
+                  </div>
+                ))}
+            </div>
+          )}
+        </div>
       </div>
 
       {/* RIGHT - FOLLOWING PROJECTS */}
       <div>
+
         <div className="flex items-center justify-center gap-3 pb-4">
           <div className="text-2xl font-bold text-primary text-center">
             Projects From People You Follow
@@ -275,6 +355,8 @@ const Dashboard = () => {
             </div>
           </>
         )}
+
+
       </div>
 
     </div>

@@ -26,28 +26,32 @@ const FormATeam = () => {
       setSuccessMsg("");
 
       if(formData.name.trim().length < 3){
-          setErrorMsg("Team name must contain at least 3 characters");
+          toast.error("Team name must contain at least 3 characters");
           return;
       }
       const size = Number(formData.teamSize);
       if(size < 1 || size > 4){
-          setErrorMsg("Team size must be between 1 and 5");
+          toast.error("Team size must be between 1 and 5");
           return;
       }
       if(formData.problemStatement.trim().length < 15){
-          setErrorMsg("Problem statement is too short");
+          toast.error("Problem statement is too short");
           return;
       }
       if(formData.description.trim().length < 50){
-          setErrorMsg("Description should contain at least 50 characters");
+          toast.error("Description should contain at least 50 characters");
+          return;
+      }
+      if(formData.description.trim().length > 400){
+          toast.error("Description should exceed 400 characters");
           return;
       }
       if(!formData.skill1.trim() &&!formData.skill2.trim() &&!formData.skill3.trim()){
-          setErrorMsg("Add at least one required skill");
+          toast.error("Add at least one required skill");
           return;
       }
       if(formData.linkedIn && !formData.linkedIn.includes("linkedin.com")){
-          setErrorMsg("Enter a valid LinkedIn URL");
+          toast.error("Enter a valid LinkedIn URL");
           return;
       }
       if(loading) return;

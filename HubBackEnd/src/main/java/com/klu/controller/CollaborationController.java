@@ -48,4 +48,9 @@ public class CollaborationController {
         collaborationService.deleteTeam(collaborationId);
         return "Team Deleted Successfully";
     }
+    
+    @GetMapping("/following")
+    public List<Collaboration> getFollowingCollaborations() {
+        return collaborationService.getFollowingCollaborations();
+    }
 }

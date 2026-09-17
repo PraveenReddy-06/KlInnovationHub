@@ -3,7 +3,7 @@ import { FaGithub, FaHeart } from "react-icons/fa";
 import axiosInstance from "../Api/axiosInstance"
 import { useNavigate } from "react-router-dom";
 import toast, { Toaster } from "react-hot-toast";
-import { MessageCircle } from "lucide-react";
+import { MessageCircle, ExternalLink } from "lucide-react";
 import ProjectDiscussion from "./ProjectDiscussion/ProjectDiscussion";
 
 const TopProjectCard = ({project}) => {
@@ -102,7 +102,7 @@ const TopProjectCard = ({project}) => {
           className="w-14 h-14 sm:w-20 sm:h-20 rounded-full object-cover border border-slate-200 shrink-0"
         />
         <div className="flex-1">
-          <p className="text-sm sm:text-base font-semibold leading-none wrap-break-word" >{project.ownerName}</p>
+          <p className="text-sm sm:text-xl font-semibold leading-none wrap-break-word" >{project.ownerName}</p>
           <p className="text-xs sm:text-sm text-slate-500 mt-1">#{project.ownerId}</p>
           {project.type === "GROUP" && project.studentList?.length > 0 && (
             <div className="flex flex-wrap gap-2 m-2">{
@@ -142,8 +142,9 @@ const TopProjectCard = ({project}) => {
           <FaGithub className="text-2xl sm:text-3xl" />
         </a>
         {project.liveUrl && (
-          <a href={project.liveUrl} className="font-semibold text-blue-600 hover:underline" onClick={handleLiveDemoClick} >
-            View
+          <a href={project.liveUrl} className="flex flex-row text-sm gap-2 font-semibold text-white bg-secondary rounded-xl py-2 px-3 hover:underline" onClick={handleLiveDemoClick} >
+            View Project
+            <ExternalLink size={15} />
           </a>
         )}
       </div>
