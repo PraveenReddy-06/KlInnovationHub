@@ -26,6 +26,10 @@ public interface ProjectRepo extends JpaRepository<Project,Integer>{
 	List<Project> findByStatusAndStudentBranchAndStudentYear(ProjectStatus status, String branch, Integer year);
 	List<Project> findByStatusAndChoice(ProjectStatus status, String choice);
 
+	@Query("select distinct p from Project p where p.status = :status and p.student.studentId in :studentIds order by p.projectId desc")
+	List<Project> findApprovedProjectsByStudentIds(@Param("status") ProjectStatus status,
+			@Param("studentIds") List<Long> studentIds);
+
 	@Modifying
 	@Query("update Project p set p.status = :newStatus where p.projectId = :projectId and p.status = :expectedStatus")
 	int updateStatusIfPending(@Param("projectId") Integer projectId,

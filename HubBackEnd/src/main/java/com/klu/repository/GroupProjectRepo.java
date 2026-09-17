@@ -26,6 +26,10 @@ public interface GroupProjectRepo extends JpaRepository<GroupProject,Integer>{
 	List<GroupProject> findByStatusAndTeamLead_BranchAndTeamLead_Year(ProjectStatus status, String branch, Integer year);
 	List<GroupProject> findByStatusAndChoice(ProjectStatus status, String choice);
 
+	@Query("select distinct p from GroupProject p join p.studentList s where p.status = :status and s.studentId in :studentIds order by p.groupProjectId desc")
+	List<GroupProject> findApprovedGroupProjectsByStudentIds(@Param("status") ProjectStatus status,
+			@Param("studentIds") List<Long> studentIds);
+
 	@Modifying
 	@Query("update GroupProject p set p.status = :newStatus where p.groupProjectId = :groupProjectId and p.status = :expectedStatus")
 	int updateStatusIfPending(@Param("groupProjectId") Integer groupProjectId,

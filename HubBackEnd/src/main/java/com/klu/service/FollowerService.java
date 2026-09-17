@@ -3,6 +3,7 @@ package com.klu.service;
 import java.util.List;
 
 import com.klu.dto.FollowUserDto;
+import com.klu.dto.FollowingProjectsDto;
 
 public interface FollowerService {
 
@@ -19,4 +20,6 @@ public interface FollowerService {
     List<FollowUserDto> following(Long studentId);
 
     boolean isFollowing(Long followingId);
+
+    FollowingProjectsDto getFollowingProjects();
 }
