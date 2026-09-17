@@ -1,5 +1,5 @@
 import { useEffect, useMemo, useState } from "react";
-import { CheckCircle2, XCircle, Clock3, FileText, Users, Loader2, Mail, Building2, BriefcaseBusiness } from "lucide-react";
+import { CheckCircle2, XCircle, Clock3, FileText, Users, Loader2, Mail, Building2, BriefcaseBusiness, ExternalLink } from "lucide-react";
 import toast from "react-hot-toast";
 import reviewerAxiosInstance from "../../Api/reviewerAxiosInstance";
 import ReviewerNavbar from "./ReviewerNavbar";
@@ -166,7 +166,7 @@ const StatCard = ({ icon, label, value }) => (
 const FilterButton = ({ active, onClick, children }) => (
   <button
     onClick={onClick}
-    className={`px-3 sm:px-4 py-1.5 sm:py-2 text-sm sm:text-base cursor-pointer rounded-lg transition ${active ? "bg-blue-400 text-black border border-black" : "bg-accent border border-black text-black hover:cream"}`}
+    className={`px-3 sm:px-4 py-1.5 sm:py-2 text-sm sm:text-base cursor-pointer rounded-lg transition ${active ? "bg-bloodstone text-white border border-gray-500" : "bg-bloodstone/70 border border-gray-500 text-white hover:cream"}`}
   >
     {children}
   </button>
@@ -197,6 +197,7 @@ const ReviewCard = ({ review }) => {
             <h3 className="text-lg sm:text-xl text-black font-semibold mt-2 wrap-break-word">
               {review.projectName || "Untitled Project"}
             </h3>
+            
           </div>
         </div>
 
@@ -204,6 +205,7 @@ const ReviewCard = ({ review }) => {
           <p>Reviewed At</p>
           <p className="text-gray-800 mt-1">{formatDate(review.reviewedAt)}</p>
         </div>
+        
       </div>
 
       <div className="mt-4 sm:mt-5 rounded-xl border border-white/10 bg-black/10 p-3 sm:p-4">
@@ -212,6 +214,17 @@ const ReviewCard = ({ review }) => {
           {review.feedback?.trim() ? review.feedback : "No feedback was provided."}
         </p>
       </div>
+      <div className="flex justify-end mt-3">
+        {review.liveUrl?.trim() && (
+          <a href={review.liveUrl.startsWith("http") ? review.liveUrl : `https://${review.liveUrl}`} 
+            target="_blank" rel="noopener noreferrer" 
+            className="flex items-center gap-2 text-sm font-bold bg-cyan-400 border border-black rounded p-2 text-gray-700 hover:text-white">
+             View Live Project
+             <ExternalLink size={20} />
+          </a>
+        )}
+      </div>
+
     </div>
   );
 };

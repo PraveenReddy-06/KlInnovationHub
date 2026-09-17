@@ -11,7 +11,6 @@ import com.klu.model.GroupProject;
 import com.klu.model.ProjectStatus;
 import com.klu.model.Student;
 import com.klu.repository.GroupProjectRepo;
-import com.klu.repository.ReviewerRepo;
 import com.klu.repository.StudentRepo;
 import com.klu.service.ActivityService;
 import com.klu.service.CurrentUserService;

@@ -145,71 +145,143 @@ const Dashboard = () => {
         </div>
       )}
 
-      <div className="pb-3 px-4 sm:px-6 lg:px-10">
-        <div className="flex items-center justify-center gap-3 pb-2">
-          <div className="text-2xl font-bold text-primary whitespace-nowrap">Top Projects</div>
+<div className="pb-10 px-4 sm:px-6 lg:px-10">
+
+  {isReviewer ? (
+    /* FACULTY / REVIEWER - OLD STYLE */
+    <div>
+      <div className="flex items-center justify-center gap-3 pb-2">
+        <div className="text-2xl font-bold text-primary whitespace-nowrap">
+          Top Projects
         </div>
-        <div className="grid grid-cols-1 md:grid-cols-2 gap-12">
-          <div>
-            <div className="font-medium text-secondary mb-3 flex items-center justify-center">Solo Projects</div>
-            <div className="flex flex-col gap-4">
-              {topProjects.filter(filterFn).map((project) => (
-                <div key={`${project.type}-${project.projectKey}`}>
-                  <TopProjectCard project={project} />
-                </div>
-              ))}
-            </div>
+      </div>
+
+      <div className="grid grid-cols-1 md:grid-cols-2 gap-12">
+        <div>
+          <div className="font-medium text-secondary mb-3 flex items-center justify-center">
+            Solo Projects
           </div>
-          <div>
-            <div className="font-medium text-secondary mb-3 flex items-center justify-center">Group Projects</div>
-            <div className="flex flex-col gap-5">
-              {topGroupProjects.filter(filterFn).map((project) => (
-                <div key={`${project.type}-${project.projectKey}`}>
-                  <TopProjectCard project={project} />
-                </div>
-              ))}
-            </div>
+
+          <div className="flex flex-col gap-4">
+            {topProjects.filter(filterFn).map((project) => (
+              <div key={`${project.type}-${project.projectKey}`}>
+                <TopProjectCard project={project} />
+              </div>
+            ))}
+          </div>
+        </div>
+
+        <div>
+          <div className="font-medium text-secondary mb-3 flex items-center justify-center">
+            Group Projects
+          </div>
+
+          <div className="flex flex-col gap-5">
+            {topGroupProjects.filter(filterFn).map((project) => (
+              <div key={`${project.type}-${project.projectKey}`}>
+                <TopProjectCard project={project} />
+              </div>
+            ))}
+          </div>
+        </div>
+      </div>
+    </div>
+
+  ) : (
+    /* STUDENT - NEW STYLE */
+    <div className="grid grid-cols-1 lg:grid-cols-2 gap-12">
+
+      {/* LEFT - TOP PROJECTS */}
+      <div>
+        <div className="flex items-center justify-center gap-3 pb-4">
+          <div className="text-2xl font-bold text-primary whitespace-nowrap">
+            Top Projects
+          </div>
+        </div>
+
+        <div className="mb-8">
+          <div className="font-medium text-secondary mb-3 flex items-center justify-center">
+            Solo Projects
+          </div>
+
+          <div className="flex flex-col gap-4">
+            {topProjects.filter(filterFn).map((project) => (
+              <div key={`${project.type}-${project.projectKey}`}>
+                <TopProjectCard project={project} />
+              </div>
+            ))}
+          </div>
+        </div>
+
+        <div>
+          <div className="font-medium text-secondary mb-3 flex items-center justify-center">
+            Group Projects
+          </div>
+
+          <div className="flex flex-col gap-5">
+            {topGroupProjects.filter(filterFn).map((project) => (
+              <div key={`${project.type}-${project.projectKey}`}>
+                <TopProjectCard project={project} />
+              </div>
+            ))}
           </div>
         </div>
       </div>
 
-      {!isReviewer && (
-        <div className="pb-10 px-4 sm:px-6 lg:px-10">
-          <div className="flex items-center justify-center gap-3 pb-2">
-            <div className="text-2xl font-bold text-primary whitespace-nowrap">Projects From People You Follow</div>
+      {/* RIGHT - FOLLOWING PROJECTS */}
+      <div>
+        <div className="flex items-center justify-center gap-3 pb-4">
+          <div className="text-2xl font-bold text-primary text-center">
+            Projects From People You Follow
+          </div>
+        </div>
+
+        {filteredFollowingProjects.length === 0 ? (
+          <div className="flex items-center justify-center">
+            <p className="text-center text-bloodstone mt-30">
+              You can click on Project Cards to Follow students and view their approved projects here.
+            </p>
+
           </div>
 
-          {filteredFollowingProjects.length === 0 ? (
-            <p className="text-center text-secondary py-6">
-              Follow students to see their approved projects here.
-            </p>
-          ) : (
-            <div className="grid grid-cols-1 md:grid-cols-2 gap-12">
-              <div>
-                <div className="font-medium text-secondary mb-3 flex items-center justify-center">Solo Projects</div>
-                <div className="flex flex-col gap-4">
-                  {followingProjects.filter(filterFn).map((project) => (
-                    <div key={`${project.type}-${project.projectKey}`}>
-                      <TopProjectCard project={project} />
-                    </div>
-                  ))}
-                </div>
+        ) : (
+          <>
+            <div className="mb-8">
+              <div className="font-medium text-secondary mb-3 flex items-center justify-center">
+                Solo Projects
               </div>
 
-              <div>
-                <div className="font-medium text-secondary mb-3 flex items-center justify-center">Group Projects</div>
-                <div className="flex flex-col gap-5">
-                  {followingGroupProjects.filter(filterFn).map((project) => (
-                    <div key={`${project.type}-${project.projectKey}`}>
-                      <TopProjectCard project={project} />
-                    </div>
-                  ))}
-                </div>
+              <div className="flex flex-col gap-4">
+                {followingProjects.filter(filterFn).map((project) => (
+                  <div key={`${project.type}-${project.projectKey}`}>
+                    <TopProjectCard project={project} />
+                  </div>
+                ))}
               </div>
             </div>
-          )}
-        </div>
-      )}
+
+            <div>
+              <div className="font-medium text-secondary mb-3 flex items-center justify-center">
+                Group Projects
+              </div>
+
+              <div className="flex flex-col gap-5">
+                {followingGroupProjects.filter(filterFn).map((project) => (
+                  <div key={`${project.type}-${project.projectKey}`}>
+                    <TopProjectCard project={project} />
+                  </div>
+                ))}
+              </div>
+            </div>
+          </>
+        )}
+      </div>
+
+    </div>
+  )}
+
+</div>
+
 
       <DashboardFooter />
     </div>

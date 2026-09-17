@@ -22,8 +22,14 @@ public class ReviewerReviewHistoryDto {
     private ProjectStatus decision;
     private String feedback;
     private LocalDateTime reviewedAt;
+    private String liveUrl;
     public static ReviewerReviewHistoryDto fromEntity(ProjectReview review) {
         boolean isGroupProject = review.getGroupProject() != null;
+        String liveUrl = isGroupProject
+                ? review.getGroupProject().getLiveUrl()
+                : review.getProject() != null
+                    ? review.getProject().getLiveUrl()
+                    : null;
         return new ReviewerReviewHistoryDto(
                 review.getReviewId(),
                 review.getProject() != null ? review.getProject().getProjectId(): null,
@@ -32,7 +38,8 @@ public class ReviewerReviewHistoryDto {
                 isGroupProject? "GROUP": "SOLO",
                 review.getNewStatus(),
                 review.getFeedback(),
-                review.getReviewedAt()
+                review.getReviewedAt(),
+                liveUrl
         );
     }
 }

@@ -133,7 +133,7 @@ const ReviewerDashboard = () => {
             <div className="flex flex-col sm:flex-row sm:justify-between sm:items-center gap-3 mb-5">
               <div>
                 <h2 className="text-2xl font-semibold">Pending Submissions</h2>
-                <p className="text-md text-gray-400 mt-1">All projects that need your review</p>
+                <p className="text-md text-gray-400 mt-1">All projects that are waiting for review</p>
               </div>
               <button onClick={() => navigate("/reviewer/projects")} className="flex items-center gap-2 cursor-pointer text-white hover:text-white self-start sm:self-auto">View all <ArrowRight size={17} /></button>
             </div>
