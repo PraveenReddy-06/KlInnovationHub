@@ -36,6 +36,7 @@ public class SecurityConfig {
                         		"/reviewer/verifyResetOtp", 
                         		"/reviewer/resetPassword",
                         		"/discussions/counts",
+                        		"/public/analytics",
                         		"/admin/login").permitAll()
                         .requestMatchers("/admin/reviewers/**","/admin/reports/**").hasRole("ADMIN")
                         .requestMatchers("/reviewer/projects/**", "/reviewer/groupProjects/**", "/reviewer/review/**").hasRole("REVIEWER")
