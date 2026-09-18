@@ -140,13 +140,13 @@ const ExploreProjects = () => {
         </div>
 
         <div className="flex flex-wrap items-center gap-2 lg:gap-4 w-full lg:w-auto">
-          <select value={selectedType} onChange={(e) => setSelectedType(e.target.value)} className="flex-1 min-w-27.5 lg:flex-none border rounded-xl px-2 py-1.5 text-sm bg-gray-50 outline-none">
+          <select value={selectedType} onChange={(e) => setSelectedType(e.target.value)} className="flex-1 min-w-27.5 lg:flex-none border rounded-xl px-2 py-3 text-sm bg-gray-50 outline-none">
             <option value="ALL">All Projects</option>
             <option value="INDIVIDUAL">Individual</option>
             <option value="GROUP">Group</option>
           </select>
 
-          <select  value={selectedBranch}  onChange={(e) => setSelectedBranch(e.target.value)}  className="flex-1 min-w-27.5 lg:flex-none border rounded-xl px-2 py-1.5 text-sm bg-gray-50 outline-none">
+          <select  value={selectedBranch}  onChange={(e) => setSelectedBranch(e.target.value)}  className="flex-1 min-w-27.5 lg:flex-none border rounded-xl px-2 py-3 text-sm bg-gray-50 outline-none">
             <option value="">All Departments</option>
             <option value="CSE">CSE</option>
             <option value="CSIT">CSIT</option>
@@ -155,7 +155,7 @@ const ExploreProjects = () => {
           </select>
           
           <select value={selectedChoice}  onChange={(e) => setSelectedChoice(e.target.value)}
-            className="flex-1 min-w-27.5 lg:flex-none border rounded-xl px-2 py-1.5 text-sm bg-gray-50 outline-none">
+            className="flex-1 min-w-27.5 lg:flex-none border rounded-xl px-2 py-3 text-sm bg-gray-50 outline-none">
             <option value="">All Categories</option>
             <option value="AI/ML">AI/ML</option>
             <option value="Data Science">Data Science</option>
@@ -175,7 +175,7 @@ const ExploreProjects = () => {
           </select>          
 
           <select value={selectedYear}  onChange={(e) => setSelectedYear(e.target.value)}
-            className="flex-1 min-w-27.5 lg:flex-none border rounded-xl px-2 py-1.5 text-sm bg-gray-50 outline-none">
+            className="flex-1 min-w-27.5 lg:flex-none border rounded-xl px-2 py-3 text-sm bg-gray-50 outline-none">
             <option value="">All Years</option>
             <option value="2021">2021</option>
             <option value="2022">2022</option>
@@ -186,7 +186,7 @@ const ExploreProjects = () => {
             <option value="2027">2027</option>
           </select>
        
-          <div className="col-span-3 lg:col-span-1 flex items-center border rounded-xl px-3 py-2 bg-gray-50 w-full lg:w-90">
+          <div className="col-span-3 lg:col-span-1 flex items-center border rounded-xl px-3 py-3 bg-gray-50 w-full lg:w-90">
             <span className="text-primary ml-2">🔍</span>
             <input  type="text"  placeholder="Search projects, tech, student, id..."  value={search} onChange={(e) => setSearch(e.target.value)}
               className="w-full bg-transparent outline-none px-2"/>

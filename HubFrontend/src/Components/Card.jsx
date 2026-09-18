@@ -91,7 +91,7 @@ const Card = ({ project }) => {
 
   return (
     <div className="relative flex flex-col w-full h-full p-3 sm:p-4 rounded-2xl overflow-hidden bg-cover bg-center border border-tan/40 text-white" style={{ backgroundImage: `url(${bg})` }}>
-      <div className="absolute inset-0 bg-primary/55 rounded-xl"></div>
+      <div className="absolute inset-0 bg-primary/30 rounded-xl"></div>
 
       <div className="relative z-10">
         <h2 className="font-bold text-base sm:text-md truncate text-vanilla-custard" >{project.title}</h2>

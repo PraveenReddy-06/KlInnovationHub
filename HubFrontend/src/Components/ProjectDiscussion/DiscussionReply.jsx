@@ -1,5 +1,5 @@
 import { useEffect, useRef, useState } from "react";
-import { Heart, MoreVertical, Pencil, Trash2, Flag } from "lucide-react";
+import { Heart, MoreVertical, Pencil, Trash2, Flag, Reply } from "lucide-react";
 import toast from "react-hot-toast";
 import ReportModal from "./ReportModal";
 import {deleteReply,reportReply, toggleReplyLike, updateReply,} from "../../Api/discussionApi";
@@ -94,7 +94,11 @@ useEffect(() => {
         <div className="min-w-0 flex-1">
           <div className="flex items-center gap-2 text-xs">
             <span className="font-semibold text-slate-800">{reply.authorName}</span>
-            <span className="rounded-full bg-slate-100 px-2 py-0.5 text-[10px] text-slate-600">
+            <span
+              className={`rounded-full px-2 py-0.5 text-[10px] font-medium ${
+                reply.authorRole === "ROLE_REVIEWER" ? "bg-blue-700 text-white" : "bg-slate-100 text-slate-600"
+              }`}
+            >
               {roleLabel(reply.authorRole)}
             </span>
           </div>
