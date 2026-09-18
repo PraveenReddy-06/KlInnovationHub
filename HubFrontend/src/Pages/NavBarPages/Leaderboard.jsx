@@ -29,11 +29,11 @@ const Leaderboard = () => {
 
     const [topFaculty, setTopFaculty] = useState([]);
 
-    useEffect(() => {
+    {/*useEffect(() => {
         axiosInstance.get("/reviewer/review/top-three")
         .then((res) => setTopFaculty(res.data))
         .catch((err) => console.error(err));
-    }, []);
+    }, []);*/}
 
     useEffect(() => {
         const top = async () => {
@@ -82,36 +82,32 @@ const Leaderboard = () => {
                 const p = leaderboard[pos];
                 if (!p) return null;
                 return (
-<div key={index} className="text-center">
-  
-  {/* Medal image */}
-  <div
-    className="w-full min-h-60 bg-contain bg-no-repeat bg-center"
-    style={{ backgroundImage: `url(${medals[index]})` }}
-  />
+                    <div key={index} className="text-center">
+                    <div
+                        className="w-full min-h-60 bg-contain bg-no-repeat bg-center"
+                        style={{ backgroundImage: `url(${medals[index]})` }}
+                    />
+                    <div className="mt-2 text-sm">
+                        {p.type === "SOLO" ? (
+                        <>
+                            <h2 className="font-semibold text-xl">{p.studentName}</h2>
+                            <h2>{p.studentId}</h2>
+                        </>
+                        ) : (
+                        <>
+                            <h2 className="font-semibold text-lg">{p.teamLead}</h2>
+                            <h3 className="text-sm">
+                            {p.teamSize > 1 ? `Team of ${p.teamSize}` : "Team Lead"}
+                            </h3>
+                        </>
+                        )}
 
-  {/* Text below image */}
-  <div className="mt-2 text-sm">
-    {p.type === "SOLO" ? (
-      <>
-        <h2 className="font-semibold text-xl">{p.studentName}</h2>
-        <h2>{p.studentId}</h2>
-      </>
-    ) : (
-      <>
-        <h2 className="font-semibold text-lg">{p.teamLead}</h2>
-        <h3 className="text-sm">
-          {p.teamSize > 1 ? `Team of ${p.teamSize}` : "Team Lead"}
-        </h3>
-      </>
-    )}
+                        <h3 className="mt-1 w-full text-sm font-medium break-all overflow-hidden">
+                        {p.projectName}
+                        </h3>
+                    </div>
 
-    <h3 className="mt-1 w-full text-sm font-medium break-all overflow-hidden">
-      {p.projectName}
-    </h3>
-  </div>
-
-</div>
+                    </div>
                 );
             })}
         </div>

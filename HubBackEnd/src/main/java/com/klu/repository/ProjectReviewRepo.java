@@ -15,10 +15,16 @@ public interface ProjectReviewRepo extends JpaRepository<ProjectReview, Long> {
 	List<ProjectReview> findByReviewerOrderByReviewedAtDesc(Reviewer reviewer);
 	
 	@Query("""
-		    SELECT r.reviewer.user.name, COUNT(r.reviewId)
+		    SELECT r.reviewer.user.name,
+		           r.reviewer.department,
+		           r.reviewer.designation,
+		           COUNT(r.reviewId)
 		    FROM ProjectReview r
-		    GROUP BY r.reviewer.reviewerId, r.reviewer.user.name
+		    GROUP BY r.reviewer.reviewerId,
+		             r.reviewer.user.name,
+		             r.reviewer.department,
+		             r.reviewer.designation
 		    ORDER BY COUNT(r.reviewId) DESC
-		""")
+		    """)
 	List<Object[]> findTopFacultyReviewers(Pageable pageable);
 }

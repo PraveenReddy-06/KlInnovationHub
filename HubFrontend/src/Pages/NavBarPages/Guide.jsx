@@ -1,7 +1,29 @@
 import Navbar from "../../Components/Navbar";
+import { useEffect, useState } from "react";
 import PublicPlatformStats from "../../Components/PublicPlatformStats";
+import axios from "axios";
+import projectReviewFlow from '/ProjectReviewFlow.png';
 
 export default function Guide() {
+
+  const [topReviewers, setTopReviewers] = useState([]);
+  const [reviewersLoading, setReviewersLoading] = useState(true);
+
+  useEffect(() => {
+      const fetchTopReviewers = async () => {
+          try {
+              const response = await axios.get(`${import.meta.env.VITE_API_URL}/reviewer/review/top-three`);
+              setTopReviewers(response.data);
+          } catch (error) {
+              console.error("Failed to fetch top reviewers:", error);
+          } finally {
+              setReviewersLoading(false);
+          }
+      };
+      fetchTopReviewers();
+  }, []);
+
+
   const mistakes = [
     "Building random YouTube clone projects",
     "Using only the main branch",
@@ -22,11 +44,86 @@ export default function Guide() {
     "Deploy & Document"
   ];
 
+
   return (
     <div className="min-h-screen bg-primary">
       <Navbar />
 
-      {/* HERO */}
+      <PublicPlatformStats />
+      <section className="p-15 bg-cream">
+        <div className="mb-5">
+            <h2 className="text-2xl font-bold text-gray-800">
+                Top Faculty Reviewers
+            </h2>
+
+            <p className="mt-1 text-sm text-slate-600">
+                Faculty members who have reviewed the most student projects.
+            </p>
+        </div>
+        <div className="overflow-hidden rounded-2xl border border-bloodstone bg-white shadow-sm">
+          {reviewersLoading ? (
+              <div className="px-6 py-8 text-center text-sm text-slate-500">
+                  Loading reviewer statistics...
+              </div>
+          ) : topReviewers.length === 0 ? (
+              <div className="px-6 py-8 text-center text-sm text-slate-500">
+                  No reviewer activity available yet.
+              </div>
+          ) : (
+          <div className="overflow-x-auto">
+            <table className="w-full">
+              <thead className="border-b border-bloodstone bg-slate-50">
+                <tr>
+                    <th className="px-6 py-4 text-left text-xs font-semibold uppercase tracking-wider text-slate-500">
+                        Rank
+                    </th>
+                    <th className="px-6 py-4 text-left text-xs font-semibold uppercase tracking-wider text-slate-500">
+                        Faculty Reviewer
+                    </th>
+                    <th className="px-6 py-4 text-left text-xs font-semibold uppercase tracking-wider text-slate-500">
+                      Department
+                    </th>
+                    <th className="px-6 py-4 text-left text-xs font-semibold uppercase tracking-wider text-slate-500">
+                      Designation
+                    </th>
+                    <th className="px-6 py-4 text-right text-xs font-semibold uppercase tracking-wider text-slate-500">
+                        Projects Reviewed
+                    </th>
+                </tr>
+              </thead>
+              <tbody className="divide-y divide-slate-100">
+                {topReviewers.map((reviewer, index) => (
+                    <tr  key={`${reviewer[0]}-${index}`}  className="transition-colors font-semibold hover:bg-slate-50">
+                        <td className="px-6 py-4">
+                            <span className="font-bold text-slate-700">
+                              {index + 1}
+                            </span>
+                        </td>
+                        <td className="px-6 py-4">
+                            <span className=" font-bold text-slate-900">
+                                {reviewer[0]}
+                            </span>
+                        </td>
+                        <td className="px-6 py-4 text-sm text-slate-900">
+                            {reviewer[1] || "—"}
+                        </td>
+                        <td className="px-6 py-4 text-sm text-slate-900">
+                          {reviewer[2] || "—"}
+                        </td>
+                        <td className="px-6 py-4 text-right">
+                          <span className="font-semibold text-slate-900">
+                              {reviewer[3]}
+                          </span>
+                        </td>
+                    </tr>
+                ))}
+              </tbody>
+              </table>
+            </div>
+            )}
+        </div>
+      </section>
+
       <section className="relative py-16 md:py-24 px-4 sm:px-6 overflow-hidden">
         <div className="max-w-7xl mx-auto text-center">
 
@@ -38,14 +135,67 @@ export default function Guide() {
           </h1>
 
           <p className="mt-8 text-base md:text-lg text-misty-sage max-w-3xl mx-auto leading-relaxed">
-            A roadmap for CSE, CSIT and ECE students to choose the right
+            A roadmap for CSE, CSIT, ECE and AIDS students to choose the right
             projects, collaborate effectively, use GitHub professionally,
             deploy applications and build a portfolio that stands out.
           </p>
         </div>
       </section>
 
-      <PublicPlatformStats />
+      <section className="mt-5">
+        <div className="mb-8 text-center">
+          <span className="inline-flex rounded-full border border-slate-200 bg-tan px-4 py-1.5 text-xs font-semibold uppercase tracking-[0.2em] text-bloodstone">
+            Platform Workflows
+          </span>
+          <h2 className="mt-4 text-3xl font-bold tracking-tight text-white sm:text-4xl">
+            From Ideas to Impact
+          </h2>
+          <p className="mx-auto mt-3 max-w-2xl text-sm leading-6 text-slate-500 sm:text-base">
+            Understand how projects move through faculty review and how students collaborate to turn ideas into completed projects.
+          </p>
+        </div>
+
+        <div className="grid grid-cols-1 px-10 gap-8 lg:grid-cols-2">
+          
+          <div className="group overflow-hidden rounded-3xl border border-gray-300 shadow-[0_20px_60px_-30px_rgba(15,23,42,0.3)] transition duration-300 hover:-translate-y-1 hover:shadow-[0_25px_70px_-30px_rgba(15,23,42,0.4)]">
+            <div className="border-b px-6 py-5">
+              <div className="flex items-center gap-3">
+                <div>
+                  <h3 className="text-lg font-bold text-tan">Collaboration Workflow</h3>
+                  <p className="text-xs text-slate-300">From idea to completed project</p>
+                </div>
+              </div>
+            </div>
+            <div className="flex justify-center p-4 sm:p-6">
+              <img
+                src="/ProjectReviewFlow.png"
+                alt="KL Innovation Hub collaboration workflow"
+                className="h-auto w-full max-w-140 rounded-2xl object-contain"
+              />
+            </div>
+          </div>
+
+          <div className="group overflow-hidden rounded-3xl border border-slate-200 shadow-[0_20px_60px_-30px_rgba(15,23,42,0.3)] transition duration-300 hover:-translate-y-1 hover:shadow-[0_25px_70px_-30px_rgba(15,23,42,0.4)]">
+            <div className="border-b px-6 py-5">
+              <div className="flex items-center gap-3">
+                <div>
+                  <h3 className="text-lg font-bold text-tan">Project Review Workflow</h3>
+                  <p className="text-xs text-slate-300">From submission to visibility</p>
+                </div>
+              </div>
+            </div>
+
+            <div className="flex justify-center p-4 sm:p-6">
+              <img
+                src="/CollaborationFlow.png"
+                alt="KL Innovation Hub project review workflow"
+                className="h-auto w-full max-w-140 rounded-2xl object-contain"
+              />
+            </div>
+          </div>
+        </div>
+      </section>
+
 
       {/* COMMON MISTAKES */}
       <section className="max-w-7xl mx-auto px-6 py-20">
