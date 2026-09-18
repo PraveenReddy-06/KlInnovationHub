@@ -1,4 +1,5 @@
 import Navbar from "../../Components/Navbar";
+import PublicPlatformStats from "../../Components/PublicPlatformStats";
 
 export default function Guide() {
   const mistakes = [
@@ -43,6 +44,8 @@ export default function Guide() {
           </p>
         </div>
       </section>
+
+      <PublicPlatformStats />
 
       {/* COMMON MISTAKES */}
       <section className="max-w-7xl mx-auto px-6 py-20">
