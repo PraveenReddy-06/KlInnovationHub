@@ -18,9 +18,6 @@ public class PublicAnalyticsDto {
     private long groupProjects;
 
     private long approvedProjects;
-    private long pendingProjects;
-    private long rejectedProjects;
-
     private long activeReviewers;
 
     private long totalProjectLikes;

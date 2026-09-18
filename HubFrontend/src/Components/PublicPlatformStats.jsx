@@ -46,12 +46,6 @@ export default function PublicPlatformStats() {
     ["Project Likes", analytics.totalProjectLikes, Heart],
   ];
 
-  const statuses = [
-    ["Approved", analytics.approvedProjects, CheckCircle2],
-    ["Pending Review", analytics.pendingProjects, Clock3],
-    ["Rejected", analytics.rejectedProjects, XCircle],
-  ];
-
   return (
     <section className="border-b border-accent/20 bg-secondary/40">
       <div className="max-w-7xl mx-auto px-6 py-14">
@@ -84,22 +78,7 @@ export default function PublicPlatformStats() {
           ))}
         </div>
 
-        <div className="mt-6 grid lg:grid-cols-2 gap-6">
-          <div className="rounded-3xl border border-accent/20 bg-secondary p-6">
-            <h3 className="text-xl font-bold text-vanilla-custard">Project Status</h3>
-            <div className="mt-5 grid grid-cols-3 gap-3">
-              {statuses.map(([label, value, Icon]) => (
-                <div key={label} className="rounded-2xl border border-accent/20 bg-primary/50 p-4">
-                  <Icon size={18} className="text-sky" />
-                  <p className="mt-3 text-xs text-misty-sage">{label}</p>
-                  <p className="mt-1 text-2xl font-black text-cream">
-                    {Number(value).toLocaleString("en-IN")}
-                  </p>
-                </div>
-              ))}
-            </div>
-          </div>
-
+        <div className="mt-6">
           <div className="rounded-3xl border border-accent/20 bg-secondary p-6">
             <h3 className="text-xl font-bold text-vanilla-custard">Project Type</h3>
             <div className="mt-5 grid grid-cols-2 gap-3">

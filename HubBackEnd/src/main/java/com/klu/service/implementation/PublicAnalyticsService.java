@@ -43,11 +43,6 @@ public class PublicAnalyticsService {
         long approvedSolo = projectRepo.countByStatus(ProjectStatus.APPROVED);
         long approvedGroup = groupProjectRepo.countByStatus(ProjectStatus.APPROVED);
 
-        long pendingSolo = projectRepo.countByStatus(ProjectStatus.PENDING_REVIEW);
-        long pendingGroup = groupProjectRepo.countByStatus(ProjectStatus.PENDING_REVIEW);
-
-        long rejectedSolo = projectRepo.countByStatus(ProjectStatus.REJECTED);
-        long rejectedGroup = groupProjectRepo.countByStatus(ProjectStatus.REJECTED);
 
         return new PublicAnalyticsDto(
                 studentRepo.count(),
@@ -55,8 +50,6 @@ public class PublicAnalyticsService {
                 soloProjects,
                 groupProjects,
                 approvedSolo + approvedGroup,
-                pendingSolo + pendingGroup,
-                rejectedSolo + rejectedGroup,
                 reviewerRepo.count(),
                 projectLikesRepo.count() + groupProjectLikesRepo.count(),
                 buildDomainCounts()
