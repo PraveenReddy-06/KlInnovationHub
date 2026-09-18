@@ -1,10 +1,10 @@
 import { memo, useState, useEffect } from 'react';
 import Navbar from '../../Components/Navbar';
 import background from '../../Images/Leaderboard.png'
-import gold from '../../Images/Gold.png'
-import silver from '../../Images/Silver.png'
-import bronze from '../../Images/Bronze.png'
-import axiosInstance from "../../Api/axiosInstance"
+import gold from '../../Images/goldimg.jpg';
+import silver from '../../Images/silverimg.jpg';
+import bronze from '../../Images/bronzeimg.jpg';
+import axiosInstance from "../../Api/axiosInstance";
 import { useNavigate } from "react-router-dom";
 import DashboardFooter from "../../Components/DashboardFooter";
 import toast, { Toaster } from "react-hot-toast";
@@ -82,40 +82,50 @@ const Leaderboard = () => {
                 const p = leaderboard[pos];
                 if (!p) return null;
                 return (
-                    <div key={index}
-                        className="flex flex-col justify-center w-full pt-6 pb-4 px-4 bg-contain bg-no-repeat bg-center min-h-52 text-sm rounded-xl text-center"
-                        style={{ backgroundImage: `url(${medals[index]})` }}>
+<div key={index} className="text-center">
+  
+  {/* Medal image */}
+  <div
+    className="w-full min-h-60 bg-contain bg-no-repeat bg-center"
+    style={{ backgroundImage: `url(${medals[index]})` }}
+  />
 
-                    {p.type === "SOLO" ? (
-                        <>
-                            <h2 className="font-semibold text-xl">{p.studentName}</h2>
-                            <h2>{p.studentId}</h2>
-                            <h2>from {p.branch}</h2>
-                        </>
-                    ):(
-                        <>
-                            <h2 className="font-semibold text-lg">{p.teamLead}</h2>
-                            <h3 className="text-sm">{p.teamSize > 1? `Team of ${p.teamSize}`: "Team Lead"}</h3>
-                        </>
-                    )}
-                        <span className="font-medium">⭐ {p.likeCount} Likes</span>
-                        <h3 className="mt-1 w-full max-w-full text-sm font-medium break-all overflow-hidden">{p.projectName}</h3>
-                    </div>
+  {/* Text below image */}
+  <div className="mt-2 text-sm">
+    {p.type === "SOLO" ? (
+      <>
+        <h2 className="font-semibold text-xl">{p.studentName}</h2>
+        <h2>{p.studentId}</h2>
+      </>
+    ) : (
+      <>
+        <h2 className="font-semibold text-lg">{p.teamLead}</h2>
+        <h3 className="text-sm">
+          {p.teamSize > 1 ? `Team of ${p.teamSize}` : "Team Lead"}
+        </h3>
+      </>
+    )}
+
+    <h3 className="mt-1 w-full text-sm font-medium break-all overflow-hidden">
+      {p.projectName}
+    </h3>
+  </div>
+
+</div>
                 );
             })}
         </div>
       </div>
 
-        <div className="px-4 sm:px-6 lg:px-15 mt-12 pb-10">
+{/*        <div className="px-4 sm:px-6 lg:px-15 mt-12 pb-10">
             <h2 className="text-xl sm:text-2xl font-bold mb-6">
                 Our Top Faculty Reviewers
             </h2>
 
             <div className="grid grid-cols-1 md:grid-cols-3 gap-6 lg:gap-10 items-end">
 
-                {/* 2nd */}
                 {topFaculty[1] && (
-                    <div className="md:order-1 flex flex-col justify-center min-h-15 px-6 py-5 rounded-xl text-center border shadow-md bg-slate-100 border-slate-400">
+                    <div className="md:order-1 flex flex-col justify-center min-h-15 rounded-xl text-center border shadow-md bg-slate-100 border-slate-400">
                         <p className="text-2xl font-bold">🥈 #2</p>
                         <h3 className="text-lg sm:text-xl font-bold mt-2 text-black">
                             {topFaculty[1][0]}
@@ -126,10 +136,9 @@ const Leaderboard = () => {
                     </div>
                 )}
 
-                {/* 1st */}
                 {topFaculty[0] && (
-                    <div className="md:order-2 flex flex-col justify-center min-h-20 px-6 py-6 rounded-xl text-center border-2 shadow-lg bg-yellow-100 border-yellow-500">
-                        <p className="text-3xl font-bold">🏆 #1</p>
+                    <div className="md:order-2 flex flex-col justify-center min-h-10 px-3 py-3 rounded-xl text-center border-2 shadow-lg bg-linear-to-b from-amber-300 to-amber-600 border-yellow-500">
+                        <p className="text-3xl font-bold">🏆 1</p>
                         <h3 className="text-xl sm:text-2xl font-bold mt-2 text-black">
                             {topFaculty[0][0]}
                         </h3>
@@ -139,7 +148,6 @@ const Leaderboard = () => {
                     </div>
                 )}
 
-                {/* 3rd */}
                 {topFaculty[2] && (
                     <div className="md:order-3 flex flex-col justify-center min-h-15 px-6 py-5 rounded-xl text-center border shadow-md bg-orange-100 border-orange-400">
                         <p className="text-2xl font-bold">🥉 #3</p>
@@ -154,6 +162,7 @@ const Leaderboard = () => {
 
             </div>
         </div>
+*/}
 
 <div className="px-4 sm:px-6 lg:px-15 pb-10">
     <h2 className="text-xl sm:text-2xl font-bold mb-6">
