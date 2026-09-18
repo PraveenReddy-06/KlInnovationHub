@@ -75,7 +75,7 @@ function App() {
           <Route path="/solution" element={<Solution />} />
           <Route path="/footer" element={<Footer />} />
           <Route path="/dashboardFooter" element={<DashboardFooter />} />
-          <Route path="/guide" element={<ProtectedRoute><Guide /></ProtectedRoute>} />
+          <Route path="/guide" element={<Guide />} />
           <Route path="/admin/login"element={<AdminLogin />}/>
           <Route path="/admin/dashboard" element={<AdminProtectedRoute><AdminDashboard /></AdminProtectedRoute>}/>
         </Routes>

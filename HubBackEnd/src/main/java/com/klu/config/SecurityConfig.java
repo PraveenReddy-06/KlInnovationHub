@@ -37,7 +37,8 @@ public class SecurityConfig {
                         		"/reviewer/resetPassword",
                         		"/discussions/counts",
                         		"/admin/login",
-                        		"/reviewer/review/top-three").permitAll()
+                        		"/reviewer/review/top-three",
+                        		"/public/analytics").permitAll()
                         .requestMatchers("/admin/reviewers/**","/admin/reports/**").hasRole("ADMIN")
                         .requestMatchers(
                         		"/reviewer/projects/pending/**", 

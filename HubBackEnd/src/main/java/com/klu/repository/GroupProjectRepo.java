@@ -14,36 +14,53 @@ import com.klu.model.ProjectStatus;
 @Repository
 public interface GroupProjectRepo extends JpaRepository<GroupProject,Integer>{
 
-	List<GroupProject> findTop5ByOrderByGroupProjectIdDesc();
-	List<GroupProject> findByTeamLead_Year(Integer year);
-	List<GroupProject> findByTeamLead_Branch(String branch);
-	List<GroupProject> findByTeamLead_BranchAndTeamLead_Year(String branch, Integer year);
-	List<GroupProject> findByTeamLead_StudentId(Long id);
-	List<GroupProject> findByStatus(ProjectStatus status);
-	List<GroupProject> findTop5ByStatusOrderByGroupProjectIdDesc(ProjectStatus status);
-	List<GroupProject> findByStatusAndTeamLead_Year(ProjectStatus status, Integer year);
-	List<GroupProject> findByStatusAndTeamLead_Branch(ProjectStatus status, String branch);
-	List<GroupProject> findByStatusAndTeamLead_BranchAndTeamLead_Year(ProjectStatus status, String branch, Integer year);
-	List<GroupProject> findByStatusAndChoice(ProjectStatus status, String choice);
-	@Query("""
-		    select distinct p
-		    from GroupProject p
-		    left join p.studentList s
-		    where p.status = :status
-		      and (
-		          p.teamLead.studentId in :studentIds
-		          or s.studentId in :studentIds
-		      )
-		    order by p.groupProjectId desc
-		""")
-		List<GroupProject> findApprovedGroupProjectsByStudentIds(
-		        @Param("status") ProjectStatus status,
-		        @Param("studentIds") List<Long> studentIds);
+    List<GroupProject> findTop5ByOrderByGroupProjectIdDesc();
 
-	@Modifying
-	@Query("update GroupProject p set p.status = :newStatus where p.groupProjectId = :groupProjectId and p.status = :expectedStatus")
-	int updateStatusIfPending(@Param("groupProjectId") Integer groupProjectId,
-			@Param("newStatus") ProjectStatus newStatus,
-			@Param("expectedStatus") ProjectStatus expectedStatus);
+    List<GroupProject> findByTeamLead_Year(Integer year);
 
+    List<GroupProject> findByTeamLead_Branch(String branch);
+
+    List<GroupProject> findByTeamLead_BranchAndTeamLead_Year(String branch, Integer year);
+
+    List<GroupProject> findByTeamLead_StudentId(Long id);
+
+    List<GroupProject> findByStatus(ProjectStatus status);
+
+    List<GroupProject> findTop5ByStatusOrderByGroupProjectIdDesc(ProjectStatus status);
+
+    List<GroupProject> findByStatusAndTeamLead_Year(ProjectStatus status, Integer year);
+
+    List<GroupProject> findByStatusAndTeamLead_Branch(ProjectStatus status, String branch);
+
+    List<GroupProject> findByStatusAndTeamLead_BranchAndTeamLead_Year(
+            ProjectStatus status, String branch, Integer year);
+
+    List<GroupProject> findByStatusAndChoice(ProjectStatus status, String choice);
+
+    @Query("""
+            select distinct p
+            from GroupProject p
+            left join p.studentList s
+            where p.status = :status
+              and (
+                  p.teamLead.studentId in :studentIds
+                  or s.studentId in :studentIds
+              )
+            order by p.groupProjectId desc
+            """)
+    List<GroupProject> findApprovedGroupProjectsByStudentIds(
+            @Param("status") ProjectStatus status,
+            @Param("studentIds") List<Long> studentIds);
+
+
+    long countByStatus(ProjectStatus status);
+
+    @Query("select p.choice, count(p) from GroupProject p where p.status = com.klu.model.ProjectStatus.APPROVED group by p.choice order by count(p) desc")
+    List<Object[]> countApprovedByChoice();
+
+    @Modifying
+    @Query("update GroupProject p set p.status = :newStatus where p.groupProjectId = :groupProjectId and p.status = :expectedStatus")
+    int updateStatusIfPending(@Param("groupProjectId") Integer groupProjectId,
+            @Param("newStatus") ProjectStatus newStatus,
+            @Param("expectedStatus") ProjectStatus expectedStatus);
 }
