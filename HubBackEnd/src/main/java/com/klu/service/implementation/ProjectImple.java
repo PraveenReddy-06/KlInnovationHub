@@ -63,4 +63,14 @@ public class ProjectImple implements com.klu.service.ProjectService {
 		projectRepo.delete(p);
 		return "Project Deleted Sucessfully";
 	}
+	
+	@Override
+	public List<Project> getMyPendingProjects() {
+	    Long studentId = currentUser.getCurrentStudent().getStudentId();
+
+	    return projectRepo.findByStudentStudentId(studentId)
+	            .stream()
+	            .filter(project -> project.getStatus() == ProjectStatus.PENDING_REVIEW)
+	            .collect(Collectors.toList());
+	}
 }

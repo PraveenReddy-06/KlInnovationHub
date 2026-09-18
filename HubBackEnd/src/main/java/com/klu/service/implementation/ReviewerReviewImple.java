@@ -7,6 +7,7 @@ import java.util.concurrent.ScheduledExecutorService;
 import java.util.concurrent.TimeUnit;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.mail.SimpleMailMessage;
 import org.springframework.mail.javamail.JavaMailSender;
@@ -58,6 +59,8 @@ public class ReviewerReviewImple implements ReviewerReviewService {
                 thread.setDaemon(true);
                 return thread;
             });
+    @Value("${spring.mail.username}")
+    private String mailUsername;
 
     @PostConstruct
     public void startRejectedProjectCleanup() {
@@ -187,8 +190,9 @@ public class ReviewerReviewImple implements ReviewerReviewService {
     }
 
     private void sendRejectionEmail(Student student, String projectName, String feedback) {
-        SimpleMailMessage message = new SimpleMailMessage();
-        message.setTo(student.getStudentEmail());
+    	SimpleMailMessage message = new SimpleMailMessage();
+    	message.setFrom(mailUsername);
+    	message.setTo(student.getStudentEmail());
         message.setSubject("Project Review Update • KL Innovation Hub");
         message.setText(
                 "Hello " + student.getStudent_name() + ",\n\n" +

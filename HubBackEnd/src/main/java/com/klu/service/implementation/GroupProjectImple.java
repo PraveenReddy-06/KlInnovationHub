@@ -65,4 +65,13 @@ public class GroupProjectImple implements GroupProjectService{
 		groupProjectRepo.delete(p);
 		return "Project Deleted Sucessfully";
 	}
+	
+	@Override
+	public List<GroupProject> getMyPendingProjects() {
+	    Long studentId = currentUser.getCurrentStudent().getStudentId();
+	    return groupProjectRepo.findByTeamLead_StudentId(studentId)
+	            .stream()
+	            .filter(project -> project.getStatus() == ProjectStatus.PENDING_REVIEW)
+	            .collect(Collectors.toList());
+	}
 }
