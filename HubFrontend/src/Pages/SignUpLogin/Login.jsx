@@ -75,22 +75,22 @@ const Login = () => {
       />
       <div className="relative z-10 flex min-h-screen items-center justify-start px-6 lg:px-16">
         <div className="w-full max-w-md ml-0 lg:ml-40 bg-primary/90 backdrop-blur-xl border border-white/20 rounded-3xl p-6 sm:p-8 shadow-2xl">
-          <div className="flex p-1 rounded-xl bg-black/30 border border-tan/30 mb-8">
+          <div className="flex p-1 gap-1 rounded-xl bg-black/30  mb-8">
             <button type="button" onClick={() => handleTypeChange("student")}
-              className={`flex-1 py-2.5 rounded-lg font-semibold text-sm transition-all duration-300 ${
+              className={`flex-1 py-2.5 rounded-lg font-semibold text-sm transition-all duration-300 cursor-pointer px-2 ${
                 isStudent
                   ? "bg-tan text-primary shadow-md"
-                  : "text-tan/60 hover:text-tan"
+                  : " bg-cream/30 text-gray-900 hover:text-black"
               }`}
             >
               Student
             </button>
 
             <button type="button" onClick={() => handleTypeChange("teacher")}
-              className={`flex-1 py-2.5 rounded-lg font-semibold text-sm transition-all duration-300 ${
+              className={`flex-1 py-2.5 rounded-lg font-semibold text-sm transition-all duration-300 cursor-pointer px-2 ${
                 !isStudent
                   ? "bg-tan text-primary shadow-md"
-                  : "text-tan hover:text-tan"
+                  : "bg-cream/30 text-gray-900 hover:text-black"
               }`}
             >
               Faculty
@@ -146,9 +146,9 @@ const Login = () => {
           </div>
           <div className="mt-6 pt-5 border-t border-white/20 text-center">
             <button type="button" onClick={() => handleTypeChange(isStudent ? "teacher" : "student")}
-              className="text-accent text-sm font-semibold hover:text-tan transition"
+              className="text-gray-300 text-sm font-semibold hover:text-tan transition"
             >
-              {isStudent  ? "Are you Faculty? Login here"  : "Are you a Student? Login here"}
+              {isStudent  ? "Are you a Faculty? Login here"  : "Are you a Student? Login here"}
             </button>
           </div>
         </div>

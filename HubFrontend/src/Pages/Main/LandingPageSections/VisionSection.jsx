@@ -60,7 +60,7 @@ const VisionSection = () => {
       <NetworkNode title="Faculty" aos="fade-up" delay="600" className="absolute bottom-0 left-1/2 -translate-x-1/2" />
       <NetworkNode title="Projects" aos="fade-right" delay="700" className="absolute left-0 top-1/2 -translate-y-1/2" />
       <NetworkNode title="Teams" aos="fade-left" delay="800" className="absolute right-0 top-1/2 -translate-y-1/2" />
-      <NetworkNode title="Research" aos="fade-right" delay="900" className="absolute top-20 left-32" />
+      <NetworkNode title="Discussions" aos="fade-right" delay="900" className="absolute top-20 left-32" />
       <NetworkNode title="Innovation" aos="fade-left" delay="1000" className="absolute top-20 right-32" />
 
       <svg className="absolute inset-0 w-full h-full" viewBox="0 0 1000 600">

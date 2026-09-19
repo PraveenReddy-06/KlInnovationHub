@@ -103,7 +103,7 @@ export default function Footer() {
             </h3>
             <div className="flex justify-center sm:justify-start gap-5 text-xl sm:text-2xl text-sky">
               <a
-                  href="https://www.linkedin.com/in/kl-innovation-hub-343322419/"
+                  href="https://www.linkedin.com/in/praveen-maramreddy/"
                   target="_blank" rel="noopener noreferrer"
                   className="hover:text-accent transition duration-300 hover:scale-110" aria-label="LinkedIn"
                 >

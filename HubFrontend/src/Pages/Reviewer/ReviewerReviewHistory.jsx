@@ -49,111 +49,106 @@ const ReviewerReviewHistory = () => {
 
       <main className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-5 sm:py-8">
 
-    <div
-      className="relative h-52 sm:h-64 lg:h-72 rounded-2xl lg:rounded-[35px] overflow-hidden shadow-2xl bg-cover bg-center"
-      style={{ backgroundImage: "url('/KlProfile.png')" }}
-    >
-      <div className="absolute inset-0 bg-black/20" />
+      <div className="relative h-52 sm:h-64 lg:h-72 rounded-2xl lg:rounded-[35px] overflow-hidden shadow-2xl bg-cover bg-center"
+        style={{ backgroundImage: "url('/KlProfile.png')" }}>
+        <div className="absolute inset-0 bg-black/20" />
 
-      <div className="absolute bottom-6 left-6 sm:left-8 lg:left-10 text-white">
-        <p className="uppercase tracking-[4px] text-xs sm:text-sm opacity-80">
-          KL Innovation Hub
-        </p>
+        <div className="absolute bottom-6 left-6 sm:left-8 lg:left-10 text-white">
+          <p className="uppercase tracking-[4px] text-xs sm:text-sm opacity-80">
+            KL Innovation Hub
+          </p>
+        </div>
       </div>
-    </div>
 
-    <div className="relative -mt-16 sm:-mt-20 z-20">
-      <div className="backdrop-blur-2xl bg-white/10 rounded-2xl lg:rounded-[30px] p-5 sm:p-7 lg:p-8 shadow-[0_20px_80px_rgba(0,0,0,.35)]">
-        <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-6">
-          <div className=" text-white">
-            <p className="text-xs sm:text-sm uppercase tracking-[4px] text-slate-300">
-              Faculty Reviewer
-            </p>
-            <h1 className="text-2xl sm:text-3xl lg:text-4xl font-bold mt-2">
-              {reviewer?.name || "Reviewer"}
-            </h1>
-            <div className="mb-5 flex flex-col sm:flex-row flex-wrap gap-3 sm:gap-5 mt-3 text-sm text-slate-300">
-              {reviewer?.email && (
-                <span className="flex items-center gap-2">
-                  <Mail size={15} />
-                  {reviewer.email}
-                </span>
-              )}
+      <div className="relative -mt-16 sm:-mt-20 z-20">
+        <div className="backdrop-blur-2xl bg-white/10 rounded-2xl lg:rounded-[30px] p-5 sm:p-7 lg:p-8 shadow-[0_20px_80px_rgba(0,0,0,.35)]">
+          <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-6">
+            <div className=" text-white">
+              <p className="text-xs sm:text-sm uppercase tracking-[4px] text-slate-300">
+                Faculty Reviewer
+              </p>
+              <h1 className="text-2xl sm:text-3xl lg:text-4xl font-bold mt-2">
+                {reviewer?.name || "Reviewer"}
+              </h1>
+              <div className="mb-5 flex flex-col sm:flex-row flex-wrap gap-3 sm:gap-5 mt-3 text-sm text-slate-300">
+                {reviewer?.email && (
+                  <span className="flex items-center gap-2">
+                    <Mail size={15} />
+                    {reviewer.email}
+                  </span>
+                )}
 
-              {reviewer?.department && (
-                <span className="flex items-center gap-2">
-                  <Building2 size={15} />
-                  {reviewer.department}
-                </span>
-              )}
+                {reviewer?.department && (
+                  <span className="flex items-center gap-2">
+                    <Building2 size={15} />
+                    {reviewer.department}
+                  </span>
+                )}
 
-              {reviewer?.designation && (
-                <span className="flex items-center gap-2">
-                  <BriefcaseBusiness size={15} />
-                  {reviewer.designation}
-                </span>
-              )}
+                {reviewer?.designation && (
+                  <span className="flex items-center gap-2">
+                    <BriefcaseBusiness size={15} />
+                    {reviewer.designation}
+                  </span>
+                )}
 
+              </div>
+                {reviewer?.choice1 && (
+                  <span className="bg-cyan-500/20 text-cyan-300 px-4 py-2 rounded-full">
+                    {reviewer.choice1}
+                  </span>
+                )}
+
+                {reviewer?.choice2 && (
+                  <span className="bg-purple-500/20 text-purple-300 px-4 py-2 rounded-full">
+                    {reviewer.choice2}
+                  </span>
+                )}
+
+                {reviewer?.choice3 && (
+                  <span className="bg-white/10 text-white px-4 py-2 rounded-full">
+                    {reviewer.choice3}
+                  </span>
+                )}
             </div>
-              {reviewer?.choice1 && (
-                <span className="bg-cyan-500/20 text-cyan-300 px-4 py-2 rounded-full">
-                  {reviewer.choice1}
-                </span>
-              )}
-
-              {reviewer?.choice2 && (
-                <span className="bg-purple-500/20 text-purple-300 px-4 py-2 rounded-full">
-                  {reviewer.choice2}
-                </span>
-              )}
-
-              {reviewer?.choice3 && (
-                <span className="bg-white/10 text-white px-4 py-2 rounded-full">
-                  {reviewer.choice3}
-                </span>
-              )}
           </div>
         </div>
       </div>
-    </div>
 
-        {/* REVIEW ACTIVITY HEADER */}
-        <div className="mt-10 sm:mb-7 text-gray-300">
-          <p className="text-md text-gray-200">Reviewer Activity</p>
-          <h2 className="text-xl sm:text-3xl font-bold mt-1">My Review History</h2>
-          <p className="text-sm sm:text-base text-gray-500 mt-2">View your previous project decisions and feedback.</p>
+      <div className="mt-10 sm:mb-7 text-gray-300">
+        <p className="text-md text-gray-200">Reviewer Activity</p>
+        <h2 className="text-xl sm:text-3xl font-bold mt-1">My Review History</h2>
+        <p className="text-sm sm:text-base text-gray-500 mt-2">View your previous project decisions and feedback.</p>
+      </div>
+
+      <div className="grid grid-cols-1 sm:grid-cols-3 gap-5 mb-8">
+        <StatCard icon={<Clock3 size={26} />} label="Total Reviews" value={reviews.length} />
+        <StatCard icon={<CheckCircle2 size={26} />} label="Approved" value={approvedCount} />
+        <StatCard icon={<XCircle size={26} />} label="Rejected" value={rejectedCount} />
+      </div>
+
+      <span className="text-md text-gray-200">Filter Reviewed Projects</span>
+      <div className="flex flex-wrap gap-3 mt-3 mb-8">
+        <FilterButton active={filter === "ALL"} onClick={() => setFilter("ALL")}>All Reviews</FilterButton>
+        <FilterButton active={filter === "APPROVED"} onClick={() => setFilter("APPROVED")}>Approved</FilterButton>
+        <FilterButton active={filter === "REJECTED"} onClick={() => setFilter("REJECTED")}>Rejected</FilterButton>
+      </div>
+
+      {loading ? (
+        <LoadingState />
+      ) : filteredReviews.length === 0 ? (
+        <EmptyState filter={filter} />
+      ) : (
+        <div className="space-y-5">
+          {filteredReviews.map((review) => (
+            <ReviewCard key={review.reviewId} review={review} />
+          ))}
         </div>
-
-        {/* STATISTICS */}
-        <div className="grid grid-cols-1 sm:grid-cols-3 gap-5 mb-8">
-          <StatCard icon={<Clock3 size={26} />} label="Total Reviews" value={reviews.length} />
-          <StatCard icon={<CheckCircle2 size={26} />} label="Approved" value={approvedCount} />
-          <StatCard icon={<XCircle size={26} />} label="Rejected" value={rejectedCount} />
-        </div>
-
-        {/* FILTERS */}
-        <div className="flex flex-wrap gap-3 mb-8">
-          <FilterButton active={filter === "ALL"} onClick={() => setFilter("ALL")}>All Reviews</FilterButton>
-          <FilterButton active={filter === "APPROVED"} onClick={() => setFilter("APPROVED")}>Approved</FilterButton>
-          <FilterButton active={filter === "REJECTED"} onClick={() => setFilter("REJECTED")}>Rejected</FilterButton>
-        </div>
-
-        {/* REVIEW HISTORY */}
-        {loading ? (
-          <LoadingState />
-        ) : filteredReviews.length === 0 ? (
-          <EmptyState filter={filter} />
-        ) : (
-          <div className="space-y-5">
-            {filteredReviews.map((review) => (
-              <ReviewCard key={review.reviewId} review={review} />
-            ))}
-          </div>
-        )}
+      )}
       </main>
     </div>
-  );
-};
+    );
+  };
 
 const StatCard = ({ icon, label, value }) => (
   <div className="rounded-2xl border border-gray-800 bg-cyan-400 p-4 sm:p-6">
@@ -166,7 +161,7 @@ const StatCard = ({ icon, label, value }) => (
 const FilterButton = ({ active, onClick, children }) => (
   <button
     onClick={onClick}
-    className={`px-3 sm:px-4 py-1.5 sm:py-2 text-sm sm:text-base cursor-pointer rounded-lg transition ${active ? "bg-bloodstone text-white border border-gray-500" : "bg-bloodstone/70 border border-gray-500 text-white hover:cream"}`}
+    className={`px-3 sm:px-4 py-1.5 sm:py-2 text-sm sm:text-base cursor-pointer rounded-lg transition ${active ? "bg-violet-700 text-white border border-gray-500" : "bg-violet-700/25 border border-gray-500 text-gray-400 hover:cream"}`}
   >
     {children}
   </button>

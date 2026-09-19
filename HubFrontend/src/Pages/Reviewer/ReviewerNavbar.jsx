@@ -51,6 +51,11 @@ const ReviewerNavbar = () => {
             Leaderboard
             </NavLink>
         </li>
+        <li>
+            <NavLink to="/guide" className={({ isActive }) => `relative transition-colors duration-200 hover:text-light-blue after:absolute after:-bottom-2 after:left-0 after:h-0.5 after:bg-light-blue after:transition-all after:duration-300 ${isActive ? "text-light-blue after:w-full" : "after:w-0"}`}>
+            About
+            </NavLink>
+        </li>
        </ul>
 
       <div className="hidden lg:flex items-center gap-4">

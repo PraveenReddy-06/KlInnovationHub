@@ -132,7 +132,7 @@ const TeacherSignup = () => {
             </div>
 
             <div>
-              <p className="text-sm font-bold text-primary mb-2">Project Categories You Can Review *</p>
+              <p className="text-sm font-bold text-gray-500 mb-2">Choose Project Categories You Can Review *</p>
               <div className="grid md:grid-cols-3 gap-3">
                 {[1, 2, 3].map(number => (
                   <select key={number} name={`choice${number}`} value={form[`choice${number}`]} onChange={handleChange} disabled={otpSent} className="w-full p-3 rounded-xl border border-gray-800 text-black outline-none disabled:bg-gray-100">
