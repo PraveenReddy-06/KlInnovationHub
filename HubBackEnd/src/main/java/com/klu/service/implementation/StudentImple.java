@@ -15,7 +15,7 @@ public class StudentImple implements StudentService{
 	StudentRepo studentRepo; 
 		
 	@Override
-	public String CreateStudentByEmail(String email,String name) {
+	public String CreateStudentByEmail(String email,String name,String interestedDomain) {
 		
 	    Student existing =studentRepo.findByStudentEmail(email);
 	    if(existing != null) {
@@ -27,6 +27,7 @@ public class StudentImple implements StudentService{
 		s.setYear(2000+Integer.parseInt(email.substring(0,2)));
 		s.setStudent_name(name);
 		s.setStudentEmail(email);
+		s.setInterestedDomain(interestedDomain);
 		if((email.substring(2,6)).equals("0003")) { /*2400032662@kluniversity.in*/
 			s.setBranch("CSE");
 		}else if((email.substring(2,6)).equals("0009")) {

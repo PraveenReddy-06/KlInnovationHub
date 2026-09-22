@@ -175,17 +175,18 @@ public class ReviewerReviewImple implements ReviewerReviewService {
 
         if (status == ProjectStatus.APPROVED) {
             sendApprovalEmail(student, projectName);
-            sendInterestedDomainEmails(projectName, choice, student.getStudent_name(), description, liveUrl, githubUrl);
+            sendInterestedDomainEmails(projectName, choice, student.getStudentId(), student.getStudent_name(), description, liveUrl, githubUrl);
         } else {
             sendRejectionEmail(student, projectName, feedback);
         }
     }
     
-    private void sendInterestedDomainEmails(String projectName, String choice, String submitterName,
+    private void sendInterestedDomainEmails(String projectName, String choice, Long submitterStudentId, String submitterName,
             String description, String liveUrl, String githubUrl) {
         if (choice == null || choice.isBlank()) return;
         String projectLink = (liveUrl != null && !liveUrl.isBlank()) ? liveUrl : githubUrl;
         for (Student student : studentRepo.findByInterestedDomain(choice)) {
+            if (student.getStudentId().equals(submitterStudentId)) continue;
             if (student.getStudentEmail() == null || student.getStudentEmail().isBlank()) continue;
             try {
                 SimpleMailMessage message = new SimpleMailMessage();

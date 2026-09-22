@@ -216,7 +216,7 @@ const ExploreProjects = () => {
           </div>
           {interestedProjects.length > 0 ? (
             <div className="grid grid-cols-1 sm:grid-cols-2 xl:grid-cols-3 gap-4">
-              {interestedProjects.slice(0, 6).map((project) => {
+              {interestedProjects.map((project) => {
                 const isGroup = project.type === "GROUP";
                 const title = isGroup ? project.project_name : project.projectName;
                 const ownerName = isGroup ? project.teamLead?.student_name : project.student?.student_name;
