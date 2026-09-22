@@ -202,11 +202,11 @@ return (
         </div>
 
         {form.password && (
-          <div className="mt-3 text-sm text-red-400 space-y-1">
+          <div className="mt-3 text-sm text-red-300 space-y-1">
             {form.password.length < 8 && <p>• Password must be at least 8 characters</p>}
-            {!/[A-Z]/.test(form.password) && <p>• Add one uppercase letter</p>}
-            {!/[a-z]/.test(form.password) && <p>• Add one lowercase letter</p>}
-            {!/\d/.test(form.password) && <p>• Add one number</p>}
+            {!/[A-Z]/.test(form.password) && <p>• must contain at least one uppercase letter</p>}
+            {!/[a-z]/.test(form.password) && <p>• must contain at least lowercase letter</p>}
+            {!/\d/.test(form.password) && <p>•  must contain at least one number</p>}
             {passwordRegex.test(form.password) && <p className="text-emerald-700">✓ Strong password</p>}
           </div>
         )}
