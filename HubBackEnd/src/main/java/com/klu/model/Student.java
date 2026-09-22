@@ -58,4 +58,6 @@ public class Student {
     private String githubUrl;
     private String linkedinUrl;
     private String avatarUrl;
+    
+    private String interestedDomain;
 }

@@ -161,7 +161,7 @@ return (
 
         <div className="mb-5">
           <select name="interestedDomain" value={form.interestedDomain} onChange={handleForm} disabled={otpSent}
-            className="w-full p-3 rounded-xl border border-gray-400 bg-transparent text-white outline-none disabled:opacity-60">
+            className="w-full p-3 rounded-xl border border-gray-400 bg-transparent text-gray-400 outline-none disabled:opacity-60">
             <option value="" className="text-black">Select Your Interested Domain *</option>
             <option value="AI/ML" className="text-black">AI/ML</option>
             <option value="Data Science" className="text-black">Data Science</option>

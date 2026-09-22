@@ -128,7 +128,7 @@ public class MailService {
 	        return "Invalid Otp";
 	    }
 	    try {
-	        studentService.CreateStudentByEmail(recMail.getMail(),recMail.getName());
+	        studentService.CreateStudentByEmail(recMail.getMail(),recMail.getName(),recMail.getInterestedDomain());
 	        recMail.setVerified(true);
 	        recMail.setOtp(0);
 	        recMail.setOtpTimeOut(null);

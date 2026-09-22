@@ -175,16 +175,15 @@ public class ReviewerReviewImple implements ReviewerReviewService {
 
         if (status == ProjectStatus.APPROVED) {
             sendApprovalEmail(student, projectName);
-            sendInterestedDomainEmails(projectName, choice, student.getStudentId(), student.getStudent_name(), description, liveUrl, githubUrl);
+            sendInterestedDomainEmails(projectName, choice, student.getStudentId(), student.getStudent_name(), description);
         } else {
             sendRejectionEmail(student, projectName, feedback);
         }
     }
     
     private void sendInterestedDomainEmails(String projectName, String choice, Long submitterStudentId, String submitterName,
-            String description, String liveUrl, String githubUrl) {
+            String description) {
         if (choice == null || choice.isBlank()) return;
-        String projectLink = (liveUrl != null && !liveUrl.isBlank()) ? liveUrl : githubUrl;
         for (Student student : studentRepo.findByInterestedDomain(choice)) {
             if (student.getStudentId().equals(submitterStudentId)) continue;
             if (student.getStudentEmail() == null || student.getStudentEmail().isBlank()) continue;
@@ -199,7 +198,8 @@ public class ReviewerReviewImple implements ReviewerReviewService {
                         "Domain: " + choice + "\n" +
                         "Submitted By: " + submitterName + "\n" +
                         "Description: " + (description == null || description.isBlank() ? "No description provided." : description) + "\n\n" +
-                        (projectLink == null || projectLink.isBlank() ? "Project link: Not provided" : "Project Link: " + projectLink) + "\n\n" +
+                        "To know more, visit:\n" +
+                        "https://klinnovationhub.app/\n\n" +
                         "— KL Innovation Hub"
                 );
                 sender.send(message);
