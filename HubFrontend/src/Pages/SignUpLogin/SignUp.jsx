@@ -8,7 +8,7 @@ const SignUp = () => {
 
     const passwordRegex =/^(?=.*[A-Z])(?=.*[a-z])(?=.*\d).{8,64}$/;
     const [timer,setTimer] = useState(0);
-    const [form,setForm] = useState({name:"",mail:"",password:""})
+    const [form,setForm] = useState({name:"",mail:"",password:"",interestedDomain:""})
     const [loading,setLoading] = useState(false);
     const [showPassword, setShowPassword] = useState(false);
     const [showConfirmPassword, setShowConfirmPassword] = useState(false);
@@ -53,6 +53,10 @@ const SignUp = () => {
           }
           if (!passwordRegex.test(form.password)) {
             toast.error("Password must be at least 8 characters with uppercase, lowercase and a number.");
+            return;
+          }
+          if (!form.interestedDomain) {
+            toast.error("Please select your interested domain");
             return;
           }
         if(confirmPassword===form.password){
@@ -155,6 +159,28 @@ return (
           </div>
         </div>
 
+        <div className="mb-5">
+          <select name="interestedDomain" value={form.interestedDomain} onChange={handleForm} disabled={otpSent}
+            className="w-full p-3 rounded-xl border border-gray-400 bg-transparent text-white outline-none disabled:opacity-60">
+            <option value="" className="text-black">Select Your Interested Domain *</option>
+            <option value="AI/ML" className="text-black">AI/ML</option>
+            <option value="Data Science" className="text-black">Data Science</option>
+            <option value="Web Development" className="text-black">Web Development</option>
+            <option value="Mobile App Development" className="text-black">Mobile App Development</option>
+            <option value="Cloud Computing" className="text-black">Cloud Computing</option>
+            <option value="Cybersecurity" className="text-black">Cybersecurity</option>
+            <option value="Internet of Things (IoT)" className="text-black">Internet of Things (IoT)</option>
+            <option value="Robotics" className="text-black">Robotics</option>
+            <option value="Embedded Systems" className="text-black">Embedded Systems</option>
+            <option value="Blockchain" className="text-black">Blockchain</option>
+            <option value="Computer Vision" className="text-black">Computer Vision</option>
+            <option value="Natural Language Processing (NLP)" className="text-black">Natural Language Processing (NLP)</option>
+            <option value="DevOps" className="text-black">DevOps</option>
+            <option value="AR/VR" className="text-black">AR/VR</option>
+            <option value="Other" className="text-black">Other</option>
+          </select>
+        </div>
+
         <div className="flex flex-col md:flex-row gap-4">
           <div className="flex-1 relative min-w-0">
             <input className="w-full p-3 rounded-xl border border-gray-400 text-white placeholder-gray-400 outline-none pr-10 disabled:bg-gray-100 disabled:cursor-not-allowed"
@@ -194,7 +220,7 @@ return (
         <div className="mt-5 flex flex-col sm:flex-row gap-3">
           {timer === 0 ? (
             <button onClick={otpSent ? handleResend : handleSendOtp} type="button"
-              disabled={loading || !form.name.trim() || !form.mail.trim() || !passwordRegex.test(form.password) || confirmPassword !== form.password}
+              disabled={loading || !form.name.trim() || !form.mail.trim() || !form.interestedDomain || !passwordRegex.test(form.password) || confirmPassword !== form.password}
               className="flex-1 bg-primary text-tan font-bold py-3 rounded-xl hover:scale-[1.02] transition active:scale-95 disabled:cursor-not-allowed disabled:opacity-50"
             >
               {loading ? "Sending OTP..." : otpSent ? "Resend OTP" : "Send OTP"}

@@ -25,6 +25,7 @@ import com.klu.model.Student;
 import com.klu.repository.GroupProjectRepo;
 import com.klu.repository.ProjectRepo;
 import com.klu.repository.ProjectReviewRepo;
+import com.klu.repository.StudentRepo;
 import com.klu.service.CurrentReviewerService;
 import com.klu.service.NotificationService;
 import com.klu.service.ReviewerReviewService;
@@ -52,6 +53,9 @@ public class ReviewerReviewImple implements ReviewerReviewService {
 
     @Autowired
     private JavaMailSender sender;
+
+    @Autowired
+    private StudentRepo studentRepo;
 
     private final ScheduledExecutorService cleanupScheduler =
             Executors.newSingleThreadScheduledExecutor(r -> {
@@ -118,7 +122,8 @@ public class ReviewerReviewImple implements ReviewerReviewService {
 
         saveReview(currentReviewer.getCurrentReviewer(), project, null,
                 ProjectStatus.PENDING_REVIEW, newStatus, feedback);
-        sendDecisionNotification(project.getStudent(), project.getProjectName(), newStatus, feedback);
+        sendDecisionNotification(project.getStudent(), project.getProjectName(), newStatus, feedback,
+                project.getChoice(), project.getDescription(), project.getLiveUrl(), project.getGithubUrl());
         return "Project " + newStatus.name().toLowerCase() + " successfully";
     }
 
@@ -135,7 +140,8 @@ public class ReviewerReviewImple implements ReviewerReviewService {
 
         saveReview(currentReviewer.getCurrentReviewer(), null, project,
                 ProjectStatus.PENDING_REVIEW, newStatus, feedback);
-        sendDecisionNotification(project.getTeamLead(), project.getProject_name(), newStatus, feedback);
+        sendDecisionNotification(project.getTeamLead(), project.getProject_name(), newStatus, feedback,
+                project.getChoice(), project.getDescription(), project.getLiveUrl(), project.getGithubUrl());
         return "Group project " + newStatus.name().toLowerCase() + " successfully";
     }
 
@@ -159,7 +165,8 @@ public class ReviewerReviewImple implements ReviewerReviewService {
     }
 
     private void sendDecisionNotification(Student student, String projectName,
-            ProjectStatus status, String feedback) {
+            ProjectStatus status, String feedback, String choice, String description,
+            String liveUrl, String githubUrl) {
         String message = status == ProjectStatus.APPROVED
                 ? "Your project has been approved."
                 : "Your project has been rejected.";
@@ -168,11 +175,39 @@ public class ReviewerReviewImple implements ReviewerReviewService {
 
         if (status == ProjectStatus.APPROVED) {
             sendApprovalEmail(student, projectName);
+            sendInterestedDomainEmails(projectName, choice, student.getStudent_name(), description, liveUrl, githubUrl);
         } else {
             sendRejectionEmail(student, projectName, feedback);
         }
     }
     
+    private void sendInterestedDomainEmails(String projectName, String choice, String submitterName,
+            String description, String liveUrl, String githubUrl) {
+        if (choice == null || choice.isBlank()) return;
+        String projectLink = (liveUrl != null && !liveUrl.isBlank()) ? liveUrl : githubUrl;
+        for (Student student : studentRepo.findByInterestedDomain(choice)) {
+            if (student.getStudentEmail() == null || student.getStudentEmail().isBlank()) continue;
+            try {
+                SimpleMailMessage message = new SimpleMailMessage();
+                message.setTo(student.getStudentEmail());
+                message.setSubject("New Project in Your Interested Domain • KL Innovation Hub");
+                message.setText(
+                        "Hello " + student.getStudent_name() + ",\n\n" +
+                        "A new project matching your interested domain has been approved on KL Innovation Hub.\n\n" +
+                        "Project Name: " + projectName + "\n" +
+                        "Domain: " + choice + "\n" +
+                        "Submitted By: " + submitterName + "\n" +
+                        "Description: " + (description == null || description.isBlank() ? "No description provided." : description) + "\n\n" +
+                        (projectLink == null || projectLink.isBlank() ? "Project link: Not provided" : "Project Link: " + projectLink) + "\n\n" +
+                        "— KL Innovation Hub"
+                );
+                sender.send(message);
+            } catch (RuntimeException ignored) {
+                // Interest notification failure must not roll back an approved project.
+            }
+        }
+    }
+
     private void sendApprovalEmail(Student student, String projectName) {
         SimpleMailMessage message = new SimpleMailMessage();
         message.setTo(student.getStudentEmail());

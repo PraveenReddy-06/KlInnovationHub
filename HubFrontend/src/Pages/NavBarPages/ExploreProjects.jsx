@@ -25,7 +25,9 @@ const ExploreProjects = () => {
   const [selectedChoice, setSelectedChoice] = useState("");
   
   const [selectedDiscussionProject, setSelectedDiscussionProject] = useState(null);
+  const student = JSON.parse(localStorage.getItem("student") || "null");
   const studentId = JSON.parse(localStorage.getItem("studentId"));
+  const interestedDomain = student?.interestedDomain || "";
   const isReviewer = !!localStorage.getItem("reviewerToken");
   const navigate = useNavigate();
 
@@ -67,6 +69,11 @@ const ExploreProjects = () => {
     }catch (err) {toast.error("Something went wrong. Please try again.");} 
     finally {setLoading(false);}
   };
+
+  const interestedProjects = useMemo(() => {
+    if (!interestedDomain) return [];
+    return allProjects.filter((project) => project.choice === interestedDomain);
+  }, [allProjects, interestedDomain]);
 
   const filteredProjects = useMemo(() => {
     const query = search.toLowerCase().trim();
@@ -196,6 +203,46 @@ const ExploreProjects = () => {
     </div>
 
     <div className="flex-1">
+    {!isReviewer && interestedDomain && !loading && (
+      <section className="px-4 sm:px-6 lg:px-10 mb-8">
+        <div className="rounded-2xl bg-white border border-amber-200 shadow-sm p-5 sm:p-6">
+          <div className="flex flex-col sm:flex-row sm:items-end sm:justify-between gap-2 mb-5">
+            <div>
+              <p className="text-sm font-semibold text-accent uppercase tracking-wider">For You</p>
+              <h2 className="text-2xl font-bold text-gray-900">Projects in {interestedDomain}</h2>
+              <p className="text-sm text-gray-500 mt-1">Approved projects matching your selected domain.</p>
+            </div>
+            <span className="text-sm text-gray-500">{interestedProjects.length} projects</span>
+          </div>
+          {interestedProjects.length > 0 ? (
+            <div className="grid grid-cols-1 sm:grid-cols-2 xl:grid-cols-3 gap-4">
+              {interestedProjects.slice(0, 6).map((project) => {
+                const isGroup = project.type === "GROUP";
+                const title = isGroup ? project.project_name : project.projectName;
+                const ownerName = isGroup ? project.teamLead?.student_name : project.student?.student_name;
+                return (
+                  <button key={`interest-${project.type}-${project.projectId || project.groupProjectId}`} type="button"
+                    onClick={() => navigate(`/profile/${isGroup ? project.teamLead?.studentId : project.student?.studentId}`)}
+                    className="text-left rounded-xl border border-gray-200 bg-gray-50 hover:bg-amber-50 hover:border-amber-300 p-4 transition">
+                    <div className="flex items-center gap-3">
+                      <img src={isGroup ? (project.teamLead?.avatarUrl || `/avatars/Avatar${(project.teamLead?.studentId % 40) + 1}.webp`) : (project.student?.avatarUrl || `/avatars/Avatar${(project.student?.studentId % 40) + 1}.webp`)} className="w-12 h-12 rounded-full object-cover border border-gray-200" alt="" />
+                      <div className="min-w-0">
+                        <h3 className="font-semibold text-gray-900 truncate">{title}</h3>
+                        <p className="text-sm text-gray-600 truncate">{ownerName}</p>
+                      </div>
+                    </div>
+                    <p className="text-sm text-gray-600 mt-3 line-clamp-2">{project.description}</p>
+                    <div className="mt-3 flex flex-wrap gap-2">{[project.tech1, project.tech2, project.tech3].filter(Boolean).map((tech) => <span key={tech} className="text-xs rounded-full bg-white border px-2 py-1 text-gray-600">{tech}</span>)}</div>
+                  </button>
+                );
+              })}
+            </div>
+          ) : (
+            <div className="rounded-xl bg-gray-50 border border-dashed border-gray-300 p-6 text-center text-sm text-gray-500">No approved projects are available in your selected domain yet.</div>
+          )}
+        </div>
+      </section>
+    )}
     <div className="flex justify-between items-center mb-5">
     {loading ? (
       <div className="text-center py-20 text-lg">Loading Projects...</div>

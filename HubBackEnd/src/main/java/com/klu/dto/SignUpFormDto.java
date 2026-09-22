@@ -8,4 +8,5 @@ public class SignUpFormDto {
 	private String name;
 	private String mail;
 	private String password;
+	private String interestedDomain;
 }

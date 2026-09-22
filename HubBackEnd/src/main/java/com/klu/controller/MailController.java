@@ -29,7 +29,7 @@ public class MailController {
 		String name = form.getName();
 		String toMail = form.getMail();
 		String password = form.getPassword();
-		return service.generateOtp(name, toMail, password);
+		return service.generateOtp(name, toMail, password, form.getInterestedDomain());
 	}
 	
 	@PostMapping("/verifyOtp")

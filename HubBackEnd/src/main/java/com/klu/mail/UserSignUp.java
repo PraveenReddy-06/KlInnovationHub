@@ -37,5 +37,7 @@ public class UserSignUp {
 	
 	private boolean resetOtpVerified;
 
+	private String interestedDomain;
+
 }
 
