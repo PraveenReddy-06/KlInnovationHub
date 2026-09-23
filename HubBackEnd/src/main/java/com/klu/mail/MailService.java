@@ -303,8 +303,41 @@ public class MailService {
 	    }
 
 	    if(user.getOtp() != otp) {
+
+
+	        PasswordResetRateLimiterService.OtpAttemptResult attempt =
+
+
+	                passwordResetRateLimiterService.recordFailedOtpAttempt(mail);
+
+
+	        if (!attempt.isAllowed()) {
+
+
+	            user.setOtp(0);
+
+
+	            user.setOtpTimeOut(null);
+
+
+	            repo.save(user);
+
+
+	            return "Too many invalid OTP attempts. Request a new OTP.";
+
+
+	        }
+
+
 	        return "Invalid OTP";
+
+
 	    }
+
+
+
+	    passwordResetRateLimiterService.resetFailedOtpAttempts(mail);
+
 
 	    user.setResetOtpVerified(true);
 	    

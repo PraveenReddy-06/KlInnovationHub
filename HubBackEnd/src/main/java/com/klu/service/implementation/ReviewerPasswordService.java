@@ -93,8 +93,29 @@ public class ReviewerPasswordService {
             return "OTP Expired";
         }
         if (user.getOtp() != request.getOtp()) {
+
+            PasswordResetRateLimiterService.OtpAttemptResult attempt =
+
+                    passwordResetRateLimiterService.recordFailedOtpAttempt(request.getMail());
+
+            if (!attempt.isAllowed()) {
+
+                user.setOtp(0);
+
+                user.setOtpTimeOut(null);
+
+                userRepo.save(user);
+
+                return "Too many invalid OTP attempts. Request a new OTP.";
+
+            }
+
             return "Invalid OTP";
+
         }
+
+
+        passwordResetRateLimiterService.resetFailedOtpAttempts(request.getMail());
 
         user.setResetOtpVerified(true);
         userRepo.save(user);

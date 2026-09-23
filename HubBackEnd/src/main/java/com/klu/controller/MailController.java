@@ -63,8 +63,12 @@ public class MailController {
 	}
 	
 	@PostMapping("/verifyResetOtp")
-	public String verifyResetOtp(@RequestBody VerifyResetOtpDto dto) {
-	    return service.verifyResetOtp(dto.getMail(), dto.getOtp());
+	public ResponseEntity<String> verifyResetOtp(@RequestBody VerifyResetOtpDto dto) {
+	    String response = service.verifyResetOtp(dto.getMail(), dto.getOtp());
+	    if (response.startsWith("Too many invalid OTP attempts")) {
+	        return ResponseEntity.status(HttpStatus.TOO_MANY_REQUESTS).body(response);
+	    }
+	    return ResponseEntity.ok(response);
 	}
 	
 	@PostMapping("/resetPassword")public String resetPassword(@RequestBody ResetPasswordDto dto) {

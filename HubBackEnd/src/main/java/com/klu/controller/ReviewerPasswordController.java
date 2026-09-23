@@ -29,8 +29,12 @@ public class ReviewerPasswordController {
     }
 
     @PostMapping("/verifyResetOtp")
-    public String verifyResetOtp(@RequestBody VerifyResetOtpDto request) {
-        return reviewerPasswordService.verifyResetOtp(request);
+    public ResponseEntity<String> verifyResetOtp(@RequestBody VerifyResetOtpDto request) {
+        String response = reviewerPasswordService.verifyResetOtp(request);
+        if (response.startsWith("Too many invalid OTP attempts")) {
+            return ResponseEntity.status(HttpStatus.TOO_MANY_REQUESTS).body(response);
+        }
+        return ResponseEntity.ok(response);
     }
 
     @PostMapping("/resetPassword")

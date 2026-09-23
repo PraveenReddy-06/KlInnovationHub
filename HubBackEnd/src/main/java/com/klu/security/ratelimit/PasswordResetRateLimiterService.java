@@ -14,6 +14,7 @@ public class PasswordResetRateLimiterService {
     private static final int COOLDOWN_SECONDS = 60;
     private static final int WINDOW_HOURS = 1;
     private static final int CLEANUP_INTERVAL_MINUTES = 30;
+    private static final int MAX_FAILED_OTP_ATTEMPTS = 5;
 
     private final ConcurrentHashMap<String, RequestInfo> requests = new ConcurrentHashMap<>();
     private LocalDateTime lastCleanup = LocalDateTime.MIN;
@@ -41,6 +42,30 @@ public class PasswordResetRateLimiterService {
 
             info.requestTimes.addLast(now);
             return RateLimitResult.allowed();
+        }
+    }
+
+    public OtpAttemptResult recordFailedOtpAttempt(String email) {
+        String key = email.trim().toLowerCase();
+        RequestInfo info = requests.computeIfAbsent(key, ignored -> new RequestInfo());
+
+        synchronized (info) {
+            info.failedOtpAttempts++;
+            if (info.failedOtpAttempts >= MAX_FAILED_OTP_ATTEMPTS) {
+                return OtpAttemptResult.blocked();
+            }
+            return OtpAttemptResult.allowed();
+        }
+    }
+
+    public void resetFailedOtpAttempts(String email) {
+        RequestInfo info = requests.get(email.trim().toLowerCase());
+        if (info == null) {
+            return;
+        }
+
+        synchronized (info) {
+            info.failedOtpAttempts = 0;
         }
     }
 
@@ -91,7 +116,28 @@ public class PasswordResetRateLimiterService {
         }
     }
 
+    public static final class OtpAttemptResult {
+        private final boolean allowed;
+
+        private OtpAttemptResult(boolean allowed) {
+            this.allowed = allowed;
+        }
+
+        public boolean isAllowed() {
+            return allowed;
+        }
+
+        private static OtpAttemptResult allowed() {
+            return new OtpAttemptResult(true);
+        }
+
+        private static OtpAttemptResult blocked() {
+            return new OtpAttemptResult(false);
+        }
+    }
+
     private static final class RequestInfo {
         private final Deque<LocalDateTime> requestTimes = new ArrayDeque<>();
+        private int failedOtpAttempts;
     }
 }
