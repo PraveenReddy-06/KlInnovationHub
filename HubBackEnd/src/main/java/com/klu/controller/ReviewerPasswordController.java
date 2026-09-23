@@ -20,8 +20,12 @@ public class ReviewerPasswordController {
     private ReviewerPasswordService reviewerPasswordService;
 
     @PostMapping("/forgotPassword")
-    public String forgotPassword(@RequestParam String mail) {
-        return reviewerPasswordService.forgotPassword(mail);
+    public ResponseEntity<String> forgotPassword(@RequestParam String mail) {
+        String response = reviewerPasswordService.forgotPassword(mail);
+        if (response.startsWith("Too many password reset requests")) {
+            return ResponseEntity.status(HttpStatus.TOO_MANY_REQUESTS).body(response);
+        }
+        return ResponseEntity.ok(response);
     }
 
     @PostMapping("/verifyResetOtp")

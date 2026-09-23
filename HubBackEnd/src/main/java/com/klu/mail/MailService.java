@@ -18,6 +18,7 @@ import com.klu.model.Student;
 import com.klu.repository.StudentRepo;
 import com.klu.security.JwtService;
 import com.klu.security.ratelimit.LoginRateLimiterService;
+import com.klu.security.ratelimit.PasswordResetRateLimiterService;
 import com.klu.service.implementation.StudentImple;
 
 @Service
@@ -42,6 +43,9 @@ public class MailService {
 	
 	@Autowired
 	private LoginRateLimiterService loginRateLimiterService;
+
+	@Autowired
+	private PasswordResetRateLimiterService passwordResetRateLimiterService;
 	
 	@Autowired JwtService jwtService;
 	
@@ -239,6 +243,12 @@ public class MailService {
 	    }
 	    if(!user.isVerified()) {
 	        return "Please verify account first";
+	    }
+
+	    PasswordResetRateLimiterService.RateLimitResult rateLimit =
+	            passwordResetRateLimiterService.tryRequest(mail);
+	    if (!rateLimit.isAllowed()) {
+	        return "Too many password reset requests. Please try again later.";
 	    }
 
 	    int otp = secureRandom.nextInt(9000) + 1000;

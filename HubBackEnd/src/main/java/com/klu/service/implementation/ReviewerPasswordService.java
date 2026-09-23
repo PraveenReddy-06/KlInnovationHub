@@ -15,6 +15,7 @@ import com.klu.mail.UserSignUp;
 import com.klu.mail.UserSignUpRepository;
 import com.klu.model.Reviewer;
 import com.klu.repository.ReviewerRepo;
+import com.klu.security.ratelimit.PasswordResetRateLimiterService;
 
 @Service
 public class ReviewerPasswordService {
@@ -33,6 +34,9 @@ public class ReviewerPasswordService {
     @Autowired
     private PasswordEncoder passwordEncoder;
 
+    @Autowired
+    private PasswordResetRateLimiterService passwordResetRateLimiterService;
+
     private final SecureRandom secureRandom = new SecureRandom();
 
     public String forgotPassword(String mail) {
@@ -47,6 +51,12 @@ public class ReviewerPasswordService {
         Reviewer reviewer = reviewerRepo.findByUserMail(mail).orElse(null);
         if (reviewer == null) {
             return "Your reviewer account is not approved";
+        }
+
+        PasswordResetRateLimiterService.RateLimitResult rateLimit =
+                passwordResetRateLimiterService.tryRequest(mail);
+        if (!rateLimit.isAllowed()) {
+            return "Too many password reset requests. Please try again later.";
         }
 
         int otp = secureRandom.nextInt(9000) + 1000;
