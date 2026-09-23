@@ -163,7 +163,7 @@ const ExploreProjects = () => {
 
   return (
 
-    <div className="min-h-screen bg-gray-100 flex flex-col">
+    <div className="min-h-screen bg-white flex flex-col">
     {isReviewer ? <ReviewerNavbar /> : <Navbar />}
     <div className="bg-oxford-blue text-gray-700 shadow-md px-4 sm:px-5 py-5 mb-6">
       <div className="flex flex-col lg:flex-row lg:items-center lg:justify-between gap-5">
@@ -231,7 +231,7 @@ const ExploreProjects = () => {
     <div className="flex-1">
     {((isReviewer && reviewerChoices.length > 0) || (!isReviewer && interestedDomain)) && !loading && (
       <section className="px-4 sm:px-6 lg:px-10 mb-8">
-        <div className="rounded-2xl bg-gray-200 border border-amber-800 shadow-sm p-5 sm:p-6">
+        <div className="rounded-2xl bg-blue-100 border border-amber-800 shadow-sm p-5 sm:p-6">
           <div className="flex flex-col sm:flex-row sm:items-end sm:justify-between gap-2 mb-5">
             <div>
               <p className="text-sm font-semibold text-accent uppercase tracking-wider">For You</p>
@@ -279,7 +279,7 @@ const ExploreProjects = () => {
     ) : (
     <>
             <div>
-    <h2 className="text-2xl font-bold text-gray-900 px-10 mb-5">All the Projects</h2>
+    <h2 className="text-2xl font-bold text-gray-900 px-10 mb-5">Project Inventory</h2>
     <div className="px-4 sm:px-6 lg:px-10 grid grid-cols-1 sm:grid-cols-2 xl:grid-cols-3 2xl:grid-cols-4 gap-5">
         {filteredProjects.map((project) => (
           <ExploreProjectsCard

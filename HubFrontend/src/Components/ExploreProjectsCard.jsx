@@ -12,7 +12,7 @@ const ExploreProjectCard = ({project,navigate,handleLike,handleLiveUrlClick,hand
   const likes = project.likeCount || 0;
 
   return (
-    <div className="bg-cream hover:bg-tan/50 rounded-xl shadow hover:shadow-lg transition overflow-hidden border border-amber-800">
+    <div className="bg-cream hover:bg-vanilla-custard rounded-xl shadow hover:shadow-lg transition overflow-hidden border border-amber-800">
       <div className="p-4">
         <div  className="flex gap-4 items-center mb-3 cursor-pointer bg-blend-luminosity hover:bg-amber-100 rounded-lg transition"
           onClick={() =>navigate(`/profile/${isGroup ? project.teamLead?.studentId : project.student?.studentId}`)}>
