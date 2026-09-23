@@ -27,9 +27,16 @@ const ExploreProjects = () => {
   
   const [selectedDiscussionProject, setSelectedDiscussionProject] = useState(null);
   const student = JSON.parse(localStorage.getItem("student") || "null");
+  const reviewer = JSON.parse(localStorage.getItem("reviewer") || "null");
   const studentId = JSON.parse(localStorage.getItem("studentId"));
   const interestedDomain = student?.interestedDomain || "";
   const isReviewer = !!localStorage.getItem("reviewerToken");
+
+  const reviewerChoices = [
+    reviewer?.choice1,
+    reviewer?.choice2,
+    reviewer?.choice3
+  ].filter((choice) => choice && choice.trim());
   const navigate = useNavigate();
 
   const requireLogin = () => {
@@ -71,10 +78,28 @@ const ExploreProjects = () => {
     finally {setLoading(false);}
   };
 
-  const interestedProjects = useMemo(() => {
-    if (!interestedDomain) return [];
-    return allProjects.filter((project) => project.choice === interestedDomain);
-  }, [allProjects, interestedDomain]);
+  const recommendedProjects = useMemo(() => {
+    if (isReviewer) {
+      return allProjects.filter((project) =>
+        reviewerChoices.includes(project.choice)
+      );
+    }
+
+    if (interestedDomain) {
+      return allProjects.filter(
+        (project) => project.choice === interestedDomain
+      );
+    }
+
+    return [];
+  }, [
+    allProjects,
+    isReviewer,
+    interestedDomain,
+    reviewer?.choice1,
+    reviewer?.choice2,
+    reviewer?.choice3
+  ]);
 
   const filteredProjects = useMemo(() => {
     const query = search.toLowerCase().trim();
@@ -204,21 +229,29 @@ const ExploreProjects = () => {
     </div>
 
     <div className="flex-1">
-    {!isReviewer && interestedDomain && !loading && (
+    {((isReviewer && reviewerChoices.length > 0) || (!isReviewer && interestedDomain)) && !loading && (
       <section className="px-4 sm:px-6 lg:px-10 mb-8">
         <div className="rounded-2xl bg-gray-200 border border-amber-800 shadow-sm p-5 sm:p-6">
           <div className="flex flex-col sm:flex-row sm:items-end sm:justify-between gap-2 mb-5">
             <div>
               <p className="text-sm font-semibold text-accent uppercase tracking-wider">For You</p>
-              <h2 className="text-2xl font-bold text-gray-900 ">Projects in {interestedDomain}</h2>
-              <p className=" text-gray-500 mt-1">Approved projects matching your selected domain.</p>
+              <h2 className="text-2xl font-bold text-gray-900">
+                {isReviewer
+                  ? "Approved Projects in Your Review Domains"
+                  : `Projects in ${interestedDomain}`}
+              </h2>
+              <p className="text-gray-500 mt-1">
+                {isReviewer
+                  ? "Approved projects matching your selected review categories."
+                  : "Approved projects matching your selected domain."}
+              </p>
             </div>
-            <span className="text-sm text-gray-500">{interestedProjects.length} projects</span>
+            <span className="text-sm text-gray-500">{recommendedProjects.length} projects</span>
           </div>
 
-          {interestedProjects.length > 0 ? (
+          {recommendedProjects.length > 0 ? (
             <div className="grid grid-cols-1 sm:grid-cols-2 xl:grid-cols-3 2xl:grid-cols-4 gap-5">
-              {interestedProjects.map((project) => (
+              {recommendedProjects.map((project) => (
                 <ExploreProjectsCard
                   key={`interest-${project.type}-${project.projectId || project.groupProjectId}`}
                   project={project}
@@ -232,7 +265,9 @@ const ExploreProjects = () => {
             </div>
           ) : (
             <div className="rounded-xl bg-gray-50 border border-dashed border-gray-300 p-6 text-center text-sm text-gray-500">
-              No approved projects are available in your selected domain yet.
+              {isReviewer
+                ? "No approved projects are available in your selected review domains yet."
+                : "No approved projects are available in your selected domain yet."}
             </div>
           )}
         </div>
