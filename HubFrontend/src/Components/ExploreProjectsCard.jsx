@@ -72,7 +72,7 @@ const ExploreProjectCard = ({project,navigate,handleLike,handleLiveUrlClick,hand
           )}
 
           <button  onClick={() => setSelectedDiscussionProject(project)}
-            className="flex items-center gap-1 text-sm text-gray-600 hover:text-blue-600 transition"
+            className="flex items-center gap-1 text-sm text-gray-600 hover:text-blue-600 transition cursor-pointer"
           >
             <MessageCircle size={20} />
             {project.discussionCount || 0}
@@ -90,7 +90,7 @@ const ExploreProjectCard = ({project,navigate,handleLike,handleLiveUrlClick,hand
         <div className="flex flex-col sm:flex-row gap-2 mt-4">
           {project.liveUrl && (
             <a href={project.liveUrl}   target="_blank"  rel="noopener noreferrer"  onClick={handleLiveUrlClick}
-              className="flex-1 text-center bg-accent hover:bg-blue-700 text-white px-5 py-2 rounded text-sm"
+              className="flex-1 text-center bg-accent hover:bg-blue-700 text-white px-5 py-2 rounded text-sm cursor-pointer"
             >
               View Project
             </a>
@@ -98,7 +98,7 @@ const ExploreProjectCard = ({project,navigate,handleLike,handleLiveUrlClick,hand
 
           {project.githubUrl && (
             <a  href={project.githubUrl}  target="_blank"  rel="noreferrer"  onClick={handleGithubClick}
-              className="w-full sm:w-14 border px-3 py-2 rounded flex items-center justify-center hover:bg-gray-100"
+              className="w-full sm:w-14 border px-3 py-2 rounded flex items-center justify-center hover:bg-gray-100 cursor-pointer"
             >
               <FaGithub size={20} />
             </a>

@@ -242,8 +242,8 @@ const ExploreProjects = () => {
               </h2>
               <p className="text-gray-500 mt-1">
                 {isReviewer
-                  ? "Approved projects matching your selected review categories."
-                  : "Approved projects matching your selected domain."}
+                  ? "Projects matching your selected review categories."
+                  : "Projects matching your selected domain."}
               </p>
             </div>
             <span className="text-sm text-gray-500">{recommendedProjects.length} projects</span>
