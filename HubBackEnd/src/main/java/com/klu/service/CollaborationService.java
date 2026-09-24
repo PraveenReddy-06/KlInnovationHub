@@ -10,4 +10,5 @@ public interface CollaborationService {
 	List<Collaboration> getAllCollaboration();
 	List<Collaboration> getMyTeams(Long studentId);
 	void deleteTeam(Integer collaborationId);
+	List<Collaboration> getFollowingCollaborations();
 }

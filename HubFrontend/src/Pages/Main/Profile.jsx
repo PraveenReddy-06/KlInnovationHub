@@ -30,6 +30,8 @@ const Profile = () => {
   const [linkedinUrl, setLinkedinUrl] = useState("");
   const [selectedAvatar, setSelectedAvatar] = useState("");
   const studentId = routeStudentId || loggedInStudentId;  
+  const [submittedProjects, setSubmittedProjects] = useState([]);
+  const [submittedGroupProjects, setSubmittedGroupProjects] = useState([]);
   const [student, setStudent] = useState(routeStudentId ? null : loggedInStudent);
     const isOwnProfile =Number(studentId) === Number(loggedInStudentId);
   const navigate = useNavigate();
@@ -79,8 +81,20 @@ const Profile = () => {
         authenticatedAxiosInstance.get(`/collabapplication/student/${id}`),
         ]);
 
+        let pendingProjectRes = { data: [] };
+        let pendingGroupProjectRes = { data: [] };
+
+        if (Number(id) === Number(loggedInStudentId)) {
+            [pendingProjectRes, pendingGroupProjectRes] = await Promise.all([
+                authenticatedAxiosInstance.get("/project/my-pending"),
+                authenticatedAxiosInstance.get("/groupProject/my-pending"),
+            ]);
+        }
+
         setProjects(projectRes.data);
         setGroupProjects(groupProjectRes.data);
+        setSubmittedProjects(pendingProjectRes.data);
+        setSubmittedGroupProjects(pendingGroupProjectRes.data);
         setCollaborations(collaborationRes.data);
         setApplications(applicationRes.data);
     } catch (err) {
@@ -120,7 +134,6 @@ const Profile = () => {
 
     const boyAvatars = Array.from({ length: 20 },(_, i) => `/avatars/Avatar${i + 1}.webp`);
     const girlAvatars = Array.from({ length: 20 },(_, i) => `/avatars/Avatar${i + 21}.webp`);
-
 
 if (!student) {
 return (
@@ -258,36 +271,66 @@ return (
                 </div>
             </div>
         )}
+        
+        {(submittedProjects.length > 0 || submittedGroupProjects.length > 0) && (
+        <div className="mt-14">
+            <h2 className="text-white text-3xl font-bold mb-6">Projects Under Review</h2>
+            <div className="grid md:grid-cols-2 xl:grid-cols-3 gap-6">
+                {submittedProjects.map((project) => (
+                <div key={`solo-${project.projectId}`} className="bg-white/10 backdrop-blur-xl border border-white/10 rounded-2xl p-5">
+                    <p className="text-sm text-slate-400">Solo Project</p>
+                    <h3 className="text-xl font-bold text-white mt-2">{project.projectName}</h3>
+                    <span
+                    className={`inline-block mt-4 px-3 py-1 rounded-full text-sm ${
+                        project.status === "APPROVED"? "bg-green-500/20 text-green-300": project.status === "REJECTED"? "bg-red-500/20 text-red-300": "bg-yellow-500/20 text-yellow-300"}`}>
+                    {project.status}
+                    </span>
+                </div>
+                ))}
+
+                {submittedGroupProjects.map((project) => (
+                <div key={`group-${project.groupProjectId}`} className="bg-white/10 backdrop-blur-xl border border-white/10 rounded-2xl p-5">
+                    <p className="text-sm text-slate-400">Group Project</p>
+                    <h3 className="text-xl font-bold text-white mt-2">{project.project_name}</h3>
+                    <span className={`inline-block mt-4 px-3 py-1 rounded-full text-sm ${
+                        project.status === "APPROVED"? "bg-green-500/20 text-green-300": project.status === "REJECTED"? "bg-red-500/20 text-red-300": "bg-yellow-500/20 text-yellow-300"}`}>
+                    {project.status}
+                    </span>
+                </div>
+                ))}
+            </div>
+        </div>)}
 
         <div className="mt-14">
             <h2 className="text-white text-3xl font-bold mb-6"> Project Showcase</h2>
             {projects.length === 0 ? (
                 <div className="bg-white/5 border border-white/10 p-10 text-center text-slate-400">
-                    You haven't submitted any project yet.{" "}
+                    You haven't have any approved project yet.{" "}
                     <a  href="/submitProject"  className="text-cyan-400 underline">
                         Submit now
                     </a>.
                 </div>
             ) : (
-            <div className="grid md:grid-cols-2 xl:grid-cols-3 gap-6">
-                {projects.map((project) => (
-                    <div key={project.projectId} className="relative">
-                        <Card project={{...project,title: project.projectName,ownerName: project.student?.student_name,ownerId: project.student?.studentId,branch: project.student?.branch,type: "PROJECT"}}/>
-                        {isOwnProfile && (
-                        <button 
-                            onClick={() => openDeleteModal( project.projectId,"PROJECT")} 
-                            className="absolute top-3 right-3 z-20 bg-cyan-950 text-red-500  hover:text-white px-3 py-1 rounded-lg">Delete
-                        </button>)}
-                    </div>
-                ))}
-            </div>)}
+                <div className="grid md:grid-cols-2 xl:grid-cols-3 gap-6">
+                    {projects.map((project) => (
+                        <div key={project.projectId} className="relative">
+                            <Card project={{...project,title: project.projectName,ownerName: project.student?.student_name,ownerId: project.student?.studentId,branch: project.student?.branch,type: "PROJECT"}}/>
+                            {isOwnProfile && (
+                            <button 
+                                onClick={() => openDeleteModal( project.projectId,"PROJECT")} 
+                                className="absolute top-3 right-3 z-20 bg-cyan-950 text-red-500  hover:text-white px-3 py-1 rounded-lg">Delete
+                            </button>)}
+                        </div>
+                    ))}
+                </div>)
+            }
         </div>
 
         <div className="mt-14">
             <h2 className="text-white text-3xl font-bold mb-6">Group Projects</h2>
             {groupProjects.length === 0 ? (
                 <div className="bg-white/5 border border-white/10 p-10 text-center text-slate-400">
-                    You haven't submitted any group project yet.{" "}
+                    You haven't have any approved group project yet.{" "}
                     <a href="/submitProject" className="text-cyan-400 underline">
                         Submit now
                     </a>.

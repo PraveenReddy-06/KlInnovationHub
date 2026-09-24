@@ -2,14 +2,15 @@ import {memo,useEffect,useMemo,useState} from "react";
 import axiosInstance from "../../Api/axiosInstance"
 import Navbar from "../../Components/Navbar";
 import {Search,Heart,Users,User,ExternalLink,MessageCircle} from "lucide-react";
-import { FaGithub } from "react-icons/fa";
 import { useNavigate } from "react-router-dom";
 import toast, { Toaster } from "react-hot-toast";
 import DashboardFooter from "../../Components/DashboardFooter";
 import ReviewerNavbar from "../Reviewer/ReviewerNavbar";
 import ProjectDiscussion from "../../Components/ProjectDiscussion/ProjectDiscussion";
 import { getDiscussionCounts } from "../../Api/discussionApi";
-
+import { FaGithub, FaHeart } from "react-icons/fa";
+import { Globe} from "lucide-react";
+import ExploreProjectsCard from "../../Components/ExploreProjectsCard";
 
 const ExploreProjects = () => {
 
@@ -25,8 +26,17 @@ const ExploreProjects = () => {
   const [selectedChoice, setSelectedChoice] = useState("");
   
   const [selectedDiscussionProject, setSelectedDiscussionProject] = useState(null);
+  const student = JSON.parse(localStorage.getItem("student") || "null");
+  const reviewer = JSON.parse(localStorage.getItem("reviewer") || "null");
   const studentId = JSON.parse(localStorage.getItem("studentId"));
+  const interestedDomain = student?.interestedDomain || "";
   const isReviewer = !!localStorage.getItem("reviewerToken");
+
+  const reviewerChoices = [
+    reviewer?.choice1,
+    reviewer?.choice2,
+    reviewer?.choice3
+  ].filter((choice) => choice && choice.trim());
   const navigate = useNavigate();
 
   const requireLogin = () => {
@@ -67,6 +77,29 @@ const ExploreProjects = () => {
     }catch (err) {toast.error("Something went wrong. Please try again.");} 
     finally {setLoading(false);}
   };
+
+  const recommendedProjects = useMemo(() => {
+    if (isReviewer) {
+      return allProjects.filter((project) =>
+        reviewerChoices.includes(project.choice)
+      );
+    }
+
+    if (interestedDomain) {
+      return allProjects.filter(
+        (project) => project.choice === interestedDomain
+      );
+    }
+
+    return [];
+  }, [
+    allProjects,
+    isReviewer,
+    interestedDomain,
+    reviewer?.choice1,
+    reviewer?.choice2,
+    reviewer?.choice3
+  ]);
 
   const filteredProjects = useMemo(() => {
     const query = search.toLowerCase().trim();
@@ -130,7 +163,7 @@ const ExploreProjects = () => {
 
   return (
 
-    <div className="min-h-screen bg-gray-100 flex flex-col">
+    <div className="min-h-screen bg-white flex flex-col">
     {isReviewer ? <ReviewerNavbar /> : <Navbar />}
     <div className="bg-oxford-blue text-gray-700 shadow-md px-4 sm:px-5 py-5 mb-6">
       <div className="flex flex-col lg:flex-row lg:items-center lg:justify-between gap-5">
@@ -140,13 +173,13 @@ const ExploreProjects = () => {
         </div>
 
         <div className="flex flex-wrap items-center gap-2 lg:gap-4 w-full lg:w-auto">
-          <select value={selectedType} onChange={(e) => setSelectedType(e.target.value)} className="flex-1 min-w-27.5 lg:flex-none border rounded-xl px-2 py-1.5 text-sm bg-gray-50 outline-none">
+          <select value={selectedType} onChange={(e) => setSelectedType(e.target.value)} className="flex-1 min-w-27.5 lg:flex-none border rounded-xl px-2 py-3 text-sm bg-gray-50 outline-none">
             <option value="ALL">All Projects</option>
             <option value="INDIVIDUAL">Individual</option>
             <option value="GROUP">Group</option>
           </select>
 
-          <select  value={selectedBranch}  onChange={(e) => setSelectedBranch(e.target.value)}  className="flex-1 min-w-27.5 lg:flex-none border rounded-xl px-2 py-1.5 text-sm bg-gray-50 outline-none">
+          <select  value={selectedBranch}  onChange={(e) => setSelectedBranch(e.target.value)}  className="flex-1 min-w-27.5 lg:flex-none border rounded-xl px-2 py-3 text-sm bg-gray-50 outline-none">
             <option value="">All Departments</option>
             <option value="CSE">CSE</option>
             <option value="CSIT">CSIT</option>
@@ -155,7 +188,7 @@ const ExploreProjects = () => {
           </select>
           
           <select value={selectedChoice}  onChange={(e) => setSelectedChoice(e.target.value)}
-            className="flex-1 min-w-27.5 lg:flex-none border rounded-xl px-2 py-1.5 text-sm bg-gray-50 outline-none">
+            className="flex-1 min-w-27.5 lg:flex-none border rounded-xl px-2 py-3 text-sm bg-gray-50 outline-none">
             <option value="">All Categories</option>
             <option value="AI/ML">AI/ML</option>
             <option value="Data Science">Data Science</option>
@@ -175,7 +208,7 @@ const ExploreProjects = () => {
           </select>          
 
           <select value={selectedYear}  onChange={(e) => setSelectedYear(e.target.value)}
-            className="flex-1 min-w-27.5 lg:flex-none border rounded-xl px-2 py-1.5 text-sm bg-gray-50 outline-none">
+            className="flex-1 min-w-27.5 lg:flex-none border rounded-xl px-2 py-3 text-sm bg-gray-50 outline-none">
             <option value="">All Years</option>
             <option value="2021">2021</option>
             <option value="2022">2022</option>
@@ -186,7 +219,7 @@ const ExploreProjects = () => {
             <option value="2027">2027</option>
           </select>
        
-          <div className="col-span-3 lg:col-span-1 flex items-center border rounded-xl px-3 py-2 bg-gray-50 w-full lg:w-90">
+          <div className="col-span-3 lg:col-span-1 flex items-center border rounded-xl px-3 py-3 bg-gray-50 w-full lg:w-90">
             <span className="text-primary ml-2">🔍</span>
             <input  type="text"  placeholder="Search projects, tech, student, id..."  value={search} onChange={(e) => setSearch(e.target.value)}
               className="w-full bg-transparent outline-none px-2"/>
@@ -196,88 +229,70 @@ const ExploreProjects = () => {
     </div>
 
     <div className="flex-1">
+    {((isReviewer && reviewerChoices.length > 0) || (!isReviewer && interestedDomain)) && !loading && (
+      <section className="px-4 sm:px-6 lg:px-10 mb-8">
+        <div className="rounded-2xl bg-blue-100 border border-amber-800 shadow-sm p-5 sm:p-6">
+          <div className="flex flex-col sm:flex-row sm:items-end sm:justify-between gap-2 mb-5">
+            <div>
+              <p className="text-sm font-semibold text-accent uppercase tracking-wider">For You</p>
+              <h2 className="text-2xl font-bold text-gray-900">
+                {isReviewer
+                  ? "Approved Projects in Your Review Domains"
+                  : `Projects in ${interestedDomain}`}
+              </h2>
+              <p className="text-gray-500 mt-1">
+                {isReviewer
+                  ? "Projects matching your selected review categories."
+                  : "Projects matching your selected domain."}
+              </p>
+            </div>
+            <span className="text-sm text-gray-500">{recommendedProjects.length} projects</span>
+          </div>
+
+          {recommendedProjects.length > 0 ? (
+            <div className="grid grid-cols-1 sm:grid-cols-2 xl:grid-cols-3 2xl:grid-cols-4 gap-5">
+              {recommendedProjects.map((project) => (
+                <ExploreProjectsCard
+                  key={`interest-${project.type}-${project.projectId || project.groupProjectId}`}
+                  project={project}
+                  navigate={navigate}
+                  handleLike={handleLike}
+                  handleLiveUrlClick={handleLiveUrlClick}
+                  handleGithubClick={handleGithubClick}
+                  setSelectedDiscussionProject={setSelectedDiscussionProject}
+                />
+              ))}
+            </div>
+          ) : (
+            <div className="rounded-xl bg-gray-50 border border-dashed border-gray-300 p-6 text-center text-sm text-gray-500">
+              {isReviewer
+                ? "No approved projects are available in your selected review domains yet."
+                : "No approved projects are available in your selected domain yet."}
+            </div>
+          )}
+        </div>
+      </section>
+    )}
     <div className="flex justify-between items-center mb-5">
     {loading ? (
       <div className="text-center py-20 text-lg">Loading Projects...</div>
     ) : (
     <>
+            <div>
+    <h2 className="text-2xl font-bold text-gray-900 px-10 mb-5">Project Inventory</h2>
     <div className="px-4 sm:px-6 lg:px-10 grid grid-cols-1 sm:grid-cols-2 xl:grid-cols-3 2xl:grid-cols-4 gap-5">
-      {filteredProjects.map((project) => {
-        const isGroup = project.type === "GROUP";
-
-        const title = isGroup ? project.project_name : project.projectName;
-        const ownerName = isGroup ? project.teamLead?.student_name : project.student?.student_name;
-        const ownerId = isGroup ? project.teamLead?.studentId : project.student?.studentId;
-        const branch = isGroup ? project.teamLead?.branch : project.student?.branch;
-        const year = isGroup ? project.teamLead?.year : project.student?.year;
-        const likes = project.likeCount || 0;
-        return (
-          <div key={`${project.type}-${project.projectId || project.groupProjectId}`} className="bg-cream hover:bg-tan/50 rounded-xl shadow hover:shadow-lg transition overflow-hidden border border-amber-800">
-            <div className="p-4">
-              <div className="flex gap-4 items-center mb-3 cursor-pointer bg-blend-luminosity hover:bg-amber-100 rounded-lg transition "
-                   onClick={() =>navigate(`/profile/${isGroup? project.teamLead?.studentId: project.student?.studentId}`)}>
-                  <img src={
-                          isGroup
-                              ? ( project.teamLead?.avatarUrl ||`/avatars/Avatar${(project.teamLead?.studentId % 40) + 1}.webp`
-                              ): ( project.student?.avatarUrl || `/avatars/Avatar${(project.student?.studentId % 40) + 1}.webp`)}
-                      
-                      className="w-16 h-16 rounded-full object-cover border-2 border-gray-200 shrink-0"
-                  />
-                  <div>
-                    <h3 className="font-bold text-lg sm:text-xl leading-tight text-gray-900">{title}</h3>
-                    <p className="font-medium text-gray-800">{ownerName}</p> 
-                  </div>
-              </div>
-              <div className="mb-3">
-                {isGroup && (
-                    <div className="flex flex-wrap gap-2 mt-2">
-                        {project.studentList?.filter(student => student.studentId !== ownerId) .map(student => (
-                                <span key={student.studentId}
-                                      className="text-xs bg-gray-100 px-3 py-1 rounded-full text-gray-700">
-                                  {student.student_name}
-                                </span>
-                        ))}
-                    </div>
-                )}
-              </div>
-              <div className="flex flex-wrap gap-2 ">
-                  <span className="text-xs bg-gray-100 px-2 py-1 rounded">{branch}</span>
-                <span className="text-xs bg-gray-100 px-2 py-1 rounded">{year}</span>
-                <span className={`text-xs px-2 py-1 rounded text-white ${isGroup ? "bg-purple-500" : "bg-blue-500"}`}>
-                  {isGroup ? "Group" : "Individual"}
-                </span>
-              </div>
-              <div className="text-xs py-1 rounded-full">
-                {project.tech1 && (<span className="text-xs text-blue-700 px-2 py-1 rounded">{project.tech1}</span>)}
-                {project.tech2 && (<span className="text-xs text-blue-700 px-2 py-1 rounded">{project.tech2}</span>)}
-                {project.tech3 && (<span className="text-xs text-blue-700 px-2 py-1 rounded">{project.tech3}</span>)}
-              </div>
-              <p className="text-sm leading-relaxed text-gray-600 mt-3 line-clamp-3">{project.description}</p>
-              <div className="flex justify-between items-center mt-5">
-                {isGroup ? (
-                  <div className="flex items-center gap-1 text-sm text-gray-600"><Users size={16}/>Team</div>
-                ) : (
-                  <div className="flex items-center gap-1 text-sm text-gray-600"><User size={16}/>Solo</div>
-                )}
-                <button onClick={() => setSelectedDiscussionProject(project)}
-                  className="flex items-center gap-1 text-sm text-gray-600 hover:text-blue-600 transition">
-                  <MessageCircle size={20} />
-                  {project.discussionCount || 0}
-                </button>
-                <button onClick={() => handleLike(project)} className="flex items-center gap-1 text-sm">
-                  <Heart size={22}  fill={project.isLiked ? "red" : "transparent"}  className={`transition ${project.isLiked? "text-red-500" : "text-gray-400"  }`}/>{likes} Likes
-                </button>                
-              </div>
-              <div className="flex flex-col sm:flex-row gap-2 mt-4">
-                {project.liveUrl && (
-                  <a href={project.liveUrl}target="_blank" rel="noopener noreferrer" onClick={handleLiveUrlClick} className="flex-1 text-center bg-accent hover:bg-blue-700 text-white px-5 py-2 rounded text-sm">View Project</a>
-                )}
-                <a href={project.githubUrl} target="_blank" rel="noreferrer" onClick={handleGithubClick} className="w-full sm:w-14 border px-3 py-2 rounded flex items-center justify-center hover:bg-gray-100"><FaGithub size={20} /></a>
-              </div>
-            </div>
-          </div>
-        );
-      })}
+        {filteredProjects.map((project) => (
+          <ExploreProjectsCard
+            key={`${project.type}-${project.projectId || project.groupProjectId}`}
+            project={project}
+            navigate={navigate}
+            handleLike={handleLike}
+            handleLiveUrlClick={handleLiveUrlClick}
+            handleGithubClick={handleGithubClick}
+            setSelectedDiscussionProject={setSelectedDiscussionProject}
+          />
+        ))}
+      </div>
     </div>
     {selectedDiscussionProject && (
       <ProjectDiscussion project={selectedDiscussionProject} isOpen={true}

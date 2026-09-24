@@ -8,11 +8,17 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 @AllArgsConstructor
 public class ReviewerLoginResponseDto {
+
     private String message;
     private Integer reviewerId;
     private String name;
     private String email;
     private String department;
     private String designation;
+
+    private String choice1;
+    private String choice2;
+    private String choice3;
+
     private String token;
 }

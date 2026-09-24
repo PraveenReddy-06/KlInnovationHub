@@ -31,4 +31,10 @@ public class Reviewer {
     private String department;
 
     private String designation;
+
+    private String choice1;
+
+    private String choice2;
+
+    private String choice3;
 }

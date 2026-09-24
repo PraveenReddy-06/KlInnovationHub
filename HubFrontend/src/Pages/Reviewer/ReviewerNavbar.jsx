@@ -51,12 +51,20 @@ const ReviewerNavbar = () => {
             Leaderboard
             </NavLink>
         </li>
+        <li>
+            <NavLink to="/guide" className={({ isActive }) => `relative transition-colors duration-200 hover:text-light-blue after:absolute after:-bottom-2 after:left-0 after:h-0.5 after:bg-light-blue after:transition-all after:duration-300 ${isActive ? "text-light-blue after:w-full" : "after:w-0"}`}>
+            About
+            </NavLink>
+        </li>
        </ul>
 
       <div className="hidden lg:flex items-center gap-4">
-        <button onClick={() => navigate("/reviewer/history")} className="flex items-center gap-2 text-vanilla-custard hover:text-light-blue transition-colors cursor-pointer">
-          <FaUserCircle size={28} />
-          <span className="text-xs uppercase tracking-[2px]">Profile</span>
+        <button onClick={() => navigate("/reviewer/profile")} 
+            className="flex items-center gap-2 text-vanilla-custard hover:text-light-blue transition-colors cursor-pointer">
+            <FaUserCircle size={28} />
+            <span className="text-xs uppercase tracking-[2px]">
+            Profile
+            </span>
         </button>
         <button onClick={handleLogout} className="text-xs uppercase tracking-[2px] text-vanilla-custard hover:text-light-blue transition-colors">
           Logout
@@ -70,7 +78,7 @@ const ReviewerNavbar = () => {
             <Link to="/reviewerDashboard" onClick={closeMobileMenu} className="px-6 py-3 text-white hover:bg-white/10">Review Projects</Link>
             <Link to="/exploreProjects" onClick={closeMobileMenu} className="px-6 py-3 text-white hover:bg-white/10">Explore</Link>
             <Link to="/leaderBoard" onClick={closeMobileMenu} className="px-6 py-3 text-white hover:bg-white/10">Leaderboard</Link>
-            <button onClick={() => { closeMobileMenu(); navigate("/reviewerDashboard"); }} className="px-6 py-3 text-left text-white hover:bg-white/10">Profile</button>
+            <button onClick={() => { closeMobileMenu(); navigate("/reviewer/profile"); }} className="px-6 py-3 text-left text-white hover:bg-white/10">Profile</button>
             <button onClick={() => { closeMobileMenu(); handleLogout(); }} className="px-6 py-3 text-left text-white hover:bg-white/10">Logout</button>
           </div>
         </div>

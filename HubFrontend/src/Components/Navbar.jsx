@@ -170,8 +170,8 @@ const getActivityText = (a) => {
           </NavLink>
         </li>
         <li>
-          <NavLink to={isLoggedIn ? "/guide" : "/login"} className={({ isActive }) => `relative transition-colors duration-200 hover:text-light-blue after:absolute after:-bottom-2 after:left-0 after:h-0.5 after:bg-gray-800 after:transition-all after:duration-300 ${isActive ? "text-light-blue after:w-full" : "after:w-0"}`}>
-            Guide
+          <NavLink to="/guide" className={({ isActive }) => `relative transition-colors duration-200 hover:text-light-blue after:absolute after:-bottom-2 after:left-0 after:h-0.5 after:bg-gray-800 after:transition-all after:duration-300 ${isActive ? "text-light-blue after:w-full" : "after:w-0"}`}>
+            About
           </NavLink>
         </li>
       </ul>

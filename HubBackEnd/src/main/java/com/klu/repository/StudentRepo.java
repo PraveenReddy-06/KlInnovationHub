@@ -9,4 +9,6 @@ import com.klu.model.Student;
 public interface StudentRepo extends JpaRepository<Student,Long>{
 
 	Student findByStudentEmail(String studentEmail);
+
+	java.util.List<Student> findByInterestedDomain(String interestedDomain);
 }

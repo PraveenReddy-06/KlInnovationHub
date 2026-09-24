@@ -14,4 +14,5 @@ public interface GroupProjectService {
 	List<GroupProject> getProjectsByBranch(String branch);
 	List<GroupProject> getProjectsByBranchAndYear(String branch,Integer year);
 	List<GroupProject> getProjectsByid(Long id);
+	List<GroupProject> getMyPendingProjects();
 }

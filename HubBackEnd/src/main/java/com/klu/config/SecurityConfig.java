@@ -36,9 +36,16 @@ public class SecurityConfig {
                         		"/reviewer/verifyResetOtp", 
                         		"/reviewer/resetPassword",
                         		"/discussions/counts",
-                        		"/admin/login").permitAll()
+                        		"/admin/login",
+                        		"/reviewer/review/top-three",
+                        		"/public/analytics").permitAll()
                         .requestMatchers("/admin/reviewers/**","/admin/reports/**").hasRole("ADMIN")
-                        .requestMatchers("/reviewer/projects/**", "/reviewer/groupProjects/**", "/reviewer/review/**").hasRole("REVIEWER")
+                        .requestMatchers(
+                        		"/reviewer/projects/pending/**", 
+                        		"/reviewer/groupProjects/pending/**",
+                        		"/reviewer/projects/recommended/**", 
+                        		"/reviewer/groupProjects/recommended/**",
+                        		"/reviewer/review/**").hasRole("REVIEWER")
                         .requestMatchers(HttpMethod.GET, 
                         		"/project/all", 
                         		"/project/latest",

@@ -63,6 +63,11 @@ public class ProjectController {
     public String deleteProject(@PathVariable int projectId) {
     	return projectService.deleteProjectsById(projectId);
     }
+    
+    @GetMapping("/my-pending")
+    public List<Project> getMyPendingProjects() {
+        return projectService.getMyPendingProjects();
+    }
 }
 	
 

@@ -1,6 +1,8 @@
 package com.klu.controller;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -20,13 +22,21 @@ public class ReviewerPasswordController {
     private ReviewerPasswordService reviewerPasswordService;
 
     @PostMapping("/forgotPassword")
-    public String forgotPassword(@RequestParam String mail) {
-        return reviewerPasswordService.forgotPassword(mail);
+    public ResponseEntity<String> forgotPassword(@RequestParam String mail) {
+        String response = reviewerPasswordService.forgotPassword(mail);
+        if (response.startsWith("Too many password reset requests")) {
+            return ResponseEntity.status(HttpStatus.TOO_MANY_REQUESTS).body(response);
+        }
+        return ResponseEntity.ok(response);
     }
 
     @PostMapping("/verifyResetOtp")
-    public String verifyResetOtp(@RequestBody VerifyResetOtpDto request) {
-        return reviewerPasswordService.verifyResetOtp(request);
+    public ResponseEntity<String> verifyResetOtp(@RequestBody VerifyResetOtpDto request) {
+        String response = reviewerPasswordService.verifyResetOtp(request);
+        if (response.startsWith("Too many invalid OTP attempts")) {
+            return ResponseEntity.status(HttpStatus.TOO_MANY_REQUESTS).body(response);
+        }
+        return ResponseEntity.ok(response);
     }
 
     @PostMapping("/resetPassword")

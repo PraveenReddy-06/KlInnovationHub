@@ -15,4 +15,5 @@ public interface ReviewerReviewService {
 
     String rejectGroupProject(Integer groupProjectId, ReviewFeedbackDto request);
     List<ReviewerReviewHistoryDto> getReviewHistory();
+    List<Object[]> getTopFacultyReviewers();
 }

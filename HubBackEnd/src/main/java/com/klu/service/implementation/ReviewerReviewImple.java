@@ -7,6 +7,8 @@ import java.util.concurrent.ScheduledExecutorService;
 import java.util.concurrent.TimeUnit;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
+import org.springframework.data.domain.PageRequest;
 import org.springframework.mail.SimpleMailMessage;
 import org.springframework.mail.javamail.JavaMailSender;
 import org.springframework.stereotype.Service;
@@ -23,6 +25,7 @@ import com.klu.model.Student;
 import com.klu.repository.GroupProjectRepo;
 import com.klu.repository.ProjectRepo;
 import com.klu.repository.ProjectReviewRepo;
+import com.klu.repository.StudentRepo;
 import com.klu.service.CurrentReviewerService;
 import com.klu.service.NotificationService;
 import com.klu.service.ReviewerReviewService;
@@ -51,12 +54,17 @@ public class ReviewerReviewImple implements ReviewerReviewService {
     @Autowired
     private JavaMailSender sender;
 
+    @Autowired
+    private StudentRepo studentRepo;
+
     private final ScheduledExecutorService cleanupScheduler =
             Executors.newSingleThreadScheduledExecutor(r -> {
                 Thread thread = new Thread(r, "rejected-project-cleanup");
                 thread.setDaemon(true);
                 return thread;
             });
+    @Value("${spring.mail.username}")
+    private String mailUsername;
 
     @PostConstruct
     public void startRejectedProjectCleanup() {
@@ -114,7 +122,8 @@ public class ReviewerReviewImple implements ReviewerReviewService {
 
         saveReview(currentReviewer.getCurrentReviewer(), project, null,
                 ProjectStatus.PENDING_REVIEW, newStatus, feedback);
-        sendDecisionNotification(project.getStudent(), project.getProjectName(), newStatus, feedback);
+        sendDecisionNotification(project.getStudent(), project.getProjectName(), newStatus, feedback,
+                project.getChoice(), project.getDescription(), project.getLiveUrl(), project.getGithubUrl());
         return "Project " + newStatus.name().toLowerCase() + " successfully";
     }
 
@@ -131,7 +140,8 @@ public class ReviewerReviewImple implements ReviewerReviewService {
 
         saveReview(currentReviewer.getCurrentReviewer(), null, project,
                 ProjectStatus.PENDING_REVIEW, newStatus, feedback);
-        sendDecisionNotification(project.getTeamLead(), project.getProject_name(), newStatus, feedback);
+        sendDecisionNotification(project.getTeamLead(), project.getProject_name(), newStatus, feedback,
+                project.getChoice(), project.getDescription(), project.getLiveUrl(), project.getGithubUrl());
         return "Group project " + newStatus.name().toLowerCase() + " successfully";
     }
 
@@ -155,21 +165,70 @@ public class ReviewerReviewImple implements ReviewerReviewService {
     }
 
     private void sendDecisionNotification(Student student, String projectName,
-            ProjectStatus status, String feedback) {
+            ProjectStatus status, String feedback, String choice, String description,
+            String liveUrl, String githubUrl) {
         String message = status == ProjectStatus.APPROVED
                 ? "Your project has been approved."
                 : "Your project has been rejected.";
 
         notificationService.createNotification(student, student, message, projectName);
 
-        if (status == ProjectStatus.REJECTED) {
+        if (status == ProjectStatus.APPROVED) {
+            sendApprovalEmail(student, projectName);
+            sendInterestedDomainEmails(projectName, choice, student.getStudentId(), student.getStudent_name(), description);
+        } else {
             sendRejectionEmail(student, projectName, feedback);
         }
     }
+    
+    private void sendInterestedDomainEmails(String projectName, String choice, Long submitterStudentId, String submitterName,
+            String description) {
+        if (choice == null || choice.isBlank()) return;
+        for (Student student : studentRepo.findByInterestedDomain(choice)) {
+            if (student.getStudentId().equals(submitterStudentId)) continue;
+            if (student.getStudentEmail() == null || student.getStudentEmail().isBlank()) continue;
+            try {
+                SimpleMailMessage message = new SimpleMailMessage();
+                message.setTo(student.getStudentEmail());
+                message.setSubject("New Project in Your Interested Domain • KL Innovation Hub");
+                message.setText(
+                        "Hello " + student.getStudent_name() + ",\n\n" +
+                        "A new project matching your interested domain has been approved on KL Innovation Hub.\n\n" +
+                        "Project Name: " + projectName + "\n" +
+                        "Domain: " + choice + "\n" +
+                        "Submitted By: " + submitterName + "\n" +
+                        "Description: " + (description == null || description.isBlank() ? "No description provided." : description) + "\n\n" +
+                        "To know more, visit:\n" +
+                        "https://klinnovationhub.app/\n\n" +
+                        "— KL Innovation Hub"
+                );
+                sender.send(message);
+            } catch (RuntimeException ignored) {
+                // Interest notification failure must not roll back an approved project.
+            }
+        }
+    }
 
-    private void sendRejectionEmail(Student student, String projectName, String feedback) {
+    private void sendApprovalEmail(Student student, String projectName) {
         SimpleMailMessage message = new SimpleMailMessage();
         message.setTo(student.getStudentEmail());
+        message.setSubject("Project Approved • KL Innovation Hub");
+        message.setText(
+                "Hello " + student.getStudent_name() + ",\n\n" +
+                "Your project \"" + projectName + "\" has been approved " +
+                "by the KL Innovation Hub project review committee.\n\n" +
+                "Your project is now approved and can be showcased on KL Innovation Hub.\n\n" +
+                "Share the win! Ask friends to like your project and climb the leaderboard with you.\n"+
+                "Thank you for contributing to the Innovation Hub.\n\n" +
+                "— KL Innovation Hub"
+        );
+        sender.send(message);
+    }
+
+    private void sendRejectionEmail(Student student, String projectName, String feedback) {
+    	SimpleMailMessage message = new SimpleMailMessage();
+    	message.setFrom(mailUsername);
+    	message.setTo(student.getStudentEmail());
         message.setSubject("Project Review Update • KL Innovation Hub");
         message.setText(
                 "Hello " + student.getStudent_name() + ",\n\n" +
@@ -212,5 +271,9 @@ public class ReviewerReviewImple implements ReviewerReviewService {
     public List<ReviewerReviewHistoryDto> getReviewHistory() {
         Reviewer reviewer = currentReviewer.getCurrentReviewer();
         return projectReviewRepo.findByReviewerOrderByReviewedAtDesc(reviewer).stream().map(ReviewerReviewHistoryDto::fromEntity).toList();
+    }
+    
+    public List<Object[]> getTopFacultyReviewers() {
+        return projectReviewRepo.findTopFacultyReviewers(PageRequest.of(0, 3));
     }
 }

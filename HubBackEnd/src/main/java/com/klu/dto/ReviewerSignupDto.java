@@ -14,4 +14,7 @@ public class ReviewerSignupDto {
     private String department;
     private String designation;
     private String reason;
+    private String choice1;
+    private String choice2;
+    private String choice3;
 }

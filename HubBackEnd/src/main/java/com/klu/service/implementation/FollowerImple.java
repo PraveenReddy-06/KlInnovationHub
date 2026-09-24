@@ -7,9 +7,13 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.klu.dto.FollowUserDto;
+import com.klu.dto.FollowingProjectsDto;
 import com.klu.model.Follower;
+import com.klu.model.ProjectStatus;
 import com.klu.model.Student;
 import com.klu.repository.FollowerRepo;
+import com.klu.repository.GroupProjectRepo;
+import com.klu.repository.ProjectRepo;
 import com.klu.repository.StudentRepo;
 import com.klu.service.ActivityService;
 import com.klu.service.CurrentUserService;
@@ -26,13 +30,19 @@ public class FollowerImple implements FollowerService {
     private StudentRepo studentRepo;
 
     @Autowired
+    private ProjectRepo projectRepo;
+
+    @Autowired
+    private GroupProjectRepo groupProjectRepo;
+
+    @Autowired
     private CurrentUserService currentUser;
     
-	@Autowired
-	ActivityService activityService;
-	
-	@Autowired 
-	NotificationService notificationService;
+    @Autowired
+    ActivityService activityService;
+    
+    @Autowired 
+    NotificationService notificationService;
 
     @Override
     public String follow(Long followingId) {
@@ -111,5 +121,25 @@ public class FollowerImple implements FollowerService {
                         f.getFollowing().getYear()
                 ))
                 .collect(Collectors.toList());
+    }
+
+    @Override
+    public FollowingProjectsDto getFollowingProjects() {
+        Student student = currentUser.getCurrentStudent();
+
+        List<Long> followingIds = followerRepo.findByFollower(student)
+                .stream()
+                .map(f -> f.getFollowing().getStudentId())
+                .distinct()
+                .collect(Collectors.toList());
+
+        if (followingIds.isEmpty()) {
+            return new FollowingProjectsDto(List.of(), List.of());
+        }
+
+        return new FollowingProjectsDto(
+                projectRepo.findApprovedProjectsByStudentIds(ProjectStatus.APPROVED, followingIds),
+                groupProjectRepo.findApprovedGroupProjectsByStudentIds(ProjectStatus.APPROVED, followingIds)
+        );
     }
 }

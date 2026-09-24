@@ -18,6 +18,7 @@ import com.klu.model.Student;
 import com.klu.repository.StudentRepo;
 import com.klu.security.JwtService;
 import com.klu.security.ratelimit.LoginRateLimiterService;
+import com.klu.security.ratelimit.PasswordResetRateLimiterService;
 import com.klu.service.implementation.StudentImple;
 
 @Service
@@ -42,17 +43,24 @@ public class MailService {
 	
 	@Autowired
 	private LoginRateLimiterService loginRateLimiterService;
+
+	@Autowired
+	private PasswordResetRateLimiterService passwordResetRateLimiterService;
 	
 	@Autowired JwtService jwtService;
 	
 	private final SecureRandom secureRandom = new SecureRandom();
 	private static final String PASSWORD_REGEX ="^(?=.*[A-Z])(?=.*[a-z])(?=.*\\d).{8,64}$";
+	private static final java.util.Set<String> STUDENT_DOMAINS = java.util.Set.of(
+			"AI/ML", "Data Science", "Web Development", "Mobile App Development", "Cloud Computing",
+			"Cybersecurity", "Internet of Things (IoT)", "Robotics", "Embedded Systems", "Blockchain",
+			"Computer Vision", "Natural Language Processing (NLP)", "DevOps", "AR/VR", "Other");
 
     MailService(AuthenticationManager authenticationManager) {
         this.authenticationManager = authenticationManager;
     }
 	
-	public String generateOtp(String name,String toMail,String password) {
+	public String generateOtp(String name,String toMail,String password,String interestedDomain) {
 		if (!toMail.matches("\\d{10}@kluniversity\\.in")){
 		    return "Use Kl University email";
 		}
@@ -63,6 +71,9 @@ public class MailService {
 		}
 		if(!password.matches(PASSWORD_REGEX)) {
 		    return "Password does not meet security requirements";
+		}
+		if (interestedDomain == null || !STUDENT_DOMAINS.contains(interestedDomain)) {
+		    return "Select a valid interested domain";
 		}
 		int otpnum = secureRandom.nextInt(9000) + 1000;
 		SimpleMailMessage msg = new SimpleMailMessage();
@@ -105,6 +116,7 @@ public class MailService {
 		user.setOtp(otpnum);
 		user.setPassword(passwordEncoder.encode(password));
 		user.setRole("ROLE_STUDENT");
+		user.setInterestedDomain(interestedDomain);
 		user.setVerified(false);
 		repo.save(user);		
 		return "If the email exists, OTP has been sent";
@@ -120,7 +132,7 @@ public class MailService {
 	        return "Invalid Otp";
 	    }
 	    try {
-	        studentService.CreateStudentByEmail(recMail.getMail(),recMail.getName());
+	        studentService.CreateStudentByEmail(recMail.getMail(),recMail.getName(),recMail.getInterestedDomain());
 	        recMail.setVerified(true);
 	        recMail.setOtp(0);
 	        recMail.setOtpTimeOut(null);
@@ -233,6 +245,12 @@ public class MailService {
 	        return "Please verify account first";
 	    }
 
+	    PasswordResetRateLimiterService.RateLimitResult rateLimit =
+	            passwordResetRateLimiterService.tryRequest(mail);
+	    if (!rateLimit.isAllowed()) {
+	        return "Too many password reset requests. Please try again later.";
+	    }
+
 	    int otp = secureRandom.nextInt(9000) + 1000;
 
 	    SimpleMailMessage msg = new SimpleMailMessage();
@@ -273,23 +291,26 @@ public class MailService {
 	}
 	
 	public String verifyResetOtp(String mail,int otp) {
-
 	    UserSignUp user = repo.findByMail(mail).orElse(null);
-
 	    if(user == null) {
 	        return "Mail Not Found";
 	    }
-
-	    if(user.getOtpTimeOut().plusMinutes(3).isBefore(LocalDateTime.now())) {
-	        return "OTP Expired";
-	    }
-
+	    if(user.getOtpTimeOut() == null ||
+		   user.getOtpTimeOut().plusMinutes(3).isBefore(LocalDateTime.now())) {
+		    return "OTP Expired";
+		}
 	    if(user.getOtp() != otp) {
+	        PasswordResetRateLimiterService.OtpAttemptResult attempt =passwordResetRateLimiterService.recordFailedOtpAttempt(mail);
+	        if (!attempt.isAllowed()) {
+	            user.setOtp(0);
+	            user.setOtpTimeOut(null);
+	            repo.save(user);
+	            return "Too many invalid OTP attempts. Request a new OTP.";
+	        }
 	        return "Invalid OTP";
 	    }
-
+	    passwordResetRateLimiterService.resetFailedOtpAttempts(mail);
 	    user.setResetOtpVerified(true);
-	    
 	    repo.save(user);
 	    return "OTP Verified";
 	}

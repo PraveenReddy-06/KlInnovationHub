@@ -29,7 +29,7 @@ public class MailController {
 		String name = form.getName();
 		String toMail = form.getMail();
 		String password = form.getPassword();
-		return service.generateOtp(name, toMail, password);
+		return service.generateOtp(name, toMail, password, form.getInterestedDomain());
 	}
 	
 	@PostMapping("/verifyOtp")
@@ -54,13 +54,21 @@ public class MailController {
 	}
 	
 	@PostMapping("/forgotPassword")
-	public String forgotPassword(@RequestParam String mail) {
-	    return service.forgotPassword(mail);
+	public ResponseEntity<String> forgotPassword(@RequestParam String mail) {
+	    String response = service.forgotPassword(mail);
+	    if (response.startsWith("Too many password reset requests")) {
+	        return ResponseEntity.status(HttpStatus.TOO_MANY_REQUESTS).body(response);
+	    }
+	    return ResponseEntity.ok(response);
 	}
 	
 	@PostMapping("/verifyResetOtp")
-	public String verifyResetOtp(@RequestBody VerifyResetOtpDto dto) {
-	    return service.verifyResetOtp(dto.getMail(), dto.getOtp());
+	public ResponseEntity<String> verifyResetOtp(@RequestBody VerifyResetOtpDto dto) {
+	    String response = service.verifyResetOtp(dto.getMail(), dto.getOtp());
+	    if (response.startsWith("Too many invalid OTP attempts")) {
+	        return ResponseEntity.status(HttpStatus.TOO_MANY_REQUESTS).body(response);
+	    }
+	    return ResponseEntity.ok(response);
 	}
 	
 	@PostMapping("/resetPassword")public String resetPassword(@RequestBody ResetPasswordDto dto) {

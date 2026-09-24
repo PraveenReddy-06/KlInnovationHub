@@ -65,4 +65,9 @@ public class GroupProjectController {
     public  String deleteProject(@PathVariable int projectId) {
     	return groupProjectService.deleteProjectsById(projectId);
     }
+    
+    @GetMapping("/my-pending")
+    public List<GroupProject> getMyPendingProjects() {
+        return groupProjectService.getMyPendingProjects();
+    }
 }

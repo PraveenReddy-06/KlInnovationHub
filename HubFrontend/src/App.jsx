@@ -36,6 +36,7 @@ const Solution = lazy(() => import("./Pages/Main/LandingPageSections/Solution"))
 const ReviewerReviewHistory = lazy(() => import("./Pages/Reviewer/ReviewerReviewHistory"));
 const AdminLogin = lazy(() => import("./Pages/Admin/AdminLogin"));
 const AdminDashboard = lazy(() => import("./Pages/Admin/AdminDashboard"));
+const ReviewerProfile = lazy(() => import("./Pages/Reviewer/ReviewerReviewHistory"));
 
 function App() {
   useEffect(() => {
@@ -57,6 +58,7 @@ function App() {
           <Route path="/reviewer/projects" element={<ReviewerProtectedRoute> <ReviewerProjects/> </ReviewerProtectedRoute>}/>
           <Route path="/reviewer/project/:projectId" element={<ReviewerProtectedRoute>  <ReviewerProjectDetails /></ReviewerProtectedRoute>}/>
           <Route path="/reviewer/group-project/:groupProjectId" element={ <ReviewerProtectedRoute> <ReviewerGroupProjectDetails /> </ReviewerProtectedRoute>}/>
+          <Route path="/reviewer/profile" element={ <ReviewerProtectedRoute> <ReviewerProfile /> </ReviewerProtectedRoute>}/>
           <Route path="/reviewer/history"element={<ReviewerProtectedRoute><ReviewerReviewHistory /></ReviewerProtectedRoute>}/>
           <Route path="/dashboard" element={<Dashboard />} />
           <Route path="/navbar" element={<Navbar />} />
@@ -73,7 +75,7 @@ function App() {
           <Route path="/solution" element={<Solution />} />
           <Route path="/footer" element={<Footer />} />
           <Route path="/dashboardFooter" element={<DashboardFooter />} />
-          <Route path="/guide" element={<ProtectedRoute><Guide /></ProtectedRoute>} />
+          <Route path="/guide" element={<Guide />} />
           <Route path="/admin/login"element={<AdminLogin />}/>
           <Route path="/admin/dashboard" element={<AdminProtectedRoute><AdminDashboard /></AdminProtectedRoute>}/>
         </Routes>

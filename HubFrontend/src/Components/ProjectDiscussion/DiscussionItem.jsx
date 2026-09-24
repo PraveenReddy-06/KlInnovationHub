@@ -141,8 +141,16 @@ const DiscussionItem = ({ discussion, onUpdated, onDeleted }) => {
       <div className="flex items-start gap-3">
         <div className="min-w-0 flex-1">
           <div className="flex items-center gap-2 text-sm">
-            <span className="font-semibold text-slate-900">{discussion.authorName}</span>
-            <span className="rounded-full bg-slate-100 px-2 py-0.5 text-[10px] font-medium text-slate-600">
+            <span className="font-semibold text-slate-900">
+              {discussion.authorName}
+            </span>
+            <span
+              className={`rounded-full px-2 py-0.5 text-xs font-medium ${
+                discussion.authorRole === "ROLE_REVIEWER"
+                  ? "bg-bloodstone text-white"
+                  : "bg-slate-100 text-slate-600"
+              }`}
+            >
               {roleLabel(discussion.authorRole)}
             </span>
           </div>

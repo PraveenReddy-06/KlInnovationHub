@@ -19,7 +19,7 @@ export default function Footer() {
           </div>
 
           <div className="flex items-center justify-center gap-5 sm:gap-6 text-lg sm:text-xl text-sky">
-            <a href="https://www.linkedin.com/in/kl-innovation-hub-343322419/" className="hover:text-accent transition">
+            <a href="https://www.linkedin.com/in/praveen-maramreddy/" className="hover:text-accent transition">
               <FaLinkedin />
             </a>
 

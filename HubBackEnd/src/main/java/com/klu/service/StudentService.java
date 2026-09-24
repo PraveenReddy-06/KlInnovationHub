@@ -5,7 +5,7 @@ import com.klu.model.Student;
 
 public interface StudentService {
 
-	String CreateStudentByEmail(String email,String name);
+	String CreateStudentByEmail(String email,String name,String interestedDomain);
 	
 	Student getStudentById(long id);
 	Student getStudentByEmail(String email);

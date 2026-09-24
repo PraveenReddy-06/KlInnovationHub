@@ -8,6 +8,7 @@ import org.springframework.stereotype.Service;
 import com.klu.model.Collaboration;
 import com.klu.model.Student;
 import com.klu.repository.CollaborationRepo;
+import com.klu.repository.FollowerRepo;
 import com.klu.repository.StudentRepo;
 import com.klu.service.ActivityService;
 import com.klu.service.CollaborationService;
@@ -27,6 +28,9 @@ public class CollaborationImple implements CollaborationService{
 	
 	@Autowired 
 	ActivityService activityService;
+	
+	@Autowired
+	FollowerRepo followerRepo;
 	
 	@Override
 	public String CreateTeam(Collaboration collab, Long studentId) {
@@ -57,5 +61,23 @@ public class CollaborationImple implements CollaborationService{
 	            );
 	        }
 	    collaborationRepo.delete(collaboration);
+	}
+	
+	@Override
+	public List<Collaboration> getFollowingCollaborations() {
+
+	    Student student = currentUser.getCurrentStudent();
+
+	    List<Long> followingIds = followerRepo.findByFollower(student)
+	            .stream()
+	            .map(f -> f.getFollowing().getStudentId())
+	            .distinct()
+	            .toList();
+
+	    if (followingIds.isEmpty()) {
+	        return List.of();
+	    }
+
+	    return collaborationRepo.findByFollowingStudentIds(followingIds);
 	}
 }
