@@ -1,5 +1,6 @@
 package com.klu.model;
 
+import java.time.LocalDateTime;
 import java.util.List;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
@@ -33,8 +34,7 @@ public class Student {
 	@JsonIgnore
 	@OneToMany(mappedBy="teamLead", cascade=CascadeType.ALL)
 	List<GroupProject> groupProjectLead;
-	
-	
+
 	@JsonIgnore
 	@ManyToMany(mappedBy = "studentList")
 	List<GroupProject> groupProjects;
@@ -60,4 +60,6 @@ public class Student {
     private String avatarUrl;
     
     private String interestedDomain;
+
+    private LocalDateTime lastProjectSubmissionAt;
 }

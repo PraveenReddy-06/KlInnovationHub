@@ -1,11 +1,14 @@
 package com.klu.service.implementation;
 
+import java.time.Duration;
+import java.time.LocalDateTime;
 import java.util.Arrays;
 import java.util.List;
 import java.util.stream.Collectors;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import com.klu.model.Project;
 import com.klu.model.ProjectStatus;
@@ -20,6 +23,8 @@ import com.klu.service.NotificationService;
 @Service
 public class ProjectImple implements com.klu.service.ProjectService {
 
+	private static final long SUBMISSION_COOLDOWN_HOURS = 3;
+
 	@Autowired ProjectRepo projectRepo;
 	@Autowired StudentRepo studentRepo;
 	@Autowired CurrentUserService currentUser;
@@ -29,8 +34,27 @@ public class ProjectImple implements com.klu.service.ProjectService {
 	@Autowired ReviewerEmailService reviewerEmailService;
 
 	@Override
+	@Transactional
 	public String SubmitProject(Project p, Long id) {
-		Student student = studentRepo.findById(id).orElseThrow(() -> new RuntimeException("Student not found"));
+		Student student = studentRepo.findLockedByStudentId(id)
+				.orElseThrow(() -> new RuntimeException("Student not found"));
+
+			LocalDateTime now = LocalDateTime.now();
+			if (student.getLastProjectSubmissionAt() != null) {
+				long elapsedMinutes = Duration.between(student.getLastProjectSubmissionAt(), now).toMinutes();
+				if (elapsedMinutes < SUBMISSION_COOLDOWN_HOURS * 60) {
+					long remainingMinutes = SUBMISSION_COOLDOWN_HOURS * 60 - elapsedMinutes;
+					long remainingHours = remainingMinutes / 60;
+					long remainingMins = remainingMinutes % 60;
+					throw new RuntimeException(
+							"Please wait " + remainingHours + " hour(s) and " + remainingMins
+							+ " minute(s) before submitting another project."
+					);
+				}
+			}
+			student.setLastProjectSubmissionAt(now);
+			studentRepo.save(student);
+
 		p.setStudent(student);
 		p.setStatus(ProjectStatus.PENDING_REVIEW);
 		projectRepo.save(p);

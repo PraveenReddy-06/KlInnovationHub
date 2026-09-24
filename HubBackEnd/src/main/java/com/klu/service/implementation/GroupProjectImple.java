@@ -1,11 +1,14 @@
 package com.klu.service.implementation;
 
+import java.time.Duration;
+import java.time.LocalDateTime;
 import java.util.Arrays;
 import java.util.List;
 import java.util.stream.Collectors;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import com.klu.model.GroupProject;
 import com.klu.model.ProjectStatus;
@@ -20,6 +23,8 @@ import com.klu.service.NotificationService;
 @Service
 public class GroupProjectImple implements GroupProjectService{
 
+	private static final long SUBMISSION_COOLDOWN_HOURS = 3;
+
 	@Autowired GroupProjectRepo groupProjectRepo;
 	@Autowired StudentRepo studentRepo;
 	@Autowired CurrentUserService currentUser;
@@ -28,12 +33,31 @@ public class GroupProjectImple implements GroupProjectService{
 	@Autowired ReviewerEmailService reviewerEmailService;
 	
 	@Override
+	@Transactional
 	public String SubmitGroupProject(GroupProject p,Long teamLeadId) {
+		Student s = studentRepo.findLockedByStudentId(teamLeadId)
+				.orElseThrow(() -> new RuntimeException("Team Lead Id do not found"));
+
+			LocalDateTime now = LocalDateTime.now();
+			if (s.getLastProjectSubmissionAt() != null) {
+				long elapsedMinutes = Duration.between(s.getLastProjectSubmissionAt(), now).toMinutes();
+				if (elapsedMinutes < SUBMISSION_COOLDOWN_HOURS * 60) {
+					long remainingMinutes = SUBMISSION_COOLDOWN_HOURS * 60 - elapsedMinutes;
+					long remainingHours = remainingMinutes / 60;
+					long remainingMins = remainingMinutes % 60;
+					throw new RuntimeException(
+							"Please wait " + remainingHours + " hour(s) and " + remainingMins
+							+ " minute(s) before submitting another project."
+					);
+				}
+			}
+			s.setLastProjectSubmissionAt(now);
+			studentRepo.save(s);
+
 		if (p.getStudentList() != null) {
-			List<Student> managedStudents = p.getStudentList().stream().map((Student s) -> studentRepo.findById(s.getStudentId()).orElseThrow(() -> new RuntimeException("Student not found: " + s.getStudentId()))).collect(Collectors.toList());
+			List<Student> managedStudents = p.getStudentList().stream().map((Student student) -> studentRepo.findById(student.getStudentId()).orElseThrow(() -> new RuntimeException("Student not found: " + student.getStudentId()))).collect(Collectors.toList());
 			p.setStudentList(managedStudents);
 		}
-		Student s = studentRepo.findById(teamLeadId).orElseThrow(() -> new RuntimeException("Team Lead Id do not found"));
 		p.setTeamLead(s);
 		p.setStatus(ProjectStatus.PENDING_REVIEW);
 		groupProjectRepo.save(p);
