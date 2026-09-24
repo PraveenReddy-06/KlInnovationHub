@@ -81,8 +81,10 @@ const SubmitProject = () => {
                 toast.success("Project Submitted For Review");
                 setTimeout(() => { navigate("/dashboard");}, 1500);
             }
-        } catch (err) {
-            setErrors({submit:  err.response?.data || "Failed to submit project"});
+        } catch (error) {
+            const message =error.response?.data?.message || error.response?.data || error.message || "Something went wrong";
+            toast.error(message);
+            setErrors(message);
         }
     };
 
@@ -104,8 +106,10 @@ const SubmitProject = () => {
                 }
                 setTimeout(() => { navigate("/dashboard");}, 1500);
             }
-        } catch (err) {
-        setErrors({submit:  err.response?.data || "Failed to submit project"});
+        } catch (error) {
+            const message =error.response?.data?.message || error.response?.data || error.message || "Something went wrong";
+            toast.error(message);
+            setErrors(message);
         }
     };
 

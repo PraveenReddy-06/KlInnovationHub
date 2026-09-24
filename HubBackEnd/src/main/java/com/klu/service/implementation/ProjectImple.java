@@ -10,6 +10,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import com.klu.exception.SubmissionCooldownException;
 import com.klu.model.Project;
 import com.klu.model.ProjectStatus;
 import com.klu.model.Student;
@@ -46,7 +47,7 @@ public class ProjectImple implements com.klu.service.ProjectService {
 					long remainingMinutes = SUBMISSION_COOLDOWN_HOURS * 60 - elapsedMinutes;
 					long remainingHours = remainingMinutes / 60;
 					long remainingMins = remainingMinutes % 60;
-					throw new RuntimeException(
+					throw new SubmissionCooldownException(
 							"Please wait " + remainingHours + " hour(s) and " + remainingMins
 							+ " minute(s) before submitting another project."
 					);
