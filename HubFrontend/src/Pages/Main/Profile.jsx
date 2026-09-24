@@ -41,6 +41,7 @@ const Profile = () => {
         const id = routeStudentId || loggedInStudentId;
         await fetchData(id);
 
+        
         if (routeStudentId) {
         try {
             const res = await authenticatedAxiosInstance.get(`/student/getById/${routeStudentId}`);
