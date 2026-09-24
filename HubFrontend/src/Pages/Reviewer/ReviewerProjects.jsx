@@ -30,7 +30,7 @@ const ReviewerProjects = () => {
       setGroupProjects(groupResponse.data || []);
     } catch (error) {
       console.error(error);
-      toast.error(error.response?.data || "Unable to fetch projects");
+      toast.error(error.response?.data?.message || error.response?.data || "Unable to fetch projects");
     } finally {
       setLoading(false);
     }
