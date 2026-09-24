@@ -291,56 +291,26 @@ public class MailService {
 	}
 	
 	public String verifyResetOtp(String mail,int otp) {
-
 	    UserSignUp user = repo.findByMail(mail).orElse(null);
-
 	    if(user == null) {
 	        return "Mail Not Found";
 	    }
-
-	    if(user.getOtpTimeOut().plusMinutes(3).isBefore(LocalDateTime.now())) {
-	        return "OTP Expired";
-	    }
-
+	    if(user.getOtpTimeOut() == null ||
+		   user.getOtpTimeOut().plusMinutes(3).isBefore(LocalDateTime.now())) {
+		    return "OTP Expired";
+		}
 	    if(user.getOtp() != otp) {
-
-
-	        PasswordResetRateLimiterService.OtpAttemptResult attempt =
-
-
-	                passwordResetRateLimiterService.recordFailedOtpAttempt(mail);
-
-
+	        PasswordResetRateLimiterService.OtpAttemptResult attempt =passwordResetRateLimiterService.recordFailedOtpAttempt(mail);
 	        if (!attempt.isAllowed()) {
-
-
 	            user.setOtp(0);
-
-
 	            user.setOtpTimeOut(null);
-
-
 	            repo.save(user);
-
-
 	            return "Too many invalid OTP attempts. Request a new OTP.";
-
-
 	        }
-
-
 	        return "Invalid OTP";
-
-
 	    }
-
-
-
 	    passwordResetRateLimiterService.resetFailedOtpAttempts(mail);
-
-
 	    user.setResetOtpVerified(true);
-	    
 	    repo.save(user);
 	    return "OTP Verified";
 	}

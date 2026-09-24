@@ -21,26 +21,23 @@ public class PasswordResetRateLimiterService {
 
     public RateLimitResult tryRequest(String email) {
         cleanupOldEntries();
-
         String key = email.trim().toLowerCase();
-
-        RequestInfo info = requests.computeIfAbsent(key, ignored -> new RequestInfo());
+        RequestInfo info =requests.computeIfAbsent(key, ignored -> new RequestInfo());
         synchronized (info) {
             LocalDateTime now = LocalDateTime.now();
             removeExpiredRequests(info, now);
-
             if (!info.requestTimes.isEmpty()) {
-                LocalDateTime lastRequest = info.requestTimes.peekLast();
-                if (lastRequest.plusSeconds(COOLDOWN_SECONDS).isAfter(now)) {
+                LocalDateTime lastRequest =info.requestTimes.peekLast();
+                if (lastRequest.plusSeconds(COOLDOWN_SECONDS)
+                        .isAfter(now)) {
                     return RateLimitResult.blocked();
                 }
             }
-
             if (info.requestTimes.size() >= MAX_REQUESTS_PER_HOUR) {
                 return RateLimitResult.blocked();
             }
-
             info.requestTimes.addLast(now);
+            info.failedOtpAttempts = 0;
             return RateLimitResult.allowed();
         }
     }
