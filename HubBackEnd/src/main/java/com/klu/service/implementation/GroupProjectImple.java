@@ -36,7 +36,7 @@ public class GroupProjectImple implements GroupProjectService{
 	@Transactional
 	public String SubmitGroupProject(GroupProject p,Long teamLeadId) {
 		Student s = studentRepo.findLockedByStudentId(teamLeadId)
-				.orElseThrow(() -> new RuntimeException("Team Lead Id do not found"));
+				.orElseThrow(() -> new ResourceNotFoundException("Team Lead Id do not found"));
 
 			LocalDateTime now = LocalDateTime.now();
 			if (s.getLastProjectSubmissionAt() != null) {
@@ -55,7 +55,7 @@ public class GroupProjectImple implements GroupProjectService{
 			studentRepo.save(s);
 
 		if (p.getStudentList() != null) {
-			List<Student> managedStudents = p.getStudentList().stream().map((Student student) -> studentRepo.findById(student.getStudentId()).orElseThrow(() -> new RuntimeException("Student not found: " + student.getStudentId()))).collect(Collectors.toList());
+			List<Student> managedStudents = p.getStudentList().stream().map((Student student) -> studentRepo.findById(student.getStudentId()).orElseThrow(() -> new ResourceNotFoundException("Student not found: " + student.getStudentId()))).collect(Collectors.toList());
 			p.setStudentList(managedStudents);
 		}
 		p.setTeamLead(s);
@@ -83,9 +83,9 @@ public class GroupProjectImple implements GroupProjectService{
 	}
 
 	public String deleteProjectsById(int projectId) {
-		GroupProject p = groupProjectRepo.findById(projectId).orElseThrow(() -> new RuntimeException("Project not found"));
+		GroupProject p = groupProjectRepo.findById(projectId).orElseThrow(() -> new ResourceNotFoundException("Project not found"));
 		long currentUserId = currentUser.getCurrentStudent().getStudentId();
-		if (!p.getTeamLead().getStudentId().equals(currentUserId)) throw new RuntimeException("Not authorized");
+		if (!p.getTeamLead().getStudentId().equals(currentUserId)) throw new ForbiddenException("Not authorized");
 		groupProjectRepo.delete(p);
 		return "Project Deleted Sucessfully";
 	}

@@ -37,7 +37,7 @@ public class ProjectImple implements com.klu.service.ProjectService {
 	@Transactional
 	public String SubmitProject(Project p, Long id) {
 		Student student = studentRepo.findLockedByStudentId(id)
-				.orElseThrow(() -> new RuntimeException("Student not found"));
+				.orElseThrow(() -> new ResourceNotFoundException("Student not found"));
 
 			LocalDateTime now = LocalDateTime.now();
 			if (student.getLastProjectSubmissionAt() != null) {
@@ -81,9 +81,9 @@ public class ProjectImple implements com.klu.service.ProjectService {
 
 	@Override
 	public String deleteProjectsById(int projectId) {
-		Project p = projectRepo.findById(projectId).orElseThrow(() -> new RuntimeException("Project not found"));
+		Project p = projectRepo.findById(projectId).orElseThrow(() -> new ResourceNotFoundException("Project not found"));
 		long currentUserId = currentUser.getCurrentStudent().getStudentId();
-		if (!p.getStudent().getStudentId().equals(currentUserId)) throw new RuntimeException("Not authorized");
+		if (!p.getStudent().getStudentId().equals(currentUserId)) throw new ForbiddenException("Not authorized");
 		projectRepo.delete(p);
 		return "Project Deleted Sucessfully";
 	}
