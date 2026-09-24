@@ -5,6 +5,8 @@ import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import com.klu.exception.ForbiddenException;
+import com.klu.exception.ResourceNotFoundException;
 import com.klu.model.Collaboration;
 import com.klu.model.Student;
 import com.klu.repository.CollaborationRepo;
@@ -34,7 +36,7 @@ public class CollaborationImple implements CollaborationService{
 	
 	@Override
 	public String CreateTeam(Collaboration collab, Long studentId) {
-	    Student student = studentRepo.findById(studentId).orElseThrow(() -> new RuntimeException("Student not found"));
+	    Student student = studentRepo.findById(studentId).orElseThrow(() -> new ResourceNotFoundException("Student not found"));
 	    collab.setStudent(student);
 	    collaborationRepo.save(collab);
 	    activityService.createActivity(student,"COLLABORATION_CREATED",collab.getName());
@@ -53,7 +55,7 @@ public class CollaborationImple implements CollaborationService{
 	
 	@Override
 	public void deleteTeam(Integer collaborationId) {
-	    Collaboration collaboration = collaborationRepo.findById(collaborationId).orElseThrow(() -> new RuntimeException("Team not found"));
+	    Collaboration collaboration = collaborationRepo.findById(collaborationId).orElseThrow(() -> new ResourceNotFoundException("Team not found"));
 	    long currentUserId =currentUser.getCurrentStudent().getStudentId();
 	        if (!collaboration.getStudent().getStudentId().equals(currentUserId)) {
 	            throw new RuntimeException(
