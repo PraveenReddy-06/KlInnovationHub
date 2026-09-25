@@ -5,6 +5,8 @@ import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import com.klu.exception.ForbiddenException;
+import com.klu.exception.ResourceNotFoundException;
 import com.klu.model.CollabApplication;
 import com.klu.model.Collaboration;
 import com.klu.model.Student;
@@ -32,7 +34,7 @@ public class CollabApplicationImple implements CollabApplicationService {
 	@Override
 	public String createCollabApplication(Integer collaborationId) {
 	    Student currentStudent =currentUser.getCurrentStudent();
-	    Collaboration collaboration =collaborationRepo.findById(collaborationId).orElseThrow( () -> new RuntimeException( "Team not found"));
+	    Collaboration collaboration =collaborationRepo.findById(collaborationId).orElseThrow( () -> new ResourceNotFoundException("Team not found"));
 
 	    CollabApplication app = new CollabApplication();
 
@@ -59,11 +61,11 @@ public class CollabApplicationImple implements CollabApplicationService {
 	
 	@Override
     public String updateApplicationStatus(Integer applicationId, String status) {
-        CollabApplication app = collabApplicationRepo.findById(applicationId).orElseThrow(() -> new RuntimeException("Application not found"));
+        CollabApplication app = collabApplicationRepo.findById(applicationId).orElseThrow(() -> new ResourceNotFoundException("Application not found"));
         long currentUserId =currentUser.getCurrentStudent().getStudentId();
         long teamOwnerId =app.getCollaboration().getStudent().getStudentId();
         if (teamOwnerId != currentUserId) {
-            throw new RuntimeException("Not authorized");
+            throw new ForbiddenException("Not authorized");
         }
         app.setStatus(status.toUpperCase());
         collabApplicationRepo.save(app);

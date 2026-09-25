@@ -8,6 +8,8 @@ import org.springframework.stereotype.Service;
 
 import com.klu.dto.FollowUserDto;
 import com.klu.dto.FollowingProjectsDto;
+import com.klu.exception.ConflictException;
+import com.klu.exception.ResourceNotFoundException;
 import com.klu.model.Follower;
 import com.klu.model.ProjectStatus;
 import com.klu.model.Student;
@@ -47,12 +49,12 @@ public class FollowerImple implements FollowerService {
     @Override
     public String follow(Long followingId) {
         Student follower = currentUser.getCurrentStudent();
-        Student following = studentRepo.findById(followingId).orElseThrow(() -> new RuntimeException("Student not found"));
+        Student following = studentRepo.findById(followingId).orElseThrow(() -> new ResourceNotFoundException("Student not found"));
         if(follower.getStudentId().equals(followingId)) {
-            throw new RuntimeException("You cannot follow yourself");
+            throw new ConflictException("You cannot follow yourself");
         }
         if(followerRepo.existsByFollowerAndFollowing(follower, following)) {
-            throw new RuntimeException("Already following");
+            throw new ConflictException("Already following");
         }
         Follower relation = new Follower();
         relation.setFollower(follower);
@@ -67,7 +69,7 @@ public class FollowerImple implements FollowerService {
     public String unfollow(Long followingId) {
         Student follower = currentUser.getCurrentStudent();
         if (follower.getStudentId().equals(followingId)) {
-            throw new RuntimeException("You cannot unfollow yourself");
+            throw new ConflictException("You cannot unfollow yourself");
         }
         Student following = studentRepo.findById(followingId).orElseThrow(() -> new RuntimeException("Student not found"));
         followerRepo.deleteByFollowerAndFollowing(follower,following);
@@ -76,20 +78,20 @@ public class FollowerImple implements FollowerService {
 
     @Override
     public long followersCount(Long studentId) {
-        Student student = studentRepo.findById(studentId).orElseThrow();
+        Student student = studentRepo.findById(studentId).orElseThrow(() -> new ResourceNotFoundException("Student not found"));
         return followerRepo.countByFollowing(student);
     }
 
     @Override
     public long followingCount(Long studentId) {
-        Student student = studentRepo.findById(studentId) .orElseThrow();
+        Student student = studentRepo.findById(studentId).orElseThrow(() -> new ResourceNotFoundException("Student not found"));
         return followerRepo.countByFollower(student);
     }
 
     @Override
     public boolean isFollowing(Long followingId) {
         Student follower = currentUser.getCurrentStudent();
-        Student following = studentRepo.findById(followingId) .orElseThrow();
+        Student following = studentRepo.findById(followingId).orElseThrow(() -> new ResourceNotFoundException("Student not found"));
         return followerRepo.existsByFollowerAndFollowing(follower, following);
     }
 

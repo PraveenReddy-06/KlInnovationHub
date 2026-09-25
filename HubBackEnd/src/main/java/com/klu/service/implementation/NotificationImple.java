@@ -8,6 +8,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.klu.dto.NotificationDto;
+import com.klu.exception.ForbiddenException;
+import com.klu.exception.ResourceNotFoundException;
 import com.klu.model.Notification;
 import com.klu.model.Student;
 import com.klu.repository.NotificationRepo;
@@ -62,9 +64,9 @@ public class NotificationImple implements NotificationService {
     @Override
     public void markAsRead(Long notificationId) {
 
-        Notification notification =notificationRepo.findById(notificationId) .orElseThrow();
+        Notification notification =notificationRepo.findById(notificationId).orElseThrow(() -> new ResourceNotFoundException("Notification not found"));
         if (!notification.getRecipient().getStudentId().equals(currentUser.getCurrentStudent().getStudentId())) {
-            throw new RuntimeException( "Not authorized");
+            throw new ForbiddenException("Not authorized");
         }
         notification.setIsRead(true);
         notificationRepo.save(notification);
