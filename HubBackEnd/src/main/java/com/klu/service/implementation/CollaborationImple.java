@@ -5,7 +5,6 @@ import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import com.klu.exception.ForbiddenException;
 import com.klu.exception.ResourceNotFoundException;
 import com.klu.model.Collaboration;
 import com.klu.model.Student;

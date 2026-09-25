@@ -35,7 +35,7 @@ const Section123 = () => {
     };
   
     const cards = [
-      { icon: FolderKanban, value: stats.projects, label: "Projects Created" },
+      { icon: FolderKanban, value: stats.projects, label: "Projects Submitted" },
       { icon: GraduationCap, value: stats.students, label: "Students Joined" },
       { icon: Handshake, value: stats.collaborations, label: "Collaborations Made" },
       { icon: UsersRound, value: stats.faculty, label: "Faculty Joined" },
