@@ -67,8 +67,8 @@ const ReviewerGroupProjectDetails = () => {
       toast.error("Feedback is required when rejecting a project");
       return;
     }
-    if (feedback.trim().length > 1000) {
-      toast.error("Feedback cannot exceed 1000 characters");
+    if (feedback.trim().length > 250) {
+      toast.error("Feedback cannot exceed 250 characters");
       return;
     }
     if (!window.confirm("Are you sure you want to reject this group project?")) return;
@@ -229,12 +229,12 @@ const ReviewerGroupProjectDetails = () => {
             <textarea
               value={feedback}
               onChange={(e) => setFeedback(e.target.value)}
-              maxLength={1000}
+              maxLength={250}
               rows={6}
               placeholder="Explain what the team should improve..."
               className="w-full rounded-xl border border-white/10 bg-black/20 px-4 py-3 text-sm text-white outline-none resize-none focus:border-red-400/50"
             />
-            <div className="text-right text-xs text-gray-500 mt-2">{feedback.length}/1000</div>
+            <div className="text-right text-xs text-gray-500 mt-2">{feedback.length}/250</div>
           </section>
         )}
 

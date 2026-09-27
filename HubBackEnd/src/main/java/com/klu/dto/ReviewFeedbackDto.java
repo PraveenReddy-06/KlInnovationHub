@@ -6,6 +6,6 @@ import lombok.Data;
 @Data
 public class ReviewFeedbackDto {
 
-    @Size(max = 1000, message = "Feedback cannot exceed 1000 characters")
+    @Size(max = 250, message = "Feedback cannot exceed 250 characters")
     private String feedback;
 }
