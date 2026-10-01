@@ -101,6 +101,8 @@ const ExploreProjects = () => {
     reviewer?.choice3
   ]);
 
+  const hasActiveFilters =search.trim() !== "" ||selectedBranch !== "" ||selectedYear !== "" ||selectedType !== "ALL" ||selectedChoice !== "";
+
   const filteredProjects = useMemo(() => {
     const query = search.toLowerCase().trim();
     return allProjects.filter((project) => {
@@ -229,7 +231,7 @@ const ExploreProjects = () => {
     </div>
 
     <div className="flex-1">
-    {((isReviewer && reviewerChoices.length > 0) || (!isReviewer && interestedDomain)) && !loading && (
+    {!hasActiveFilters && ((isReviewer && reviewerChoices.length > 0) || (!isReviewer && interestedDomain)) && !loading && (
       <section className="px-4 sm:px-6 lg:px-10 mb-8">
         <div className="rounded-2xl bg-blue-100 border border-amber-800 shadow-sm p-5 sm:p-6">
           <div className="flex flex-col sm:flex-row sm:items-end sm:justify-between gap-2 mb-5">
