@@ -18,6 +18,7 @@ public interface GroupProjectLikesRepo extends JpaRepository<GroupProjectLikes,I
 	
 	 @Query(value = "SELECT gp.* FROM group_project_likes gpl " +
              "JOIN group_project gp ON gpl.project_id = gp.group_project_id " +
+             "WHERE gp.status = 'APPROVED' " +
              "GROUP BY gpl.project_id " +
              "ORDER BY COUNT(gpl.student_id) DESC " +
              "LIMIT 5", nativeQuery = true)
@@ -27,6 +28,7 @@ public interface GroupProjectLikesRepo extends JpaRepository<GroupProjectLikes,I
 
 	 @Query(value = "SELECT gp.* FROM group_project_likes gpl " +
              "JOIN group_project gp ON gpl.project_id = gp.group_project_id " +
+             "WHERE gp.status = 'APPROVED' " +
              "GROUP BY gpl.project_id " +
              "ORDER BY COUNT(gpl.student_id) DESC " +
              "LIMIT 8", nativeQuery = true)

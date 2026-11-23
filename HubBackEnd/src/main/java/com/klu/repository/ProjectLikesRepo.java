@@ -30,6 +30,7 @@ public interface ProjectLikesRepo extends JpaRepository<ProjectLikes, Integer> {
     
     @Query(value = "SELECT p.* FROM project p " +
             "LEFT JOIN project_likes pl ON p.project_id = pl.project_id " +
+            "WHERE p.status = 'APPROVED' " +
             "GROUP BY p.project_id " +
             "ORDER BY COUNT(pl.student_id) DESC " +
             "LIMIT 5", nativeQuery = true)
@@ -37,6 +38,7 @@ public interface ProjectLikesRepo extends JpaRepository<ProjectLikes, Integer> {
 
     @Query(value = "SELECT p.* FROM project p " +
             "LEFT JOIN project_likes pl ON p.project_id = pl.project_id " +
+            "WHERE p.status = 'APPROVED' " +
             "GROUP BY p.project_id " +
             "ORDER BY COUNT(pl.student_id) DESC " +
             "LIMIT 3", nativeQuery = true)
@@ -44,6 +46,7 @@ public interface ProjectLikesRepo extends JpaRepository<ProjectLikes, Integer> {
 
 	@Query(value = "SELECT p.* FROM project p " +
             "LEFT JOIN project_likes pl ON p.project_id = pl.project_id " +
+            "WHERE p.status = 'APPROVED' " +
             "GROUP BY p.project_id " +
             "ORDER BY COUNT(pl.student_id) DESC " +
             "LIMIT 8", nativeQuery = true)
