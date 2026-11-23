@@ -11,6 +11,7 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.klu.dto.ProjectSubmitDto;
 import com.klu.model.Project;
 import com.klu.service.CurrentUserService;
 import com.klu.service.implementation.ProjectImple;
@@ -27,10 +28,19 @@ public class ProjectController {
 	@Autowired
 	CurrentUserService currentUser;
 	
-	@PostMapping("/submit")
-    public String submitProject(@Valid @RequestBody Project p) {
-		long id = currentUser.getCurrentStudent().getStudentId();
-        return projectService.SubmitProject(p,id);
+    @PostMapping("/submit")
+    public String submitProject(@Valid @RequestBody ProjectSubmitDto request) {
+        long id = currentUser.getCurrentStudent().getStudentId();
+        Project p = new Project();
+        p.setProjectName(request.getProjectName());
+        p.setDescription(request.getDescription());
+        p.setGithubUrl(request.getGithubUrl());
+        p.setLiveUrl(request.getLiveUrl());
+        p.setChoice(request.getChoice());
+        p.setTech1(request.getTech1());
+        p.setTech2(request.getTech2());
+        p.setTech3(request.getTech3());
+        return projectService.SubmitProject(p, id);
     }
     @GetMapping("/latest")
     public List<Project> getLatestSubmissions() {
