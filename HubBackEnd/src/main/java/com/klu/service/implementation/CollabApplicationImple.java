@@ -5,6 +5,7 @@ import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import com.klu.dto.CollabApplicationResponse;
 import com.klu.exception.ForbiddenException;
 import com.klu.exception.ResourceNotFoundException;
 import com.klu.model.CollabApplication;
@@ -50,14 +51,34 @@ public class CollabApplicationImple implements CollabApplicationService {
 	}
 
 	@Override
-	public List<CollabApplication> getAllCollabApplications() {
-		return collabApplicationRepo.findAll();
+	public List<CollabApplicationResponse> getIncomingApplications() {
+		Long ownerId = currentUser.getCurrentStudent().getStudentId();
+		return collabApplicationRepo.findByCollaboration_Student_StudentId(ownerId).stream()
+				.map(CollabApplicationImple::toResponse)
+				.toList();
 	}
 
 	@Override
-	public List<CollabApplication> getMyApplications(Long studentId) {
-		return collabApplicationRepo.findByStudent_StudentId(studentId);
-	}	
+	public List<CollabApplicationResponse> getMyApplications(Long studentId) {
+		Long currentStudentId = currentUser.getCurrentStudent().getStudentId();
+		if (!currentStudentId.equals(studentId)) {
+			throw new ForbiddenException("Not authorized");
+		}
+		return collabApplicationRepo.findByStudent_StudentId(currentStudentId).stream()
+				.map(CollabApplicationImple::toResponse)
+				.toList();
+	}
+
+	private static CollabApplicationResponse toResponse(CollabApplication application) {
+		Collaboration team = application.getCollaboration();
+		Student student = application.getStudent();
+		return new CollabApplicationResponse(
+				application.getCollabApplication_id(),
+				application.getStatus(),
+				team == null ? null : new CollabApplicationResponse.Team(team.getCollaboration_id()),
+				student == null ? null : new CollabApplicationResponse.Applicant(
+						student.getStudentId(), student.getStudent_name(), student.getBranch(), student.getYear()));
+	}
 	
 	@Override
     public String updateApplicationStatus(Integer applicationId, String status) {

@@ -12,4 +12,6 @@ public interface CollabApplicationRepo extends JpaRepository<CollabApplication,I
 
 	List<CollabApplication> findByStudent_StudentId(Long studentId);
 
+	List<CollabApplication> findByCollaboration_Student_StudentId(Long studentId);
+
 }

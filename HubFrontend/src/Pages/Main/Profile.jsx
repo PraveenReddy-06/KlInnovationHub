@@ -33,7 +33,7 @@ const Profile = () => {
   const [submittedProjects, setSubmittedProjects] = useState([]);
   const [submittedGroupProjects, setSubmittedGroupProjects] = useState([]);
   const [student, setStudent] = useState(routeStudentId ? null : loggedInStudent);
-    const isOwnProfile =Number(studentId) === Number(loggedInStudentId);
+    const isOwnProfile = !!loggedInStudentId && Number(studentId) === Number(loggedInStudentId);
   const navigate = useNavigate();
 
     useEffect(() => {
@@ -79,13 +79,15 @@ const Profile = () => {
         authenticatedAxiosInstance.get(`/project/student/${id}`),
         authenticatedAxiosInstance.get(`/groupProject/student/${id}`),
         authenticatedAxiosInstance.get(`/collaboration/student/${id}`),
-        authenticatedAxiosInstance.get(`/collabapplication/student/${id}`),
+        isOwnProfile
+            ? authenticatedAxiosInstance.get(`/collabapplication/student/${id}`)
+            : Promise.resolve({ data: [] }),
         ]);
 
         let pendingProjectRes = { data: [] };
         let pendingGroupProjectRes = { data: [] };
 
-        if (Number(id) === Number(loggedInStudentId)) {
+        if (isOwnProfile) {
             [pendingProjectRes, pendingGroupProjectRes] = await Promise.all([
                 authenticatedAxiosInstance.get("/project/my-pending"),
                 authenticatedAxiosInstance.get("/groupProject/my-pending"),
@@ -229,7 +231,7 @@ return (
             </div>
         </div>
 
-        <div className="grid grid-cols-2 lg:grid-cols-4 gap-4 lg:gap-6 mt-12">
+        <div className={`grid grid-cols-2 gap-4 lg:gap-6 mt-12 ${isOwnProfile ? "lg:grid-cols-4" : "lg:grid-cols-3"}`}>
             <div className="bg-white/10 backdrop-blur-xl border border-white/10  p-6 hover:-translate-y-2 duration-300">
                 <p className="text-slate-400">My Solo Projects</p>
                 <h2 className="text-3xl sm:text-4xl lg:text-5xl font-black text-white mt-3">{projects.length}</h2>
@@ -242,10 +244,12 @@ return (
                 <p className="text-slate-400">My Teams</p>
                 <h2 className="text-3xl sm:text-4xl lg:text-5xl font-black text-white mt-3"> {collaborations.length}</h2>
             </div>
-            <div className="bg-white/10 backdrop-blur-xl border border-white/10 p-6 hover:-translate-y-2 duration-300">
-                <p className="text-slate-400">Applications Sent</p>
-                <h2 className="text-3xl sm:text-4xl lg:text-5xl font-black text-white mt-3"> {applications.length}</h2>
-            </div>
+            {isOwnProfile && (
+                <div className="bg-white/10 backdrop-blur-xl border border-white/10 p-6 hover:-translate-y-2 duration-300">
+                    <p className="text-slate-400">Applications Sent</p>
+                    <h2 className="text-3xl sm:text-4xl lg:text-5xl font-black text-white mt-3">{applications.length}</h2>
+                </div>
+            )}
         </div>
         {isOwnProfile && (
         <div onClick={() => navigate("/submitProject")}
