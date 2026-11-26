@@ -7,4 +7,5 @@ public class ResetPasswordDto {
 
     private String mail;
     private String newPassword;
+    private String resetToken;
 }

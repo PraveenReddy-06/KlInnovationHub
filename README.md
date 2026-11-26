@@ -1345,6 +1345,14 @@ JWT_EXPIRATION=
 MAIL_USERNAME=
 MAIL_PASSWORD=
 ```
+### Admin authenticator
+
+The admin login requires an existing verified `ROLE_ADMIN` account and a six-digit authenticator code. Set `ADMIN_MFA_EMAIL` to that account's email and `ADMIN_MFA_TOTP_SECRET` to an unpadded Base32 encoding of at least 20 cryptographically random bytes. Enroll the same secret in the operator's authenticator app using a time-based code, SHA-1, six digits, and a 30-second period. Store the secret in the backend environment or an approved secret store. Use a separate secret for each environment and synchronize backend clocks. This setup supports one configured admin account per environment.
+
+Before changing the running release, configure both values on every backend instance. Existing admin sessions must sign in again with MFA. Deploy the frontend and backend together because the reset forms use the new reset-token response. Restart any password resets that were in progress at rollout.
+
+With `DDL_AUTO=update`, Hibernate adds the nullable account fields and the `auth_rate_limit` table. For deployments with automatic DDL disabled, apply [the one-time MySQL schema update](HubBackEnd/db/auth-security.sql) before starting the new backend. All backend instances must use the same primary database for rate limits and reset state.
+
 ### Frontend
 ```env
 VITE_API_URL=

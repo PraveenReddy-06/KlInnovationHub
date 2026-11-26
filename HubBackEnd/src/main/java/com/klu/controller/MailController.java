@@ -10,12 +10,15 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.klu.dto.LoginRequestDto;
+import com.klu.dto.ResetOtpResponse;
 import com.klu.dto.ResetPasswordDto;
 import com.klu.dto.SignUpFormDto;
 import com.klu.dto.VerifyOtpDto;
 import com.klu.dto.VerifyResetOtpDto;
 import com.klu.mail.Login;
 import com.klu.mail.MailService;
+import com.klu.security.PasswordRecoveryService;
+import com.klu.security.PasswordRecoveryService.AccountType;
 
 @RestController
 @RequestMapping("/mail")
@@ -23,20 +26,23 @@ public class MailController {
 
 	@Autowired
 	MailService service;
+
+    @Autowired
+    private PasswordRecoveryService recovery;
 	
 	@PostMapping("/generateOtp")
-	public String generateOtp(@RequestBody SignUpFormDto form) {
+	public ResponseEntity<String> generateOtp(@RequestBody SignUpFormDto form) {
 		String name = form.getName();
 		String toMail = form.getMail();
 		String password = form.getPassword();
-		return service.generateOtp(name, toMail, password, form.getInterestedDomain());
+		return otpResponse(service.generateOtp(name, toMail, password, form.getInterestedDomain()));
 	}
 	
 	@PostMapping("/verifyOtp")
-	public String verifyOtp(@RequestBody VerifyOtpDto dto) {
+	public ResponseEntity<String> verifyOtp(@RequestBody VerifyOtpDto dto) {
 		String mail = dto.getMail();
 		int otp = dto.getOtp();
-		return service.verifyOtp(mail,otp);
+		return otpResponse(service.verifyOtp(mail,otp));
 	}
 	
 	@PostMapping("/login")
@@ -49,13 +55,13 @@ public class MailController {
 	}
 	
 	@PostMapping("/resend")
-	public String reSend(@RequestParam String mail) {
-		return service.reSend(mail);
+	public ResponseEntity<String> reSend(@RequestParam String mail) {
+		return otpResponse(service.reSend(mail));
 	}
 	
 	@PostMapping("/forgotPassword")
 	public ResponseEntity<String> forgotPassword(@RequestParam String mail) {
-	    String response = service.forgotPassword(mail);
+	    String response = recovery.requestCode(AccountType.STUDENT, mail);
 	    if (response.startsWith("Too many password reset requests")) {
 	        return ResponseEntity.status(HttpStatus.TOO_MANY_REQUESTS).body(response);
 	    }
@@ -63,16 +69,22 @@ public class MailController {
 	}
 	
 	@PostMapping("/verifyResetOtp")
-	public ResponseEntity<String> verifyResetOtp(@RequestBody VerifyResetOtpDto dto) {
-	    String response = service.verifyResetOtp(dto.getMail(), dto.getOtp());
-	    if (response.startsWith("Too many invalid OTP attempts")) {
+	public ResponseEntity<ResetOtpResponse> verifyResetOtp(@RequestBody VerifyResetOtpDto dto) {
+	    ResetOtpResponse response = recovery.verifyCode(AccountType.STUDENT, dto);
+	    if (response.message().startsWith("Too many")) {
 	        return ResponseEntity.status(HttpStatus.TOO_MANY_REQUESTS).body(response);
 	    }
 	    return ResponseEntity.ok(response);
 	}
 	
 	@PostMapping("/resetPassword")public String resetPassword(@RequestBody ResetPasswordDto dto) {
-	    return service.resetPassword(dto.getMail(),dto.getNewPassword());
+	    return recovery.resetPassword(AccountType.STUDENT, dto);
 	}
 
+    private ResponseEntity<String> otpResponse(String message) {
+        if (message.startsWith("Too many")) {
+            return ResponseEntity.status(HttpStatus.TOO_MANY_REQUESTS).body(message);
+        }
+        return ResponseEntity.ok(message);
+    }
 }

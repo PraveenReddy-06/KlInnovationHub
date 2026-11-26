@@ -9,9 +9,11 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.klu.dto.ResetOtpResponse;
 import com.klu.dto.ResetPasswordDto;
 import com.klu.dto.VerifyResetOtpDto;
-import com.klu.service.implementation.ReviewerPasswordService;
+import com.klu.security.PasswordRecoveryService;
+import com.klu.security.PasswordRecoveryService.AccountType;
 
 
 @RestController
@@ -19,11 +21,11 @@ import com.klu.service.implementation.ReviewerPasswordService;
 public class ReviewerPasswordController {
 
     @Autowired
-    private ReviewerPasswordService reviewerPasswordService;
+    private PasswordRecoveryService recovery;
 
     @PostMapping("/forgotPassword")
     public ResponseEntity<String> forgotPassword(@RequestParam String mail) {
-        String response = reviewerPasswordService.forgotPassword(mail);
+        String response = recovery.requestCode(AccountType.REVIEWER, mail);
         if (response.startsWith("Too many password reset requests")) {
             return ResponseEntity.status(HttpStatus.TOO_MANY_REQUESTS).body(response);
         }
@@ -31,9 +33,9 @@ public class ReviewerPasswordController {
     }
 
     @PostMapping("/verifyResetOtp")
-    public ResponseEntity<String> verifyResetOtp(@RequestBody VerifyResetOtpDto request) {
-        String response = reviewerPasswordService.verifyResetOtp(request);
-        if (response.startsWith("Too many invalid OTP attempts")) {
+    public ResponseEntity<ResetOtpResponse> verifyResetOtp(@RequestBody VerifyResetOtpDto request) {
+        ResetOtpResponse response = recovery.verifyCode(AccountType.REVIEWER, request);
+        if (response.message().startsWith("Too many")) {
             return ResponseEntity.status(HttpStatus.TOO_MANY_REQUESTS).body(response);
         }
         return ResponseEntity.ok(response);
@@ -41,6 +43,6 @@ public class ReviewerPasswordController {
 
     @PostMapping("/resetPassword")
     public String resetPassword(@RequestBody ResetPasswordDto request) {
-        return reviewerPasswordService.resetPassword(request);
+        return recovery.resetPassword(AccountType.REVIEWER, request);
     }
 }

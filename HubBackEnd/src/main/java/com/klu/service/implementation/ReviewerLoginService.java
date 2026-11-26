@@ -14,7 +14,8 @@ import com.klu.mail.UserSignUpRepository;
 import com.klu.model.Reviewer;
 import com.klu.repository.ReviewerRepo;
 import com.klu.security.JwtService;
-import com.klu.security.ratelimit.LoginRateLimiterService;
+import com.klu.security.ratelimit.AuthRateLimiter;
+import com.klu.security.ratelimit.AuthRateLimiter.Action;
 
 @Service
 public class ReviewerLoginService {
@@ -32,7 +33,7 @@ public class ReviewerLoginService {
     private JwtService jwtService;
 
     @Autowired
-    private LoginRateLimiterService loginRateLimiterService;
+    private AuthRateLimiter limiter;
 
     public ReviewerLoginResponseDto login(Login request) {
         String mail = request.getMail();
@@ -41,12 +42,7 @@ public class ReviewerLoginService {
             return failure("Email is required");
         }
 
-        if (loginRateLimiterService.isBlocked(mail)) {
-            long minutes = loginRateLimiterService.getRemainingLockMinutes(mail);
-            return failure("Too many failed login attempts. Try again in " + minutes + " minute(s).");
-        }
-
-        UserSignUp user = userRepo.findByMail(mail).orElse(null);
+        UserSignUp user = userRepo.findByMail(mail.strip()).orElse(null);
         if (user == null) {
             return failure("Reviewer account not found");
         }
@@ -59,16 +55,22 @@ public class ReviewerLoginService {
             return failure("Please verify your email first");
         }
 
-        Reviewer reviewer = reviewerRepo.findByUserMail(mail).orElse(null);
+        Reviewer reviewer = reviewerRepo.findByUserMail(user.getMail()).orElse(null);
         if (reviewer == null) {
             return failure("Your reviewer application is still pending approval or was rejected");
         }
 
+        if (request.getPassword() == null) {
+            return failure("Password is required");
+        }
+        if (!limiter.acquire(Action.LOGIN, user.getMail())) {
+            return failure(AuthRateLimiter.LOGIN_LIMIT_MESSAGE);
+        }
         try {
             Authentication authentication = authenticationManager.authenticate(
-                    new UsernamePasswordAuthenticationToken(mail, request.getPassword()));
-            String token = jwtService.generateToken(authentication.getName());
-            loginRateLimiterService.loginSucceeded(mail);
+                    new UsernamePasswordAuthenticationToken(user.getMail(), request.getPassword()));
+            String token = jwtService.generateToken(authentication);
+            limiter.clearLogin(user.getMail());
 
             return new ReviewerLoginResponseDto(
                     "Welcome To Reviewer Dashboard",
@@ -82,7 +84,6 @@ public class ReviewerLoginService {
                     reviewer.getChoice3(),
                     token);
         } catch (BadCredentialsException e) {
-            loginRateLimiterService.loginFailed(mail);
             return failure("Bad Credentials");
         }
     }

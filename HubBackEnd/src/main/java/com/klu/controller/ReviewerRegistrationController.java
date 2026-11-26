@@ -1,6 +1,8 @@
 package com.klu.controller;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -18,12 +20,18 @@ public class ReviewerRegistrationController {
     private ReviewerRegistrationService reviewerRegistrationService;
 
     @PostMapping("/generateOtp")
-    public String generateOtp(@RequestBody ReviewerSignupDto request) {
-        return reviewerRegistrationService.generateOtp(request);
+    public ResponseEntity<String> generateOtp(@RequestBody ReviewerSignupDto request) {
+        return otpResponse(reviewerRegistrationService.generateOtp(request));
     }
 
     @PostMapping("/verifyOtp")
-    public String verifyOtp(@RequestBody ReviewerVerifyOtpDto request) {
-        return reviewerRegistrationService.verifyOtp(request);
+    public ResponseEntity<String> verifyOtp(@RequestBody ReviewerVerifyOtpDto request) {
+        return otpResponse(reviewerRegistrationService.verifyOtp(request));
+    }
+    private ResponseEntity<String> otpResponse(String message) {
+        if (message.startsWith("Too many")) {
+            return ResponseEntity.status(HttpStatus.TOO_MANY_REQUESTS).body(message);
+        }
+        return ResponseEntity.ok(message);
     }
 }

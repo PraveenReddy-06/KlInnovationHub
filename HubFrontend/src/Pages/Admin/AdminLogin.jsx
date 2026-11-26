@@ -6,13 +6,13 @@ import adminAxiosInstance from "../../Api/adminAxiosInstance";
 
 const AdminLogin = () => {
   const navigate = useNavigate();
-  const [form, setForm] = useState({ mail: "", password: "" });
+  const [form, setForm] = useState({ mail: "", password: "", authenticatorCode: "" });
   const [showPassword, setShowPassword] = useState(false);
   const [loading, setLoading] = useState(false);
 
   const handleChange = (event) => {
     const { name, value } = event.target;
-    setForm((previous) => ({ ...previous, [name]: value }));
+    setForm((previous) => ({ ...previous, [name]: name === "authenticatorCode" ? value.replace(/\D/g, "") : value }));
   };
 
   const handleSubmit = async (event) => {
@@ -23,12 +23,18 @@ const AdminLogin = () => {
       return;
     }
 
+    if (!/^[0-9]{6}$/.test(form.authenticatorCode)) {
+      toast.error("Enter the six-digit code from your authenticator app");
+      return;
+    }
+
     try {
       setLoading(true);
 
       const response = await adminAxiosInstance.post("/admin/login", {
         mail: form.mail.trim(),
         password: form.password,
+        authenticatorCode: form.authenticatorCode,
       });
 
       const data = response.data;
@@ -44,7 +50,6 @@ const AdminLogin = () => {
       toast.success(data.message || "Login successful");
       navigate("/admin/dashboard", { replace: true });
     } catch (error) {
-      console.error("Admin login error:", error);
       toast.error(
         error.response?.data?.message ||
         error.response?.data ||
@@ -52,6 +57,7 @@ const AdminLogin = () => {
       );
     } finally {
       setLoading(false);
+      setForm((previous) => ({ ...previous, authenticatorCode: "" }));
     }
   };
 
@@ -177,6 +183,23 @@ const AdminLogin = () => {
                     {showPassword ? <EyeOff size={18} /> : <Eye size={18} />}
                   </button>
                 </div>
+              </div>
+
+              <div>
+                <label htmlFor="admin-authenticator-code" className="block text-sm font-semibold text-primary mb-2">
+                  Authenticator code
+                </label>
+                <input
+                  id="admin-authenticator-code"
+                  name="authenticatorCode"
+                  type="text"
+                  inputMode="numeric"
+                  autoComplete="one-time-code"
+                  maxLength={6}
+                  value={form.authenticatorCode}
+                  onChange={handleChange}
+                  className="w-full rounded-xl border border-gray-800 bg-white text-black px-4 py-3 outline-none focus:ring-2 focus:ring-primary"
+                />
               </div>
 
               {/* LOGIN BUTTON */}
