@@ -12,7 +12,9 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.klu.exception.ForbiddenException;
+import com.klu.dto.GroupProjectSubmitDto;
 import com.klu.model.GroupProject;
+import com.klu.model.Student;
 import com.klu.service.CurrentUserService;
 import com.klu.service.implementation.GroupProjectImple;
 
@@ -29,12 +31,27 @@ public class GroupProjectController {
     CurrentUserService currentUser;
 
     @PostMapping("/submit/{teamLeadId}")
-    public String submitGroupProject(@Valid @RequestBody GroupProject p,@PathVariable Long teamLeadId) {
-    	
-    	if(!teamLeadId.equals(currentUser.getCurrentStudent().getStudentId())) {
-    		throw new ForbiddenException("Not authorized");
-    	}
-        return groupProjectService.SubmitGroupProject(p,teamLeadId);
+    public String submitGroupProject(@Valid @RequestBody GroupProjectSubmitDto request, @PathVariable Long teamLeadId) {
+        if (!teamLeadId.equals(currentUser.getCurrentStudent().getStudentId())) {
+            throw new ForbiddenException("Not authorized");
+        }
+        GroupProject p = new GroupProject();
+        p.setProject_name(request.getProject_name());
+        p.setDescription(request.getDescription());
+        p.setGithubUrl(request.getGithubUrl());
+        p.setLiveUrl(request.getLiveUrl());
+        p.setChoice(request.getChoice());
+        p.setTech1(request.getTech1());
+        p.setTech2(request.getTech2());
+        p.setTech3(request.getTech3());
+        if (request.getStudentList() != null) {
+            p.setStudentList(request.getStudentList().stream().map(member -> {
+                Student student = new Student();
+                student.setStudentId(member.studentId());
+                return student;
+            }).toList());
+        }
+        return groupProjectService.SubmitGroupProject(p, teamLeadId);
     }
     
     @GetMapping("/latest")

@@ -13,7 +13,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.klu.dto.CollabApplyRequest;
-import com.klu.model.CollabApplication;
+import com.klu.dto.CollabApplicationResponse;
 import com.klu.service.implementation.CollabApplicationImple;
 
 
@@ -31,13 +31,12 @@ public class CollaborationApplicationController {
     }
     
     @GetMapping("/all")
-    public List<CollabApplication> getAllCollabApplications() {
-        return collabApplicationService.getAllCollabApplications();
+    public List<CollabApplicationResponse> getIncomingApplications() {
+        return collabApplicationService.getIncomingApplications();
     }
     
     @GetMapping("/student/{id}")
-    public List<CollabApplication> getMyApplications(@PathVariable Long id){
-
+    public List<CollabApplicationResponse> getMyApplications(@PathVariable Long id) {
         return collabApplicationService.getMyApplications(id);
     }
     

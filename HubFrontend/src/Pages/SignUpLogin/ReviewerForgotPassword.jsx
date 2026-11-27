@@ -9,7 +9,8 @@ const ReviewerForgotPassword = () => {
   const [newPassword, setNewPassword] = useState("");
   const [confirmPassword, setConfirmPassword] = useState("");
   const [otpSent, setOtpSent] = useState(false);
-  const [otpVerified, setOtpVerified] = useState(false);
+  const [resetToken, setResetToken] = useState("");
+  const [resetSuccess, setResetSuccess] = useState(false);
   const [message, setMessage] = useState("");
   const [error, setError] = useState("");
   const [loading, setLoading] = useState(false);
@@ -25,15 +26,18 @@ const ReviewerForgotPassword = () => {
     }
     try {
       setLoading(true);
+      setResetToken("");
+      setOtp("");
       const res = await axiosInstance.post(`/reviewer/forgotPassword?mail=${encodeURIComponent(mail.trim())}`);
       if (res.data === "OTP Sent") {
         setOtpSent(true);
-        setMessage("OTP sent to your email");
+        setMessage("If the account is eligible, an OTP has been sent.");
       } else {
         setError(res.data);
       }
     } catch (err) {
-      setError(err.response?.data || "Failed to send OTP");
+      const detail = err.response?.data;
+      setError(typeof detail === "string" ? detail : "Failed to send OTP");
     } finally {
       setLoading(false);
     }
@@ -52,14 +56,14 @@ const ReviewerForgotPassword = () => {
         mail: mail.trim(),
         otp: Number(otp),
       });
-      if (res.data === "OTP Verified") {
-        setOtpVerified(true);
+      if (res.data?.resetToken) {
+        setResetToken(res.data.resetToken);
         setMessage("OTP verified successfully");
       } else {
-        setError(res.data);
+        setError(res.data?.message || "OTP verification failed");
       }
     } catch (err) {
-      setError(err.response?.data || "OTP verification failed");
+      setError(err.response?.data?.message || "OTP verification failed");
     } finally {
       setLoading(false);
     }
@@ -81,15 +85,21 @@ const ReviewerForgotPassword = () => {
       const res = await axiosInstance.post("/reviewer/resetPassword", {
         mail: mail.trim(),
         newPassword,
+        resetToken,
       });
       if (res.data === "Password Updated Successfully") {
+        setResetToken("");
+        setNewPassword("");
+        setConfirmPassword("");
+        setResetSuccess(true);
         setMessage("Password updated successfully. Redirecting to reviewer login...");
         setTimeout(() => navigate("/login"), 1500);
       } else {
         setError(res.data);
       }
     } catch (err) {
-      setError(err.response?.data || "Password reset failed");
+      const detail = err.response?.data;
+      setError(typeof detail === "string" ? detail : "Password reset failed");
     } finally {
       setLoading(false);
     }
@@ -109,19 +119,19 @@ const ReviewerForgotPassword = () => {
           <input
             type="email"
             value={mail}
-            disabled={otpSent}
+            disabled={otpSent || loading}
             onChange={(e) => setMail(e.target.value)}
             placeholder="faculty@kluniversity.in"
             className="w-full p-3 rounded-xl bg-white/10 border border-white/20 text-white outline-none disabled:opacity-60"
           />
           {!otpSent && (
-            <button onClick={sendOtp} disabled={loading} className="bg-tan text-primary font-bold py-3 rounded-xl disabled:opacity-50">
+            <button onClick={sendOtp} disabled={loading || otpSent || resetSuccess} className="bg-tan text-primary font-bold py-3 rounded-xl disabled:opacity-50">
               {loading ? "Sending..." : "Send OTP"}
             </button>
           )}
         </div>
 
-        {otpSent && !otpVerified && (
+        {otpSent && !resetToken && !resetSuccess && (
           <div className="mt-6 flex flex-col gap-3">
             <label className="text-tan font-medium">Enter OTP</label>
             <input
@@ -139,7 +149,7 @@ const ReviewerForgotPassword = () => {
           </div>
         )}
 
-        {otpVerified && (
+        {resetToken && !resetSuccess && (
           <div className="mt-6 flex flex-col gap-3">
             <label className="text-tan font-medium">New Password</label>
             <input
@@ -163,6 +173,19 @@ const ReviewerForgotPassword = () => {
           </div>
         )}
 
+        {otpSent && !resetSuccess && (
+          <button type="button" disabled={loading} onClick={() => {
+            setOtpSent(false);
+            setOtp("");
+            setResetToken("");
+            setNewPassword("");
+            setConfirmPassword("");
+            setError("");
+            setMessage("");
+          }} className="mt-4 w-full text-tan hover:underline">
+            Start over
+          </button>
+        )}
         <button onClick={() => navigate("/login")} className="mt-6 w-full text-tan hover:underline">
           Back to Reviewer Login
         </button>

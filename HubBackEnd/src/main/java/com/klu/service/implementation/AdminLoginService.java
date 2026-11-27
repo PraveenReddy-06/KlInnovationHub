@@ -1,67 +1,74 @@
 package com.klu.service.implementation;
 
-import org.springframework.beans.factory.annotation.Autowired;
+import java.nio.charset.StandardCharsets;
+
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.BadCredentialsException;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
+import com.klu.dto.AdminLoginRequest;
 import com.klu.dto.AdminLoginResponseDto;
-import com.klu.mail.Login;
 import com.klu.mail.UserSignUp;
 import com.klu.mail.UserSignUpRepository;
+import com.klu.security.AdminTotp;
 import com.klu.security.JwtService;
+import com.klu.security.ratelimit.AuthRateLimiter;
+import com.klu.security.ratelimit.AuthRateLimiter.Action;
 
 @Service
 public class AdminLoginService {
 
-    @Autowired
-    private AuthenticationManager authenticationManager;
+    private static final String INVALID_CREDENTIALS = "Invalid admin credentials or authenticator code.";
 
-    @Autowired
-    private UserSignUpRepository userRepo;
+    private final AuthenticationManager authenticationManager;
+    private final UserSignUpRepository users;
+    private final JwtService jwtService;
+    private final AdminTotp totp;
+    private final AuthRateLimiter limiter;
 
-    @Autowired
-    private JwtService jwtService;
-    
+    public AdminLoginService(AuthenticationManager authenticationManager, UserSignUpRepository users,
+            JwtService jwtService, AdminTotp totp, AuthRateLimiter limiter) {
+        this.authenticationManager = authenticationManager;
+        this.users = users;
+        this.jwtService = jwtService;
+        this.totp = totp;
+        this.limiter = limiter;
+    }
 
-    public AdminLoginResponseDto login(Login request) {
-        String mail = request.getMail();
-
-        if (mail == null || mail.isBlank()) {
-            return failure("Email is required");
+    @Transactional
+    public AdminLoginResponseDto login(AdminLoginRequest request) {
+        if (request.mail() == null || request.mail().isBlank() || request.mail().length() > 254
+                || request.password() == null || request.password().getBytes(StandardCharsets.UTF_8).length > 72) {
+            return failure(INVALID_CREDENTIALS);
         }
-
-        UserSignUp user = userRepo.findByMail(mail).orElse(null);
-        if (user == null) {
-            return failure("Admin account not found");
+        UserSignUp user = users.findByMailForUpdate(request.mail().strip()).orElse(null);
+        if (user == null || !user.isVerified() || !"ROLE_ADMIN".equals(user.getRole())) {
+            return failure(INVALID_CREDENTIALS);
         }
-
-        if (!"ROLE_ADMIN".equals(user.getRole())) {
-            return failure("This account is not an admin account");
-        }
-
-        if (!user.isVerified()) {
-            return failure("Admin account is not verified");
+        if (!limiter.acquire(Action.LOGIN, user.getMail())) {
+            return failure(AuthRateLimiter.LOGIN_LIMIT_MESSAGE);
         }
 
         try {
             var authentication = authenticationManager.authenticate(
-                    new UsernamePasswordAuthenticationToken(mail, request.getPassword()));
+                    new UsernamePasswordAuthenticationToken(user.getMail(), request.password()));
+            var step = totp.verify(user.getMail(), request.authenticatorCode(), user.getLastAdminTotpStep());
+            if (step.isEmpty()) {
+                return failure(INVALID_CREDENTIALS);
+            }
 
-            String token = jwtService.generateToken(authentication.getName());
-            return new AdminLoginResponseDto(
-                    "Welcome To Admin Dashboard",
-                    user.getName(),
-                    user.getMail(),
-                    token);
-        } catch (BadCredentialsException e) {
-            return failure("Bad Credentials");
+            user.setLastAdminTotpStep(step.getAsLong());
+            limiter.clearLogin(user.getMail());
+            return new AdminLoginResponseDto("Welcome To Admin Dashboard", user.getName(), user.getMail(),
+                    jwtService.generateAdminToken(authentication));
+        } catch (BadCredentialsException invalidPassword) {
+            return failure(INVALID_CREDENTIALS);
         }
     }
 
     private AdminLoginResponseDto failure(String message) {
         return new AdminLoginResponseDto(message, null, null, null);
     }
-    
 }

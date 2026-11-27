@@ -12,7 +12,7 @@ const TeamApplications = () => {
   const student = JSON.parse(localStorage.getItem("student"));
 
   const [myTeams, setMyTeams] = useState([]);
-  const [allApplications, setAllApplications] = useState([]);
+  const [incomingApplications, setIncomingApplications] = useState([]);
   const [expandedTeam, setExpandedTeam] = useState(null);
 
   const [allTeams, setAllTeams] = useState([]);
@@ -31,18 +31,20 @@ const TeamApplications = () => {
   const fetchAll = async () => {
     try {
       setLoading(true);
-      const [myTeamsRes, allTeamsRes, allAppsRes, myAppsRes] = await Promise.all([
+      const [myTeamsRes, allTeamsRes, incomingAppsRes, myAppsRes] = await Promise.all([
         axiosInstance.get(`/collaboration/student/${studentId}`),
         axiosInstance.get(`/collaboration/all`),
         axiosInstance.get(`/collabapplication/all`),
         axiosInstance.get(`/collabapplication/student/${studentId}`),
       ]);
       setMyTeams(myTeamsRes.data);
-      setAllApplications(allAppsRes.data);
+      setIncomingApplications(incomingAppsRes.data);
       const others = allTeamsRes.data.filter((t) => Number(t.student?.studentId) !== Number(studentId));
       setAllTeams(others);
       const applicationMap = new Map()
-      myAppsRes.data.forEach(app => {applicationMap.set( app.collaboration.collaboration_id,app)});
+      myAppsRes.data.forEach(app => {
+        if (app.collaboration) applicationMap.set(app.collaboration.collaboration_id, app);
+      });
       setMyApplications(applicationMap)
     } catch (err) {
       toast.error("Something went wrong. Please try again.");
@@ -60,7 +62,7 @@ const TeamApplications = () => {
       if (status === "REJECTED" && window.gtag) {
           window.gtag("event", "application_rejected");
       }
-      setAllApplications((prev) => prev.map((a) => a.collabApplication_id === appId ? { ...a, status } : a));
+      setIncomingApplications((prev) => prev.map((a) => a.collabApplication_id === appId ? { ...a, status } : a));
     } catch (err) {
       toast.error("Something went wrong. Please try again.");
     }
@@ -92,7 +94,7 @@ const TeamApplications = () => {
     }
   };
 
-  const getAppsForTeam = (teamId) => allApplications.filter((a) => a.collaboration?.collaboration_id === teamId);
+  const getAppsForTeam = (teamId) => incomingApplications.filter((a) => a.collaboration?.collaboration_id === teamId);
 
   const statusStyle = (s) => {
     if (s === "ACCEPTED") return "bg-emerald-500/20 text-emerald-300 border border-emerald-500/30";

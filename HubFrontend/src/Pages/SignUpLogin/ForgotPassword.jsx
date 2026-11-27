@@ -10,11 +10,11 @@ const ForgotPassword = () => {
   const [newPassword, setNewPassword] = useState("");
   const [confirmPassword, setConfirmPassword] = useState("");
   const [otpSent, setOtpSent] = useState(false);
-  const [otpVerified, setOtpVerified] = useState(false);
+  const [resetToken, setResetToken] = useState("");
+  const [resetSuccess, setResetSuccess] = useState(false);
   const [message, setMessage] = useState("");
   const [error, setError] = useState("");
   const [loading, setLoading] = useState(false);
-  const [resetSuccess, setResetSuccess] = useState(false);
 
   const passwordRegex = /^(?=.*[A-Z])(?=.*[a-z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]{10,64}$/;
 
@@ -27,11 +27,18 @@ const ForgotPassword = () => {
     }
     try {
       setLoading(true);
-      const res = await axiosInstance.post(`/mail/forgotPassword?mail=${mail}`);
-      setMessage(res.data);
-      setOtpSent(true);
+      setResetToken("");
+      setOtp("");
+      const res = await axiosInstance.post(`/mail/forgotPassword?mail=${encodeURIComponent(mail.trim())}`);
+      if (res.data === "OTP Sent") {
+        setOtpSent(true);
+        setMessage("If the account is eligible, an OTP has been sent.");
+      } else {
+        setError(res.data);
+      }
     } catch (err) {
-      setError("Failed to send OTP");
+      const detail = err.response?.data;
+      setError(typeof detail === "string" ? detail : "Failed to send OTP");
     } finally {
       setLoading(false);
     }
@@ -46,15 +53,15 @@ const ForgotPassword = () => {
     }
     try {
       setLoading(true);
-      const res = await axiosInstance.post("/mail/verifyResetOtp", {mail,otp: Number(otp),});
-      if (res.data === "OTP Verified") {
-        setOtpVerified(true);
+      const res = await axiosInstance.post("/mail/verifyResetOtp", {mail: mail.trim(), otp: Number(otp)});
+      if (res.data?.resetToken) {
+        setResetToken(res.data.resetToken);
         setMessage("OTP verified successfully");
       } else {
-        setError(res.data);
+        setError(res.data?.message || "OTP verification failed");
       }
     } catch (err) {
-      setError("OTP verification failed");
+      setError(err.response?.data?.message || "OTP verification failed");
     } finally {
       setLoading(false);
     }
@@ -68,13 +75,16 @@ const ForgotPassword = () => {
       return;
     }
     if (newPassword !== confirmPassword) {
-      toast.error("Passwords do not match");
+      setError("Passwords do not match");
       return;
     }
     try {
       setLoading(true);
-      const res = await axiosInstance.post("/mail/resetPassword", {mail, newPassword,});
+      const res = await axiosInstance.post("/mail/resetPassword", {mail: mail.trim(), newPassword, resetToken});
       if (res.data === "Password Updated Successfully") {
+        setResetToken("");
+        setNewPassword("");
+        setConfirmPassword("");
         setResetSuccess(true);
         setMessage("Password updated successfully. Redirecting...");
         setTimeout(() => {navigate("/login");}, 2000);
@@ -82,7 +92,8 @@ const ForgotPassword = () => {
         setError(res.data);
       }
     } catch (err) {
-      setError("Password reset failed");
+      const detail = err.response?.data;
+      setError(typeof detail === "string" ? detail : "Password reset failed");
     } finally {
       setLoading(false);
     }
@@ -108,15 +119,15 @@ const ForgotPassword = () => {
 
         <div className="flex flex-col gap-3 mb-6">
           <label className="text-tan font-medium">KL University Email</label>
-          <input type="email" value={mail} onChange={(e) => setMail(e.target.value)} placeholder="2400032662@kluniversity.in"
+          <input type="email" value={mail} disabled={otpSent || loading} onChange={(e) => setMail(e.target.value)} placeholder="2400032662@kluniversity.in"
                 className="w-full p-3 rounded-xl bg-white/10 border border-white/20 text-white outline-none"
           />
-          <button onClick={sendOtp} disabled={loading}
+          <button onClick={sendOtp} disabled={loading || otpSent || resetSuccess}
             className="bg-tan text-primary font-bold py-3 rounded-xl hover:scale-[1.02] transition active:scale-95">
             Send OTP
           </button>
         </div>
-        {otpSent && !otpVerified && (
+        {otpSent && !resetToken && !resetSuccess && (
           <div className="flex flex-col gap-3 mb-6 animate-fade-in">
             <label className="text-tan font-medium">Enter OTP</label>
             <input type="number" value={otp}onChange={(e) => setOtp(e.target.value)} placeholder="4 Digit OTP"
@@ -128,7 +139,7 @@ const ForgotPassword = () => {
             </button>
           </div>
         )}
-        {otpVerified && (
+        {resetToken && !resetSuccess && (
           <div className="flex flex-col gap-3">
             <label className="text-tan font-medium">New Password</label>
             <input  type="password" value={newPassword} onChange={(e) => setNewPassword(e.target.value)} placeholder="New Password"
@@ -154,6 +165,19 @@ const ForgotPassword = () => {
               Reset Password
             </button>
           </div>
+        )}
+        {otpSent && !resetSuccess && (
+          <button type="button" disabled={loading} onClick={() => {
+            setOtpSent(false);
+            setOtp("");
+            setResetToken("");
+            setNewPassword("");
+            setConfirmPassword("");
+            setError("");
+            setMessage("");
+          }} className="mt-4 w-full text-tan hover:underline">
+            Start over
+          </button>
         )}
         <button onClick={() => navigate("/login")} className="mt-6 w-full text-tan hover:underline">  Back to Login</button>
       </div>

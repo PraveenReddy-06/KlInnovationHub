@@ -1,13 +1,10 @@
 package com.klu.dto;
 
-import com.klu.model.Student;
-
 import lombok.Data;
 
 @Data
 public class CollaborationDto {
 
-	private Student student;
 	private String name;
 	
 	private String problemStatement;
@@ -19,5 +16,6 @@ public class CollaborationDto {
 	private String skill2;
 	private String skill3;
 	
+	private String linkedIn;
 	private Boolean status;
 }
